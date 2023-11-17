@@ -1,13 +1,18 @@
 % ........................... Input Data ...................................
-n = input('Enter the Chiral coordinate n>0 & integer: ');
-m = input('Enter the Chiral coordinate m>0 & integer: ');
-l = input('Enter the nanotube length in nanometer: ');
+n = input('n Chiral Index: ');
+m = input('m Chiral Index: ');
+l = input('Tube lenght (nm): ');
+
+%Interatomic Spacing C-C
 bl = 0.144;
 
 a = 2 * bl * cos(pi / 6);
+
 a1 = [1; 0] * a;
 a2 = [cos(pi / 3); sin(pi / 3)] * a;
+
 vector = n * a1 + m * a2;
+
 length_vector = sqrt(vector(1, 1)^2 + vector(2, 1)^2);
 cos_t = vector(1, 1) / length_vector;
 sin_t = vector(2, 1) / length_vector;
