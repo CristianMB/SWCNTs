@@ -4,20 +4,10 @@ m = input('m Chiral Index: ');
 l = input('Tube lenght (nm): ');
 
 %Interatomic Spacing C-C
-<<<<<<< HEAD
-c = 0.144;
-
-%Lattice Constant
-a = 2 * c * cos(pi / 6);
-
-%Basis Vectors
-=======
 bl = 0.144;
 
-%Lattice Constant
 a = 2 * bl * cos(pi / 6);
 
->>>>>>> d697fb4c68d0e074c3714d139c3f6d6988e6c9db
 a1 = [1; 0] * a;
 a2 = [cos(pi / 3); sin(pi / 3)] * a;
 
@@ -29,31 +19,6 @@ sin_t = vector(2, 1) / length_vector;
 T = [cos_t, sin_t; -sin_t, cos_t];
 counter = 1;
 check = 1;
-<<<<<<< HEAD
-y_temp = -c / 2;
-
-% ...................... Graphene plane .........................
-
-graphene_plane = [];
-
-for j = 0:5 * round(l / c)
-    if (check == 3)
-        xo = a / 2;
-        check = check + 1;
-        y_temp = y_temp + c / 2;
-    elseif (check == 4)
-        x = a / 2;
-        check = 1;
-        y_temp = y_temp + c;
-    elseif (check == 2)
-        xo = 0;
-        check = check + 1;
-        y_temp = y_temp + c;
-    else
-        xo = 0;
-        check = check + 1;
-        y_temp = y_temp + c / 2;
-=======
 y_temp = -bl / 2;
 
 % ...................... Generating graphene plane .........................
@@ -76,7 +41,6 @@ for j = 0:5 * round(l / bl)
         xo = 0;
         check = check + 1;
         y_temp = y_temp + bl / 2;
->>>>>>> d697fb4c68d0e074c3714d139c3f6d6988e6c9db
     end
     for i = -5 * round(l / a):5 * round(l / a)
         x = xo + i * a;
@@ -99,10 +63,6 @@ Number_atoms = size(graphene_plane, 1);
 r = length_vector / 2 / pi;
 
 Atom_data = zeros(Number_atoms, 4);
-<<<<<<< HEAD
-
-=======
->>>>>>> d697fb4c68d0e074c3714d139c3f6d6988e6c9db
 for i = 1:Number_atoms
     teta = graphene_plane(i, 2) / r;
     Atom_data(i, 1) = i;
@@ -117,11 +77,7 @@ Bond_matrix = zeros(Number_atoms);
 for i = 1:Number_atoms
     for j = i + 1:Number_atoms
         distance = norm(Atom_data(i, 2:4) - Atom_data(j, 2:4));
-<<<<<<< HEAD
-        if (distance < 1.1 * c)
-=======
         if (distance < 1.1 * bl)
->>>>>>> d697fb4c68d0e074c3714d139c3f6d6988e6c9db
             Bond_matrix(i, j) = 1;
             Bond_matrix(j, i) = 1;
         end
@@ -139,21 +95,13 @@ for i = 1:Number_atoms
     y = Atom_data(i, 3);
     z = Atom_data(i, 4);
     [xx, yy, zz] = sphere();
-<<<<<<< HEAD
-    rr = 0.08 * a;
-=======
     rr = 0.075 * a;
->>>>>>> d697fb4c68d0e074c3714d139c3f6d6988e6c9db
     surf(rr * xx + x, rr * yy + y, rr * zz + z, 'EdgeColor', 'none', 'LineStyle', 'none', 'FaceLighting', 'phong', 'FaceColor', atom_color)
     axis equal;
 end
 
 % Set color for bonds
-<<<<<<< HEAD
-bond_color = [0.50 0.000 0.50];
-=======
 bond_color = [0.50 0.200 0.50];
->>>>>>> d697fb4c68d0e074c3714d139c3f6d6988e6c9db
 
 for i = 1:Number_atoms
     for j = i + 1:Number_atoms
@@ -164,11 +112,7 @@ for i = 1:Number_atoms
             xx = Atom_data(j, 2);
             yy = Atom_data(j, 3);
             zz = Atom_data(j, 4);
-<<<<<<< HEAD
-            line([x, xx], [y, yy], [z, zz], 'Color', bond_color, 'LineWidth', 0.5)
-=======
             line([x, xx], [y, yy], [z, zz], 'Color', bond_color, 'LineWidth', 1)
->>>>>>> d697fb4c68d0e074c3714d139c3f6d6988e6c9db
         end
     end
 end
