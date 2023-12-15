@@ -12,6 +12,7 @@ n_array = [];
 D_array = [];
 InvreseD_array = [];
 RBM_array = [];
+mod_array = [];
 
 
 %Calculate the parameters required to plot
@@ -20,6 +21,7 @@ for n = 4:15
         result = mod(n-m,3);
         if (result==1 || result==2)
             [l11, l22] = calculate_lambdas(n, m);
+            mod_array = [mod_array, result];
             m_array = [m_array, m];
             n_array = [n_array, n];
             l11_array = [l11_array, l11]; 
@@ -81,6 +83,16 @@ end
 xlabel('Emission Wavelength (nm)')
 ylabel('Excitation Wavelength (nm)')
 
+figure;
+scatter(l11_array, l22_array, [], mod_array, 'filled')
+title('Excitation vs. Emission Wavelength');
+for i = 1:length(l11_array)
+    text(l11_array(i), l22_array(i), tupleArray(i), 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+end
+colorbar
+xlabel('Emission Wavelength (nm)')
+ylabel('Excitation Wavelength (nm)')
+
 
 figure;
 scatter(D_array, stokes_shift, 'MarkerFaceColor', 'b')
@@ -90,6 +102,10 @@ for i = 1:length(D_array)
 end
 xlabel('Diameter (nm)')
 ylabel('Stokes shift (nm)')
+
+
+
+
 
 
 function tupleArray = calculateTouple(arr1, arr2)
@@ -107,6 +123,7 @@ function RBM = calculateRBM(n,m)
     Bcons = 12.5;
     RBM = (Acons/calculateD(n,m)) + Bcons;
 end
+
 
 function D = calculateD(n,m)
     global a;
