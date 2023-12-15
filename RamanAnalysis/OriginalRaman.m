@@ -1,62 +1,43 @@
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Setting Folders
-
 date = '20231213\';
 path = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Raman\';
 mainPath = [path, date];
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Read and pre-process Data
 
 [Samples, X_values, Y_values] = listFiles(mainPath);
 numSamples = numel(Samples);
+
+% Create a structure to organize the data
 DATA = struct();
+% Fill the structure with sample names as field names and corresponding X, Y values
 
 for sampleIdx = 1:numSamples
-    %Read X,Y data for each sample
     currentSample = Samples{sampleIdx};
     DATA.(currentSample).X = X_values{sampleIdx};
     DATA.(currentSample).Y = Y_values{sampleIdx};
-    
-    %Metadata M is Mode, L is the laser WL, T is the Exposure Time
     DATA.(currentSample).M = 'LD';
     DATA.(currentSample).L = '568';
     DATA.(currentSample).T = 10;
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Manually Adjust Metadata
-%%% Mode Adjustment
+
+
+%Manually Adjust Metadata
 DATA.BS8568C.M = 'HD';
 DATA.FL568A.M = 'HD';
 
-%%% Mode Adjustment
-DATA.ARC568A.T = 5;
-DATA.FL568A.T = 100;
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Normalizations
-
+%Data Corrections
 DATA.BS8568CNORMED = DATA.BS8568C;
 DATA.BS8568CNORMED.Y = (DATA.BS8568CNORMED.Y ./ DATA.FL568A.Y);
-
-CCLPeakIntegral = computeIntegral(DATA.CCL4568B, 295, 330);
-
-
-
-for sampleIdx = 1:numSamples
-    currentSample = Samples{sampleIdx};
-    DATA.(currentSample).Y = DATA.(currentSample).Y / DATA.(currentSample).T;
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Plot Preparation
-
 sampleNames = fieldnames(DATA);
 
-samplesToPlot20231204 = {
-    'ARC568A',
-    'BS8568A',
-    'BS8568B',
+samplesToPlot = {
+    %'ARC568A',
+    %'BS8568A',
+    %'BS8568B',
     %'BS8568C',
-    %'BS8568CNORMED',
+    'BS8568CNORMED',
+    
     %'CCL4568B',
     %'FL568A',
     %'L568A' ,
@@ -64,26 +45,10 @@ samplesToPlot20231204 = {
     %'L568C',
     %'L568D'
     };
-
-samplesToPlot20231213 = {
-    'ARC568A',
-    'BS8568A',
-    'BS8568B',
-    %'BS8568C',
-    %'BS8568CNORMED',
-    %'CCL4568B',
-    %'FL568A',
-    %'L568A' ,
-    %'L568B',
-    %'L568C',
-    %'L568D'
-    };
-
-
-samplesToPlot = samplesToPlot20231204;
 
 plotting = true;
 
+CCLPeakIntegral = computeIntegral(DATA.CCL4568B, 295, 330);
 
 if plotting==true
     % Create a figure for the plot
@@ -151,7 +116,6 @@ function [Samples, X_values, Y_values]  = listFiles(mainPath)
             spectrum=sort(raw_spectrum(i,2:NumSpec+1));
             Y(:,i)= mean(spectrum(NumDel+1:NumSpec-NumDel));  
         end
-        
         % Store X and Y values for the current file
         [~, sample, ~] = fileparts(upper(fileList{f}));
         
