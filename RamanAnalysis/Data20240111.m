@@ -1,78 +1,105 @@
 
 addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\RamanAnalysis\');
-mainPath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Raman\20231213\';
+mainPath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Raman\20240111\';
 dirInfo = dir(fullfile(mainPath, '*.*'));
 % Exclude directories from the list
 fileList = {dirInfo(~[dirInfo.isdir]).name};
 
-DATA = getData(fileList,'LD', 568, 1)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Manually Adjust Metadata
+DATA = getData(fileList, 1)
 
-%%% Time Adjustment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      SAMPLES
 
-DATA.ARC568A.T = 50
-DATA.BS8568A.T = 10
-DATA.BS8568B.T = 10
-DATA.BS8568C.T = 100
-DATA.CCL4568B.T = 5
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Normalizations
-
-FlatFieldNorm = computeIntegral(DATA.FL568A, 290, 380);
-
-DATA.FL568ANORMED = DATA.FL568A;
-DATA.FL568ANORMED.Y = DATA.FL568A.Y/FlatFieldNorm;
-
-DATA.BS8568CNORMED = DATA.BS8568C;
-DATA.BS8568CNORMED.Y = (DATA.BS8568CNORMED.Y./ DATA.FL568ANORMED.Y) ;
-
-
-%CCLPeakIntegral = computeIntegral(DATA.CCL4568B, 295, 330);
-
-Samples = fieldnames(DATA)
-numSamples = numel(fieldnames(DATA));
-
-for i= 1:numSamples
-    currentSample = Samples{i};
-    DATA.(currentSample).Y = DATA.(currentSample).Y/DATA.(currentSample).T
-end
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Plot Preparation
-
-samplesToPlot = {
-    %'ARC568A',         % 
-    %'BS8568A',         % Is the same as BS8568B
-    %'BS8568B',          % Is the same as BS8568A
-    'BS8568C',
-    'BS8568CNORMED',
-    
-    %'FL568A',
-    'FL568ANORMED',
-    %'CCL4568B',
-    %'FL568A',
-    %'L568A' ,
-    %'L568B',
-    %'L568C',
-    %'L568D'
+samplesReferences = {
+    %'FLATHD',
+    %'LL514',
+    %'LL514HD'
+    'FLATHDNORMED',
     };
 
-sampleNames = fieldnames(DATA);
-plotSamples(DATA, samplesToPlot)
+samplesGBand = {
+    'S240111A',
+    'S240111B',
+    'S240111C',
+    'S240111D',
+    'S240111E',
+    'S240111F',
+    'S240111G',
+    'S240111H',
+    'S240111I'
+    };
+
+samplesRBM = {
+    'S240111J',
+    'S240111K',
+    'S240111KK'
+    'S240111L',
+    'S240111M',
+    'S240111N',
+    'S240111O',
+    'S240111P',
+    'S240111Q',
+    'S240111R',
+    'S240111S',
+    };
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   DATA ADJUSTMENT
+%%% TIME %%%
+DATA.S240111A.T = 10;
+DATA.S240111B.T = 10;
+DATA.S240111BB.T = 10;
+DATA.S240111C.T = 20;
+DATA.S240111D.T = 15;
+DATA.S240111E.T = 10;
+DATA.S240111F.T = 10;
+DATA.S240111G.T = 10;
+DATA.S240111H.T = 10;
+DATA.S240111I.T = 15;
+DATA.S240111J.T = 90;
+DATA.S240111K.T = 50;
+DATA.S240111KK.T = 90;
+DATA.S240111L.T = 90;
+DATA.S240111M.T = 90;
+DATA.S240111N.T = 90;
+DATA.S240111O.T = 90;
+DATA.S240111P.T = 90;
+DATA.S240111Q.T = 90;
+DATA.S240111R.T = 90;
+DATA.S240111S.T = 30;
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     DATA NORMALIZATION
+
+FFNORM = computeIntegral(DATA.FLATHD, 120, 230);
+DATA.FLATHDNORMED = DATA.FLATHD;
+DATA.FLATHDNORMED.Y = DATA.FLATHD.Y/FFNORM;
+
+%Write a function to normalize by flatfield all the samples in a list.
+%similar to how we subselect samples in the plotting function. Normalize to
+%a flat field
+
+%DATA.BS8568CNORMED = DATA.BS8568C;
+%DATA.BS8568CNORMED.Y = (DATA.BS8568CNORMED.Y./ DATA.FL568ANORMED.Y) ;
 
 
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Read and pre-process Data
+plotSamples(DATA, samplesReferences)
+%plotSamples(DATA, samplesRBM)
+%plotSamples(DATA, samplesGBand)
 
-function DATA = getData(fileList,default_mode, laser_wl, time)
-    %mainPath = [path, date];
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     READ AND PROCESS FUNCTIONS
+
+function DATA = getData(fileList, time)
 
     % Use the dir function to list files
-    % Display the list of files
     Samples = cell(1, length(fileList));
     X_values = cell(1, length(fileList));
     Y_values = cell(1, length(fileList));
@@ -109,9 +136,7 @@ function DATA = getData(fileList,default_mode, laser_wl, time)
     DATA.(currentSample).X = X_values{sampleIdx};
     DATA.(currentSample).Y = Y_values{sampleIdx};
     
-    %Metadata M is Mode, L is the laser WL, T is the Exposure Time
-    DATA.(currentSample).M = default_mode;
-    DATA.(currentSample).L = laser_wl;
+    %Metadata T is the Exposure Time
     DATA.(currentSample).T = time;
     end
 
@@ -161,5 +186,3 @@ function plotSamples(DATA, samplesToPlot)
     hold off;
     
 end
-
-

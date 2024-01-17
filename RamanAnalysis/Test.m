@@ -1,56 +1,37 @@
 
-%addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\RamanAnalysis\');
-addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\RamanAnalysis\');
-mainPath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Raman\20240111\';
-
+addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\RamanAnalysis\');
+mainPath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Raman\20240111\';
 dirInfo = dir(fullfile(mainPath, '*.*'));
 % Exclude directories from the list
 fileList = {dirInfo(~[dirInfo.isdir]).name};
 
-DATA = getData(fileList,'LD', 514, 1)
+DATA = getData(fileList,'LD', 568, 1)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Manually Adjust Metadata
 
-%%% Mode Adjustment
-%DATA.FL568A.M = 'HD';
+%%% Time Adjustment
 
-%%% Mode Adjustment
-%DATA.FL568A.M = 'HD';
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Normalizations
-
-%DATA.BS8568CNORMED = DATA.BS8568C;
-%DATA.BS8568CNORMED.Y = (DATA.BS8568CNORMED.Y ./ DATA.FL568A.Y);
 
 %CCLPeakIntegral = computeIntegral(DATA.CCL4568B, 295, 330);
 
+Samples = fieldnames(DATA)
+numSamples = numel(fieldnames(DATA));
 
-%for sampleIdx = 1:numSamples
-%    currentSample = Samples{sampleIdx};
-%    DATA.(currentSample).Y = DATA.(currentSample).Y / DATA.(currentSample).T;
-%end
+for i= 1:numSamples
+    currentSample = Samples{i};
+    DATA.(currentSample).Y = DATA.(currentSample).Y/DATA.(currentSample).T
+end
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Plot Preparation
-%sampleNames = fieldnames(DATA);
 
-%samplesToPlot = {
-     %'ARC514D',
-%     'BS8514A',
-%     'BS8514C',
-     
-      %'ARC514A',       %84nm seems to be a reference instead of a sample
-      %'DUMMY',
-      %'L514A', 
-      %'FLAT514H',      %108nm
-%    };
-
-%sampleNames = fieldnames(DATA);
-%plotSamples(DATA, samplesToPlot)
+sampleNames = fieldnames(DATA);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      Read and pre-process Data
 
 function DATA = getData(fileList,default_mode, laser_wl, time)
+    %mainPath = [path, date];
+
     % Use the dir function to list files
     % Display the list of files
     Samples = cell(1, length(fileList));
@@ -58,8 +39,7 @@ function DATA = getData(fileList,default_mode, laser_wl, time)
     Y_values = cell(1, length(fileList));
 
     for f = 1:length(fileList)
-        
-        raw_spectrum = RdExp([mainPath, fileList{f}]);
+        raw_spectrum = RdExp(fileList{f});
         raw_spectrum(:,2)=[];
 
         NumSpec=length(raw_spectrum(1,:))-1;
@@ -85,15 +65,15 @@ function DATA = getData(fileList,default_mode, laser_wl, time)
     DATA = struct();
     
     for sampleIdx = 1:numSamples
-        %Read X,Y data for each sample
-        currentSample = Samples{sampleIdx};
-        DATA.(currentSample).X = X_values{sampleIdx};
-        DATA.(currentSample).Y = Y_values{sampleIdx};
-
-        %Metadata M is Mode, L is the laser WL, T is the Exposure Time
-        DATA.(currentSample).M = default_mode;
-        DATA.(currentSample).L = laser_wl;
-        DATA.(currentSample).T = time;
+    %Read X,Y data for each sample
+    currentSample = Samples{sampleIdx};
+    DATA.(currentSample).X = X_values{sampleIdx};
+    DATA.(currentSample).Y = Y_values{sampleIdx};
+    
+    %Metadata M is Mode, L is the laser WL, T is the Exposure Time
+    DATA.(currentSample).M = default_mode;
+    DATA.(currentSample).L = laser_wl;
+    DATA.(currentSample).T = time;
     end
 
 end
@@ -142,7 +122,5 @@ function plotSamples(DATA, samplesToPlot)
     hold off;
     
 end
-
-
 
 

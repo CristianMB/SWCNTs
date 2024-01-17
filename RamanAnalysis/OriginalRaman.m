@@ -36,14 +36,14 @@ samplesToPlot = {
     %'BS8568A',
     %'BS8568B',
     %'BS8568C',
-    'BS8568CNORMED',
+    %'BS8568CNORMED',
     
     %'CCL4568B',
     %'FL568A',
-    %'L568A' ,
-    %'L568B',
-    %'L568C',
-    %'L568D'
+    'L568A' ,
+    'L568B',
+    'L568C',
+    'L568D'
     };
 
 plotting = true;
