@@ -1,4 +1,3 @@
-
 addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\RamanAnalysis\');
 mainPath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Raman\20240111\';
 dirInfo = dir(fullfile(mainPath, '*.*'));
@@ -13,8 +12,8 @@ DATA = getData(fileList, 1)
 samplesReferences = {
     %'FLATHD',
     %'LL514',
-    %'LL514HD'
-    'FLATHDNORMED',
+    'LL514HD'
+    %'FLATHDNORMED',
     };
 
 samplesGBand = {
@@ -43,8 +42,14 @@ samplesRBM = {
     'S240111S',
     };
 
+TestSamples = {
+    'S240111E'
+    'DETREND',
+    };
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   DATA ADJUSTMENT
+
 %%% TIME %%%
 DATA.S240111A.T = 10;
 DATA.S240111B.T = 10;
@@ -69,33 +74,98 @@ DATA.S240111R.T = 90;
 DATA.S240111S.T = 30;
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     DATA NORMALIZATION
 
-FFNORM = computeIntegral(DATA.FLATHD, 120, 230);
+
+%Time normalization for all samples
+%AllSamples = fieldnames(DATA);
+%N = numel(AllSamples);
+%for i= 1:N
+%    currentSample = AllSamples{i};
+%    DATA.(currentSample).Y = DATA.(currentSample).Y/DATA.(currentSample).T;
+%end
+
+%Flat field normalization
+FFNORM = computeIntegral(DATA.FLATHD, min(DATA.FLATHD.X), max(DATA.FLATHD.X));
 DATA.FLATHDNORMED = DATA.FLATHD;
 DATA.FLATHDNORMED.Y = DATA.FLATHD.Y/FFNORM;
 
-%Write a function to normalize by flatfield all the samples in a list.
-%similar to how we subselect samples in the plotting function. Normalize to
-%a flat field
+%Intensity normalization by FlatField (Only HD mode)
+HDSamples = samplesRBM;
+N = numel(HDSamples);
+for i= 1:N
+    currentSample = HDSamples{i};
+    DATA.(currentSample).Y = DATA.(currentSample).Y ./ DATA.FLATHDNORMED.Y;
+end
 
 %DATA.BS8568CNORMED = DATA.BS8568C;
 %DATA.BS8568CNORMED.Y = (DATA.BS8568CNORMED.Y./ DATA.FL568ANORMED.Y) ;
 
 
-
-
-
-plotSamples(DATA, samplesReferences)
+%plotSamples(DATA, samplesReferences)
 %plotSamples(DATA, samplesRBM)
-%plotSamples(DATA, samplesGBand)
 
+plotSamples(DATA, samplesGBand)
+CORRECTED_GBand = LinearSubstraction(DATA, samplesGBand, 1200, 1800)
+%CORRECTED_GBand = NaiveSubstraction(DATA, samplesGBand, 1200, 1800)
+plotSamples(CORRECTED_GBand, samplesGBand)
 
+%plotSamples(DATA, samplesRBM)
+%CORRECTED_RBM = NaiveSubstraction(DATA, samplesRBM, 128, 220)
+%CORRECTED_RBM = LinearSubstraction(DATA, samplesRBM, 128, 220)
+%plotSamples(CORRECTED_RBM, samplesRBM)
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     READ AND PROCESS FUNCTIONS
+
+function CORRECTED_DATA = LinearSubstraction(DATA,SampleSubset, lowerLimit, upperLimit)
+    CORRECTED_DATA = DATA
+    N = numel(SampleSubset);
+    for i= 1:N
+        currentSample = SampleSubset{i};
+        
+        % Access X and Y from the current sample
+        x = CORRECTED_DATA.(currentSample).X;
+        y = CORRECTED_DATA.(currentSample).Y;
+
+        ROI = (x >= lowerLimit) & (x <= upperLimit);
+
+        % Detrending procedure
+        [Cp, Sl, Ic] = ischange(y(ROI), 'linear');
+        [Cts, Edg, Bin] = histcounts(Sl, 50);
+        [Max, Binmax] = max(Cts);
+        LinearRegion = (Bin == Binmax);
+
+        B = polyfit(x(LinearRegion), y(LinearRegion), 1);
+        L = polyval(B, x);
+        
+        % Update Y in the current sample with the detrended values
+        CORRECTED_DATA.(currentSample).Y = y' - L;
+    end
+end
+
+function CORRECTED_DATA = NaiveSubstraction(DATA,SampleSubset, lowerLimit, upperLimit)
+    CORRECTED_DATA = DATA
+    N = numel(SampleSubset);
+    for i= 1:N
+        currentSample = SampleSubset{i};
+        
+        % Access X and Y from the current sample
+        x = CORRECTED_DATA.(currentSample).X;
+        y = CORRECTED_DATA.(currentSample).Y;
+
+        % Find the indices of the closest values to the input limit values
+        [~, indexLower] = min(abs(x - lowerLimit));
+        [~, indexUpper] = min(abs(x - upperLimit));
+
+        % Calculate the slope of the straight line passing through the two points
+        slope = (y(indexUpper) - y(indexLower)) / (x(indexUpper) - x(indexLower));
+
+
+        CORRECTED_DATA.(currentSample).Y = y' - (slope *(x - x(indexLower)));
+    end
+end
 
 function DATA = getData(fileList, time)
 
