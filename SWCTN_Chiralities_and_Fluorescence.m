@@ -16,8 +16,8 @@ mod_array = [];
 
 
 %Calculate the parameters required to plot
-for n = 4:15 
-    for m = 1:n
+for m = 4:15
+    for n = 1:m
         result = mod(n-m,3);
         if (result==1 || result==2)
             [l11, l22] = calculate_lambdas(n, m);
