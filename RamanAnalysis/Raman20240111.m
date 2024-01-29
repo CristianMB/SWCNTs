@@ -25,28 +25,60 @@ samplesGBand = {
     'S240111F',
     'S240111G',
     'S240111H',
-    'S240111I'
+    'S240111I',
+    'EMPTYG',
+    'REFG'
     };
 
 samplesRBM = {
     'S240111J',
-    'S240111K',
-    'S240111KK'
+    %'S240111K',
+    %'S240111KK'
     'S240111L',
-    'S240111M',
-    'S240111N',
-    'S240111O',
-    'S240111P',
-    'S240111Q',
-    'S240111R',
-    'S240111S',
+    %'S240111M',
+    %'S240111N',
+    %'S240111O',
+    %'S240111P',
+    %'S240111Q',
+    %'S240111R',
+    %'S240111S',
+    'EMPTYR',
+    %'REF'
     };
 
-TestSamples = {
-    'S240111E'
-    'DETREND',
-    };
+nameLabelMap = containers.Map;
 
+% Add mappings to the dictionary
+nameLabelMap('S240111A') = 'D2O@SWCNT';
+nameLabelMap('S240111B') = 'TCE@SWCNT';
+nameLabelMap('S240111BB') = 'TCE@SWCNT';
+nameLabelMap('S240111C') = 'Methanol@SWCNT';
+nameLabelMap('S240111D') = 'TCE@SWCNT';
+nameLabelMap('S240111E') = 'TTF@SWCNT';
+nameLabelMap('S240111F') = 'PCE@SWCNT';
+nameLabelMap('S240111G') = 'PCE@SWCNT';
+nameLabelMap('S240111H') = 'PCE@SWCNT';
+nameLabelMap('S240111I') = 'TEMED@SWCNT';
+
+nameLabelMap('S240111J') = 'D2O@SWCNT';
+nameLabelMap('S240111K') = 'TCE@SWCNT';
+nameLabelMap('S240111KK') = 'TCE@SWCNT';
+nameLabelMap('S240111L') = 'Methanol@SWCNT';
+nameLabelMap('S240111M') = 'TCE@SWCNT';
+nameLabelMap('S240111N') = 'TTF@SWCNT';
+nameLabelMap('S240111O') = 'PCE@SWCNT';
+nameLabelMap('S240111P') = 'PCE@SWCNT';
+nameLabelMap('S240111Q') = 'PCE@SWCNT';
+nameLabelMap('S240111R') = 'TEMED@SWCNT';
+nameLabelMap('S240111S') = 'Empty@SWCNT';
+
+nameLabelMap('FLATHD') = 'FLATHD';
+nameLabelMap('LL514') = 'LL514';
+nameLabelMap('LL514HD') = 'LL514HD';
+nameLabelMap('EMPTYG') = 'Empty@SWCNT Salome';
+nameLabelMap('EMPTYR') = 'Empty@SWCNT Salome';
+nameLabelMap('REFG') = 'DCM@SWCNT Salome';
+nameLabelMap('REF') = 'DCM@SWCNT Salome';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   DATA ADJUSTMENT
 
@@ -72,7 +104,12 @@ DATA.S240111P.T = 90;
 DATA.S240111Q.T = 90;
 DATA.S240111R.T = 90;
 DATA.S240111S.T = 30;
+DATA.EMPTYR.T = 10;
+DATA.EMPTYG.T = 10;
+DATA.REFG.T = 10;
+DATA.REF.T = 10;
 
+DATA.EMPTYR.Y = DATA.EMPTYR.Y*20; %Just for rescale and be able to compare.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     DATA NORMALIZATION
 
@@ -91,7 +128,20 @@ DATA.FLATHDNORMED = DATA.FLATHD;
 DATA.FLATHDNORMED.Y = DATA.FLATHD.Y/FFNORM;
 
 %Intensity normalization by FlatField (Only HD mode)
-HDSamples = samplesRBM;
+HDSamples = {
+    'S240111J',
+    'S240111K',
+    'S240111KK'
+    'S240111L',
+    'S240111M',
+    'S240111N',
+    'S240111O',
+    'S240111P',
+    'S240111Q',
+    'S240111R',
+    'S240111S',
+    };
+
 N = numel(HDSamples);
 for i= 1:N
     currentSample = HDSamples{i};
@@ -102,13 +152,12 @@ end
 %DATA.BS8568CNORMED.Y = (DATA.BS8568CNORMED.Y./ DATA.FL568ANORMED.Y) ;
 
 
-%plotSamples(DATA, samplesReferences)
-%plotSamples(DATA, samplesRBM)
-
-plotSamples(DATA, samplesGBand)
+%plotSamples(DATA, samplesReferences,nameLabelMap)
+plotSamples(DATA, samplesRBM,nameLabelMap)
+plotSamples(DATA, samplesGBand, nameLabelMap)
 CORRECTED_GBand = LinearSubstraction(DATA, samplesGBand, 1200, 1800)
 %CORRECTED_GBand = NaiveSubstraction(DATA, samplesGBand, 1200, 1800)
-plotSamples(CORRECTED_GBand, samplesGBand)
+plotSamples(CORRECTED_GBand, samplesGBand, nameLabelMap)
 
 %plotSamples(DATA, samplesRBM)
 %CORRECTED_RBM = NaiveSubstraction(DATA, samplesRBM, 128, 220)
@@ -224,7 +273,7 @@ function integralValue = computeIntegral(sample, lowerLimit, upperLimit)
     integralValue = integral(f, lowerLimit, upperLimit);
 end
 
-function plotSamples(DATA, samplesToPlot)
+function plotSamples(DATA, samplesToPlot, nameLabelMap)
 
     % Create a figure for the plot
     figure;
@@ -232,15 +281,18 @@ function plotSamples(DATA, samplesToPlot)
     % Iterate over each sample
     for sampleIdx = 1:length(samplesToPlot)
         currentSample = samplesToPlot{sampleIdx};
-        % Get the current sample, X values, and Y values
-        currentX = DATA.(currentSample).X;
-        currentY = DATA.(currentSample).Y;
+        if isfield(DATA, currentSample) && isKey(nameLabelMap, currentSample)
 
-        if ismember(currentSample, samplesToPlot)
-            plot(currentX, currentY, 'DisplayName', currentSample);
+            % Get the current sample, X values, and Y values
+            currentX = DATA.(currentSample).X;
+            currentY = DATA.(currentSample).Y;
+
+            if ismember(currentSample, samplesToPlot)
+                plot(currentX, currentY, 'DisplayName', nameLabelMap(currentSample));
+                hold on; % Add spectra to the same plot
+            end
             hold on; % Add spectra to the same plot
         end
-        hold on; % Add spectra to the same plot
     end
 
     % Add labels and legend
