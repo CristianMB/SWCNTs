@@ -1,6 +1,8 @@
+clear;
+
 addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\RamanAnalysis\');
 mainPath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Raman\20240111\';
-dirInfo = dir(fullfile(mainPath, '*.*'));
+dirInfo = dir(fullfile(mainPath, '*.m3d'));
 % Exclude directories from the list
 fileList = {dirInfo(~[dirInfo.isdir]).name};
 
@@ -154,10 +156,11 @@ end
 
 %plotSamples(DATA, samplesReferences,nameLabelMap)
 plotSamples(DATA, samplesRBM,nameLabelMap)
-plotSamples(DATA, samplesGBand, nameLabelMap)
-CORRECTED_GBand = LinearSubstraction(DATA, samplesGBand, 1200, 1800)
+
+%plotSamples(DATA, samplesGBand, nameLabelMap)
+%CORRECTED_GBand = LinearSubstraction(DATA, samplesGBand, 1200, 1800)
 %CORRECTED_GBand = NaiveSubstraction(DATA, samplesGBand, 1200, 1800)
-plotSamples(CORRECTED_GBand, samplesGBand, nameLabelMap)
+%plotSamples(CORRECTED_GBand, samplesGBand, nameLabelMap)
 
 %plotSamples(DATA, samplesRBM)
 %CORRECTED_RBM = NaiveSubstraction(DATA, samplesRBM, 128, 220)

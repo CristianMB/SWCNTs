@@ -16,8 +16,8 @@ mod_array = [];
 
 
 %Calculate the parameters required to plot
-for m = 4:15
-    for n = 1:m
+for m = 3:16
+    for n = 0:m
         result = mod(n-m,3);
         if (result==1 || result==2)
             [l11, l22] = calculate_lambdas(n, m);
@@ -43,7 +43,18 @@ for i = 1:length(InvreseD_array)
     text(InvreseD_array(i), RBM_array(i), tupleArray(i), 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
 end
 xlabel('Inverse of d (nm^{-1})')
-ylabel('RMB frequency (cm^{-1})')
+ylabel('RMB frequency (cm^{-1})')   
+
+
+figure;
+scatter(D_array, RBM_array, 'MarkerFaceColor', 'g')
+title('RBM Frequency vs. Diameter');
+xlabel('Carbon Nanotube Diameter (nm)')
+ylabel('RMB Frequency (cm^{-1})')
+%for i = 1:length(D_array)
+%    text(D_array(i), RBM_array(i), tupleArray(i));
+%end
+
 
 
 figure;
@@ -59,6 +70,7 @@ end
 xlabel('RMB frequency (cm^{-1})')
 ylabel('Wavelength (nm)')
     
+
 
 figure;
 scatter(D_array, l11_array, 'MarkerFaceColor', 'b'); hold on
