@@ -264,7 +264,7 @@ function DATA = getData(fileList, time)
 
 end
 
-function integralValue = computeIntegral(sample, lowerLimit, upperLimit)
+function  = computeIntegral(sample, lowerLimit, upperLimit)
     % Check if the sampleName is in DATA
     % Extract X and Y values for the specified sample
     x = sample.X;
