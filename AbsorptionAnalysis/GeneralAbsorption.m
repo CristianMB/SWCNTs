@@ -41,35 +41,34 @@ paths = {
         };
 
 %Read DATA
-DS = ReadFromPaths(paths);
-DATA = unifyDataStructures(DS);
-Samples = labelSamples(DATA);
+ReadFromPaths(paths);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Uncorrected Data Empty Tubes
-DATA_20231206.SFF4dil.N = 'SF Methanol@SWCNT A'
-DATA_20231206.SFF4dil2.N = 'SF Methanol@SWCNT B'
-DATA_20231206.SFF5dil.N = 'SF SFF5 Empty???@SWCNT'
-DATA_20240214.S2DB.N = 'CB Empty@SWCNT DGU B S2'
-DATA_20240214.S3DB.N = 'CB Empty@SWCNT DGU B S3'
-DATA_20240214.S4DB.N = 'CB Empty@SWCNT DGU B S4D'
-DATA_20240214.S4LB.N = 'CB Empty@SWCNT DGU B S4L'
-DATA_20240307.S5DGUB.N = 'CB Empty@SWCNT DGU B S5'
-DATA_20240307.S6DGUB.N = 'CB Empty@SWCNT DGU B S6'
-DATA_20240307.S7DGUB.N = 'CB Empty@SWCNT DGU B S7'
-DATA_References.empty_new_P2_0601.N = 'SC Empty@SWCNT A'
-DATA_References.empty_P2_0329.N = 'SC Empty@SWCNT B'
-DATA_References.empty_P2_0601.N = 'SC Empty@SWCNT C'
-DATA_References.empty_P2_0706.N = 'SC Empty@SWCNT D'
-DATA_References.empty_P2_APA218.N = 'SC Empty@SWCNT E'
-DATA_References.empty_P2_dial_0930.N = 'SC Empty@SWCNT Dial'
-DATA_References.AnnoctadecaneP2.N = 'SC Annoctadecane@SWCNTP2'
-DATA_References.AnnoctadecaneP2650.N = 'SC Annoctadecane@SWCNT650'
-DATA_References.OctadecaneP2.N = 'SC OctadecaneP2@SWCNT650'
-DATA_References.Octadecene1P2.N = 'SC Octadecene1P2@SWCNT650'
-DATA_References.TriacontaneP2.N = 'SC TriacontaneP2@SWCNT650'
+DATA_20231206.SFF4dil.N = 'SF Methanol@SWCNT A';
+DATA_20231206.SFF4dil2.N = 'SF Methanol@SWCNT B';
+DATA_20231206.SFF5dil.N = 'SF SFF5 Water@SWCNT';
+DATA_20240214.S2DB.N = 'CB Empty@SWCNT DGU B S2';
+DATA_20240214.S3DB.N = 'CB Empty@SWCNT DGU B S3';
+DATA_20240214.S4DB.N = 'CB Empty@SWCNT DGU B S4D';
+DATA_20240214.S4LB.N = 'CB Empty@SWCNT DGU B S4L';
+DATA_20240307.S5DGUB.N = 'CB Empty@SWCNT DGU B S5';
+DATA_20240307.S6DGUB.N = 'CB Empty@SWCNT DGU B S6';
+DATA_20240307.S7DGUB.N = 'CB Empty@SWCNT DGU B S7';
+DATA_References.empty_new_P2_0601.N = 'SC Empty@SWCNT A';
+DATA_References.empty_P2_0329.N = 'SC Empty@SWCNT B';
+DATA_References.empty_P2_0601.N = 'SC Empty@SWCNT C';
+DATA_References.empty_P2_0706.N = 'SC Empty@SWCNT D';
+DATA_References.empty_P2_APA218.N = 'SC Empty@SWCNT E';
+DATA_References.empty_P2_dial_0930.N = 'SC Empty@SWCNT Dial';
+DATA_References.AnnoctadecaneP2.N = 'SC Annoctadecane@SWCNTP2';
+DATA_References.AnnoctadecaneP2650.N = 'SC Annoctadecane@SWCNT650';
+DATA_References.OctadecaneP2.N = 'SC OctadecaneP2@SWCNT650';
+DATA_References.Octadecene1P2.N = 'SC Octadecene1P2@SWCNT650';
+DATA_References.TriacontaneP2.N = 'SC TriacontaneP2@SWCNT650';
+DATA_References.WaterFilled.N = 'SC Water@SWCNT';
 
 
 ReferenceSamples = {
@@ -92,14 +91,14 @@ ReferenceSamples = {
 
 % Uncorrected Data for PCE Sample 2
 
-DATA_20231206.SFF2Bdil.N = 'SF PCE@SWCNT dil1'
-DATA_20231206.SFF2dil.N = 'SF PCE@SWCNT'
-DATA_20240202.S2_1060.N= 'CB PCE@SWCNT 2hCF'
-DATA_20240212.S2.N= 'CB PCE@SWCNT 4hCF'
-DATA_20240214.S2DC.N= 'CB PCE@SWCNT DGU C (Filled)'
-DATA_20240214.S2DD.N = 'CB PCE@SWCNT DGU D (Defective)'
-DATA_20240214.S2DE.N = 'CB PCE@SWCNT DGU E (Bundles)'
-DATA_20240216.S2DGUC.N = 'CB PCE@SWCNT Dial. DGU C (Filled)'
+DATA_20231206.SFF2Bdil.N = 'SF PCE@SWCNT dil1';
+DATA_20231206.SFF2dil.N = 'SF PCE@SWCNT';
+DATA_20240202.S2_1060.N= 'CB PCE@SWCNT 2hCF';
+DATA_20240212.S2.N= 'CB PCE@SWCNT 4hCF';
+DATA_20240214.S2DC.N= 'CB PCE@SWCNT DGU C (Filled)';
+DATA_20240214.S2DD.N = 'CB PCE@SWCNT DGU D (Defective)';
+DATA_20240214.S2DE.N = 'CB PCE@SWCNT DGU E (Bundles)';
+DATA_20240216.S2DGUC.N = 'CB PCE@SWCNT Dial. DGU C (Filled)';
     
 PCESamples = {
     %DATA_20231206.SFF2Bdil,
@@ -115,15 +114,15 @@ PCESamples = {
 
 % Uncorrected Data for TCE Sample 3
 
-DATA_20231206.SFF3_3dil.N = 'SF TCE@SWCNT RF'
-DATA_20231206.SFF3dil.N = 'SF TCE@SWCNT LP Long Rinsing'
-DATA_20231206.SFF3Bdil.N = 'SF TCE@SWCNT LP Short Rinsing'
-DATA_20240202.S3_1060.N= 'CB TCE@SWCNT 2hCF'
-DATA_20240212.S3.N= 'CB TCE@SWCNT 4hCF'
-DATA_20240214.S3DC.N= 'CB TCE@SWCNT DGU C (Filled)'
-DATA_20240214.S3DD.N = 'CB TCE@SWCNT DGU D (Defective)'
-DATA_20240214.S3DE.N = 'CB TCE@SWCNT DGU E (Bundles)'
-DATA_20240216.S3DGUC.N = 'CB TCE@SWCNT Dial. DGU C (Filled)'
+DATA_20231206.SFF3_3dil.N = 'SF TCE@SWCNT RF';
+DATA_20231206.SFF3dil.N = 'SF TCE@SWCNT LP Long Rinsing';
+DATA_20231206.SFF3Bdil.N = 'SF TCE@SWCNT LP Short Rinsing';
+DATA_20240202.S3_1060.N= 'CB TCE@SWCNT 2hCF';
+DATA_20240212.S3.N= 'CB TCE@SWCNT 4hCF';
+DATA_20240214.S3DC.N= 'CB TCE@SWCNT DGU C (Filled)';
+DATA_20240214.S3DD.N = 'CB TCE@SWCNT DGU D (Defective)';
+DATA_20240214.S3DE.N = 'CB TCE@SWCNT DGU E (Bundles)';
+DATA_20240216.S3DGUC.N = 'CB TCE@SWCNT Dial. DGU C (Filled)';
     
 TCESamples = {
     DATA_20231206.SFF3dil,
@@ -141,16 +140,16 @@ TCESamples = {
 
 % Uncorrected Data for TEMED Sample 4
 
-DATA_20231206.SFF1Bdil.N = 'SF TEMED@SWCNT'
-DATA_20240202.S4_1060.N = 'CB TEMED@SWCNT 2hCF'
-DATA_20240212.S4.N = 'CB TEMED@SWCNT 4hCF'
-DATA_20240214.S4DC.N = 'CB TEMED@SWCNT DGU C (Filled) D'
-DATA_20240214.S4LC.N = 'CB TEMED@SWCNT DGU C (Filled) L'
-DATA_20240214.S4DD.N = 'CB TEMED@SWCNT DGU D (Defective)'
-DATA_20240214.S4DE.N = 'CB TEMED@SWCNT DGU E (Bundles)'
-DATA_20240216.S4DDGUC.N = 'CB TEMED@SWCNT Dial. DGU C (Filled)'
-DATA_20240216.S4DDGUC2.N = 'CB TEMED@SWCNT Dial. DGU C (Filled)'
-DATA_20240216.S4LDGUC.N = 'CB TEMED@SWCNT Dial. DGU C (Filled)'
+DATA_20231206.SFF1Bdil.N = 'SF TEMED@SWCNT';
+DATA_20240202.S4_1060.N = 'CB TEMED@SWCNT 2hCF';
+DATA_20240212.S4.N = 'CB TEMED@SWCNT 4hCF';
+DATA_20240214.S4DC.N = 'CB TEMED@SWCNT DGU C (Filled) D';
+DATA_20240214.S4LC.N = 'CB TEMED@SWCNT DGU C (Filled) L';
+DATA_20240214.S4DD.N = 'CB TEMED@SWCNT DGU D (Defective)';
+DATA_20240214.S4DE.N = 'CB TEMED@SWCNT DGU E (Bundles)';
+DATA_20240216.S4DDGUC.N = 'CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240216.S4DDGUC2.N = 'CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240216.S4LDGUC.N = 'CB TEMED@SWCNT Dial. DGU C (Filled)';
 
 TEMEDSamples = {
 
@@ -169,13 +168,13 @@ DATA_20240216.S4DDGUC,
 
 % Uncorrected Data for TDAE Sample 5
 
-DATA_20240305.S5.N = 'CB TDAE@SWCNT A'
-DATA_20240305.S5_dil.N = 'CB TDAE@SWCNT B'
-DATA_20240305.S5_dil2.N = 'CB TDAE@SWCNT C'
-DATA_20240305.S5_dil4.N = 'CB TDAE@SWCNT'
-DATA_20240307.S5CF.N = 'CB TDAE@SWCNT 4hCF'
-DATA_20240307.S5DGUC.N = 'CB TDAE@SWCNT DGU C (Filled)'
-DATA_20240308.S5DGUCDial.N = 'CB TDAE@SWCNT Dial. DGU C (Filled)'
+DATA_20240305.S5.N = 'CB TDAE@SWCNT A';
+DATA_20240305.S5_dil.N = 'CB TDAE@SWCNT B';
+DATA_20240305.S5_dil2.N = 'CB TDAE@SWCNT C';
+DATA_20240305.S5_dil4.N = 'CB TDAE@SWCNT';
+DATA_20240307.S5CF.N = 'CB TDAE@SWCNT 4hCF';
+DATA_20240307.S5DGUC.N = 'CB TDAE@SWCNT DGU C (Filled)';
+DATA_20240308.S5DGUCDial.N = 'CB TDAE@SWCNT Dial. DGU C (Filled)';
 
 TDAESamples = {
     DATA_20240305.S5_dil4,
@@ -186,10 +185,10 @@ TDAESamples = {
 
 % Uncorrected Data for Hexadecane Sample 6
 
-DATA_20240304.S6.N = 'CB Hexadecane@SWCNT A'
-DATA_20240307.S6CF.N = 'CB Hexadecane@SWCNT 4hCF'
-DATA_20240307.S6DGUC.N = 'CB Hexadecane@SWCNT DGU C (Filled)'
-DATA_20240308.S6DGUCDial.N = 'CB Hexadecane@SWCNT Dial. DGU C (Filled)'
+DATA_20240304.S6.N = 'CB Hexadecane@SWCNT A';
+DATA_20240307.S6CF.N = 'CB Hexadecane@SWCNT 4hCF';
+DATA_20240307.S6DGUC.N = 'CB Hexadecane@SWCNT DGU C (Filled)';
+DATA_20240308.S6DGUCDial.N = 'CB Hexadecane@SWCNT Dial. DGU C (Filled)';
 
 HexadecaneSamples = {
     DATA_20240304.S6,
@@ -201,10 +200,10 @@ HexadecaneSamples = {
 
 % Uncorrected Data for Dodecane Sample 7
 
-DATA_20240304.S7.N = 'CB Dodecane@SWCNT A'
-DATA_20240307.S7CF.N = 'CB Dodecane@SWCNT 4hCF'
-DATA_20240307.S7DGUC.N = 'CB Dodecane@SWCNT DGU C (Filled)'
-DATA_20240308.S7DGUCDial.N = 'CB Dodecane@SWCNT Dial. DGU C (Filled)'
+DATA_20240304.S7.N = 'CB Dodecane@SWCNT A';
+DATA_20240307.S7CF.N = 'CB Dodecane@SWCNT 4hCF';
+DATA_20240307.S7DGUC.N = 'CB Dodecane@SWCNT DGU C (Filled)';
+DATA_20240308.S7DGUCDial.N = 'CB Dodecane@SWCNT Dial. DGU C (Filled)';
 
 DodecaneSamples = {
     DATA_20240304.S7,
@@ -215,34 +214,17 @@ DodecaneSamples = {
 
 %plotSampleList(PCESamples)
 %plotSampleList(TCESamples)
-%plotSampleList(TEMEDSamples)
+%plotSampleList(TEMEDSamples,0)
 %plotSampleList(TDAESamples)
 %plotSampleList(HexadecaneSamples)
 %plotSampleList(DodecaneSamples)
-%plotSampleList(ReferenceSamples)
+%plotSampleList(ReferenceSamples, 0)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-%For normalization 
-LL = 600;
-UL = 800;
-
-%DATANormal = Normalize(DATA_20240308, "All", LL, UL)
-
 %Compare all samples after DGU
-Compare = {
-    %DATA_20231206.SFF5dil,
-    %DATA_References.TriacontaneP2,
-    %DATA_References.OctadecaneP2,
-    %DATA_References.Octadecene1P2
 
-    DATA_20240216.S2DGUC,
-    %DATA_20240216.S3DGUC,
-    %DATA_20240216.S4DDGUC,
-    %DATA_20240308.S5DGUCDial,
-    %DATA_20240308.S6DGUCDial,
-    %DATA_20240308.S7DGUCDial,
+Compare = {
     
     %DATA_References.empty_new_P2_0601,
     %DATA_References.empty_P2_0329,
@@ -250,27 +232,38 @@ Compare = {
     %DATA_References.empty_P2_0706,
     %DATA_References.empty_P2_APA218,
     DATA_References.empty_P2_dial_0930,
+    
+    %Alkanes
+    DATA_References.TriacontaneP2,
+    DATA_References.OctadecaneP2,
+    DATA_References.Octadecene1P2  
+    DATA_20240308.S7DGUCDial,
+    DATA_20240308.S6DGUCDial,
+    
+    %Dopants
+    DATA_20240216.S2DGUC,
+    DATA_20240216.S3DGUC,
+    DATA_20240216.S4DDGUC,
+    DATA_20240308.S5DGUCDial,
+    
+    DATA_References.WaterFilled
+    %DATA_20231206.SFF5dil,
+
     };
 
-plotSampleList(Compare)
+%plotSampleList()
+%For normalization 
+LL = 900;
+UL = 1100;
 
+NS = Normalize(Compare,LL, UL)
 
+%plotSampleList(Compare,0)
+
+plotSampleList(NS,0.5)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function unifiedData = unifyDataStructures(dataStructures)
-    unifiedData = struct(); % Initialize the unified data structure
-    fnames = fieldnames(dataStructures);
-    for i = 1:length(fnames)
-        currentData = dataStructures.(fnames{i}); % Get the current structure
-        fields = fieldnames(currentData); % Get the field names of the current structure
-        for j = 1:length(fields)
-            fieldName = fields{j};
-            unifiedData.(fieldName) = currentData.(fieldName); % Assign the field to the unified structure
-        end
-    end
-end
 
 function dataStructures = ReadFromPaths(paths)
     dataStructures = struct();
@@ -345,16 +338,28 @@ function integralValue = computeIntegral(sample, lowerLimit, upperLimit)
     integralValue = integral(f, lowerLimit, upperLimit);
 end
 
-function normalizedData = Normalize(DataStructure, samplesToNormalize, lowerLimit, upperLimit)
-    % Initialize the container for normalized data
-    normalizedData = DataStructure;
+function maximumValue = computeMaximum(sample, lowerLimit, upperLimit)
+    % Check if the sampleName is in DATA
+    % Extract X and Y values for the specified sample
+    x = sample.W;
+    y = sample.A;
+    % Define the function to integrate
+    
+    indicesInRange = find(x >= lowerLimit & x <= upperLimit);
+    yInRange = y(indicesInRange);
 
+    maximumValue = max(yInRange);
+end
+
+function NormedSamples = Normalize(samplesToNormalize, lowerLimit, upperLimit)
+    NormedSamples = cell(size(samplesToNormalize));
     % Iterate over each sample to be normalized
     for sampleIdx = 1:length(samplesToNormalize)
         currentSample = samplesToNormalize{sampleIdx};
-        if isfield(DataStructure, currentSample) && isfield(DataStructure.(currentSample), 'A')
-            normalizedData.(currentSample).A = normalizedData.(currentSample).A/computeIntegral(normalizedData.(currentSample),lowerLimit, upperLimit);
-        end
+        %currentSample.A = currentSample.A/computeIntegral(currentSample,lowerLimit, upperLimit);
+        currentSample.A = currentSample.A/computeMaximum(currentSample,lowerLimit, upperLimit);
+        NormedSamples{sampleIdx} = currentSample;
+
     end
 end
 
@@ -391,8 +396,7 @@ function flattenedData = flattenSpectra(DataStructure, points)
     flattenedData = DataStructure;
 end
 
-function plotSampleList(SamplesToPlot)
- 
+function plotSampleList(SamplesToPlot, offset)
     % Create a figure for the plot
     figure;
     % Iterate over each sample
@@ -400,58 +404,17 @@ function plotSampleList(SamplesToPlot)
         currentSample = SamplesToPlot{sampleIdx};
             % Get the current sample, X values, and Y values
             currentX = currentSample.W;
-            currentY = currentSample.A;
+            currentY = currentSample.A - offset*sampleIdx;
             currentN = currentSample.N;
-            plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 2.0);
+            plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.5);
             hold on; % Add spectra to the same plot
     end
+
     % Add labels and legend
     xlabel('Wavelenght (nm)');
     ylabel('Absorption (a.u.)');
     title('Absorption Spectra');
     legend('show');
-    % Optional: Customize the plot further if needed
-    grid on;
-    % Hold off to stop adding new plots to the current figure
-    hold off;
-    
-end
-
-function plotSamples(DATA, samplesToPlot, nameLabelMap)
-
-    if strcmp(samplesToPlot, 'All')
-        samplesToPlot=keys(nameLabelMap);
-        %Exclude Baseline when selecting All
-        samplesToPlot=samplesToPlot(2:end);
-    end
-    
-    % Create a figure for the plot
-    figure;
-  
-    % Iterate over each sample
-    for sampleIdx = 1:length(samplesToPlot)
-        currentSample = samplesToPlot{sampleIdx};
-        if isfield(DATA, currentSample) && isKey(nameLabelMap, currentSample)
-
-            % Get the current sample, X values, and Y values
-            currentX = DATA.(currentSample).W;
-            currentY = DATA.(currentSample).A;
-
-            if ismember(currentSample, samplesToPlot)
-                plot(currentX, currentY, 'DisplayName', nameLabelMap(currentSample));
-                hold on; % Add spectra to the same plot
-            end
-            hold on; % Add spectra to the same plot
-        end
-    end
-
-    % Add labels and legend
-
-    xlabel('Wavelenght (nm)');
-    ylabel('Absorption (a.u.)');
-    title('Absorption Spectra');
-    legend('show');
-
     % Optional: Customize the plot further if needed
     grid on;
     % Hold off to stop adding new plots to the current figure
