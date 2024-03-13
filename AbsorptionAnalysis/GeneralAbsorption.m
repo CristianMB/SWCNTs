@@ -1,23 +1,23 @@
 clc;
 clear;
 
-path_baselines = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\References.csv';
-path_20231206 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20231206\alldata20231206.csv';
-path_20240117a = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240117\S1Data20240117.csv';
-path_20240117b = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240117\S2Data20240117.csv';
-path_20240124 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240124\AllDataS3S4.csv';
-path_20240129 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240129\AllData.csv';
-path_20240202 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240202\AllData.csv';
-path_20240212a = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240212\AllDataCentrifuge.csv';
-path_20240212b = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240212\AllDataS5.csv';
-path_20240214 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240214\DGU.csv';
-path_20240215 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240215\Dialysis.csv';
-path_20240216 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240216\DGUC.csv';
-path_20240220 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240220\RinsingS6S7.csv';
-path_20240304 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240304\S6S7.csv';
-path_20240305 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240305\S5.csv';
-path_20240307 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240307\DGUS5S6S7.csv';
-path_20240308 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240308\DialS5S6S7.csv';
+path_baselines = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\References.csv';
+path_20231206 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20231206\alldata20231206.csv';
+path_20240117a = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240117\S1Data20240117.csv';
+path_20240117b = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240117\S2Data20240117.csv';
+path_20240124 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240124\AllDataS3S4.csv';
+path_20240129 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240129\AllData.csv';
+path_20240202 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240202\AllData.csv';
+path_20240212a = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240212\AllDataCentrifuge.csv';
+path_20240212b = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240212\AllDataS5.csv';
+path_20240214 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240214\DGU.csv';
+path_20240215 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240215\Dialysis.csv';
+path_20240216 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240216\DGUC.csv';
+path_20240220 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240220\RinsingS6S7.csv';
+path_20240304 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240304\S6S7.csv';
+path_20240305 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240305\S5.csv';
+path_20240307 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240307\DGUS5S6S7.csv';
+path_20240308 = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240308\DialS5S6S7.csv';
 
 
 paths = {
@@ -63,13 +63,12 @@ DATA_References.empty_P2_0601.N = 'SC Empty@SWCNT C';
 DATA_References.empty_P2_0706.N = 'SC Empty@SWCNT D';
 DATA_References.empty_P2_APA218.N = 'SC Empty@SWCNT E';
 DATA_References.empty_P2_dial_0930.N = 'SC Empty@SWCNT Dial';
-DATA_References.AnnoctadecaneP2.N = 'SC Annoctadecane@SWCNTP2';
-DATA_References.AnnoctadecaneP2650.N = 'SC Annoctadecane@SWCNT650';
-DATA_References.OctadecaneP2.N = 'SC OctadecaneP2@SWCNT650';
-DATA_References.Octadecene1P2.N = 'SC Octadecene1P2@SWCNT650';
-DATA_References.TriacontaneP2.N = 'SC TriacontaneP2@SWCNT650';
+DATA_References.AnnoctadecaneP2.N = 'SC Annealed Octadecane@SWCNTP2';
+DATA_References.AnnoctadecaneP2650.N = 'SC Annealed Octadecane@SWCNT650';
+DATA_References.OctadecaneP2.N = 'SC OctadecaneP2@SWCNTP2';
+DATA_References.Octadecene1P2.N = 'SC Octadecne1P2@SWCNTP2';
+DATA_References.TriacontaneP2.N = 'SC Triacontane@SWCNTP2';
 DATA_References.WaterFilled.N = 'SC Water@SWCNT';
-
 
 ReferenceSamples = {
     DATA_20231206.SFF4dil,
@@ -224,6 +223,19 @@ DodecaneSamples = {
 
 %Compare all samples after DGU
 
+%DATA_20240308.CORRECTED = DATA_20240308.S7DGUCDial;
+%DATA_20240308.CORRECTED.A = DATA_20240308.S7DGUCDial.A - DATA_References.H2OinD2O.A*0.0
+%plotSampleList({DATA_20240308.S7DGUCDial, DATA_20240308.CORRECTED, DATA_References.H2OinD2O},0.0)
+
+
+%H2O in D2O Correction
+DATA_20240216.S2DGUC.A = DATA_20240216.S2DGUC.A - DATA_References.H2OinD2O.A*1.22;
+DATA_20240216.S3DGUC.A = DATA_20240216.S3DGUC.A - DATA_References.H2OinD2O.A*0.7;
+DATA_20240216.S4DDGUC.A = DATA_20240216.S4DDGUC.A - DATA_References.H2OinD2O.A*0.25;
+%SAMPLE 5 Doesnt need correction
+%SAMPLE 6 Doesnt need correction
+%SAMPLE 7 Doesnt need correction
+
 Compare = {
     
     %DATA_References.empty_new_P2_0601,
@@ -234,9 +246,9 @@ Compare = {
     DATA_References.empty_P2_dial_0930,
     
     %Alkanes
-    DATA_References.TriacontaneP2,
-    DATA_References.OctadecaneP2,
-    DATA_References.Octadecene1P2  
+    %DATA_References.TriacontaneP2,
+    %DATA_References.AnnoctadecaneP2,
+    %DATA_References.AnnoctadecaneP2650,  
     DATA_20240308.S7DGUCDial,
     DATA_20240308.S6DGUCDial,
     
@@ -253,15 +265,29 @@ Compare = {
 
 %plotSampleList()
 %For normalization 
-LL = 900;
-UL = 1100;
-
-NS = Normalize(Compare,LL, UL)
-
 %plotSampleList(Compare,0)
 
-plotSampleList(NS,0.5)
+%LL1= 580;
+%UL1= 610;
 
+LL1= 750;
+UL1= 860;
+
+LL2= 1100;
+UL2= 1400;
+
+plotSampleList(Compare,0.0)
+
+CS = correctSpectra(Compare,LL1, UL1, LL2, UL2);
+%plotSampleList(CS,0.0)
+
+LL = 900;
+UL = 1100;
+NS = Normalize(CS,LL, UL);
+plotSampleList(NS,0.0)
+
+NS = Normalize(Compare,LL, UL);
+plotSampleList(NS,0.0)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -359,7 +385,40 @@ function NormedSamples = Normalize(samplesToNormalize, lowerLimit, upperLimit)
         %currentSample.A = currentSample.A/computeIntegral(currentSample,lowerLimit, upperLimit);
         currentSample.A = currentSample.A/computeMaximum(currentSample,lowerLimit, upperLimit);
         NormedSamples{sampleIdx} = currentSample;
+    end
+end
 
+function CorrectedSpectra = correctSpectra(samplesToCorrect, LL1, UL1, LL2, UL2)
+    CorrectedSpectra = cell(size(samplesToCorrect));
+    for i = 1:length(samplesToCorrect)
+        currentSample = samplesToCorrect{i};
+        % Extract wavelength and absorption data
+        W = currentSample.W;
+        A = currentSample.A;
+        % Find the indices corresponding to the specified wavelength ranges
+        idx_range1 = find(W >= LL1 & W <= UL1);
+        idx_range2 = find(W >= LL2 & W <= UL2);
+        % Find the wavelength where the minimum absorption occurs in each range
+        [~, min_idx_range1] = min(A(idx_range1));
+        [~, min_idx_range2] = min(A(idx_range2));
+        % Get the corresponding wavelengths
+        lambda_min_range1 = W(idx_range1(min_idx_range1));
+        lambda_min_range2 = W(idx_range2(min_idx_range2));     
+        % Extract data around the two minima
+        W_range1 = W(idx_range1);
+        A_range1 = A(idx_range1);
+        W_range2 = W(idx_range2);
+        A_range2 = A(idx_range2);
+
+        % Fit a straight line through the two minima
+        fitfunc = @(p, x) p(1) ./ x;
+        initialGuess = [100]; % Initial guess for the fitting parameter A
+        [fitparams, ~] = lsqcurvefit(fitfunc, initialGuess, [W_range1; W_range2], [A_range1; A_range2]);
+        background = fitfunc(fitparams, W);
+
+        % Subtract the background
+        currentSample.A = currentSample.A - background;
+        CorrectedSpectra{i} = currentSample;
     end
 end
 
@@ -383,7 +442,6 @@ function flattenedData = flattenSpectra(DataStructure, points)
 
         % Perform least-squares optimization to find the optimal value of 'a'
         optimalA = fmincon(objective, initialA, [], [], [], [], [], [], []);
-        optimalA
         % Subtract the background from the absorption data within the specified range
         A_flattened = DataStructure.(sample).A - optimalA ./ DataStructure.(sample).W;
         
@@ -406,7 +464,7 @@ function plotSampleList(SamplesToPlot, offset)
             currentX = currentSample.W;
             currentY = currentSample.A - offset*sampleIdx;
             currentN = currentSample.N;
-            plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.5);
+            plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.3);
             hold on; % Add spectra to the same plot
     end
 
