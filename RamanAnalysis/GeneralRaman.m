@@ -1,0 +1,343 @@
+clc;
+clear;
+
+%All paths as default
+path_20240111 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Raman\20240111\';
+
+%Select the paths of interest
+paths = {
+    path_20240111
+    };
+
+%Read and structure data from the paths
+ReadFromPaths(paths);
+
+%F = fieldnames(DATA_20240111);
+%All = {};
+%for i=1:length(F)
+%    All{end+1} = ['DATA_20240111.',F{i}];
+%end
+
+%%%--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+DATA_20240111.FLATHD.N = 'FlatField HD Mode'
+DATA_20240111.LL514.N = 'Laser 514.5 nm LD Mode'
+DATA_20240111.LL514HD.N = 'Laser 514.5 nm HD Mode'
+
+DATA_20240111.REF.N = 'Salome References'
+DATA_20240111.REFG.N = 'Salome References'
+DATA_20240111.EMPTYG.N = 'Salome References'
+DATA_20240111.EMPTYR.N = 'Salome References'
+
+DATA_20240111.S240111A.N = 'SF D2O@SWCNT'
+DATA_20240111.S240111B.N = 'SF TCE@SWCNT'
+DATA_20240111.S240111BB.N = 'SF TCE@SWCNT'
+DATA_20240111.S240111C.N = 'SFF4'
+DATA_20240111.S240111D.N = 'SF TCE@SWCNT'
+DATA_20240111.S240111E.N = 'SF TTF@SWCNT'
+DATA_20240111.S240111F.N = 'SF PCE@SWCNT'
+DATA_20240111.S240111G.N = 'SF PCE@SWCNT'
+DATA_20240111.S240111H.N = 'SF PCE@SWCNT'
+DATA_20240111.S240111I.N = 'SF TEMED@SWCNT'
+
+DATA_20240111.S240111J.N = 'SF D2O@SWCNT'
+DATA_20240111.S240111K.N = 'SF TCE@SWCNT'
+DATA_20240111.S240111KK.N = 'SF TCE@SWCNT'
+DATA_20240111.S240111L.N = 'SFF4'
+DATA_20240111.S240111M.N = 'SF TCE@SWCNT'
+DATA_20240111.S240111N.N = 'SF TTF@SWCNT'
+DATA_20240111.S240111O.N = 'SF PCE@SWCNT'
+DATA_20240111.S240111P.N = 'SF PCE@SWCNT'
+DATA_20240111.S240111Q.N = 'SF PCE@SWCNT'
+DATA_20240111.S240111R.N = 'SF TEMED@SWCNT'
+DATA_20240111.S240111S.N = 'SC Empty@SWCNT'
+    
+%%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Compare = {
+    %DATA_20240111.FLATHD,
+    %DATA_20240111.LL514,
+    %DATA_20240111.LL514HD,
+    %DATA_20240111.EMPTYG,
+    %DATA_20240111.EMPTYR,
+    %DATA_20240111.REF,
+    %DATA_20240111.REFG,
+    
+    DATA_20240111.S240111A,
+    DATA_20240111.S240111B,
+    DATA_20240111.S240111BB,
+    DATA_20240111.S240111C,
+    DATA_20240111.S240111D,
+    DATA_20240111.S240111E,
+    DATA_20240111.S240111F,
+    DATA_20240111.S240111G,
+    DATA_20240111.S240111H,
+    DATA_20240111.S240111I,
+    
+    %DATA_20240111.S240111J,
+    %DATA_20240111.S240111K,
+    %DATA_20240111.S240111KK,
+    %DATA_20240111.S240111L,
+    %DATA_20240111.S240111M,
+    %DATA_20240111.S240111N,
+    %DATA_20240111.S240111O,
+    %DATA_20240111.S240111P,
+    %DATA_20240111.S240111Q,
+    %DATA_20240111.S240111R,
+    %DATA_20240111.S240111S
+    };
+
+LG = 1560
+HG = 1570
+Compare = Normalize(Compare,LG, HG);
+
+plotSampleList(Compare, 0.0)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function dataStructures = ReadFromPaths(paths)
+    dataStructures = struct();  
+    for p = 1:length(paths)
+        % Extract the suffix from the path
+        try
+            % Extract the suffix from the path variable
+            dataset_name = strsplit(paths{p}, "\");
+            fieldName = ['DATA_', strrep(dataset_name{7}, '.', '')];
+           
+            dirInfo = dir(fullfile(paths{p}, '*.*'));
+            fileList = {dirInfo(~[dirInfo.isdir]).name};
+                        
+            structure = struct();
+
+            % Read the data from the current path
+            for f = 1:length(fileList)
+                raw_spectrum = RdExp([paths{p},fileList{f}]);
+                raw_spectrum(:,2)=[];
+                NumSpec=length(raw_spectrum(1,:))-1;
+                NumDel=1;
+                        X=raw_spectrum(:,1);
+                for i=1:1024
+                    spectrum=sort(raw_spectrum(i,2:NumSpec+1));
+                    Y(:,i)= mean(spectrum(NumDel+1:NumSpec-NumDel));  
+                end
+                sampleName = upper(strrep(fileList{f}, '.m3d',''));
+               
+                structure.(sampleName).X = X;
+                structure.(sampleName).Y = Y;
+                structure.(sampleName).N = sampleName;
+            end 
+           dataStructures.(fieldName) = structure;
+           assignin('caller', fieldName, structure); % Assign data to a variable in the caller workspace
+
+        catch ME
+            % Print the path that caused the error
+            disp(['Error reading data from path: ' paths{p}]);
+            % Re-throw the error
+            rethrow(ME);
+        end
+    end       
+end
+
+function integralValue = computeIntegral(sample, lowerLimit, upperLimit)
+    % Check if the sampleName is in DATA
+    % Extract X and Y values for the specified sample
+    x = sample.X;
+    y = sample.Y;
+    % Define the function to integrate
+    f = @(xi) interp1(x, y, xi, 'pchip');
+
+    % Calculate the integral
+    integralValue = integral(f, lowerLimit, upperLimit);
+end
+
+function sampleList = PeakCalculation(sampleList, LS1, US1, LS2, US2, LPL, UPL, LPR, UPR)
+
+    % Iterate over each sample to be normalized
+    for sampleIdx = 1:length(sampleList)
+        currentSample = sampleList{sampleIdx};
+        [S11W, S11A] = computePeak(currentSample,LS1, US1);
+        currentSample.S11W = S11W;
+        currentSample.S11A = S11A;
+        
+        [S22W, S22A] = computePeak(currentSample,LS2, US2);
+        currentSample.S22W = S22W;
+        currentSample.S22A = S22A;
+        
+        [PlasWL, PlasAL] = computePeak(currentSample,LPL, UPL);
+        currentSample.PlasWL = PlasWL;
+        currentSample.PlasAL = PlasAL;
+        
+        [PlasWR, PlasAR] = computePeak(currentSample,LPR, UPR);
+        currentSample.PlasWR = PlasWR;
+        currentSample.PlasAR = PlasAR;
+        
+        sampleList{sampleIdx} = currentSample;
+    end
+end
+
+function maximumValue = computeMaximum(sample, lowerLimit, upperLimit)
+    % Check if the sampleName is in DATA
+    % Extract X and Y values for the specified sample
+    x = sample.X;
+    y = sample.Y;
+    % Define the function to integrate
+    
+    indicesInRange = find(x >= lowerLimit & x <= upperLimit);
+    yInRange = y(indicesInRange);
+
+    maximumValue = max(yInRange);
+end
+
+function NormedSamples = Normalize(samplesToNormalize, lowerLimit, upperLimit)
+    NormedSamples = cell(size(samplesToNormalize));
+    % Iterate over each sample to be normalized
+    for sampleIdx = 1:length(samplesToNormalize)
+        currentSample = samplesToNormalize{sampleIdx};
+        %currentSample.Y = currentSample.Y/computeIntegral(currentSample,lowerLimit, upperLimit);
+        currentSample.Y = currentSample.Y/computeMaximum(currentSample,lowerLimit, upperLimit);
+        NormedSamples{sampleIdx} = currentSample;
+    end
+end
+
+function CorrectedSpectra = correctSpectra(samplesToCorrect, LL1, UL1, LL2, UL2)
+    CorrectedSpectra = cell(size(samplesToCorrect));
+    for i = 1:length(samplesToCorrect)
+        currentSample = samplesToCorrect{i};
+        % Extract wavelength and absorption data
+        W = currentSample.W;
+        A = currentSample.A;
+        % Find the indices corresponding to the specified wavelength ranges
+        idx_range1 = find(W >= LL1 & W <= UL1);
+        idx_range2 = find(W >= LL2 & W <= UL2);
+        % Find the wavelength where the minimum absorption occurs in each range
+        [~, min_idx_range1] = min(A(idx_range1));
+        [~, min_idx_range2] = min(A(idx_range2));
+        % Get the corresponding wavelengths
+        lambda_min_range1 = W(idx_range1(min_idx_range1));
+        lambda_min_range2 = W(idx_range2(min_idx_range2));     
+        % Extract data around the two minima
+        W_range1 = W(idx_range1);
+        A_range1 = A(idx_range1);
+        W_range2 = W(idx_range2);
+        A_range2 = A(idx_range2);
+
+        % Fit a straight line through the two minima
+        fitfunc = @(p, x) p(1) ./ x;
+        initialGuess = [100]; % Initial guess for the fitting parameter A
+        [fitparams, ~] = lsqcurvefit(fitfunc, initialGuess, [W_range1; W_range2], [A_range1; A_range2]);
+        background = fitfunc(fitparams, W);
+
+        % Subtract the background
+        currentSample.A = currentSample.A - background;
+        CorrectedSpectra{i} = currentSample;
+    end
+end
+
+function flattenedData = flattenSpectra(DataStructure, points)
+    % Get the fieldnames of the data structure
+    sampleNames = fieldnames(DataStructure);
+
+    % Loop through each sample in the data structure
+    for i = 1:numel(sampleNames)
+        sample = sampleNames{i};
+
+        % Get the wavelength and absorption data for the current sample
+        selected_A = DataStructure.(sample).A(ismember(DataStructure.(sample).W, points));
+        selected_W = DataStructure.(sample).W(ismember(DataStructure.(sample).W, points));
+
+        % Define the objective function for least-squares optimization
+        objective = @(a) sum((selected_A - a ./ selected_W).^2);
+
+        % Choose initial value of 'a'
+        initialA = 1; % or any initial value
+
+        % Perform least-squares optimization to find the optimal value of 'a'
+        optimalA = fmincon(objective, initialA, [], [], [], [], [], [], []);
+        % Subtract the background from the absorption data within the specified range
+        A_flattened = DataStructure.(sample).A - optimalA ./ DataStructure.(sample).W;
+        
+        % Update the absorption data in the data structure
+        
+        DataStructure.(sample).A = A_flattened;
+    end
+    
+    % Return the modified data structure
+    flattenedData = DataStructure;
+end
+
+function plotSampleList(SamplesToPlot, offset)
+    % Create a figure for the plot
+    figure;
+    % Iterate over each sample
+    for sampleIdx = 1:length(SamplesToPlot)
+        currentSample = SamplesToPlot{sampleIdx};
+            % Get the current sample, X values, and Y values
+            currentX = currentSample.X;
+            currentY = currentSample.Y - offset*sampleIdx;
+            currentN = currentSample.N;
+            plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.3);
+            hold on; % Add spectra to the same plot
+    end
+
+    % Add labels and legend
+    xlabel('Raman Shift (cm^{-1})');
+    ylabel('Intesity (a.u.)');
+    title('Raman Spectra');
+    legend('show');
+    % Optional: Customize the plot further if needed
+    grid on;
+    % Hold off to stop adding new plots to the current figure
+    hold off;
+    
+end
+
+function [peakPosition, peakValue] = computePeak(sample, lowerLimit, upperLimit)
+    % Check if the sampleName is in DATA
+    % Extract X and Y values for the specified sample
+    x = sample.W;
+    y = sample.A;
+    % Define the function to integrate
+    indicesInRange = find(x >= lowerLimit & x <= upperLimit);
+    yInRange = y(indicesInRange);
+    % Find the maximum value and its index within the range
+    [peakValue, maxIndex] = max(yInRange);
+    % Convert the index to the corresponding X value
+    peakPosition = x(indicesInRange(maxIndex));
+end
+
+function exportPeaksToCSV(sampleList, fileName)
+    % Define the peak fields to include in the CSV file
+    peakFields = {'N', 'S11W', 'S11A', 'S22W', 'S22A', 'PlasWL', 'PlasAL', 'PlasWR', 'PlasAR'};
+
+    % Create a cell array to store the data
+    data = cell(length(sampleList), length(peakFields));
+
+    % Fill in the data for each sample
+    for sampleIdx = 1:length(sampleList)
+        currentSample = sampleList{sampleIdx};
+        
+        % Fill in the peak information for the current sample
+        for peakIdx = 1:length(peakFields)
+            peakValue = currentSample.(peakFields{peakIdx});
+            data{sampleIdx, peakIdx} = peakValue;
+        end
+    end
+
+    % Create column names
+    columnNames = peakFields;
+
+    % Create a table from the data
+    dataTable = cell2table(data, 'VariableNames', columnNames);
+
+    % Write the table to a CSV file
+    writetable(dataTable, fileName);
+end
+
+
+
+
