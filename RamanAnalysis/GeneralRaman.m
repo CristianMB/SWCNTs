@@ -1,12 +1,21 @@
 clc;
 clear;
 
+%rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Raman\';
+rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Raman\';
+
 %All paths as default
-path_20240111 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Raman\20240111\';
+path_20240111 = [rootpath,'20240111\'];
+path_20240320 = [rootpath,'20240320\'];
+path_20240321 = [rootpath,'20240321\'];
+path_20240325 = [rootpath,'20240325\'];
 
 %Select the paths of interest
 paths = {
-    path_20240111
+    path_20240111,
+    path_20240320,
+    path_20240321,
+    path_20240325
     };
 
 %Read and structure data from the paths
@@ -20,84 +29,255 @@ ReadFromPaths(paths);
 
 %%%--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-DATA_20240111.FLATHD.N = 'FlatField HD Mode'
-DATA_20240111.LL514.N = 'Laser 514.5 nm LD Mode'
-DATA_20240111.LL514HD.N = 'Laser 514.5 nm HD Mode'
+DATA_20240111.FLATHD.N='FlatField';
+DATA_20240111.LL514.N='LaserLine';
+DATA_20240111.LL514HD.N='LaserLine';
 
-DATA_20240111.REF.N = 'Salome References'
-DATA_20240111.REFG.N = 'Salome References'
-DATA_20240111.EMPTYG.N = 'Salome References'
-DATA_20240111.EMPTYR.N = 'Salome References'
 
-DATA_20240111.S240111A.N = 'SF D2O@SWCNT'
-DATA_20240111.S240111B.N = 'SF TCE@SWCNT'
-DATA_20240111.S240111BB.N = 'SF TCE@SWCNT'
-DATA_20240111.S240111C.N = 'SFF4'
-DATA_20240111.S240111D.N = 'SF TCE@SWCNT'
-DATA_20240111.S240111E.N = 'SF TTF@SWCNT'
-DATA_20240111.S240111F.N = 'SF PCE@SWCNT'
-DATA_20240111.S240111G.N = 'SF PCE@SWCNT'
-DATA_20240111.S240111H.N = 'SF PCE@SWCNT'
-DATA_20240111.S240111I.N = 'SF TEMED@SWCNT'
+DATA_20240111.S240111A.N='SF D2O@SWCNT';
+DATA_20240111.S240111C.N='SF Methanol@SWCNT';
+DATA_20240111.S240111F.N='SF PCE@SWCNT';
+DATA_20240111.S240111G.N='SF PCE@SWCNT';
+DATA_20240111.S240111H.N='SF PCE@SWCN';
+DATA_20240111.S240111B.N='SF TCE@SWCNT';
+DATA_20240111.S240111BB.N='SF TCE@SWCNT';
+DATA_20240111.S240111D.N='SF TCE@SWCNT';
+DATA_20240111.S240111E.N='SF TTF@SWCNT';
+DATA_20240111.S240111I.N='SF TEMED@SWCNT';
 
-DATA_20240111.S240111J.N = 'SF D2O@SWCNT'
-DATA_20240111.S240111K.N = 'SF TCE@SWCNT'
-DATA_20240111.S240111KK.N = 'SF TCE@SWCNT'
-DATA_20240111.S240111L.N = 'SFF4'
-DATA_20240111.S240111M.N = 'SF TCE@SWCNT'
-DATA_20240111.S240111N.N = 'SF TTF@SWCNT'
-DATA_20240111.S240111O.N = 'SF PCE@SWCNT'
-DATA_20240111.S240111P.N = 'SF PCE@SWCNT'
-DATA_20240111.S240111Q.N = 'SF PCE@SWCNT'
-DATA_20240111.S240111R.N = 'SF TEMED@SWCNT'
-DATA_20240111.S240111S.N = 'SC Empty@SWCNT'
-    
+DATA_20240111.S240111S.N='SC Empty@SWCNT';
+DATA_20240111.S240111J.N='SF D2O@SWCNT';
+DATA_20240111.S240111L.N='SF Methanol@SWCNT';
+DATA_20240111.S240111O.N='SF PCE@SWCNT';
+DATA_20240111.S240111P.N='SF PCE@SWCNT';
+DATA_20240111.S240111Q.N='SF PCE@SWCN';
+DATA_20240111.S240111K.N='SF TCE@SWCNT';
+DATA_20240111.S240111KK.N='SF TCE@SWCNT';
+DATA_20240111.S240111M.N='SF TCE@SWCNT';
+DATA_20240111.S240111N.N='SF TTF@SWCNT';
+DATA_20240111.S240111R.N='SF TEMED@SWCNT';
+
+DATA_20240320.FFH520R.N='FlatField';
+DATA_20240320.L520A.N='LaserLine';
+
+DATA_20240320.S2H520R.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240320.S3H520R.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240320.S4H520R.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240320.S5H520R.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240320.S6H520R.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240320.S7H520R.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+
+DATA_20240321.FFH520G.N='FlatField';
+DATA_20240321.FFL520G.N='FlatField';
+DATA_20240321.L520HG.N='LaserLine HD Before';
+DATA_20240321.L520L.N='LaserLine LD';
+DATA_20240321.LLH520GB.N='LaserLine HD After';
+
+DATA_20240321.S2H520G.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S2L520G.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S3H520G.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S3L520G.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S4H520G.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S4L520G.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S5H520G.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S5L520G.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S6H520G.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S6L520G.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S7H520G.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S7L520G.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+
+DATA_20240325.REH680R.N='SC Empty@SWCNT';
+DATA_20240325.RWH680R.N='SC Water@SWCNT';
+DATA_20240325.S2H680R.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240325.S3H680R.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240325.S4H680R.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240325.S5H680R.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240325.S6H680R.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240325.S7H680R.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+
+
+
+
 %%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%FlatFields Normalization
+DATA_20240111.FLATHD = NormFlatField(DATA_20240111.FLATHD);
+DATA_20240320.FFH520R = NormFlatField(DATA_20240320.FFH520R);
+DATA_20240321.FFH520G = NormFlatField(DATA_20240321.FFH520G);
+DATA_20240321.FFL520G = NormFlatField(DATA_20240321.FFL520G);
+DATA_20240325.FH680R = NormFlatField(DATA_20240325.FH680R);
+
+
+%FF Correction to RBMs region
+DATA_20240111.S240111J.Y = DATA_20240111.S240111J.Y ./ DATA_20240111.FLATHD.Y;
+DATA_20240111.S240111K.Y = DATA_20240111.S240111K.Y ./ DATA_20240111.FLATHD.Y;
+DATA_20240111.S240111KK.Y = DATA_20240111.S240111KK.Y ./ DATA_20240111.FLATHD.Y;
+DATA_20240111.S240111L.Y = DATA_20240111.S240111L.Y ./ DATA_20240111.FLATHD.Y;
+DATA_20240111.S240111M.Y =DATA_20240111.S240111M.Y ./ DATA_20240111.FLATHD.Y;
+DATA_20240111.S240111N.Y =DATA_20240111.S240111N.Y ./ DATA_20240111.FLATHD.Y; 
+DATA_20240111.S240111O.Y =DATA_20240111.S240111O.Y ./ DATA_20240111.FLATHD.Y;
+DATA_20240111.S240111P.Y =DATA_20240111.S240111P.Y ./ DATA_20240111.FLATHD.Y; 
+DATA_20240111.S240111Q.Y =DATA_20240111.S240111Q.Y ./ DATA_20240111.FLATHD.Y;
+DATA_20240111.S240111R.Y =DATA_20240111.S240111R.Y ./ DATA_20240111.FLATHD.Y;
+DATA_20240111.S240111S.Y =DATA_20240111.S240111S.Y ./ DATA_20240111.FLATHD.Y;
+
+%FF Correction to RBMs region
+DATA_20240320.S2H520R.Y = DATA_20240320.S2H520R.Y ./ DATA_20240320.FFH520R.Y;
+DATA_20240320.S3H520R.Y = DATA_20240320.S3H520R.Y ./ DATA_20240320.FFH520R.Y;
+DATA_20240320.S4H520R.Y = DATA_20240320.S4H520R.Y ./ DATA_20240320.FFH520R.Y;
+DATA_20240320.S5H520R.Y = DATA_20240320.S5H520R.Y ./ DATA_20240320.FFH520R.Y;
+DATA_20240320.S6H520R.Y = DATA_20240320.S6H520R.Y ./ DATA_20240320.FFH520R.Y;
+DATA_20240320.S7H520R.Y = DATA_20240320.S7H520R.Y ./ DATA_20240320.FFH520R.Y;
+
+%FF Correction to GBand region in LD Mode
+DATA_20240321.S2L520G.Y = DATA_20240321.S2L520G.Y ./ DATA_20240321.FFL520G.Y;
+DATA_20240321.S3L520G.Y = DATA_20240321.S3L520G.Y ./ DATA_20240321.FFL520G.Y;
+DATA_20240321.S4L520G.Y = DATA_20240321.S4L520G.Y ./ DATA_20240321.FFL520G.Y;
+DATA_20240321.S5L520G.Y = DATA_20240321.S5L520G.Y ./ DATA_20240321.FFL520G.Y;
+DATA_20240321.S6L520G.Y = DATA_20240321.S6L520G.Y ./ DATA_20240321.FFL520G.Y;
+DATA_20240321.S7L520G.Y = DATA_20240321.S7L520G.Y ./ DATA_20240321.FFL520G.Y;
+
+%FF Correction to GBand region in HD Mode
+DATA_20240321.S2H520G.Y = DATA_20240321.S2H520G.Y ./ DATA_20240321.FFH520G.Y;
+DATA_20240321.S3H520G.Y = DATA_20240321.S3H520G.Y ./ DATA_20240321.FFH520G.Y;
+DATA_20240321.S4H520G.Y = DATA_20240321.S4H520G.Y ./ DATA_20240321.FFH520G.Y;
+DATA_20240321.S5H520G.Y = DATA_20240321.S5H520G.Y ./ DATA_20240321.FFH520G.Y;
+DATA_20240321.S6H520G.Y = DATA_20240321.S6H520G.Y ./ DATA_20240321.FFH520G.Y;
+DATA_20240321.S7H520G.Y = DATA_20240321.S7H520G.Y ./ DATA_20240321.FFH520G.Y;
+
+%FF Correction to GBand region in HD Mode
+DATA_20240325.REH680R.Y = DATA_20240325.REH680R.Y ./ DATA_20240325.FH680R.Y;
+DATA_20240325.RWH680R.Y = DATA_20240325.RWH680R.Y ./ DATA_20240325.FH680R.Y;
+DATA_20240325.S2H680R.Y = DATA_20240325.S2H680R.Y ./ DATA_20240325.FH680R.Y;
+DATA_20240325.S3H680R.Y = DATA_20240325.S3H680R.Y ./ DATA_20240325.FH680R.Y;
+DATA_20240325.S4H680R.Y = DATA_20240325.S4H680R.Y ./ DATA_20240325.FH680R.Y;
+DATA_20240325.S5H680R.Y = DATA_20240325.S5H680R.Y ./ DATA_20240325.FH680R.Y;
+DATA_20240325.S6H680R.Y = DATA_20240325.S6H680R.Y ./ DATA_20240325.FH680R.Y;
+DATA_20240325.S7H680R.Y = DATA_20240325.S7H680R.Y ./ DATA_20240325.FH680R.Y;
+
 
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+RBMsSalome = {
+        %Empty SC
+        DATA_20240111.S240111S
+        %D2O Filled
+        DATA_20240111.S240111J,    
+        %MethanolFilled
+        DATA_20240111.S240111L,
+        
+        %TCE
+        %DATA_20240111.S240111K,
+        %DATA_20240111.S240111M,
 
-LDMode = {
-    DATA_20240111.EMPTYG,
-    DATA_20240111.REFG,
-    
-    DATA_20240111.S240111A,
-    DATA_20240111.S240111B,
-    DATA_20240111.S240111BB,
-    DATA_20240111.S240111C,
-    DATA_20240111.S240111D,
-    DATA_20240111.S240111E,
-    DATA_20240111.S240111F,
-    DATA_20240111.S240111G,
-    DATA_20240111.S240111H,
-    DATA_20240111.S240111I,
+        %TTF
+        %DATA_20240111.S240111N,       
+        
+        %PCE
+        DATA_20240111.S240111O,
+        DATA_20240111.S240111P,
+        DATA_20240111.S240111Q,
+        
+        %TEMED
+        %DATA_20240111.S240111R,
+        
+        };
+
+RBM = {         %Empty
+                %DATA_20240111.S240111S
+                %D2O Filled
+                %DATA_20240111.S240111J,
+                %MethanolFilled
+                %DATA_20240111.S240111L,
+        
+                DATA_20240320.S2H520R,
+                DATA_20240320.S3H520R,
+                DATA_20240320.S4H520R,
+                DATA_20240320.S5H520R,
+                DATA_20240320.S6H520R,
+                DATA_20240320.S7H520R,
+        };
+
+GBandSalome = {
+                DATA_20240111.S240111A,
+                DATA_20240111.S240111B,
+                DATA_20240111.S240111BB,
+                DATA_20240111.S240111C,
+                DATA_20240111.S240111D,
+                DATA_20240111.S240111E,
+                DATA_20240111.S240111F,
+                DATA_20240111.S240111G,
+                DATA_20240111.S240111H,
+                DATA_20240111.S240111I
     };
-
-HDMode = {
-    %DATA_20240111.FLATHD,
-    DATA_20240111.EMPTYR,
-    DATA_20240111.REF,
     
-    DATA_20240111.S240111J,
-    DATA_20240111.S240111K,
-    DATA_20240111.S240111KK,
-    DATA_20240111.S240111L,
-    DATA_20240111.S240111M,
-    DATA_20240111.S240111N,
-    DATA_20240111.S240111O,
-    DATA_20240111.S240111P,
-    DATA_20240111.S240111Q,
-    DATA_20240111.S240111R,
-    DATA_20240111.S240111S
-    };
+GBand = {
+                DATA_20240321.S2H520G,
+                DATA_20240321.S3H520G,
+                DATA_20240321.S4H520G,
+                DATA_20240321.S5H520G,
+                DATA_20240321.S6H520G,
+                DATA_20240321.S7H520G,
+        };
 
-Compare = LDMode;
-LG = 1400
-HG = 1500
-Compare = Normalize(Compare,LG, HG);
+GDBand = {
+                DATA_20240321.S2L520G,
+                DATA_20240321.S3L520G,
+                DATA_20240321.S4L520G,
+                DATA_20240321.S5L520G,
+                DATA_20240321.S6L520G,
+                DATA_20240321.S7L520G,
+                
+                
+        };
+    
+RBM680 = {
+                DATA_20240325.REH680R,
+                DATA_20240325.RWH680R,
+                DATA_20240325.S2H680R,
+                DATA_20240325.S3H680R,
+                DATA_20240325.S4H680R,
+                DATA_20240325.S5H680R,
+                DATA_20240325.S6H680R,
+                DATA_20240325.S7H680R
+        };
+    
+%For normalizing Gband
 
-plotSampleList(Compare, 10)
+LG = 1560;
+HG = 1570;
+
+
+GDBand = correctLDSpectra(GDBand, 1400, 1500)
+GDBand = Normalize(GDBand,LG, HG);
+
+GBand = correctLDSpectra(GBand, 1540, 1620)
+GBand = Normalize(GBand,LG, HG);
+
+RBMsSalome = correctLDSpectra(RBMsSalome, 130, 210)
+RBMsSalome = Normalize(RBMsSalome,150, 160);
+
+RBM = correctLDSpectra(RBM, 130, 210)
+RBM = Normalize(RBM,150, 160);
+
+GBandSalome = correctLDSpectra(GBandSalome,1400, 1500)
+GBandSalome = Normalize(GBandSalome,LG,HG)
+
+RBM680 = correctLDSpectra(RBM680,150, 198)
+RBM680 = Normalize(RBM680,150, 160)
+
+plotSampleList(RBM680,2)
+
+%plotSampleList(RBM, 0.0)
+%plotSampleList(RBMsSalome, 0.0)
+%plotSampleList(GBand, 0.0)
+%plotSampleList(GDBand, 0.0)
+%plotSampleList([RBMsSalome; RBM], 1.2)
+%plotSampleList(GBandSalome, 0.0)
+
+%plotSampleList([GBandSalome; GDBand], 0.0)
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,7 +291,7 @@ function dataStructures = ReadFromPaths(paths)
             dataset_name = strsplit(paths{p}, "\");
             fieldName = ['DATA_', strrep(dataset_name{7}, '.', '')];
            
-            dirInfo = dir(fullfile(paths{p}, '*.*'));
+            dirInfo = dir(fullfile(paths{p}, '*.m3d'));
             fileList = {dirInfo(~[dirInfo.isdir]).name};
                         
             structure = struct();
@@ -157,31 +337,6 @@ function integralValue = computeIntegral(sample, lowerLimit, upperLimit)
     integralValue = integral(f, lowerLimit, upperLimit);
 end
 
-function sampleList = PeakCalculation(sampleList, LS1, US1, LS2, US2, LPL, UPL, LPR, UPR)
-
-    % Iterate over each sample to be normalized
-    for sampleIdx = 1:length(sampleList)
-        currentSample = sampleList{sampleIdx};
-        [S11W, S11A] = computePeak(currentSample,LS1, US1);
-        currentSample.S11W = S11W;
-        currentSample.S11A = S11A;
-        
-        [S22W, S22A] = computePeak(currentSample,LS2, US2);
-        currentSample.S22W = S22W;
-        currentSample.S22A = S22A;
-        
-        [PlasWL, PlasAL] = computePeak(currentSample,LPL, UPL);
-        currentSample.PlasWL = PlasWL;
-        currentSample.PlasAL = PlasAL;
-        
-        [PlasWR, PlasAR] = computePeak(currentSample,LPR, UPR);
-        currentSample.PlasWR = PlasWR;
-        currentSample.PlasAR = PlasAR;
-        
-        sampleList{sampleIdx} = currentSample;
-    end
-end
-
 function maximumValue = computeMaximum(sample, lowerLimit, upperLimit)
     % Check if the sampleName is in DATA
     % Extract X and Y values for the specified sample
@@ -195,6 +350,11 @@ function maximumValue = computeMaximum(sample, lowerLimit, upperLimit)
     maximumValue = max(yInRange);
 end
 
+function Normed = NormFlatField(Flat)
+        Flat.Y = Flat.Y / computeIntegral(Flat,Flat.X(end), Flat.X(1));
+        Normed = Flat;
+end
+
 function NormedSamples = Normalize(samplesToNormalize, lowerLimit, upperLimit)
     NormedSamples = cell(size(samplesToNormalize));
     % Iterate over each sample to be normalized
@@ -206,36 +366,26 @@ function NormedSamples = Normalize(samplesToNormalize, lowerLimit, upperLimit)
     end
 end
 
-function CorrectedSpectra = correctSpectra(samplesToCorrect, LL1, UL1, LL2, UL2)
+function CorrectedSpectra = correctLDSpectra(samplesToCorrect, X1, X2)
     CorrectedSpectra = cell(size(samplesToCorrect));
     for i = 1:length(samplesToCorrect)
         currentSample = samplesToCorrect{i};
-        % Extract wavelength and absorption data
-        W = currentSample.W;
-        A = currentSample.A;
-        % Find the indices corresponding to the specified wavelength ranges
-        idx_range1 = find(W >= LL1 & W <= UL1);
-        idx_range2 = find(W >= LL2 & W <= UL2);
-        % Find the wavelength where the minimum absorption occurs in each range
-        [~, min_idx_range1] = min(A(idx_range1));
-        [~, min_idx_range2] = min(A(idx_range2));
-        % Get the corresponding wavelengths
-        lambda_min_range1 = W(idx_range1(min_idx_range1));
-        lambda_min_range2 = W(idx_range2(min_idx_range2));     
-        % Extract data around the two minima
-        W_range1 = W(idx_range1);
-        A_range1 = A(idx_range1);
-        W_range2 = W(idx_range2);
-        A_range2 = A(idx_range2);
+        X = currentSample.X;
+        Y = currentSample.Y;
+        % Find the indices of X1 and X2 in the X array
+        [~, idx_range1] = min(abs(X - X1));
+        [~, idx_range2] = min(abs(X - X2));
+        
+        % Calculate the slope m
+        m = (Y(idx_range2) - Y(idx_range1)) / (X2 - X1);
+        % Calculate the y-intercept b
+        b = Y(idx_range1) - m*X1;
 
-        % Fit a straight line through the two minima
-        fitfunc = @(p, x) p(1) ./ x;
-        initialGuess = [100]; % Initial guess for the fitting parameter A
-        [fitparams, ~] = lsqcurvefit(fitfunc, initialGuess, [W_range1; W_range2], [A_range1; A_range2]);
-        background = fitfunc(fitparams, W);
-
+        % Calculate the linear background using the equation of the line
+        background = m*X + b;
+       
         % Subtract the background
-        currentSample.A = currentSample.A - background;
+        currentSample.Y = currentSample.Y - background';
         CorrectedSpectra{i} = currentSample;
     end
 end
@@ -298,47 +448,7 @@ function plotSampleList(SamplesToPlot, offset)
     
 end
 
-function [peakPosition, peakValue] = computePeak(sample, lowerLimit, upperLimit)
-    % Check if the sampleName is in DATA
-    % Extract X and Y values for the specified sample
-    x = sample.W;
-    y = sample.A;
-    % Define the function to integrate
-    indicesInRange = find(x >= lowerLimit & x <= upperLimit);
-    yInRange = y(indicesInRange);
-    % Find the maximum value and its index within the range
-    [peakValue, maxIndex] = max(yInRange);
-    % Convert the index to the corresponding X value
-    peakPosition = x(indicesInRange(maxIndex));
-end
 
-function exportPeaksToCSV(sampleList, fileName)
-    % Define the peak fields to include in the CSV file
-    peakFields = {'N', 'S11W', 'S11A', 'S22W', 'S22A', 'PlasWL', 'PlasAL', 'PlasWR', 'PlasAR'};
-
-    % Create a cell array to store the data
-    data = cell(length(sampleList), length(peakFields));
-
-    % Fill in the data for each sample
-    for sampleIdx = 1:length(sampleList)
-        currentSample = sampleList{sampleIdx};
-        
-        % Fill in the peak information for the current sample
-        for peakIdx = 1:length(peakFields)
-            peakValue = currentSample.(peakFields{peakIdx});
-            data{sampleIdx, peakIdx} = peakValue;
-        end
-    end
-
-    % Create column names
-    columnNames = peakFields;
-
-    % Create a table from the data
-    dataTable = cell2table(data, 'VariableNames', columnNames);
-
-    % Write the table to a CSV file
-    writetable(dataTable, fileName);
-end
 
 
 

@@ -1,24 +1,20 @@
 clc;
 clear;
 
+%rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\';
+rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\';
+
 %All paths as default
-path_baselines = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\References.csv';
-path_20231206 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20231206\alldata20231206.csv';
-path_20240117a = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240117\S1Data20240117.csv';
-path_20240117b = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240117\S2Data20240117.csv';
-path_20240124 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240124\AllDataS3S4.csv';
-path_20240129 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240129\AllData.csv';
-path_20240202 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240202\AllData.csv';
-path_20240212a = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240212\AllDataCentrifuge.csv';
-path_20240212b = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240212\AllDataS5.csv';
-path_20240214 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240214\DGU.csv';
-path_20240215 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240215\Dialysis.csv';
-path_20240216 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240216\DGUC.csv';
-path_20240220 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240220\RinsingS6S7.csv';
-path_20240304 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240304\S6S7.csv';
-path_20240305 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240305\S5.csv';
-path_20240307 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240307\DGUS5S6S7.csv';
-path_20240308 = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\20240308\DialS5S6S7.csv';
+path_baselines = [rootpath,'References.csv'];
+path_20231206 = [rootpath,'20231206\alldata20231206.csv'];
+path_20240202 = [rootpath,'20240202\AllData.csv'];
+path_20240212a = [rootpath,'20240212\AllDataCentrifuge.csv'];
+path_20240214 = [rootpath,'20240214\DGU.csv'];
+path_20240216 = [rootpath,'20240216\DGUC.csv'];
+path_20240304 = [rootpath,'20240304\S6S7.csv'];
+path_20240305 = [rootpath,'20240305\S5.csv'];
+path_20240307 = [rootpath,'20240307\DGUS5S6S7.csv'];
+path_20240308 = [rootpath,'20240308\DialS5S6S7.csv'];
 
 %Select the paths of interest
 paths = {
@@ -40,16 +36,6 @@ ReadFromPaths(paths);
 
 %%%--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Data Reference
-DATA_20231206.SFF4dil.N = 'SF Methanol@SWCNT A';
-DATA_20231206.SFF4dil2.N = 'SF Methanol@SWCNT B';
-DATA_20231206.SFF5dil.N = 'SF SFF5 Water@SWCNT';
-DATA_20240214.S2DB.N = 'CB Empty@SWCNT DGU B S2';
-DATA_20240214.S3DB.N = 'CB Empty@SWCNT DGU B S3';
-DATA_20240214.S4DB.N = 'CB Empty@SWCNT DGU B S4D';
-DATA_20240214.S4LB.N = 'CB Empty@SWCNT DGU B S4L';
-DATA_20240307.S5DGUB.N = 'CB Empty@SWCNT DGU B S5';
-DATA_20240307.S6DGUB.N = 'CB Empty@SWCNT DGU B S6';
-DATA_20240307.S7DGUB.N = 'CB Empty@SWCNT DGU B S7';
 DATA_References.empty_new_P2_0601.N = 'SC Empty@SWCNT A';
 DATA_References.empty_P2_0329.N = 'SC Empty@SWCNT B';
 DATA_References.empty_P2_0601.N = 'SC Empty@SWCNT C';
@@ -63,59 +49,79 @@ DATA_References.Octadecene1P2.N = 'SC Octadecne1P2@SWCNTP2';
 DATA_References.TriacontaneP2.N = 'SC Triacontane@SWCNTP2';
 DATA_References.WaterFilled.N = 'SC Water@SWCNT';
 
-%Data for PCE Sample 2
-DATA_20231206.SFF2Bdil.N = 'SF PCE@SWCNT dil1';
-DATA_20231206.SFF2dil.N = 'SF PCE@SWCNT';
-DATA_20240202.S2_1060.N= 'CB PCE@SWCNT 2hCF';
-DATA_20240212.S2.N= 'CB PCE@SWCNT 4hCF';
-DATA_20240214.S2DC.N= 'CB PCE@SWCNT DGU C (Filled)';
-DATA_20240214.S2DD.N = 'CB PCE@SWCNT DGU D (Defective)';
-DATA_20240214.S2DE.N = 'CB PCE@SWCNT DGU E (Bundles)';
-DATA_20240216.S2DGUC.N = 'CB PCE@SWCNT Dial. DGU C (Filled)';
-    
-%Data for TCE Sample 3
-DATA_20231206.SFF3_3dil.N = 'SF TCE@SWCNT RF';
-DATA_20231206.SFF3dil.N = 'SF TCE@SWCNT LP Long Rinsing';
-DATA_20231206.SFF3Bdil.N = 'SF TCE@SWCNT LP Short Rinsing';
-DATA_20240202.S3_1060.N= 'CB TCE@SWCNT 2hCF';
-DATA_20240212.S3.N= 'CB TCE@SWCNT 4hCF';
-DATA_20240214.S3DC.N= 'CB TCE@SWCNT DGU C (Filled)';
-DATA_20240214.S3DD.N = 'CB TCE@SWCNT DGU D (Defective)';
-DATA_20240214.S3DE.N = 'CB TCE@SWCNT DGU E (Bundles)';
-DATA_20240216.S3DGUC.N = 'CB TCE@SWCNT Dial. DGU C (Filled)';
-    
-%Data for TEMED Sample 4
-DATA_20231206.SFF1Bdil.N = 'SF TEMED@SWCNT';
-DATA_20240202.S4_1060.N = 'CB TEMED@SWCNT 2hCF';
-DATA_20240212.S4.N = 'CB TEMED@SWCNT 4hCF';
-DATA_20240214.S4DC.N = 'CB TEMED@SWCNT DGU C (Filled) D';
-DATA_20240214.S4LC.N = 'CB TEMED@SWCNT DGU C (Filled) L';
-DATA_20240214.S4DD.N = 'CB TEMED@SWCNT DGU D (Defective)';
-DATA_20240214.S4DE.N = 'CB TEMED@SWCNT DGU E (Bundles)';
-DATA_20240216.S4DDGUC.N = 'CB TEMED@SWCNT Dial. DGU C (Filled)';
-DATA_20240216.S4DDGUC2.N = 'CB TEMED@SWCNT Dial. DGU C (Filled)';
-DATA_20240216.S4LDGUC.N = 'CB TEMED@SWCNT Dial. DGU C (Filled)';
-
-%Data for TDAE Sample 5
-DATA_20240305.S5.N = 'CB TDAE@SWCNT';
-DATA_20240305.S5_dil.N = 'CB TDAE@SWCNT';
-DATA_20240305.S5_dil2.N = 'CB TDAE@SWCNT';
-DATA_20240305.S5_dil4.N = 'CB TDAE@SWCNT';
-DATA_20240307.S5CF.N = 'CB TDAE@SWCNT 4hCF';
-DATA_20240307.S5DGUC.N = 'CB TDAE@SWCNT DGU C (Filled)';
-DATA_20240308.S5DGUCDial.N = 'CB TDAE@SWCNT Dial. DGU C (Filled)';
-
-%Data for Hexadecane Sample 6
-DATA_20240304.S6.N = 'CB Hexadecane@SWCNT';
-DATA_20240307.S6CF.N = 'CB Hexadecane@SWCNT 4hCF';
-DATA_20240307.S6DGUC.N = 'CB Hexadecane@SWCNT DGU C (Filled)';
-DATA_20240308.S6DGUCDial.N = 'CB Hexadecane@SWCNT Dial. DGU C (Filled)';
-
-%Data for Dodecane Sample 7
-DATA_20240304.S7.N = 'CB Dodecane@SWCNT';
-DATA_20240307.S7CF.N = 'CB Dodecane@SWCNT 4hCF';
-DATA_20240307.S7DGUC.N = 'CB Dodecane@SWCNT DGU C (Filled)';
-DATA_20240308.S7DGUCDial.N = 'CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240202.BASELINE.N='Baseline (DOC/D2O)';
+DATA_20240214.BASELINE.N='Baseline 1%DOCD2O';
+DATA_20240304.S7.N='CB Dodecane@SWCNT';
+DATA_20240307.S7CF.N='CB Dodecane@SWCNT 4hCF';
+DATA_20240307.S7DGUC.N='CB Dodecane@SWCNT DGU C (Filled)';
+DATA_20240308.S7DGUCDial.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240307.S5DGUB.N='CB Empty@SWCNT DGU B S5';
+DATA_20240307.S6DGUB.N='CB Empty@SWCNT DGU B S6';
+DATA_20240307.S7DGUB.N='CB Empty@SWCNT DGU B S7';
+DATA_20240304.S6.N='CB Hexadecane@SWCNT';
+DATA_20240307.S6CF.N='CB Hexadecane@SWCNT 4hCF';
+DATA_20240307.S6DGUC.N='CB Hexadecane@SWCNT DGU C (Filled)';
+DATA_20240308.S6DGUCDial.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240124.BASELINE.N='CB Methanol Baseline 240115';
+DATA_20240129.BASELINE.N='CB Methanol Baseline 240115';
+DATA_20240202.S2_1060.N='CB PCE@SWCNT 2hCF';
+DATA_20240212.S2.N='CB PCE@SWCNT 4hCF';
+DATA_20240214.S2DB.N='CB PCE@SWCNT DGU C (Empty)';
+DATA_20240214.S2DC.N='CB PCE@SWCNT DGU C (Filled)';
+DATA_20240214.S2DA.N='CB PCE@SWCNT DGU C (Nicondenz)';
+DATA_20240214.S2DD.N='CB PCE@SWCNT DGU D (Defective)';
+DATA_20240214.S2DE.N='CB PCE@SWCNT DGU E (Bundles)';
+DATA_20240216.S2DGUC.N='CB PCE@SWCNT Dial. DGU C (Filled';
+DATA_20240202.S3_1060.N='CB TCE@SWCNT 2hCF';
+DATA_20240212.S3.N='CB TCE@SWCNT 4hCF';
+DATA_20240214.S3DB.N='CB TCE@SWCNT DGU C (Empty)';
+DATA_20240214.S3DC.N='CB TCE@SWCNT DGU C (Filled)';
+DATA_20240214.S3DA.N='CB TCE@SWCNT DGU C (Nicondenz)';
+DATA_20240214.S3DD.N='CB TCE@SWCNT DGU D (Defective)';
+DATA_20240214.S3DE.N='CB TCE@SWCNT DGU E (Bundles)';
+DATA_20240216.S3DGUC.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240305.S5.N='CB TDAE@SWCNT';
+DATA_20240305.S5_DIL.N='CB TDAE@SWCNT';
+DATA_20240305.S5_DIL2.N='CB TDAE@SWCNT';
+DATA_20240305.S5_DIL4.N='CB TDAE@SWCNT';
+DATA_20240307.S5CF.N='CB TDAE@SWCNT 4hCF';
+DATA_20240307.S5DGUC.N='CB TDAE@SWCNT DGU C (Filled)';
+DATA_20240308.S5DGUCDial.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240202.S4_1060.N='CB TEMED@SWCNT 2hCF';
+DATA_20240212.S4.N='CB TEMED@SWCNT 4hCF';
+DATA_20240214.S4DB.N='CB TEMED@SWCNT DGU C (Empty)';
+DATA_20240214.S4LB.N='CB TEMED@SWCNT DGU C (Empty)';
+DATA_20240214.S4DC.N='CB TEMED@SWCNT DGU C (Filled)';
+DATA_20240214.S4LC.N='CB TEMED@SWCNT DGU C (Filled)';
+DATA_20240214.S4DA.N='CB TEMED@SWCNT DGU C (Nicondenz)';
+DATA_20240214.S4LA.N='CB TEMED@SWCNT DGU C (Nicondenz)';
+DATA_20240214.S4DD.N='CB TEMED@SWCNT DGU D (Defective)';
+DATA_20240214.S4LD.N='CB TEMED@SWCNT DGU D (Defective)';
+DATA_20240214.S4DE.N='CB TEMED@SWCNT DGU E (Bundles)';
+DATA_20240214.S4LE.N='CB TEMED@SWCNT DGU E (Bundles)';
+DATA_20240216.S4DDGUC.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240216.S4DDGUC2.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240216.S4LDGUC.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240216.BASELINE.N='DOCD2O Baseline';
+DATA_20240304.BASELINE.N='DOCD2O Baseline';
+DATA_20240305.BASELINE.N='DOCD2O Baseline';
+DATA_20240307.BASELINE.N='DOCD2O Baseline';
+DATA_20240308.BASELINE.N='DOCD2O Baseline';
+DATA_20240220.BASELINE.N='EthylAcetate Baseline';
+DATA_20240308.S5D1.N='Nicodenz after D(1)';
+DATA_20240308.S5D4.N='Nicodenz after D(4)';
+DATA_20240308.S5D7.N='Nicodenz after D(7)';
+DATA_20240308.S5D9.N='Nicodenz after D(9)';
+DATA_20231206.SFF4DIL.N='SF Methanol@SWCNT A';
+DATA_20231206.SFF4DIL2.N='SF Methanol@SWCNT B';
+DATA_20231206.SFF2DIL.N='SF PCE@SWCNT';
+DATA_20231206.SFF2BDIL.N='SF PCE@SWCNT dil1';
+DATA_20231206.SFF5DIL.N='SF SFF5 Water@SWCNT';
+DATA_20231206.SFF3DIL.N='SF TCE@SWCNT LP Long Rinsing';
+DATA_20231206.SFF3BDIL.N='SF TCE@SWCNT LP Short Rinsing';
+DATA_20231206.SFF3_3DIL.N='SF TCE@SWCNT RF';
+DATA_20231206.SFF1BDIL.N='SF TEMED@SWCNT';
+DATA_20231206.SFF6DIL.N='SF TTF@SWCNT';
 
 %%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -130,6 +136,7 @@ DATA_20240308.S7DGUCDial.N = 'CB Dodecane@SWCNT Dial. DGU C (Filled)';
 %plotSampleList({Corrected, SampleToCorrect},0.0)
 %plotSampleList({DATA_References.H2OinD2O, DATA_References.Nicodenz},0.0)
 
+%-----------------------------------------------
 
 %H2O in D2O Correction fixed corrections.
 %SAMPLE 2
@@ -184,28 +191,21 @@ Compare = {
     };
 
 
-Compare = {
-    %DATA_References.empty_P2_dial_0930,
-    
-    %DATA_20240304.S7,
-    %DATA_20240307.S7CF,
-    DATA_20240307.S7DGUC,
-    DATA_20240308.S7DGUCDial,
-    
-    %DATA_References.WaterFilled
-    };
+
 
 Compare = {
-    %DATA_References.empty_P2_dial_0930,
-    
-    %DATA_20240304.S7,
-    %DATA_20240307.S7CF,
-    DATA_20240307.S7DGUC,
-    DATA_20240308.S7DGUCDial,
-    
-    %DATA_References.WaterFilled
-    };
+            DATA_References.empty_P2_dial_0930,
 
+            DATA_20240308.S6DGUCDial
+            DATA_20240308.S7DGUCDial
+            DATA_20240216.S2DGUC
+            DATA_20240216.S3DGUC
+            DATA_20240216.S4DDGUC
+            DATA_20240308.S5DGUCDial
+            
+            DATA_References.WaterFilled
+
+            };
 
 %Find peaks in these ranges
 %S11
@@ -221,16 +221,16 @@ UPR= 285;
 LPL= 220;
 UPL= 250;
 
-%plotSampleList(Compare,0.0)
-
 
 %%%--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Correction is made based on local minima (750, 860) and (1100, 1400)
-%Compare = correctSpectra(Compare,800, 850, 1200, 1250);
+Compare = correctSpectra(Compare,750, 850, 1150, 1250);
+
 
 %%%--------NORMALIZATION TO S22 PEAK--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Normalization using maximum value of S22 transition, can also use Integral
 Compare = Normalize(Compare,LS2, US2);
+
 
 %%%--------PEAK CALCULATION AND EXPORT--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Normed = PeakCalculation(Normed, LS1, US1, LS2, US2, LPL, UPL, LPR, UPR);
