@@ -1,8 +1,8 @@
 clc;
 clear;
 
-%rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\';
-rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\';
+rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\';
+%rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\';
 
 %All paths as default
 path_baselines = [rootpath,'References.csv'];
@@ -112,16 +112,17 @@ DATA_20240308.S5D1.N='Nicodenz after D(1)';
 DATA_20240308.S5D4.N='Nicodenz after D(4)';
 DATA_20240308.S5D7.N='Nicodenz after D(7)';
 DATA_20240308.S5D9.N='Nicodenz after D(9)';
-DATA_20231206.SFF4DIL.N='SF Methanol@SWCNT A';
-DATA_20231206.SFF4DIL2.N='SF Methanol@SWCNT B';
-DATA_20231206.SFF2DIL.N='SF PCE@SWCNT';
-DATA_20231206.SFF2BDIL.N='SF PCE@SWCNT dil1';
-DATA_20231206.SFF5DIL.N='SF SFF5 Water@SWCNT';
-DATA_20231206.SFF3DIL.N='SF TCE@SWCNT LP Long Rinsing';
-DATA_20231206.SFF3BDIL.N='SF TCE@SWCNT LP Short Rinsing';
-DATA_20231206.SFF3_3DIL.N='SF TCE@SWCNT RF';
-DATA_20231206.SFF1BDIL.N='SF TEMED@SWCNT';
-DATA_20231206.SFF6DIL.N='SF TTF@SWCNT';
+
+DATA_20231206.SFF4dil.N='SF Methanol@SWCNT A';
+DATA_20231206.SFF4dil2.N='SF Methanol@SWCNT B';
+DATA_20231206.SFF2dil.N='SF PCE@SWCNT';
+DATA_20231206.SFF2Bdil.N='SF PCE@SWCNT dil1';
+DATA_20231206.SFF5dil.N='SF SFF5 Water@SWCNT';
+DATA_20231206.SFF3dil.N='SF TCE@SWCNT LP Long Rinsing';
+DATA_20231206.SFF3Bdil.N='SF TCE@SWCNT LP Short Rinsing';
+DATA_20231206.SFF3_3dil.N='SF TCE@SWCNT RF';
+DATA_20231206.SFF1Bdil.N='SF TEMED@SWCNT';
+DATA_20231206.SFF6dil.N='SF TTF@SWCNT';
 
 %%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -151,13 +152,13 @@ DATA_20240216.S4DDGUC.A = DATA_20240216.S4DDGUC.A - DATA_References.H2OinD2O.A*0
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Compare = {
+AllData = {
     %DATA_References.empty_new_P2_0601,
     %DATA_References.empty_P2_0329,
     %DATA_References.empty_P2_0601,
     %DATA_References.empty_P2_0706,
     %DATA_References.empty_P2_APA218,
-    DATA_References.empty_P2_dial_0930,
+    %DATA_References.empty_P2_dial_0930,
     
     %Alkanes
     %DATA_References.TriacontaneP2,
@@ -191,9 +192,150 @@ Compare = {
     };
 
 
+Alkanes = {
+    %Empty
+    DATA_References.empty_P2_dial_0930,
+    
+    %Alkanes
+    DATA_References.TriacontaneP2,
+    DATA_References.AnnoctadecaneP2,
+    DATA_References.AnnoctadecaneP2650,  
+    DATA_20240308.S7DGUCDial,
+    DATA_20240308.S6DGUCDial,
+    
+    %Water
+    DATA_References.WaterFilled
+    };
 
+PCE = {
+    
+    %Empty
+    DATA_References.empty_P2_dial_0930,
+    
+    DATA_20231206.SFF2dil,
+    DATA_20231206.SFF2Bdil,
+    DATA_20240212.S2,
+    DATA_20240216.S2DGUC,
+    
+    %Water
+    DATA_References.WaterFilled
+}
 
-Compare = {
+TCE = {
+    
+    %Empty
+    DATA_References.empty_P2_dial_0930,
+    DATA_20231206.SFF3dil,
+    DATA_20231206.SFF3Bdil,
+    DATA_20231206.SFF3_3dil,
+    DATA_20240202.S3_1060,
+    DATA_20240212.S3,
+    DATA_20240216.S3DGUC,    
+    %Water
+    DATA_References.WaterFilled
+}
+
+TEMED = {
+    
+    %Empty
+    DATA_References.empty_P2_dial_0930,
+    DATA_20231206.SFF1Bdil,
+    DATA_20240202.S4_1060,
+    DATA_20240212.S4,
+    DATA_20240216.S4DDGUC,
+    DATA_20240216.S4LDGUC,
+    %Water
+    DATA_References.WaterFilled
+}
+
+TDAE = {
+    
+    %Empty
+    DATA_References.empty_P2_dial_0930,
+
+    DATA_20240305.S5,
+    DATA_20240305.S5_dil4,
+    DATA_20240307.S5CF,
+    DATA_20240308.S5DGUCDial,
+    
+    %Water
+    DATA_References.WaterFilled
+}
+
+Hexadecane = {
+    
+    %Empty
+    DATA_References.empty_P2_dial_0930,
+
+    DATA_20240304.S6,
+    DATA_20240307.S6CF,
+    DATA_20240308.S6DGUCDial,
+    
+    %Water
+    DATA_References.WaterFilled
+}
+
+Dodecane = {
+    
+    %Empty
+    DATA_References.empty_P2_dial_0930,
+
+    DATA_20240304.S7,
+    DATA_20240307.S7CF,
+    DATA_20240308.S7DGUCDial,
+
+    %Water
+    DATA_References.WaterFilled
+}
+
+Dopants = {
+    %Empty
+    DATA_References.empty_P2_dial_0930,
+    
+    %PDopants
+    %PCE
+    DATA_20231206.SFF2Bdil,
+    DATA_20231206.SFF2dil,
+    DATA_20240216.S2DGUC,
+    %TCE
+    DATA_20231206.SFF3_3dil,
+    DATA_20231206.SFF3dil,
+    DATA_20231206.SFF3Bdil,
+    DATA_20240216.S3DGUC,
+    
+    %NDopants
+    %TEMED
+    DATA_20240216.S4DDGUC,
+    DATA_20231206.SFF1Bdil,
+    
+    %TDAE
+    DATA_20240308.S5DGUCDial,
+    
+    %Water
+    DATA_References.WaterFilled
+    };
+
+CFSamples = {
+            DATA_References.empty_P2_dial_0930,
+
+            DATA_20240212.S2,
+            DATA_20231206.SFF2Bdil,
+            DATA_20231206.SFF2dil,
+            
+            DATA_20240212.S3,
+            DATA_20231206.SFF3_3dil,
+            DATA_20231206.SFF3dil,
+            DATA_20231206.SFF3Bdil,
+    
+            DATA_20240212.S4,
+            DATA_20231206.SFF1Bdil,
+
+            DATA_References.WaterFilled
+
+            };
+
+        
+DialSamples = {
             DATA_References.empty_P2_dial_0930,
 
             DATA_20240308.S6DGUCDial
@@ -207,13 +349,43 @@ Compare = {
 
             };
 
+
+
+%%%--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Correction is made based on local minima (750, 860) and (1100, 1400)
+DialSamples = correctSpectra(DialSamples,750, 850, 1150, 1250);
+Alkanes = correctSpectra(Alkanes,750, 850, 1150, 1250);
+CFSamples = correctSpectra(CFSamples,750, 850, 1150, 1250);
+PCE = correctSpectra(PCE,750, 850, 1150, 1250);
+TCE = correctSpectra(TCE,750, 850, 1150, 1250);
+TEMED = correctSpectra(TEMED,750, 850, 1150, 1250);
+TDAE = correctSpectra(TDAE,750, 850, 1150, 1250);
+Hexadecane = correctSpectra(Hexadecane,750, 850, 1150, 1250);
+Dodecane = correctSpectra(Dodecane,750, 850, 1150, 1250);
+
+
+
+%%%--------NORMALIZATION TO S22 PEAK--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Normalization using maximum value of S22 transition, can also use Integral
+LS2= 900;  
+US2= 1100;
+
+DialSamples = Normalize(DialSamples,LS2, US2);
+Alkanes = Normalize(Alkanes,LS2, US2);
+CFSamples= Normalize(CFSamples,LS2, US2);
+PCE = Normalize(PCE,LS2, US2);
+TCE = Normalize(TCE,LS2, US2);
+TEMED = Normalize(TEMED,LS2, US2);
+TDAE = Normalize(TDAE,LS2, US2);
+Hexadecane = Normalize(Hexadecane,LS2, US2);
+Dodecane = Normalize(Dodecane,LS2, US2);
+
+%%%--------PEAK CALCULATION AND EXPORT--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Find peaks in these ranges
 %S11
 LS1= 1600;
 US1= 1850;
-%S22
-LS2= 900;  
-US2= 1100;
+
 %Plasmon Right
 LPR= 260;
 UPR= 285;
@@ -221,23 +393,24 @@ UPR= 285;
 LPL= 220;
 UPL= 250;
 
-
-%%%--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Correction is made based on local minima (750, 860) and (1100, 1400)
-Compare = correctSpectra(Compare,750, 850, 1150, 1250);
-
-
-%%%--------NORMALIZATION TO S22 PEAK--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Normalization using maximum value of S22 transition, can also use Integral
-Compare = Normalize(Compare,LS2, US2);
-
-
-%%%--------PEAK CALCULATION AND EXPORT--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Normed = PeakCalculation(Normed, LS1, US1, LS2, US2, LPL, UPL, LPR, UPR);
 %exportPeaksToCSV(Normed, 'PP.csv')
 
-plotSampleList(Compare,0.0)
 
+%%%%PLOTING
+
+%plotSampleList(Alkanes,0.0)
+%plotSampleList(Dopants, 0.0)
+
+%plotSampleList(PCE, 2.0)
+%plotSampleList(TCE, 2.0)
+%plotSampleList(TDAE, 0.0)
+%plotSampleList(TEMED, 0.0)
+%plotSampleList(Hexadecane, 0.0)
+%plotSampleList(Dodecane, 0.0)
+
+plotSampleList(DialSamples,2.0)
+plotSampleList(CFSamples, 2.0)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function dataStructures = ReadFromPaths(paths)

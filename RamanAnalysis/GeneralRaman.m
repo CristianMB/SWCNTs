@@ -1,8 +1,8 @@
 clc;
 clear;
 
-%rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Raman\';
-rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Raman\';
+rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Raman\';
+%rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Raman\';
 
 %All paths as default
 path_20240111 = [rootpath,'20240111\'];
@@ -21,79 +21,74 @@ paths = {
 %Read and structure data from the paths
 ReadFromPaths(paths);
 
-%F = fieldnames(DATA_20240111);
-%All = {};
-%for i=1:length(F)
-%    All{end+1} = ['DATA_20240111.',F{i}];
-%end
 
 %%%--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-DATA_20240111.FLATHD.N='FlatField';
-DATA_20240111.LL514.N='LaserLine';
-DATA_20240111.LL514HD.N='LaserLine';
+DATA_20240111.FLATHD.N='FlatField 514.5nm';
+DATA_20240111.LL514.N='LaserLine 514.5nm';
+DATA_20240111.LL514HD.N='LaserLine 514.5nm';
 
 
-DATA_20240111.S240111A.N='SF D2O@SWCNT';
-DATA_20240111.S240111C.N='SF Methanol@SWCNT';
-DATA_20240111.S240111F.N='SF PCE@SWCNT';
-DATA_20240111.S240111G.N='SF PCE@SWCNT';
-DATA_20240111.S240111H.N='SF PCE@SWCN';
-DATA_20240111.S240111B.N='SF TCE@SWCNT';
-DATA_20240111.S240111BB.N='SF TCE@SWCNT';
-DATA_20240111.S240111D.N='SF TCE@SWCNT';
-DATA_20240111.S240111E.N='SF TTF@SWCNT';
-DATA_20240111.S240111I.N='SF TEMED@SWCNT';
+DATA_20240111.S240111A.N='SF D2O@SWCNT (514.5 nm)';
+DATA_20240111.S240111C.N='SF Methanol@SWCNT (514.5 nm)';
+DATA_20240111.S240111F.N='SF PCE@SWCNT (514.5 nm)';
+DATA_20240111.S240111G.N='SF PCE@SWCNT (514.5 nm)';
+DATA_20240111.S240111H.N='SF PCE@SWCN (514.5 nm)';
+DATA_20240111.S240111B.N='SF TCE@SWCNT (514.5 nm)';
+DATA_20240111.S240111BB.N='SF TCE@SWCNT (514.5 nm)';
+DATA_20240111.S240111D.N='SF TCE@SWCNT (514.5 nm)';
+DATA_20240111.S240111E.N='SF TTF@SWCNT (514.5 nm)';
+DATA_20240111.S240111I.N='SF TEMED@SWCNT (514.5 nm)';
 
-DATA_20240111.S240111S.N='SC Empty@SWCNT';
-DATA_20240111.S240111J.N='SF D2O@SWCNT';
-DATA_20240111.S240111L.N='SF Methanol@SWCNT';
-DATA_20240111.S240111O.N='SF PCE@SWCNT';
-DATA_20240111.S240111P.N='SF PCE@SWCNT';
-DATA_20240111.S240111Q.N='SF PCE@SWCN';
-DATA_20240111.S240111K.N='SF TCE@SWCNT';
-DATA_20240111.S240111KK.N='SF TCE@SWCNT';
-DATA_20240111.S240111M.N='SF TCE@SWCNT';
-DATA_20240111.S240111N.N='SF TTF@SWCNT';
-DATA_20240111.S240111R.N='SF TEMED@SWCNT';
+DATA_20240111.S240111S.N='SC Empty@SWCNT (514.5 nm)';
+DATA_20240111.S240111J.N='SF D2O@SWCNT (514.5 nm)';
+DATA_20240111.S240111L.N='SF Methanol@SWCNT (514.5 nm)';
+DATA_20240111.S240111O.N='SF PCE@SWCNT (514.5 nm)';
+DATA_20240111.S240111P.N='SF PCE@SWCNT (514.5 nm)';
+DATA_20240111.S240111Q.N='SF PCE@SWCN (514.5 nm)';
+DATA_20240111.S240111K.N='SF TCE@SWCNT (514.5 nm)';
+DATA_20240111.S240111KK.N='SF TCE@SWCNT (514.5 nm)';
+DATA_20240111.S240111M.N='SF TCE@SWCNT (514.5 nm)';
+DATA_20240111.S240111N.N='SF TTF@SWCNT (514.5 nm)';
+DATA_20240111.S240111R.N='SF TEMED@SWCNT (514.5 nm)';
 
-DATA_20240320.FFH520R.N='FlatField';
-DATA_20240320.L520A.N='LaserLine';
+DATA_20240320.FFH520R.N='FlatField (520.25 nm)';
+DATA_20240320.L520A.N='LaserLine (520.25 nm)';
 
-DATA_20240320.S2H520R.N='CB PCE@SWCNT Dial. DGU C (Filled)';
-DATA_20240320.S3H520R.N='CB TCE@SWCNT Dial. DGU C (Filled)';
-DATA_20240320.S4H520R.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
-DATA_20240320.S5H520R.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
-DATA_20240320.S6H520R.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
-DATA_20240320.S7H520R.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240320.S2H520R.N='CB PCE@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240320.S3H520R.N='CB TCE@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240320.S4H520R.N='CB TEMED@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240320.S5H520R.N='CB TDAE@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240320.S6H520R.N='CB Hexadecane@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240320.S7H520R.N='CB Dodecane@SWCNT Dial. DGU C (Filled) (520.25 nm)';
 
-DATA_20240321.FFH520G.N='FlatField';
-DATA_20240321.FFL520G.N='FlatField';
-DATA_20240321.L520HG.N='LaserLine HD Before';
-DATA_20240321.L520L.N='LaserLine LD';
-DATA_20240321.LLH520GB.N='LaserLine HD After';
+DATA_20240321.FFH520G.N='FlatField (520.25 nm)';
+DATA_20240321.FFL520G.N='FlatField (520.25 nm)';
+DATA_20240321.L520HG.N='LaserLine HD Before (520.25 nm)';
+DATA_20240321.L520L.N='LaserLine LD (520.25 nm)';
+DATA_20240321.LLH520GB.N='LaserLine HD After (520.25 nm)';
 
-DATA_20240321.S2H520G.N='CB PCE@SWCNT Dial. DGU C (Filled)';
-DATA_20240321.S2L520G.N='CB PCE@SWCNT Dial. DGU C (Filled)';
-DATA_20240321.S3H520G.N='CB TCE@SWCNT Dial. DGU C (Filled)';
-DATA_20240321.S3L520G.N='CB TCE@SWCNT Dial. DGU C (Filled)';
-DATA_20240321.S4H520G.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
-DATA_20240321.S4L520G.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
-DATA_20240321.S5H520G.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
-DATA_20240321.S5L520G.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
-DATA_20240321.S6H520G.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
-DATA_20240321.S6L520G.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
-DATA_20240321.S7H520G.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
-DATA_20240321.S7L520G.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240321.S2H520G.N='CB PCE@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240321.S2L520G.N='CB PCE@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240321.S3H520G.N='CB TCE@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240321.S3L520G.N='CB TCE@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240321.S4H520G.N='CB TEMED@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240321.S4L520G.N='CB TEMED@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240321.S5H520G.N='CB TDAE@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240321.S5L520G.N='CB TDAE@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240321.S6H520G.N='CB Hexadecane@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240321.S6L520G.N='CB Hexadecane@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240321.S7H520G.N='CB Dodecane@SWCNT Dial. DGU C (Filled) (520.25 nm)';
+DATA_20240321.S7L520G.N='CB Dodecane@SWCNT Dial. DGU C (Filled) (520.25 nm)';
 
-DATA_20240325.REH680R.N='SC Empty@SWCNT';
-DATA_20240325.RWH680R.N='SC Water@SWCNT';
-DATA_20240325.S2H680R.N='CB PCE@SWCNT Dial. DGU C (Filled)';
-DATA_20240325.S3H680R.N='CB TCE@SWCNT Dial. DGU C (Filled)';
-DATA_20240325.S4H680R.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
-DATA_20240325.S5H680R.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
-DATA_20240325.S6H680R.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
-DATA_20240325.S7H680R.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240325.REH680R.N='SC Empty@SWCNT (680.02 nm)';
+DATA_20240325.RWH680R.N='SC Water@SWCNT (680.02 nm)';
+DATA_20240325.S2H680R.N='CB PCE@SWCNT Dial. DGU C (Filled) (680.02 nm)';
+DATA_20240325.S3H680R.N='CB TCE@SWCNT Dial. DGU C (Filled) (680.02 nm)';
+DATA_20240325.S4H680R.N='CB TEMED@SWCNT Dial. DGU C (Filled) (680.02 nm)';
+DATA_20240325.S5H680R.N='CB TDAE@SWCNT Dial. DGU C (Filled) (680.02 nm)';
+DATA_20240325.S6H680R.N='CB Hexadecane@SWCNT Dial. DGU C (Filled) (680.02 nm)';
+DATA_20240325.S7H680R.N='CB Dodecane@SWCNT Dial. DGU C (Filled) (680.02 nm)';
 
 
 
@@ -159,125 +154,121 @@ DATA_20240325.S7H680R.Y = DATA_20240325.S7H680R.Y ./ DATA_20240325.FH680R.Y;
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-RBMsSalome = {
+
+GDBand514 = {
+        DATA_20240111.S240111A,
+        DATA_20240111.S240111B,
+        DATA_20240111.S240111BB,
+        DATA_20240111.S240111C,
+        DATA_20240111.S240111D,
+        DATA_20240111.S240111E,
+        DATA_20240111.S240111F,
+        DATA_20240111.S240111G,
+        DATA_20240111.S240111H,
+        DATA_20240111.S240111I
+    };
+    
+GDBand520 = {
+        DATA_20240321.S2L520G,
+        DATA_20240321.S3L520G,
+        DATA_20240321.S4L520G,
+        DATA_20240321.S5L520G,
+        DATA_20240321.S6L520G,
+        DATA_20240321.S7L520G,
+                
+                
+        };
+    
+GBand520 = {
+        DATA_20240321.S2H520G,
+        DATA_20240321.S3H520G,
+        DATA_20240321.S4H520G,
+        DATA_20240321.S5H520G,
+        DATA_20240321.S6H520G,
+        DATA_20240321.S7H520G,
+        };
+
+
+    
+RBM514 = {
         %Empty SC
         DATA_20240111.S240111S
         %D2O Filled
         DATA_20240111.S240111J,    
-        %MethanolFilled
-        DATA_20240111.S240111L,
-        
-        %TCE
-        %DATA_20240111.S240111K,
-        %DATA_20240111.S240111M,
-
-        %TTF
-        %DATA_20240111.S240111N,       
-        
         %PCE
         DATA_20240111.S240111O,
         DATA_20240111.S240111P,
         DATA_20240111.S240111Q,
-        
+        %TCE
+        DATA_20240111.S240111K,
+        DATA_20240111.S240111M,
         %TEMED
-        %DATA_20240111.S240111R,
-        
+        DATA_20240111.S240111R,
+        %TTF
+        DATA_20240111.S240111N,       
         };
 
-RBM = {         %Empty
-                %DATA_20240111.S240111S
-                %D2O Filled
-                %DATA_20240111.S240111J,
-                %MethanolFilled
-                %DATA_20240111.S240111L,
-        
-                DATA_20240320.S2H520R,
-                DATA_20240320.S3H520R,
-                DATA_20240320.S4H520R,
-                DATA_20240320.S5H520R,
-                DATA_20240320.S6H520R,
-                DATA_20240320.S7H520R,
-        };
+RBM520 = {  
+        %Empty
+        DATA_20240111.S240111S
+        %D2O Filled
+        DATA_20240111.S240111J,
 
-GBandSalome = {
-                DATA_20240111.S240111A,
-                DATA_20240111.S240111B,
-                DATA_20240111.S240111BB,
-                DATA_20240111.S240111C,
-                DATA_20240111.S240111D,
-                DATA_20240111.S240111E,
-                DATA_20240111.S240111F,
-                DATA_20240111.S240111G,
-                DATA_20240111.S240111H,
-                DATA_20240111.S240111I
+        DATA_20240320.S2H520R,
+        DATA_20240320.S3H520R,
+        DATA_20240320.S4H520R,
+        DATA_20240320.S5H520R,
+        DATA_20240320.S6H520R,
+        DATA_20240320.S7H520R,
     };
     
-GBand = {
-                DATA_20240321.S2H520G,
-                DATA_20240321.S3H520G,
-                DATA_20240321.S4H520G,
-                DATA_20240321.S5H520G,
-                DATA_20240321.S6H520G,
-                DATA_20240321.S7H520G,
-        };
-
-GDBand = {
-                DATA_20240321.S2L520G,
-                DATA_20240321.S3L520G,
-                DATA_20240321.S4L520G,
-                DATA_20240321.S5L520G,
-                DATA_20240321.S6L520G,
-                DATA_20240321.S7L520G,
-                
-                
-        };
-    
 RBM680 = {
-                DATA_20240325.REH680R,
-                DATA_20240325.RWH680R,
-                DATA_20240325.S2H680R,
-                DATA_20240325.S3H680R,
-                DATA_20240325.S4H680R,
-                DATA_20240325.S5H680R,
-                DATA_20240325.S6H680R,
-                DATA_20240325.S7H680R
+        DATA_20240325.REH680R,
+        DATA_20240325.RWH680R,
+
+        DATA_20240325.S2H680R,
+        DATA_20240325.S3H680R,
+        DATA_20240325.S4H680R,
+        DATA_20240325.S5H680R,
+        DATA_20240325.S6H680R,
+        DATA_20240325.S7H680R
         };
     
-%For normalizing Gband
-
+    
 LG = 1560;
 HG = 1570;
 
+GDBand520 = SubstractBG(GDBand520, 1400, 1500)
+GDBand520 = Normalize(GDBand520,LG, HG);
 
-GDBand = correctLDSpectra(GDBand, 1400, 1500)
-GDBand = Normalize(GDBand,LG, HG);
+GBand520 = SubstractBG(GBand520, 1540, 1620)
+GBand520 = Normalize(GBand520,LG, HG);
 
-GBand = correctLDSpectra(GBand, 1540, 1620)
-GBand = Normalize(GBand,LG, HG);
+GDBand514 = SubstractBG(GDBand514,1400, 1500)
+GDBand514 = Normalize(GDBand514,LG,HG)
 
-RBMsSalome = correctLDSpectra(RBMsSalome, 130, 210)
-RBMsSalome = Normalize(RBMsSalome,150, 160);
 
-RBM = correctLDSpectra(RBM, 130, 210)
-RBM = Normalize(RBM,150, 160);
+LR = 150;
+HR = 160;
 
-GBandSalome = correctLDSpectra(GBandSalome,1400, 1500)
-GBandSalome = Normalize(GBandSalome,LG,HG)
+RBM514 = SubstractBG(RBM514, 130, 210)
+RBM514 = Normalize(RBM514,LR, HR);
 
-RBM680 = correctLDSpectra(RBM680,150, 198)
-RBM680 = Normalize(RBM680,150, 160)
+RBM520 = SubstractBG(RBM520, 130, 210)
+RBM520 = Normalize(RBM520,LR, HR);
 
-plotSampleList(RBM680,2)
+RBM680 = SubstractBG(RBM680,150, 198)
+RBM680 = Normalize(RBM680,LR, HR)
 
-%plotSampleList(RBM, 0.0)
-%plotSampleList(RBMsSalome, 0.0)
-%plotSampleList(GBand, 0.0)
-%plotSampleList(GDBand, 0.0)
-%plotSampleList([RBMsSalome; RBM], 1.2)
-%plotSampleList(GBandSalome, 0.0)
 
-%plotSampleList([GBandSalome; GDBand], 0.0)
 
+
+%plotSampleList(RBM514, 1)
+%plotSampleList(RBM520, 1)
+%plotSampleList(RBM680, 1)
+%plotSampleList(GDBand514, 1)
+%plotSampleList(GDBand520, 1)
+%plotSampleList(GBand520, 1)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -366,7 +357,7 @@ function NormedSamples = Normalize(samplesToNormalize, lowerLimit, upperLimit)
     end
 end
 
-function CorrectedSpectra = correctLDSpectra(samplesToCorrect, X1, X2)
+function CorrectedSpectra = SubstractBG(samplesToCorrect, X1, X2)
     CorrectedSpectra = cell(size(samplesToCorrect));
     for i = 1:length(samplesToCorrect)
         currentSample = samplesToCorrect{i};
@@ -388,38 +379,6 @@ function CorrectedSpectra = correctLDSpectra(samplesToCorrect, X1, X2)
         currentSample.Y = currentSample.Y - background';
         CorrectedSpectra{i} = currentSample;
     end
-end
-
-function flattenedData = flattenSpectra(DataStructure, points)
-    % Get the fieldnames of the data structure
-    sampleNames = fieldnames(DataStructure);
-
-    % Loop through each sample in the data structure
-    for i = 1:numel(sampleNames)
-        sample = sampleNames{i};
-
-        % Get the wavelength and absorption data for the current sample
-        selected_A = DataStructure.(sample).A(ismember(DataStructure.(sample).W, points));
-        selected_W = DataStructure.(sample).W(ismember(DataStructure.(sample).W, points));
-
-        % Define the objective function for least-squares optimization
-        objective = @(a) sum((selected_A - a ./ selected_W).^2);
-
-        % Choose initial value of 'a'
-        initialA = 1; % or any initial value
-
-        % Perform least-squares optimization to find the optimal value of 'a'
-        optimalA = fmincon(objective, initialA, [], [], [], [], [], [], []);
-        % Subtract the background from the absorption data within the specified range
-        A_flattened = DataStructure.(sample).A - optimalA ./ DataStructure.(sample).W;
-        
-        % Update the absorption data in the data structure
-        
-        DataStructure.(sample).A = A_flattened;
-    end
-    
-    % Return the modified data structure
-    flattenedData = DataStructure;
 end
 
 function plotSampleList(SamplesToPlot, offset)
