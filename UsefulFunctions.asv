@@ -213,18 +213,6 @@ classdef UsefulFunctions
         end
     end
     
-    function mergedStruct = mergeStructures(struct1, struct2)
-    % Get fieldnames of both structures
-    fields2 = fieldnames(struct2);
-    % Merge the fields of struct2 into struct1
-    for i = 1:length(fields2)
-        if ~isfield(struct1, fields2{i})
-            struct1.(fields2{i}) = struct2.(fields2{i});
-        end
-    end
-        mergedStruct = struct1;
-    end
-    
     function dataStructures = ReadAbsorptionFromPaths(paths)
         dataStructures = struct();
         for i = 1:length(paths)
@@ -235,13 +223,17 @@ classdef UsefulFunctions
                 % Create dynamic field name for the structure
                 fieldName = ['DATA_', strrep(dataset_name{7}, '.csv', '')];
                 % Read the data from the current path
-                data = UsefulFunctions.readSamplesData(paths{i});
+                data = UsefulFunctions.readSamplesData(paths{i})
                 
                 structure = struct(fieldName, data);
                 
                 % Check if the field already exists
                 if isfield(dataStructures, fieldName)
-                    dataStructures.(fieldName) = UsefulFunctions.mergeStructures(dataStructures.(fieldName), data);
+                    FinalDS = 
+                    fields = fieldnames(dataStructures.(fieldName));
+                    for i = 1:numel(fields)
+                        concatenated_structure.(fields{i}) = structure2.(fields{i});
+                    end
                 else
                     dataStructures.(fieldName) = structure.(fieldName);        
                 end

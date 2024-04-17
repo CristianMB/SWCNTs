@@ -4,8 +4,8 @@ addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 %addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 import UsefulFunctions.*;
 
-%rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\';
-rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements\Absorption\';
+%rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
+rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
 
 %All paths as default
 path_baselines = [rootpath,'References.csv'];
@@ -18,6 +18,12 @@ path_20240304 = [rootpath,'20240304\S6S7.csv'];
 path_20240305 = [rootpath,'20240305\S5.csv'];
 path_20240307 = [rootpath,'20240307\DGUS5S6S7.csv'];
 path_20240308 = [rootpath,'20240308\DialS5S6S7.csv'];
+path_20240308 = [rootpath,'20240308\DialS5S6S7.csv'];
+
+path_20240415a = [rootpath,'20240415\Acetone.csv'];
+path_20240415b = [rootpath,'20240415\Ethanol.csv'];
+path_20240415c = [rootpath,'20240415\Methanol.csv'];
+path_20240415d = [rootpath,'20240415\THF.csv'];
 
 %Select the paths of interest
 paths = {
@@ -30,8 +36,13 @@ paths = {
         path_20240304,
         path_20240305,
         path_20240307,
-        path_20240308
+        path_20240308,
+        path_20240415a,
+        path_20240415b,
+        path_20240415c,
+        path_20240415d
         };
+    
 
 %Read and structure data from the paths
 ReadAbsorptionFromPaths(paths);
@@ -356,7 +367,6 @@ DialSamples = {
             };
 
 
-
 %%%--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Correction is made based on local minima (750, 860) and (1100, 1400)
 DialSamples = SubstractAbsBG(DialSamples,750, 850, 1150, 1250);
@@ -417,8 +427,30 @@ CFSamples = TransitionPeaksCalculation(CFSamples, LS1, US1, LS2, US2);
 %plotAbsorption(Hexadecane, 0.0)
 %plotAbsorption(Dodecane, 0.0)
 
-plotAbsorption(DialSamples,1.0)
+%plotAbsorption(DialSamples,1.0)
 %plotAbsorption(CFSamples, 0.0)
+
+
+
+Solubility = {
+            %DATA_20240415.Acetone_Baseline
+            %DATA_20240415.Chloranil_Acetone_LowC,
+            %DATA_20240415.Dicyanobenzene_Acetone_LowC,  
+            
+            %DATA_20240415.Ethanol_Baseline,
+            %DATA_20240415.Chloranil_Ethanol_Sat,
+            %DATA_20240415.Fumaronitrile_Ethanol_LowC,
+            
+            %DATA_20240415.Methanol_Baseline,
+            %DATA_20240415.Fumaronitrile_Methanol_LowC,
+            
+            %DATA_20240415.THF_Baseline
+            DATA_20240415.Dicyanobenzene_THF_LowC,
+            DATA_20240415.TCNQ_THF_Sat
+                };
+            
+plotAbsorption(Solubility, 0.0)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
