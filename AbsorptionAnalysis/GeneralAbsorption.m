@@ -25,6 +25,10 @@ path_20240415b = [rootpath,'20240415\Ethanol.csv'];
 path_20240415c = [rootpath,'20240415\Methanol.csv'];
 path_20240415d = [rootpath,'20240415\THF.csv'];
 
+path_20240422a = [rootpath,'20240422\EthylAcetate.csv'];
+path_20240422b = [rootpath,'20240422\Ethanol.csv'];
+path_20240422c = [rootpath,'20240422\Methanol.csv'];
+path_20240422d = [rootpath,'20240422\THF.csv'];
 %Select the paths of interest
 paths = {
         path_baselines,
@@ -40,7 +44,11 @@ paths = {
         path_20240415a,
         path_20240415b,
         path_20240415c,
-        path_20240415d
+        path_20240415d,
+        path_20240422a,
+        path_20240422b,
+        path_20240422c,
+        path_20240422d
         };
     
 
@@ -430,24 +438,49 @@ CFSamples = TransitionPeaksCalculation(CFSamples, LS1, US1, LS2, US2);
 %plotAbsorption(DialSamples,1.0)
 %plotAbsorption(CFSamples, 0.0)
 
+Baselines = {   DATA_20240415.Acetone_Baseline,
+                DATA_20240415.Ethanol_Baseline,
+                DATA_20240422.Ethanol_Baseline,
+                DATA_20240415.Methanol_Baseline,
+                DATA_20240422.Methanol_Baseline,
+                DATA_20240415.THF_Baseline,
+                DATA_20240422.THF_Baseline,
+                DATA_20240422.EthylAcetate_Baseline
+                };
+            
 
 
 Solubility = {
             %DATA_20240415.Acetone_Baseline
-            %DATA_20240415.Chloranil_Acetone_LowC,
-            %DATA_20240415.Dicyanobenzene_Acetone_LowC,  
+            %DATA_20240415.TCBQ_Acetone,
+            %DATA_20240415.DCB_Acetone,  
             
             %DATA_20240415.Ethanol_Baseline,
-            %DATA_20240415.Chloranil_Ethanol_Sat,
-            %DATA_20240415.Fumaronitrile_Ethanol_LowC,
-            
+            %DATA_20240422.Ethanol_Baseline
+            %DATA_20240415.TCBQ_Ethanol,
+            %DATA_20240422.TCBQ_Ethanol
+            %DATA_20240415.FN_Ethanol,
+            %DATA_20240422.FN_Ethanol
+           
             %DATA_20240415.Methanol_Baseline,
-            %DATA_20240415.Fumaronitrile_Methanol_LowC,
+            %DATA_20240422.Methanol_Baseline,
+            %DATA_20240415.FN_Methanol,
+            %DATA_20240422.FN_Methanol,
             
-            %DATA_20240415.THF_Baseline
-            DATA_20240415.Dicyanobenzene_THF_LowC,
-            DATA_20240415.TCNQ_THF_Sat
+            %DATA_20240415.THF_Baseline,
+            %DATA_20240422.THF_Baseline
+            %DATA_20240415.DCB_THF,
+            %DATA_20240422.DCB_THF,
+            %DATA_20240415.TCNQ_THF
+            %DATA_20240422.TCNQ_THF,
+            
+            %DATA_20240422.EthylAcetate_Baseline,
+            %DATA_20240422.TCNQ_EthylAcetate,
+            %DATA_20240422.TCBQ_EthylAcetate,
+            %DATA_20240422.FN_EthylAcetate,
+            DATA_20240422.DCB_EthylAcetate
                 };
+            
             
 plotAbsorption(Solubility, 0.0)
 
