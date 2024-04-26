@@ -53,7 +53,7 @@ classdef UsefulFunctions
                     raw_spectrum(:,2)=[];
                     NumSpec=length(raw_spectrum(1,:))-1;
                     NumDel=1;
-                            X=raw_spectrum(:,1);
+                    X=raw_spectrum(:,1);
                     for i=1:1024
                         spectrum=sort(raw_spectrum(i,2:NumSpec+1));
                         Y(:,i)= mean(spectrum(NumDel+1:NumSpec-NumDel));  
