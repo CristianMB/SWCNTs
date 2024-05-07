@@ -544,23 +544,7 @@ Solubility = {
             DATA_20240506.TCBQ_Acetonitrile,
             DATA_20240506.TCBQ_Acetonitrile_B,
             DATA_20240506.TCBQ_DMF,
-            DATA_20240506.TCBQ_EthylAcetate_A,
-            DATA_20240506.TCBQ_EthylAcetate_B,
-            DATA_20240506.TCBQ_THF,
-            
-            DATA_20240506.TCNQ_Acetone,
-            DATA_20240506.TCNQ_Acetonitrile,
-            DATA_20240506.TCNQ_DMF,
-            DATA_20240506.TCNQ_EthylAcetate,
-            DATA_20240506.TCNQ_EthylAcetate_B,
-            DATA_20240506.TCNQ_THF,
-            
-            DATA_20240506.CuCl_Acetone,
-            DATA_20240506.CuCl_Acetonitrile,
-            DATA_20240506.CuCl_Acetonitrile_B,
-            DATA_20240506.CuCl_DMF,
-            DATA_20240506.CuCl_EthylAcetate,
-            DATA_20240506.CuCl_THF
+            DATA_20240506.TCBQ_
             
             };    
         
