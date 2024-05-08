@@ -478,9 +478,10 @@ Baselines = {   DATA_20240415.Acetone_Baseline,
             
 
 
-Solubility = {
+SolubilitySolvents = {
             %DATA_20240415.Acetone_Baseline
             
+            DATA_20240506.AcetoneBaseline
             DATA_20240415.TCBQ_Acetone,
             DATA_20240415.DCB_Acetone,  
             DATA_20240506.CuCl_Acetone,
@@ -505,12 +506,12 @@ Solubility = {
             %DATA_20240422.DCB_THF,
             %DATA_20240415.TCNQ_THF
             %DATA_20240422.TCNQ_THF,
-            DATA_20240506.DCB_THF,
-            DATA_20240506.DCB_THF_B,
-            DATA_20240506.FN_THF,
-            DATA_20240506.CuCl_THF,
-            DATA_20240506.TCBQ_THF,
-            DATA_20240506.TCNQ_THF
+%             DATA_20240506.DCB_THF,
+%             DATA_20240506.DCB_THF_B,
+%             DATA_20240506.FN_THF,
+%             DATA_20240506.CuCl_THF,
+%             DATA_20240506.TCBQ_THF,
+%             DATA_20240506.TCNQ_THF
             
             %DATA_20240422.EthylAcetate_Baseline,
             %DATA_20240422.TCNQ_EthylAcetate,
@@ -518,37 +519,62 @@ Solubility = {
             %DATA_20240422.FN_EthylAcetate,
             %DATA_20240422.DCB_EthylAcetate,
             
-            DATA_20240506.DCB_DMF,
-            DATA_20240506.FN_DMF,
-            DATA_20240506.TCBQ_DMF,
-            DATA_20240506.TCNQ_DMF,
-            DATA_20240506.CuCl_DMF,
+%             DATA_20240506.DCB_DMF,
+%             DATA_20240506.FN_DMF,
+%             DATA_20240506.TCBQ_DMF,
+%             DATA_20240506.TCNQ_DMF,
+%             DATA_20240506.CuCl_DMF,
             
             };
             
-Solubility = {
-                      
-            DATA_20240506.DCB_Acetonitrile,
-            DATA_20240506.DCB_Acetonitrile_B,
-            DATA_20240506.DCB_DMF,
-            DATA_20240506.DCB_EthylAcetate,
-            DATA_20240506.DCB_THF,
-            DATA_20240506.DCB_THF_B,
+Solubility = {              
+%               DATA_20240506.THFBaseline
+%              DATA_20240506.DCB_Acetonitrile,
+%              DATA_20240506.DCB_Acetonitrile_B,
+%              DATA_20240506.DCB_DMF,
+%              DATA_20240422.DCB_EthylAcetate,
+%              DATA_20240506.DCB_EthylAcetate,
+%               DATA_20240422.DCB_THF
+%               DATA_20240506.DCB_THF,
+%               DATA_20240506.DCB_THF_B,
             
-            DATA_20240506.FN_Acetone,
-            DATA_20240506.FN_Acetonitrile,
-            DATA_20240506.FN_Acetonitrile_B,
-            DATA_20240506.FN_DMF,
-            DATA_20240506.FN_THF,
-            
-            DATA_20240506.TCBQ_Acetonitrile,
-            DATA_20240506.TCBQ_Acetonitrile_B,
-            DATA_20240506.TCBQ_DMF,
-            DATA_20240506.TCBQ_
-            
+
+%                DATA_20240506.FN_Acetone,
+%               DATA_20240506.FN_Acetonitrile,
+               %DATA_20240506.FN_Acetonitrile_B,
+%             DATA_20240506.FN_DMF,
+              %DATA_20240506.FN_THF,
+%              DATA_20240422.FN_EthylAcetate
+             
+%             DATA_20240506.AcetonitrileBaseline
+              %DATA_20240506.TCBQ_Acetonitrile,
+%               DATA_20240506.TCBQ_Acetonitrile_B,
+%               DATA_20240506.TCBQ_DMF,
+             %DATA_20240506.TCBQ_EthylAcetate_A,
+%              DATA_20240506.TCBQ_EthylAcetate_B,
+%              DATA_20240506.TCBQ_THF,
+% %             
+% %              DATA_20240506.TCNQ_Acetone,
+% %              DATA_20240506.TCNQ_Acetonitrile,
+% %              DATA_20240506.TCNQ_DMF,
+% %              DATA_20240506.TCNQ_EthylAcetate,
+% %              DATA_20240506.TCNQ_EthylAcetate_B,
+% %              DATA_20240506.TCNQ_THF,
+%             
+          %  DATA_20240506.THFBaseline
+%            DATA_20240506.CuCl_Acetone,
+%              DATA_20240506.CuCl_Acetonitrile,
+%              DATA_20240506.CuCl_Acetonitrile_B,
+%              DATA_20240506.CuCl_DMF,
+%             DATA_20240506.CuCl_EthylAcetate,
+           %  DATA_20240506.CuCl_THF
             };    
         
-plotAbsorption(Solubility, 2.0)
+%plotAbsorption(SolubilitySolvents, 2.0)
+
+%Solubility = NormalizeSample(Solubility,290, 296);
+plotAbsorption(Solubility, 0.0)
+
 %plotAbsorption(DialSamples, 0.0)
 
 %plotAbsorption([DialSamples;DATABEN], 0.0)
