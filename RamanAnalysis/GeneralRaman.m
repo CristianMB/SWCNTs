@@ -12,8 +12,10 @@ path_20240111 = [rootpath,'20240111\'];
 path_20240320 = [rootpath,'20240320\'];
 path_20240321 = [rootpath,'20240321\'];
 path_20240325 = [rootpath,'20240325\'];
-
 path_20240426 = [rootpath,'20240426\'];
+
+path_20240514 = [rootpath,'20240514\'];
+path_20240515 = [rootpath,'20240515\'];
 
 %Select the paths of interest
 paths = {
@@ -24,7 +26,8 @@ paths = {
     };
 
 paths = {
-    path_20240426
+    path_20240514,
+    path_20240515
     };
 
 
@@ -282,16 +285,28 @@ ReadRamanFromPaths(paths);
 %SList = SubstractLinearBG(SList,130, 210);
 %SList = NormalizeSample(SList,LR, HR);
 %plotRaman(SList, 0.0);
+% 
+% All = {DATA_20240426.LL650,
+%         DATA_20240426.LL650B,
+%         DATA_20240426.BAL650D,
+%         DATA_20240426.BAL650G,
+%         DATA_20240426.BAL650R,
+%         DATA_20240426.BAL650RB
+%     }
 
-All = {DATA_20240426.LL650,
-        DATA_20240426.LL650B,
-        DATA_20240426.BAL650D,
-        DATA_20240426.BAL650G,
-        DATA_20240426.BAL650R,
-        DATA_20240426.BAL650RB
-    }
+BENSAM = {DATA_20240515.BAL570C
+          DATA_20240515.BAL570D
+          DATA_20240515.BAL570G
+          DATA_20240515.BAL570RA
+          DATA_20240515.BAL570RB
+          DATA_20240515.BBL570C
+          DATA_20240515.BBL570D
+          DATA_20240515.BBL570G
+          DATA_20240515.BBL570RA
+          DATA_20240515.BBL570RB
+          }
 
-plotRaman(All, 0)
+plotRaman(BENSAM, 0)
 
 %GDBand520 = GDBandPeaksCalculation(GDBand520, 1580,1600,1560,1570,1300,1400);
 %exportGDBandPeaks(GDBand520, 'dsfsd.csv');

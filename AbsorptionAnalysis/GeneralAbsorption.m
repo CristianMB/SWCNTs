@@ -526,52 +526,64 @@ SolubilitySolvents = {
 %             DATA_20240506.CuCl_DMF,
             
             };
-            
+
+        
+DATA_20240506.DCB_Acetonitrile.N = 'DCB Acetonitrile (0.069 mg/ml) - 1.38';
+DATA_20240506.DCB_DMF.N = 'DCB DMF (0.055 mg/ml) - 1.10mg'       
+DATA_20240422.DCB_EthylAcetate.N = 'DCB Ethyl Acetate (0.736 mg/ml) - 7.51mg'
+DATA_20240506.DCB_EthylAcetate.N = 'DCB Ethyl Acetate (0.071 mg/ml) - 1.42mg'
+DATA_20240422.DCB_THF.N = 'DCB THF (2.669 mg/ml)- 21.35mg'
+DATA_20240415.DCB_THF.N = 'DCB THF (10.675 mg/ml)- 21.35mg'
+DATA_20240506.DCB_THF.N = 'DCB THF (1.017 mg/ml)- 21.35mg'
+
 Solubility = {              
-%               DATA_20240506.THFBaseline
-%              DATA_20240506.DCB_Acetonitrile,
-%              DATA_20240506.DCB_Acetonitrile_B,
-%              DATA_20240506.DCB_DMF,
-%              DATA_20240422.DCB_EthylAcetate,
-%              DATA_20240506.DCB_EthylAcetate,
-%               DATA_20240422.DCB_THF
-%               DATA_20240506.DCB_THF,
-%               DATA_20240506.DCB_THF_B,
-            
+                 %DATA_20240506.DCB_Acetonitrile_B,
+             DATA_20240506.DCB_Acetonitrile,
+             DATA_20240506.DCB_DMF,
+             %DATA_20240422.DCB_EthylAcetate,
+             DATA_20240506.DCB_EthylAcetate,
+             %DATA_20240415.DCB_THF
+             %DATA_20240422.DCB_THF,
+             %DATA_20240506.DCB_THF,
 
-%                DATA_20240506.FN_Acetone,
-%               DATA_20240506.FN_Acetonitrile,
-               %DATA_20240506.FN_Acetonitrile_B,
+ %            DATA_20240415.DCB_Acetone
+             %DATA_20240506.DCB_THF_B,
+% 
+% 
+%             DATA_20240506.FN_Acetone,
+%             DATA_20240506.FN_Acetonitrile,
+%             DATA_20240506.FN_Acetonitrile_B,
 %             DATA_20240506.FN_DMF,
-              %DATA_20240506.FN_THF,
-%              DATA_20240422.FN_EthylAcetate
-             
+%             DATA_20240506.FN_THF,
+%             DATA_20240422.FN_EthylAcetate
+% 
 %             DATA_20240506.AcetonitrileBaseline
-                  %DATA_20240506.TCBQ_Acetonitrile,
-                  DATA_20240506.TCBQ_Acetonitrile_B,
-                  DATA_20240506.TCBQ_DMF,
-                 %DATA_20240506.TCBQ_EthylAcetate_A,
-                 DATA_20240506.TCBQ_EthylAcetate_B,
-                 DATA_20240506.TCBQ_THF,
-                 DATA_20240415.TCBQ_Acetone
-
+%             DATA_20240506.TCBQ_Acetonitrile,
+%             DATA_20240506.TCBQ_Acetonitrile_B,
+%             DATA_20240506.TCBQ_DMF,
+%             DATA_20240506.TCBQ_EthylAcetate_A,
+%             DATA_20240506.TCBQ_EthylAcetate_B,
+%             DATA_20240506.TCBQ_THF,
+%             DATA_20240415.TCBQ_Acetone
+% 
 %             DATA_20240506.DMFBaseline
 %             DATA_20240422.EthylAcetate_Baseline
-%              DATA_20240506.TCNQ_Acetone,
-%              DATA_20240506.TCNQ_Acetonitrile,
-%              DATA_20240506.TCNQ_DMF,
-%              DATA_20240506.TCNQ_EthylAcetate,
-%              DATA_20240506.TCNQ_EthylAcetate_B,
-%              DATA_20240506.TCNQ_THF,
-%             
-          %  DATA_20240506.THFBaseline
+%             DATA_20240506.TCNQ_Acetone,
+%             DATA_20240506.TCNQ_Acetonitrile,
+%             DATA_20240506.TCNQ_DMF,
+%             DATA_20240506.TCNQ_EthylAcetate,
+%             DATA_20240506.TCNQ_EthylAcetate_B,
+%             DATA_20240506.TCNQ_THF,
+% 
+%             DATA_20240506.THFBaseline
 %             DATA_20240506.CuCl_Acetone,
-%              DATA_20240506.CuCl_Acetonitrile,
-%               DATA_20240506.CuCl_Acetonitrile_B,
-%               DATA_20240506.CuCl_DMF,
-%              DATA_20240506.CuCl_EthylAcetate,
-%              DATA_20240506.CuCl_THF
-            };    
+%             DATA_20240506.CuCl_Acetonitrile,
+%             DATA_20240506.CuCl_Acetonitrile_B,
+%             DATA_20240506.CuCl_DMF,
+%             DATA_20240506.CuCl_EthylAcetate,
+%             DATA_20240506.CuCl_THF
+
+};    
         
 %plotAbsorption(SolubilitySolvents, 2.0)
 
