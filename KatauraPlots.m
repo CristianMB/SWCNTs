@@ -16,7 +16,7 @@ mod_array = [];
 
 
 %Calculate the parameters required to plot
-for m = 3:16
+for m = 1:16
     for n = 0:m
         result = mod(n-m,3);
         if (result==1 || result==2)
@@ -30,7 +30,6 @@ for m = 3:16
             InvreseD_array = [InvreseD_array,1/calculateD(n,m)];
             RBM_array = [RBM_array,calculateRBM(n,m)];
             tupleArray = calculateTouple(m_array,n_array);
-            stokes_shift = l11_array-l22_array;
         end
     end
 end
@@ -51,9 +50,9 @@ scatter(D_array, RBM_array, 'MarkerFaceColor', 'g')
 title('RBM Frequency vs. Diameter');
 xlabel('Carbon Nanotube Diameter (nm)')
 ylabel('RMB Frequency (cm^{-1})')
-%for i = 1:length(D_array)
-%    text(D_array(i), RBM_array(i), tupleArray(i));
-%end
+for i = 1:length(D_array)
+    text(D_array(i), RBM_array(i), tupleArray(i));
+end
 
 
 
@@ -104,17 +103,6 @@ end
 colorbar
 xlabel('Emission Wavelength (nm)')
 ylabel('Excitation Wavelength (nm)')
-
-
-figure;
-scatter(D_array, stokes_shift, 'MarkerFaceColor', 'b')
-title('Stokes shift vs. Diameter');
-for i = 1:length(D_array)
-    text(D_array(i), stokes_shift(i), tupleArray(i), 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
-end
-xlabel('Diameter (nm)')
-ylabel('Stokes shift (nm)')
-
 
 
 
@@ -186,3 +174,155 @@ function [lambda11, lambda22] = calculate_lambdas(n, m)
 end
 
 
+
+
+clc;
+clear;
+
+% Initialize KATAURA structure
+KATAURA.RBM = [];
+KATAURA.WL1 = [];
+KATAURA.WL2 = [];
+KATAURA.WL3 = [];
+KATAURA.WL4 = [];
+KATAURA.D = [];
+KATAURA.InverseD = [];
+KATAURA.Theta = [];
+KATAURA.M = [];
+KATAURA.N = [];
+KATAURA.Chirality = [];
+KATAURA.Type = [];
+
+% Kataura plot calculation
+for m = 1:16
+    for n = 0:m
+        [rbm, wl1, wl2, wl3, wl4, diam, theta, type] = CalculateKataura([n, m]);
+        KATAURA.RBM = [KATAURA.RBM, rbm];
+        KATAURA.WL1 = [KATAURA.WL1, wl1];
+        KATAURA.WL2 = [KATAURA.WL2, wl2];
+        KATAURA.WL3 = [KATAURA.WL3, wl3];
+        KATAURA.WL4 = [KATAURA.WL4, wl4];
+        KATAURA.D = [KATAURA.D, diam];
+        KATAURA.InverseD = [KATAURA.InverseD, 1/diam];
+        KATAURA.Theta = [KATAURA.Theta, theta];
+        KATAURA.M = [KATAURA.M, m];
+        KATAURA.N = [KATAURA.N, n];
+        KATAURA.Chirality = [KATAURA.Chirality, {sprintf('(%d,%d)', m, n)}];
+        KATAURA.Type = [KATAURA.Type, type];
+    end
+end
+
+% Plotting
+figure;
+hold on;
+for i = 1:length(KATAURA.RBM)
+    if strcmp(KATAURA.Type{i}, 'Metallic')
+        marker = 'o'; % Circle for metallic
+    else
+        marker = 's'; % Square for semiconducting
+    end
+    scatter(KATAURA.RBM(i), KATAURA.WL1(i), marker, 'MarkerFaceColor', 'b');
+    scatter(KATAURA.RBM(i), KATAURA.WL2(i), marker, 'MarkerFaceColor', 'g');
+    scatter(KATAURA.RBM(i), KATAURA.WL3(i), marker, 'MarkerFaceColor', 'r');
+    scatter(KATAURA.RBM(i), KATAURA.WL4(i), marker, 'MarkerFaceColor', 'y');
+    text(KATAURA.RBM(i), KATAURA.WL1(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+    text(KATAURA.RBM(i), KATAURA.WL2(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+    text(KATAURA.RBM(i), KATAURA.WL3(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+end
+title('Excitation/Emission Wavelengths vs. RBM');
+xlabel('RBM frequency (cm^{-1})');
+ylabel('Wavelength (nm)');
+hold off;
+
+function [nuRBM, wl1, wl2, wl3, wl4, diam, theta, type] = CalculateKataura(P)
+    n = P(1);
+    m = P(2);
+
+    diam = 0.144 * sqrt(3) * (sqrt(n^2 + m^2 + n * m)) / pi;
+    theta = atan(sqrt(3) * m / (m + 2 * n));
+    nuRBM = (223.5 / diam) + 12.5;
+
+    a = 1.049; % e
+
+
+    
+    
+    clc;
+clear;
+
+% Initialize KATAURA structure
+KATAURA.RBM = [];
+KATAURA.WL1 = [];
+KATAURA.WL2 = [];
+KATAURA.WL3 = [];
+KATAURA.WL4 = [];
+KATAURA.D = [];
+KATAURA.InverseD = [];
+KATAURA.Theta = [];
+KATAURA.M = [];
+KATAURA.N = [];
+KATAURA.Chirality = [];
+KATAURA.Type = []; % New field to store the type of nanotube
+
+% Kataura plot calculation
+for m = 1:16
+    for n = 0:m
+        [rbm, wl1, wl2, wl3, wl4, diam, theta, type] = CalculateKataura([n, m]);
+        KATAURA.RBM = [KATAURA.RBM, rbm];
+        KATAURA.WL1 = [KATAURA.WL1, wl1];
+        KATAURA.WL2 = [KATAURA.WL2, wl2];
+        KATAURA.WL3 = [KATAURA.WL3, wl3];
+        KATAURA.WL4 = [KATAURA.WL4, wl4];
+        KATAURA.D = [KATAURA.D, diam];
+        KATAURA.InverseD = [KATAURA.InverseD, 1/diam];
+        KATAURA.Theta = [KATAURA.Theta, theta];
+        KATAURA.M = [KATAURA.M, m];
+        KATAURA.N = [KATAURA.N, n];
+        KATAURA.Chirality = [KATAURA.Chirality, {sprintf('(%d,%d)', m, n)}];
+        KATAURA.Type = [KATAURA.Type, type];
+    end
+end
+
+% Plotting with different symbols for metallic and semiconducting tubes
+figure;
+hold on;
+title('Excitation/Emission Wavelengths vs. RBM');
+xlabel('RBM frequency (cm^{-1})');
+ylabel('Wavelength (nm)');
+
+colors = {[0 0.4470 0.7410], [0.4660 0.6740 0.1880], [0.6350 0.0780 0.1840], [0.9290 0.6940 0.1250]}; % Elegant colors
+
+for i = 1:length(KATAURA.RBM)
+    if KATAURA.Type(i) == 0
+        marker = 'o'; % Circle for metallic
+    else
+        marker = 's'; % Square for semiconducting
+    end
+    scatter(KATAURA.RBM(i), KATAURA.WL1(i), marker, '  text(KATAURA.RBM(i), KATAURA.WL1(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+    text(KATAURA.RBM(i), KATAURA.WL2(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+    text(KATAURA.RBM(i), KATAURA.WL3(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');', colors{1});
+    scatter(KATAURA.RBM(i), KATAURA.WL2(i), marker, 'MarkerEdgeColor', colors{2});
+    scatter(KATAURA.RBM(i), KATAURA.WL3(i), marker, 'MarkerEdgeColor', colors{3});
+    scatter(KATAURA.RBM(i), KATAURA.WL4(i), marker, 'MarkerEdgeColor', colors{4});
+    text(KATAURA.RBM(i), KATAURA.WL1(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right', 'FontSize', 8);
+end
+
+hold off;
+
+% Function definition
+function [nuRBM, wl1, wl2, wl3, wl4, diam, theta, type] = CalculateKataura(P)
+    n = P(1);
+    m = P(2);
+
+    diam = 0.144 * sqrt(3) * (sqrt(n^2 + m^2 + n * m)) / pi;
+    theta = atan(sqrt(3) * m / (m + 2 * n));
+    nuRBM = (223.5 / diam) + 12.5;
+
+    a = 1.049; % eV nm
+    b = 0.456;
+    c = 0.812; % nm^-1
+
+    if mod(n - m, 3) == 0 % METALLIC TUBES
+        energy1 = ((a * 3 / diam) * (1 + (b * log10(c / (3 / diam))))) - 0.18 * cos(3 * theta) / diam^2;
+        wl1 = 1240 / energy1;
+        energy2 = ((a * 3 / diam) * (1 + (
