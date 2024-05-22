@@ -8,16 +8,18 @@ import UsefulFunctions.*;
 rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Raman\';
 
 %All paths as default
-path_20240514 = [rootpath,'20240514\'];
 path_20240320 = [rootpath,'20240320\'];
 path_20240321 = [rootpath,'20240321\'];
+path_20240514 = [rootpath,'20240514\'];
+path_20240517 = [rootpath,'20240517\'];
 
 %Select the paths of interest
 
 paths = {
-    path_20240514
     path_20240320
     path_20240321
+    path_20240514
+    path_20240517
     };
 
 
@@ -29,6 +31,25 @@ ReadRamanFromPaths(paths);
 %DATA_20240514.BBL570RB.N = 'S-SWCNTs Converted Film RBMs2 570nm';
 
 %FILLED SAMPLES AFTER DIALISYS AT 650nm + WaterFilled/Empty References
+
+DATA_20240517.EAH514R.N='Empty Arc SWCNTs';
+DATA_20240517.S2H514R.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S3H514R.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S4H514R.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S5H514R.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S6H514R.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S7H514R.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.WAH514R.N='Water Filled Arc SWCNTs';
+DATA_20240517.EAL514GD.N='Empty Arc SWCNTs';
+DATA_20240517.S2L514GD.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S3L514GD.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S4L514GD.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S5L514GD.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S6L514GD.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S7L514GD.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.WAL514GD.N='Water Filled Arc SWCNTs';
+DATA_20240515.LL514A.N='LaserLine';
+DATA_20240515.LL514B.N='LaserLine';
 
 DATA_20240514.EAL650D.N = 'EmptyArc@SWCNTs DBand 650nm';
 DATA_20240514.EAL650G.N = 'EmptyArc@SWCNTs GBand 650nm';
@@ -154,31 +175,31 @@ RBMs650 =    {
 % %Normalization
 LG = 1450;
 HG = 1640;
-NP = 1588
-Tol = 5
+NP = 1588;
+Tol = 5;
 GBands650 = SubstractLinearBG(GBands650, LG, HG);
-GBands650 = NormalizeSample(GBands650,NP-Tol, NP+Tol)       
+GBands650 = NormalizeSample(GBands650,NP-Tol, NP+Tol);       
 
 % %Normalization
 LG = 1240;
 HG = 1400;
-NP = 1315
-Tol = 5
+NP = 1315;
+Tol = 5;
 DBands650 = SubstractLinearBG(DBands650, LG, HG);
-DBands650 = NormalizeSample(DBands650,NP-Tol, NP+Tol)       
+DBands650 = NormalizeSample(DBands650,NP-Tol, NP+Tol);    
 
 %Normalization
 LG = 120;
 HG = 300;
-NP = 175
-Tol = 25
+NP = 175;
+Tol = 25;
 RBMs650 = SubstractLinearBG(RBMs650, LG, HG);
-RBMs650 = NormalizeSample(RBMs650,NP-Tol, NP+Tol)       
+RBMs650 = NormalizeSample(RBMs650,NP-Tol, NP+Tol);       
 %         
 %plotRaman([GBands650; DBands650], 0)
-plotRaman(GBands650, 0.0)
-plotRaman(DBands650, 0.0)
-plotRaman(RBMs650, 0.25)
+% plotRaman(GBands650, 0.0)
+% plotRaman(DBands650, 0.0)
+% plotRaman(RBMs650, 0.25)
 
 
 %% 520nm DATA 
@@ -236,32 +257,100 @@ GBand520LD = {
 % %Normalization
 LG = 1280;
 HG = 1450;
-NP = 1340
-Tol = 10
+NP = 1340;
+Tol = 10;
 GBand520LD = SubstractLinearBG(GBand520LD, LG, HG);
-GBand520LD = NormalizeSample(GBand520LD,NP-Tol, NP+Tol)       
+GBand520LD = NormalizeSample(GBand520LD,NP-Tol, NP+Tol);       
 
 % %Normalization
 LG = 1536;
 HG = 1618;
-NP = 1565
-Tol = 5
+NP = 1565;
+Tol = 5;
 GBand520HD = SubstractLinearBG(GBand520HD, LG, HG);
-GBand520HD = NormalizeSample(GBand520HD,NP-Tol, NP+Tol)       
+GBand520HD = NormalizeSample(GBand520HD,NP-Tol, NP+Tol);       
 
 %Normalization
 LG = 130;
 HG = 220;
-NP = 175
-Tol = 5
+NP = 175;
+Tol = 5;
 RBMs520 = SubstractLinearBG(RBMs520, LG, HG);
-RBMs520 = NormalizeSample(RBMs520,NP-Tol, NP+Tol)       
+RBMs520 = NormalizeSample(RBMs520,NP-Tol, NP+Tol);       
 
 %plotRaman(FilledSamples520, 0)
 
 % plotRaman(RBMs520, 0.25)
 % plotRaman(GBand520HD, 0.0)
 % plotRaman(GBand520LD, 0.0)
+
+%% 514nm DATA 
+
+FilledSamples514 = {
+%                     DATA_20240517.EAH514R
+%                     DATA_20240517.EAL514GD
+%                      DATA_20240517.FF514R
+%                      DATA_20240517.LL514A
+%                      DATA_20240517.LL514B
+%                     DATA_20240517.S2H514R
+%                     DATA_20240517.S2L514GD
+%                     DATA_20240517.S3H514R
+%                     DATA_20240517.S3L514GD
+%                     DATA_20240517.S4H514R
+%                     DATA_20240517.S4L514GD
+%                     DATA_20240517.S5H514R
+%                     DATA_20240517.S5L514GD
+%                     DATA_20240517.S6H514R
+%                     DATA_20240517.S7L514GD
+%                     DATA_20240517.S7H514R
+%                     DATA_20240517.WAH514R
+%                     DATA_20240517.WAL514GD
+                   };
+               
+RBMsHD514 = {
+                    DATA_20240517.EAH514R
+                    DATA_20240517.S2H514R
+                    DATA_20240517.S3H514R
+                    DATA_20240517.S4H514R
+                    DATA_20240517.S5H514R
+                    DATA_20240517.S6H514R
+                    DATA_20240517.S7H514R
+                    DATA_20240517.WAH514R
+            };   
+        
+               
+GDBand514 = {
+                    DATA_20240517.EAL514GD
+                    DATA_20240517.S2L514GD
+                    DATA_20240517.S3L514GD
+                    DATA_20240517.S4L514GD
+                    DATA_20240517.S5L514GD
+                    DATA_20240517.S7L514GD
+                    DATA_20240517.WAL514GD
+            };   
+
+% %Normalization
+LG = 1280;
+HG = 1490;
+NP = 1590;
+Tol = 5;
+GDBand514 = SubstractLinearBG(GDBand514, LG, HG);
+GDBand514 = NormalizeSample(GDBand514,NP-Tol, NP+Tol);       
+
+%Normalization
+LG = 140;
+HG = 250;
+NP = 170;
+Tol = 5;
+RBMsHD514 = FlatFieldCorrection(RBMsHD514, DATA_20240517.FF514R);
+RBMsHD514 = SubstractLinearBG(RBMsHD514, LG, HG);
+RBMsHD514 = NormalizeSample(RBMsHD514,NP-Tol, NP+Tol);       
+
+
+%plotRaman(FilledSamples514, 0.25)
+% plotRaman(RBMsHD514, 0.25)
+% plotRaman(GDBand514, 0.25)
+
 
 %% Peak Calculation
 %GDBand520 = GDBandPeaksCalculation(GDBand520, 1580,1600,1560,1570,1300,1400);
