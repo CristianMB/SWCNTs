@@ -1,8 +1,5 @@
 % Kataura plot
-
-[nuRBM,wl1,wl2,wl3,wl4,diam,theta]=KatauraF([7,5])
-
-function [nuRBM,wl1,wl2,wl3,wl4,diam,theta]=KatauraF(P)
+function [nuRBM,wl1,wl2,wl3,wl4,diam,theta]=Kataura(P)
 
 n=P(1);
 m=P(2);
@@ -49,4 +46,6 @@ c=0.812;%nm-1
                 energy4=((a*5/diam).*(1+(b*log10(c./(5/diam)))))-0.4*cos(3*theta)/diam^2+(0.0596*5/diam);%(in eV)
                 wl4=1240/energy4;
            end
-end
+
+
+
