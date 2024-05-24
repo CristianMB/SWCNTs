@@ -11,53 +11,114 @@ rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\
 path_20240320 = [rootpath,'20240320\'];
 path_20240321 = [rootpath,'20240321\'];
 path_20240514 = [rootpath,'20240514\'];
+path_20240515 = [rootpath,'20240515\'];
 path_20240517 = [rootpath,'20240517\'];
 
 %Select the paths of interest
 
 paths = {
     path_20240514
+    path_20240515
     };
 
-
 ReadRamanFromPaths(paths);
-
 
 %%% --------------------------------------------------------
 %%%           Correcting for sensitivity detector and inclination and
 %%%           cutting edges away
 %%% --------------------------------------------------------
 
-% clip edges of spectra - %how many pixels to clip from the edges
-ClipLeft = 70; 
-ClipRight = 70;
+% DATA_20240514.S2L650D = clip_spectrum(DATA_20240514.S2L650D,10,10);
+% DATA_20240514.S2L650D = remove_inclination(DATA_20240514.S2L650D,650);
+% DATA_20240514.S2L650D = correct_instrument_response(DATA_20240514.S2L650D, 650);
+% DATA_20240514.S2L650D = remove_bg_poly(DATA_20240514.S2L650D);
 
-%Sends to zero all away of ROI
-% plotRaman({DATA_20240514.S2L650D}, 0.0)
-DATA_20240514.S2L650D.X(1:ClipLeft,:)=[];
-DATA_20240514.S2L650D.X(1024-ClipLeft-ClipRight:1024-ClipLeft,:)=[];
-DATA_20240514.S2L650D.Y(:,1:ClipLeft)=[];
-DATA_20240514.S2L650D.Y(:,1024-ClipLeft-ClipRight:1024-ClipLeft)=[];
+MyData={
+        DATA_20240515.BAL570C
+        DATA_20240515.BAL570D
+        DATA_20240515.BAL570G
+        DATA_20240515.BBL570C
+        DATA_20240515.BBL570D
+        DATA_20240515.BBL570G
 
-% % remove spectrum inclination
-% for k = 1:16
-%     DATAb(:,k) = remove_inclination(RamanShift(:,k),DATA(:,k),[1:length(DATA)],650);
+        DATA_20240514.EAL650R
+        DATA_20240514.WAL650R
+        }
+    
+
+for i=1:length(MyData)
+    current = MyData{i};  % Access the cell array element once
+    current = clip_spectrum(current, 40, 40);
+    current = remove_inclination(current, 650);
+    current = correct_instrument_response(current, 650);
+    current = remove_bg_poly(current);
+    MyData{i} = current;  % Save the result back to the cell array
+end        
+
+plotRaman(MyData, 0.0)
+
+
+%% FIGURESSSS GDBAND
+% figure; clf; set(gcf,'color','w','position',[10 10 800 500])
+% %TODO - Consider a new feature called DS.R which specifies the ROI
+% %DS.R can be R, G, D, C
+% %Define also a Zoom variable for rescaling in different areas.
+% % G-band
+% s=0;
+% for i=[3 6]
+%    current = MyData{i}
+%    hold on;
+%    indexes=find(or(current.X<1482,current.X>1633));
+%    p=polyfit(current.X(indexes),current.Y(indexes),1);
+%    current.Y=current.Y-polyval(p,current.X);
+%    NORM(s+1)=max(current.Y);
+%    plot(current.X,(current.Y/ NORM(s+1))-s);
+%    s=s+1;
+% xlabel('Raman Shift (cm^{-1})')
+% ylabel('Norm. Raman')
 % end
-% plotRaman({DATA_20240514.S2L650D}, 0.0)
-DATA_20240514.S2L650D.Y = remove_inclination(DATA_20240514.S2L650D.X',DATA_20240514.S2L650D.Y,[1:length(DATA_20240514.S2L650D.Y)],650);
-
-% % correct for the Dilor XY instrument response
-% for k = 1:16
-%  xl = 10^7./(10^7./650 - RamanShift(:,k)); % x values in nm
-%  DATAb(:,k)= correct_instrument_response(xl,DATAb(:,k));    
+% % D-band
+% s=0;
+% for i=[2 5]
+%    current = MyData{i}
+%    hold on;
+%    indexes=find(or(current.X<1200,current.X>1400));
+%    p=polyfit(current.X(indexes),current.Y(indexes),1);
+%    current.Y=current.Y-polyval(p,current.X);
+%    plot(current.X,5*(current.Y/ NORM(s+1))-s);
+%    s=s+1;
+% xlabel('Raman Shift (cm^{-1})')
+% ylabel('Norm. Raman')
 % end
-plotRaman({DATA_20240514.S2L650D}, 0.0)
-xl = 10^7./(10^7./650 - DATA_20240514.S2L650D.Y); % x values in nm
-DATA_20240514.S2L650D.Y = correct_instrument_response(xl, DATA_20240514.S2L650D.Y);
-plotRaman({DATA_20240514.S2L650D}, 0.0)
+% % C-band
+% s=0;
+% for i=[1 4]
+%    current = MyData{i}
+%    hold on;
+%    indexes=find(or(current.X<1633,current.X>5000));
+%    p=polyfit(current.X(indexes),current.Y(indexes),1);
+%    current.Y=current.Y-polyval(p,current.X);
+%    plot(current.X,1*(current.Y/ NORM(s+1))-s);
+%    s=s+1;
+% xlabel('Raman Shift (cm^{-1})')
+% ylabel('Norm. Raman')
+% end
+% set(gca,'FontSize',16);
+% set(gca,'TickDir','in');
+% set(gca,'Box','on');
+% set(gca,'TickLength',[0.01 0.01]);
+% set(gca,'XMinorTick','on');
+% set(gca,'YMinorTick','on');
+% axis([1200 2000 -2.0 1.5])
+% %text(1300.5, 0.7,'D-band region (X5)')
+% %text(1600.2, 0.7,'G-band region')
+% xline(1593,'r--','LineWidth',0.5);
+% xline(1400,'k','LineWidth',1.5);
+% xline(1700,'k','LineWidth',1.5);
 
 
-%%
+%% FIGURESSSS RBMs
+
 figure; clf; set(gcf,'color','w','position',[10 10 800 500])
 
 subplot('Position',[0.1 0.2 0.35 0.7])  

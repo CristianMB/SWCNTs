@@ -38,6 +38,46 @@ end
 
 %%
 figure; clf; set(gcf,'color','w','position',[10 10 800 500])
+%[3 4 5 6 7 8 9 12 13 14 15]
+% G-band
+s=0; 
+for i=[3 7 8 12 14]
+   hold on;
+   QQ=find(or(RamanShift(:,i)<1482,RamanShift(:,i)>1633));
+   p=polyfit(RamanShift(QQ,i),DATAb(QQ,i),1);
+   DATAb(:,i)=DATAb(:,i)-polyval(p,RamanShift(:,i));
+   NORM(s+1)=max(DATAb(:,i));
+   plot(RamanShift(:,i),(DATAb(:,i)/ NORM(s+1))-s);
+   s=s+1;
+xlabel('Raman Shift (cm^{-1})')
+ylabel('Norm. Raman')
+end
+% D-band
+s=0;
+for i=[4 6 9 13 15]
+   hold on;
+   QQ=find(or(RamanShift(:,i)<1250,RamanShift(:,i)>1404));
+   p=polyfit(RamanShift(QQ,i),DATAb(QQ,i),1);
+   DATAb(:,i)=DATAb(:,i)-polyval(p,RamanShift(:,i));
+   plot(RamanShift(:,i),5*(DATAb(:,i)/ NORM(s+1))-s);
+   s=s+1;
+xlabel('Raman Shift (cm^{-1})')
+ylabel('Norm. Raman')
+end
+
+set(gca,'FontSize',16);
+set(gca,'TickDir','in');set(gca,'Box','on');set(gca,'TickLength',[0.02 0.01]);
+set(gca,'XMinorTick','on');set(gca,'YMinorTick','on');
+axis([1220 1680 -4.2 1.1])
+text(1300.5, 0.7,'D-band region (X5)')
+text(1600.2, 0.7,'G-band region')
+xline(1589.5,'r--','LineWidth',0.5);
+xline(1458,'k','LineWidth',5);
+
+
+
+%%
+figure; clf; set(gcf,'color','w','position',[10 10 800 500])
 
 subplot('Position',[0.1 0.2 0.35 0.7])  
 s=0;

@@ -120,7 +120,7 @@ for i = 1:Number_atoms
             yy = Atom_data(j, 3);
             zz = Atom_data(j, 4);
 
-            line([x, xx], [y, yy], [z, zz], 'Color', bond_color, 'LineWidth', 1)
+            line([x, xx], [y, yy], [z, zz], 'Color', bond_color, 'LineWidth', 2)
         end
     end
 end

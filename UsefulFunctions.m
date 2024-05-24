@@ -1,6 +1,64 @@
 classdef UsefulFunctions
     
    methods (Static)
+   
+   %% Kataura Calculation
+
+    function [nuRBM,wl1,wl2,wl3,wl4,diam,theta, type]=CalculateKataura(P)
+
+    n=P(1);
+    m=P(2);
+
+    diam=0.144*sqrt(3)*(sqrt(n.^2+m.^2+n.*m))/pi;
+    theta=atan(sqrt(3)*m./(m+2*n));
+    nuRBM=(223.5./diam)+12.5;
+
+    a=1.049;%eV nm
+    b=0.456;
+    c=0.812;%nm-1
+
+               if mod(n-m,3)==0 % METALLIC TUBES               
+    %                 freq1=(1*10^7)./(150+(370*diam))+(-2000*cos(3*theta))./diam.^2;
+    %                 wl1=(1*10^7)./freq1; 
+    %                 freq2=10000000./(150+370*diam)+3000*cos(3*theta)./diam.^2;
+    %                 wl2=(1*10^7)./freq2;
+                    energy1=((a*3./diam).*(1+(b*log10(c./(3./diam)))))-0.18*cos(3*theta)/diam^2;%(in eV)
+                    wl1=1240/energy1;
+                    energy2=((a*3./diam).*(1+(b*log10(c./(3./diam)))))+0.29*cos(3*theta)./diam^2;%(in eV)
+                    wl2=1240/energy2;
+                    energy3=((a*6./diam).*(1+(b*log10(c./(6./diam)))))-0.6*cos(3*theta)/diam^2;%(in eV)
+                    wl3=1240/energy3;
+                    energy4=((a*6./diam).*(1+(b*log10(c./(6./diam)))))+0.87*cos(3*theta)./diam^2;%(in eV)
+                    wl4=1240/energy4;
+                    type = 'M';
+               end
+               if mod(n-m,3)==1 % semiconducting tube 
+                    freq1=10000000./(157.5+1066.9*diam)-710*cos(3*theta)./diam.^2;
+                    wl1=(1*10^7)./freq1; 
+                    freq2=10000000./(145.6+575.7*diam)+1375*cos(3*theta)./diam.^2;
+                    wl2=(1*10^7)./freq2;
+                    energy3=((a*4/diam).*(1+(b*log10(c./(4/diam)))))-0.42*cos(3*theta)./diam^2+(0.0596*4/diam);%(in eV)
+                    wl3=1240/energy3;
+                    energy4=((a*5/diam).*(1+(b*log10(c./(5/diam)))))+0.4*cos(3*theta)./diam^2+(0.0596*5/diam);%(in eV)
+                    wl4=1240/energy4;
+                    type = 'S';
+
+               end
+               if mod(n-m,3)==2 % semiconducting tube 
+                    freq1=10000000./(157.5+1066.9*diam)+369*cos(3*theta)./diam.^2;
+                    wl1=(1*10^7)./freq1; 
+                    freq2=10000000./(145.6+575.7*diam)-1475*cos(3*theta)./diam.^2;
+                    wl2=(1*10^7)./freq2;
+                    energy3=((a*4/diam).*(1+(b*log10(c./(4/diam)))))+0.42*cos(3*theta)/diam^2+(0.0596*4/diam);%(in eV)
+                    wl3=1240/energy3;
+                    energy4=((a*5/diam).*(1+(b*log10(c./(5/diam)))))-0.4*cos(3*theta)/diam^2+(0.0596*5/diam);%(in eV)
+                    wl4=1240/energy4;
+                    type = 'S';
+               end
+    end
+
+   %% General Functions
+
        
     function integralValue = ComputeIntegral(sample, lowerLimit, upperLimit)
         x = sample.X;
@@ -36,7 +94,7 @@ classdef UsefulFunctions
         peakPosition = x(indicesInRange(maxIndex));
     end
         
-    %Raman Functions
+    %% Raman Functions
 
     function dataStructures = ReadRamanFromPaths(paths)
         dataStructures = struct();  
@@ -61,8 +119,9 @@ classdef UsefulFunctions
                     sampleName = upper(strrep(fileList{f}, '.m3d',''));
 
                     structure.(sampleName).X = X;
-                    structure.(sampleName).Y = Y;
+                    structure.(sampleName).Y = Y';
                     structure.(sampleName).N = sampleName;
+                    structure.(sampleName).P = (1:1024)';
                 end 
                dataStructures.(fieldName) = structure;
                assignin('caller', fieldName, structure); % Assign data to a variable in the caller workspace
@@ -186,7 +245,171 @@ classdef UsefulFunctions
         writetable(dataTable, fileName);
     end
     
-    %Absorption Functions
+    %% Merge and Correct Functions (Adapted from Dmitry)
+    
+    function DS = remove_bg_poly(DS)
+        %removes background according to the polynomial method (Zhao et al. Applied Spectroscopy 61 11 2007 - 10.1366/000370207782597003)
+        X0 = DS.X;
+        Y0 = DS.Y;
+        spectrum0 = [X0,Y0];
+        EndCycle = false; %declaring logical variable (= criterion for ending the cycle) to start the first iteration of the while loop
+        i=1; %iteration number
+
+        fitfunc = 'poly1'; %order of the polynomial function
+        options = fitoptions; % initializing "fitoptions" object for removing points during the fit after the first iteration
+        % options = fitoptions(fitfunc, 'Normalize','On','Robust', 'LAR'); %to activate if normalization is needed; however, it works worse than without normalization
+
+        while not(EndCycle)
+
+           %fitting spectrum with high-order polynomial function
+           if i == 1 %choose which spectrum to fit for current iteration
+               current_spectrum = spectrum0(:,2); %take intensity array of input spectrum
+           else
+               current_spectrum = spectrum{i-1};
+           end
+
+           [cpoly{i},gofs{i}] = fit(spectrum0(:,1), current_spectrum, fitfunc, options);
+
+        %    if options.Normalize == 'on' %code to use when normalization is on for fit function
+        %        meanx = mean(spectrum0(:,1));
+        %        stdx = std(spectrum0(:,1));
+        %        tempx = (spectrum0(:,1)-meanx)./stdx;
+        %    else
+        %        tempx = spectrum0(:,1);
+        %    end
+           polyfit{i} = polyval(coeffvalues(cpoly{i}),spectrum0(:,1)); %estimating polynomial function at every x value
+
+           %calculating residual
+           res{i} = current_spectrum - polyfit{i}; 
+
+           %calculating standard deviation of residual
+           dev{i} = std(res{i},1);
+           sum = polyfit{i}+dev{i};
+
+           %reconstructing model input for the next iteration
+           spectrum{i} = sum;
+           if i == 1    %remove peaks from fitting for first iteration
+              PointsToExclude = current_spectrum > sum;
+              options.Exclude = excludedata(spectrum0(:,1),current_spectrum,'indices',PointsToExclude);
+           end
+
+           cond_mod = current_spectrum < sum; %determine at which frequencies spectrum is less then polynomial function
+           spectrum{i}(cond_mod) = current_spectrum(cond_mod);
+
+
+           if i~= 1
+               EndCycle = abs((dev{i}-dev{i-1})/dev{i})<0.05; %calculate condition to end cycle
+           end
+           i = i+1; %change to next iteration
+        end
+
+        X = spectrum0(:,1);
+        Y = spectrum0(:,2) - polyfit{i-1}; % spectral intensity without background contribution
+        DS.Y = Y;
+        DS.X = X;
+    end
+
+    function DS = clip_spectrum(DS,ClipLeft0,ClipRight0)
+    %function clips spectrum at the left and right sides by calculating its derivative; 
+    %ClipLeft and ClipRight determine number of pixels to remove from the center of left and right derivative peaks,respectively; 
+    %By default, ClipLeft = 8, ClipRight = 9;
+
+    load InclinationCoeff.mat IncPoly3;
+    LeftLim = 130; %all peaks of the spectrum's derivative curve should be to the left of LeftLim - determined visually from graph with all derivative curves
+    RightLim = 900; %all peaks are to the right of RightLim
+
+    ClipRangeL = ClipLeft0; %number of pixels to add/substract to the deriv. peak
+    ClipRangeR = ClipRight0;
+
+    arb = 3; %tolerance = PeakHeight/AverageBaselineValue; determines how high should be the derivative peak, in respect to average value, to be treated as real; 
+    ClipDef = 150; %default number of pixels to clip if no clear peak present in the derivative
+
+    f.x = DS.X;
+    f.y = DS.Y;
+    f.p = DS.P;
+
+    deriv = diff(f.y); %finding derivative for current spectrum
+    deriv = [deriv;nan];
+
+    cond = (f.p >= LeftLim)&(f.p<=RightLim);
+    mdn = median(deriv(cond), 'omitnan'); %calculating median of derivative
+
+    condL = (f.p <= LeftLim);
+    dleft = max(deriv(condL)) - mdn; %calculating difference between peak and median
+
+    condR = (f.p>=RightLim);
+    dright = mdn - min(deriv(condR));
+    dev = mad(deriv,1); %calculating average deviation from the median
+
+    rl = dleft/dev; %calculating how different (peak-median) from average deviation from median 
+    rr = dright/dev;
+
+    if rl>=arb
+       pleft=f.p(deriv == max(deriv(condL)));
+       if length(pleft)>=2 %to make sure there is no  such value in the right part condR (happened once)
+           pleft = min(pleft);
+       end
+       ClipLeft = pleft + ClipRangeL;        
+    else
+       ClipLeft = 1+ClipDef;
+    end    
+
+    if rr>=arb
+       pright=f.p(deriv == min(deriv(condR)));
+       if length(pright)>=2
+           pright = max(pright);
+       end
+       ClipRight = pright - ClipRangeR;
+    else
+       ClipRight = 1024-ClipDef;
+    end
+
+    %here we determine the convergence range (in terms of pixels) of the cubic polynomial IncPoly3 interpolated for the x_mean of the spectrum;
+    PixFirst = interp1(IncPoly3(:,9),IncPoly3(:,7),f.x(f.p==512));
+    PixLast = interp1(IncPoly3(:,9),IncPoly3(:,6),f.x(f.p==512));
+
+    if ClipLeft<PixFirst %choose the highest starting pixel for clipping
+       ClipLeft = PixFirst;
+    end 
+    if ClipRight >PixLast %choose the smallest ending pixel for clipping
+       ClipRight = PixLast;
+     end
+
+    condition = (f.p >= ClipLeft)&(f.p <= ClipRight);
+    DS.X = f.x(condition);
+    DS.Y = f.y(condition);
+    DS.P = f.p(condition);
+    end
+
+    function DS = correct_instrument_response(DS, WL)
+        load DilorXY_Instrument_Response.mat;
+        XL = 10^7./(10^7./WL - DS.X); % x values in nm 
+        DS.Y = DS.Y./interp1(instrument_response(:,1),instrument_response(:,2),XL);
+    end
+    
+    function DS = remove_inclination(DS,WL)
+        %Function removes inclination effect for the spectrum for Dilor XY spectrometer
+        
+        load InclinationCoeff.mat IncPoly3;
+        X0 = DS.X;
+        Y0 = DS.Y;
+        P0 = DS.P;
+        
+        XL = 10^7./(10^7./WL - X0); % change x from cm-1 to nm
+
+        center = XL(P0==512);
+
+        p(1) = interp1(IncPoly3(:,8), IncPoly3(:,2),center,'spline');
+        p(2) = interp1(IncPoly3(:,8), IncPoly3(:,3),center,'spline');
+        p(3) = interp1(IncPoly3(:,8), IncPoly3(:,4),center,'spline');
+        p(4) = interp1(IncPoly3(:,8), IncPoly3(:,5),center,'spline');
+
+        y= @(p,x) p(1)*x.^3+p(2)*x.^2+p(3)*x+p(4);
+
+        Y = Y0./y(p,XL);
+        DS.Y = Y;
+    end
+    %% Absorption Functions
     
     function samples = readSamplesData(filePath)
         % Read the header
