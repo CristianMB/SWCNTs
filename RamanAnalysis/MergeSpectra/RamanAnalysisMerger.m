@@ -55,7 +55,7 @@ for i=1:length(MyData)
     MyData{i} = current;  % Save the result back to the cell array
 end        
 
-plotRaman(MyData, 0.0)
+% plotRaman(MyData, 0.0)
 
 
 %% FIGURESSSS GDBAND
@@ -123,24 +123,30 @@ figure; clf; set(gcf,'color','w','position',[10 10 800 500])
 
 subplot('Position',[0.1 0.2 0.35 0.7])  
 s=0;
-for i=[1 2 10 11 16]
+for i=[7 8]
+   current = MyData{i}
    hold on;
-   QQ=find(or(RamanShift(:,i)<230,RamanShift(:,i)>439));
-   p=polyfit(RamanShift(QQ,i),DATAb(QQ,i),1);
-   DATAb(:,i)=DATAb(:,i)-polyval(p,RamanShift(:,i));
-    plot(RamanShift(:,i),(DATAb(:,i)/max(DATAb(:,i)))+s);
+   indexes=find(or(current.X<230,current.X>439));
+   p=polyfit(current.X(indexes),current.Y(indexes),1);
+   current.Y=current.Y-polyval(p,current.X);
+   plot(current.X,(current.Y/max(current.Y))+s);
     s=s-1;
 xlabel('Raman Shift (cm^{-1})')
 ylabel('Norm. Raman')
 end
+
 set(gca,'FontSize',16);
 set(gca,'TickDir','in');set(gca,'Box','on');set(gca,'TickLength',[0.02 0.01]);
 set(gca,'XMinorTick','on');set(gca,'YMinorTick','on');
-axis([210 350 -4.2 1.1])
+axis([130 210 -2.0 1.3])
 
-xline(283.125,'r--','LineWidth',0.5);xline(285.375,'r--','LineWidth',0.5)
-xline(298.125,'r--','LineWidth',0.5);xline(300.375,'r--','LineWidth',0.5);
-xline(264.375,'r--','LineWidth',0.5);
+xline(175.0,'r--','LineWidth',0.5);
+xline(165.0,'r--','LineWidth',0.5)
+xline(160.0,'r--','LineWidth',0.5);
+xline(155.0,'r--','LineWidth',0.5);
+xline(182.0,'r--','LineWidth',0.5);
+
+
 
 subplot('Position',[0.6 0.2 0.35 0.7])
 hold on;
@@ -163,24 +169,27 @@ PP=P(:,k);
 N=size(k);
 % alles berekenen voor deze NTs
 for i=1:N(2);
-    [nuRBM(i),wl1(i),wl2(i),wl3(i),wl4(i),diam(i),theta(i)]=Kataura(PP(:,i));
+    [nuRBM(i),wl1(i),wl2(i),wl3(i),wl4(i),diam(i),theta(i),type(i)] = CalculateKataura(PP(:,i))
 end
-
 
 for i=1:N(2)
-    if mod(PP(1,i)-PP(2,i),3)==0
-%    plot(wl1(i),diam(i),'o','color',[1 0 0])
-%    plot(wl2(i),diam(i),'o','color',[1 0 0])
-    else
-   if and(and(nuRBM(i) < 350,nuRBM(i)>20),and(wl2(i) < 750,wl2(i)>500))
-   plot(nuRBM(i),wl2(i),'o','color',[0 0.5 0])
-   text(nuRBM(i),wl2(i),strcat('(',num2str(PP(1,i)),',',num2str(PP(2,i)),')'),'color','b')
-   end
-   %    plot(wl3(i),diam(i),'o','color',[0 0.5 0])
-%    plot(wl4(i),diam(i),'o','color',[1 0 1])
-    end
+        if (and(nuRBM(i) < 200,nuRBM(i)>100))
+           plot(nuRBM(i),wl1(i),'o','color','r')
+           text(nuRBM(i),wl1(i),strcat('(',num2str(PP(1,i)),',',num2str(PP(2,i)),')'),'color','r')
+           
+           plot(nuRBM(i),wl2(i),'o','color','g')
+           text(nuRBM(i),wl2(i),strcat('(',num2str(PP(1,i)),',',num2str(PP(2,i)),')'),'color','g')
+           
+           plot(nuRBM(i),wl3(i),'o','color','b')
+           text(nuRBM(i),wl3(i),strcat('(',num2str(PP(1,i)),',',num2str(PP(2,i)),')'),'color','b')
+           
+           plot(nuRBM(i),wl4(i),'o','color',[0 0.5 1])
+           text(nuRBM(i),wl4(i),strcat('(',num2str(PP(1,i)),',',num2str(PP(2,i)),')'),'color',[0 0.5 1])
+        end
 end
-axis([200 350 500 750])
+
+
+axis([100 220 550 750])
 set(gca,'FontSize',16);
 set(gca,'TickDir','in');set(gca,'Box','on');set(gca,'TickLength',[0.02 0.01]);
 set(gca,'XMinorTick','on');set(gca,'YMinorTick','on');
@@ -188,7 +197,8 @@ xlabel('Raman Shift (cm^{-1})','FontSize',16);
 ylabel('Excitation Wavelength (nm)','FontSize',16);
 
 yline(650,'m--','LineWidth',1.5);
-
-xline(283.125,'r--','LineWidth',0.5);xline(285.375,'r--','LineWidth',0.5)
-xline(298.125,'r--','LineWidth',0.5);xline(300.375,'r--','LineWidth',0.5);
-xline(264.375,'r--','LineWidth',0.5);
+xline(175.0,'r--','LineWidth',0.5);
+xline(165.0,'r--','LineWidth',0.5)
+xline(160.0,'r--','LineWidth',0.5);
+xline(155.0,'r--','LineWidth',0.5);
+xline(182.0,'r--','LineWidth',0.5);
