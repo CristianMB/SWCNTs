@@ -8,7 +8,7 @@ import UsefulFunctions.*;
 rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
 
 %All paths as default
-%path_baselines = [rootpath,'References.csv'];
+path_baselines = [rootpath,'References.csv'];
 path_20231206 = [rootpath,'20231206\alldata20231206.csv'];
 path_20240202 = [rootpath,'20240202\AllData.csv'];
 path_20240212a = [rootpath,'20240212\AllDataCentrifuge.csv'];

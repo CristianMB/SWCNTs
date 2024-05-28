@@ -435,7 +435,7 @@ classdef UsefulFunctions
             samples.(sampleName).N = sampleName;
         end
     end
-
+    
     function mergedStruct = mergeStructures(struct1, struct2)
     % Get fieldnames of both structures
     fields2 = fieldnames(struct2);
@@ -448,14 +448,6 @@ classdef UsefulFunctions
         mergedStruct = struct1;
     end
     
-    function mergedStruct = mergeStructuresRaman(structs)
-            mergedStruct = struct('X', [], 'Y', [], 'N', 'Merged');
-        for i = structs
-            mergedStruct.X = [mergedStruct.X;i.X];
-            mergedStruct.Y = [mergedStruct.Y;i.Y];
-        end
-    end
-
     function dataStructures = ReadAbsorptionFromPaths(paths)
         dataStructures = struct();
         for i = 1:length(paths)

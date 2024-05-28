@@ -8,20 +8,6 @@ import UsefulFunctions.*;
 rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Raman\';
 
 %All paths as default
-path_20240320 = [rootpath,'20240320\'];
-path_20240321 = [rootpath,'20240321\'];
-path_20240514 = [rootpath,'20240514\'];
-path_20240515 = [rootpath,'20240515\'];
-path_20240517 = [rootpath,'20240517\'];
-
-%Select the paths of interest
-
-paths = {
-    path_20240514
-    path_20240515
-    };
-
-%All paths as default
 path_20240426 = [rootpath,'20240426\'];
 path_20240514 = [rootpath,'20240514\'];
 path_20240515 = [rootpath,'20240515\'];
@@ -47,29 +33,14 @@ ReadRamanFromPaths(paths);
 % DATA_20240514.S2L650D = remove_bg_poly(DATA_20240514.S2L650D);
 
 MyData={
-            DATA_20240515.BAL570C
-            DATA_20240515.BAL570D
-            DATA_20240515.BAL570G
-            DATA_20240515.BAL570RA
-            DATA_20240515.BAL570RB
-            DATA_20240515.BBL570C
-            DATA_20240515.BBL570D
-            DATA_20240515.BBL570G
-            DATA_20240515.BBL570RA
-            DATA_20240515.BBL570RB
-
-            DATA_20240426.BAL650D,
-            DATA_20240426.BAL650G,
-            DATA_20240426.BAL650R,
-            DATA_20240426.BAL650RB,
-            DATA_20240426.BBL650G,
-            DATA_20240426.BBL650D,
-            DATA_20240426.BBL650RA,
-            DATA_20240426.BBL650RB
-            DATA_20240514.BAL650C1
-            DATA_20240514.BAL650C2
-            DATA_20240514.BBL650C1
-            DATA_20240514.BBL650C2  
+                    DATA_20240426.BAL650D,
+                    DATA_20240426.BAL650G,
+                    DATA_20240426.BAL650R,
+                    DATA_20240426.BAL650RB,
+                    DATA_20240426.BBL650G,
+                    DATA_20240426.BBL650D,
+                    DATA_20240426.BBL650RA,
+                    DATA_20240426.BBL650RB
         };
     
 WL = 650;
@@ -99,15 +70,15 @@ end
 % x_min = 130;
 % x_max = 210;
 % wl = 650;
-
-GBand = [3 8 12 15];
+GBand = [2 5 ];
 GFactor = 1.0;
-DBand = [2 7 11 16];
+DBand = [1 6];
 DFactor = 1.0;
-CBand = [1 6 19 21];
-CFactor = 1.0;
-
-Peaks = [155.0, 160.0, 165.0, 175.0, 182.0];
+CBand = [4 8];
+CFactor = 3.0;
+RBand = [3 7];
+RFactor = 3.0;
+%Peaks = [155.0, 160.0, 165.0, 175.0, 182.0];
 
 figure; clf; set(gcf,'color','w','position',[10 10 800 500])
 s=0;
@@ -147,21 +118,33 @@ for i=CBand
    s=s+1;
 
 end
+% C-band
+s=0;
+for i=RBand
+   current = MyData{i};
+   hold on;
+   indexes=find(or(current.X<1633,current.X>5000));
+   p=polyfit(current.X(indexes),current.Y(indexes),1);
+   current.Y=current.Y-polyval(p,current.X);
+   plot(current.X,RFactor*(current.Y/ NORM(s+1))-s);
+   s=s+1;
+
+end
 
 set(gca,'FontSize',16);
 set(gca,'TickDir','in');
 set(gca,'Box','on');
-set(gca,'TickLength',[0.01 0.01]);
 set(gca,'XMinorTick','on');
 set(gca,'YMinorTick','on');
-axis([1300 1900 -3.5 1.5])
 
+%axis([1200 2000 -2.0 1.5])
+% set(gca,'TickLength',[0.01 0.01]);
 %text(1300.5, 0.7,'D-band region (X5)')
 %text(1600.2, 0.7,'G-band region')
+
 % xline(1593,'r--','LineWidth',0.5);
 % xline(1400,'k','LineWidth',1.5);
 % xline(1700,'k','LineWidth',1.5);
-
 xlabel('Raman Shift (cm^{-1})')
 ylabel('Norm. Raman')
 

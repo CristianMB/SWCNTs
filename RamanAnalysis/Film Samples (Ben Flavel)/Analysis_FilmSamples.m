@@ -116,6 +116,12 @@ FullSpectra650 = {  DATA_20240426.BAL650D,
                     DATA_20240426.BBL650RB
                 };
 
+GBandCarbide650 = {
+       DATA_20240514.BAL650C1
+       DATA_20240514.BAL650C2
+       DATA_20240514.BBL650C1
+       DATA_20240514.BBL650C2  
+       };
 
 FullSpectra570 = {
                   DATA_20240515.BAL570C
@@ -131,16 +137,46 @@ FullSpectra570 = {
                   };
 
               
-GBandCarbide650 = {
-                   DATA_20240514.BAL650C1
-                   DATA_20240514.BAL650C2
-                   DATA_20240514.BBL650C1
-                   DATA_20240514.BBL650C2  
-                   };
+WL = 650;
+for i=1:length(GBandCarbide650)
+    current = GBandCarbide650{i};  % Access the cell array element once
+    current = clip_spectrum(current, 40, 40);
+    current = remove_inclination(current, WL);
+    current = correct_instrument_response(current, WL);
+    current = remove_bg_poly(current);
+    GBandCarbide650{i} = current;  % Save the result back to the cell array
+end        
 
-plotRaman(GBandCarbide650, 0)
-plotRaman(FullSpectra570, 0)
-plotRaman(FullSpectra650, 0)
+WL = 650;
+for i=1:length(FullSpectra650)
+    current = FullSpectra650{i};  % Access the cell array element once
+    current = clip_spectrum(current, 40, 40);
+    current = remove_inclination(current, WL);
+    current = correct_instrument_response(current, WL);
+    current = remove_bg_poly(current);
+    FullSpectra650{i} = current;  % Save the result back to the cell array
+end        
+
+
+WL = 570;
+for i=1:length(FullSpectra570)
+    current = FullSpectra570{i};  % Access the cell array element once
+    current = clip_spectrum(current, 40, 40);
+    current = remove_inclination(current, WL);
+    current = correct_instrument_response(current, WL);
+    current = remove_bg_poly(current);
+    FullSpectra570{i} = current;  % Save the result back to the cell array
+end      
+
+
+
+DATA_20240515.FullCarbide = mergeStructuresRaman([DATA_20240514.BAL650C1, DATA_20240514.BAL650C2])
+
+plotRaman({DATA_20240515.FullCarbide}, 0)
+
+%plotRaman(GBandCarbide650, 0)
+%plotRaman(FullSpectra570, 0)
+%plotRaman(FullSpectra650, 0)
 
 %plotRaman([GBand650,DBand650], 0)
 %plotRaman([RBMBs650, RBMAs650], 0)
