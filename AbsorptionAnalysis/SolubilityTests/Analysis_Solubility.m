@@ -154,7 +154,7 @@ TCNQ_OK = {
         DATA_20240506.TCNQ_THF
         DATA_20240506.TCNQ_Acetone
        };
-plotAbsorption(TCNQ_OK, 0.0)
+% plotAbsorption(TCNQ_OK, 0.0)
    
    
 TCBQ = {
@@ -186,7 +186,7 @@ TCBQOK = {
         %DATA_20240415.TCBQ_Acetone
        };
 
-plotAbsorption(TCBQOK, 0.0)
+% plotAbsorption(TCBQOK, 0.0)
 
    
 FN = {  
@@ -211,7 +211,7 @@ FNOK = {
         DATA_20240528.FN_Ethanol
         }; 
     
-plotAbsorption(FNOK, 0.0)
+% plotAbsorption(FNOK, 0.0)
 
   
  
@@ -258,6 +258,7 @@ CuClOK = {
         DATA_20240506.CuCl_Acetonitrile
         DATA_20240506.CuCl_Acetonitrile_B
         DATA_20240506.CuCl_Methanol
+        DATA_20240528.CuCl_Ethanol
         };     
     
 % plotAbsorption(CuClOK, 0.0)

@@ -342,16 +342,48 @@ LG = 140;
 HG = 250;
 NP = 170;
 Tol = 5;
-RBMsHD514 = FlatFieldCorrection(RBMsHD514, DATA_20240517.FF514R);
-RBMsHD514 = SubstractLinearBG(RBMsHD514, LG, HG);
-RBMsHD514 = NormalizeSample(RBMsHD514,NP-Tol, NP+Tol);       
 
+RBMsHD514 = FlatFieldCorrection(RBMsHD514, DATA_20240517.FF514R);
+% RBMsHD514 = SubstractLinearBG(RBMsHD514, LG, HG);
+% RBMsHD514 = NormalizeSample(RBMsHD514,NP-Tol, NP+Tol);       
+% 
+
+
+for i=1:length(RBMsHD514)
+    current = RBMsHD514{i};  % Access the cell array element once
+    current = clip_spectrum(current, 200, 250);
+    RBMsHD514{i} = current;  % Save the result back to the cell array
+end     
 
 %plotRaman(FilledSamples514, 0.25)
-% plotRaman(RBMsHD514, 0.25)
+plotRaman(RBMsHD514, 0.0)
 % plotRaman(GDBand514, 0.25)
 
 
 %% Peak Calculation
 %GDBand520 = GDBandPeaksCalculation(GDBand520, 1580,1600,1560,1570,1300,1400);
 %exportGDBandPeaks(GDBand520, 'dsfsd.csv');
+
+
+%% Prepare data for AutomatedRaman
+
+fileID = fopen('DATA.txt', 'w');
+
+numSpectra = length(RBMsHD514);
+
+% Get the number of data points (assuming all X are of the same length)
+numDataPoints = length(RBMsHD514{1}.X);
+
+% Loop through each data point
+for i = 1:numDataPoints
+    % Write the X value
+    fprintf(fileID, '%.6f', RBMsHD514{1}.X(i));
+    % Write the corresponding intensity values from each spectrum
+    for k = 1:numSpectra
+        fprintf(fileID, ', %.6f', RBMsHD514{k}.Y(i));
+    end
+    fprintf(fileID, '\n');
+end
+
+% Close the file
+fclose(fileID);

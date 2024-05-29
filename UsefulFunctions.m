@@ -165,7 +165,7 @@ classdef UsefulFunctions
             background = m*X + b;
 
             % Subtract the background
-            currentSample.Y = currentSample.Y - background';
+            currentSample.Y = currentSample.Y - background;
             CorrectedSpectra{i} = currentSample;
         end
     end
