@@ -338,26 +338,159 @@ GDBand514 = SubstractLinearBG(GDBand514, LG, HG);
 GDBand514 = NormalizeSample(GDBand514,NP-Tol, NP+Tol);       
 
 %Normalization
-LG = 140;
-HG = 250;
-NP = 170;
-Tol = 5;
+LG = 135;
+HG = 220;
+NP = 180;
+Tol = 200;
+
+
+%% Lorentzian Fitting
 
 RBMsHD514 = FlatFieldCorrection(RBMsHD514, DATA_20240517.FF514R);
-% RBMsHD514 = SubstractLinearBG(RBMsHD514, LG, HG);
-% RBMsHD514 = NormalizeSample(RBMsHD514,NP-Tol, NP+Tol);       
-% 
+RBMsHD514 = SubstractLinearBG(RBMsHD514, LG, HG);
 
+for i=1:length(RBMsHD514)
+    RBMsHD514{i}= clip_spectrum(RBMsHD514{i}, 200, 245);
+end  
+
+DATA_20240517.EAH514R
+RBMsHD514 = NormalizeSample(RBMsHD514,NP-Tol, NP+Tol);       
+%RBMsHD514=PeakID(RBMsHD514, 0.05);
+
+%pp = [156 172 177 183 189]
+pp = [152 159 167 173 179 184 187]
 
 for i=1:length(RBMsHD514)
     current = RBMsHD514{i};  % Access the cell array element once
-    current = clip_spectrum(current, 200, 250);
-    RBMsHD514{i} = current;  % Save the result back to the cell array
-end     
+    current.Peaks.x = pp;
+    current.Peaks.h = 1;
+    current.Peaks.p = 1;
+    current.Peaks.w = 1;
+    RBMsHD514{i} = current;
+end   
+% plotRaman(RBMsHD514, 0.2)
 
-%plotRaman(FilledSamples514, 0.25)
-plotRaman(RBMsHD514, 0.0)
+% Assuming SampleList contains spectra with identified peaks
+for i = 1:length(RBMsHD514)
+    currentSample = RBMsHD514{i};
+    X = currentSample.X;
+    Y = currentSample.Y;
+    peaks = currentSample.Peaks;
+    peakPositions = peaks.x;  % Extract peak positions from PeakID results
+    peakW = peaks.w;  % Extract peak positions from PeakID results
+    peakA = peaks.h;  % Extract peak positions from PeakID results
+
+    % Fit multi-Lorentzian to the data
+    [fitParams, fitCurve] = fitMultiLorentzian(currentSample, peakPositions);
+    
+    % Store fit parameters or do further analysis
+end
+
+
+function SamplesPeaks = PeakID(SampleList, peakThreshold)
+   SamplesPeaks = cell(size(SampleList));
+
+    for i = 1:length(SampleList)
+        currentSample = SampleList{i};
+        X = currentSample.X;
+        Y = currentSample.Y;
+        
+        %sorting, just because fitting requires it.
+        [X, sort_idx] = sort(X);
+        Y = Y(sort_idx);
+        
+        % peakThreshold: Minimum height of peaks to be considered (Assuming spectra is normalized)
+
+        % Find peaks using the findpeaks function
+        [h, x, w, p] = findpeaks(Y, X, 'MinPeakProminence', peakThreshold);
+
+        currentSample.Peaks.h = h;
+        currentSample.Peaks.x = x;
+        currentSample.Peaks.w = w;
+        currentSample.Peaks.p = p;
+        
+        SamplesPeaks{i} = currentSample;
+        
+%         figure;
+%         hold on;
+%         plot(x, h, 'rv', 'MarkerFaceColor', 'r');
+%         plot(X, Y);
+%         title('Identified Peaks in RBM Region');
+%         xlabel('Raman Shift (cm^{-1})');
+%         ylabel('Intensity (a.u.)');
+%         legend('Data', 'Peaks'); 
+    end
+
+end
+
+
+function [fitParams, fitCurve] = fitMultiLorentzian(DS, peakPositions)
+    % Define the multi-Lorentzian function
+    X = DS.X;
+    Y = DS.Y;
+    multiLorentzian = @(params, x) Lorentzian(params, x);
+
+    % Define initial parameter guesses
+    initialParams = zeros(1, 3 * length(peakPositions));
+    initialParams(1:3:end) = 1;  % Initial guess for peak heights
+    initialParams(2:3:end) = peakPositions;  % Initial guess for peak positions
+    initialParams(3:3:end) = 10;  % Initial guess for peak widths
+    
+    % Fit the multi-Lorentzian function to the data
+    fitParams = lsqcurvefit(multiLorentzian, initialParams, X, Y);
+
+    % Generate the fitted curve
+    fitCurve = multiLorentzian(fitParams, DS.X);
+
+        % Plot the data
+    figure;
+    hold on;
+
+    plot(X, Y, 'b', 'LineWidth', 1.5);    
+    plot(X, fitCurve, 'k', 'LineWidth', 1.5);
+    % Plot each Lorentzian peak individually
+    numPeaks = numel(peakPositions);
+    for i = 1:numPeaks
+        amp = fitParams(3*i - 2);
+        pos = fitParams(3*i - 1);
+        width = fitParams(3*i);
+        peakCurve = amp ./ ((X - pos).^2 + width);
+        plot(X, peakCurve, 'r--', 'LineWidth', 1);
+        plot(X, peakCurve, 'r--', 'LineWidth', 1);
+        plot(X, peakCurve, 'r--', 'LineWidth', 1);
+
+    end
+    % Customize plot labels and legend
+    xlabel('Raman Shift (cm^{-1})');
+    ylabel('Intensity (a.u.)');
+    title('Multi-Lorentzian Fitting');
+    legend('Data', 'Individual Peaks', 'Fitted Curve');
+    
+    hold off;
+    
+%     figure;
+%     hold on;
+%     plot(X, Y-fitCurve, 'g', 'LineWidth', 1.5);    
+%     xlabel('Raman Shift (cm^{-1})');
+%     ylabel('Intensity (a.u.)');
+%     title('Multi-Lorentzian Fitting');
+%     hold off;
+end
+
+function result = Lorentzian(params, x)
+    numPeaks = numel(params) / 3;
+    result = zeros(size(x));
+    for i = 1:numPeaks
+        amp = params(3*i - 2);
+        pos = params(3*i - 1);
+        width = params(3*i);
+        result = result + amp ./ ((x - pos).^2 + width);
+    end
+end
+% plotRaman(FilledSamples514, 0.25)
 % plotRaman(GDBand514, 0.25)
+
+
 
 
 %% Peak Calculation
@@ -366,24 +499,24 @@ plotRaman(RBMsHD514, 0.0)
 
 
 %% Prepare data for AutomatedRaman
-
-fileID = fopen('DATA.txt', 'w');
-
-numSpectra = length(RBMsHD514);
-
-% Get the number of data points (assuming all X are of the same length)
-numDataPoints = length(RBMsHD514{1}.X);
-
-% Loop through each data point
-for i = 1:numDataPoints
-    % Write the X value
-    fprintf(fileID, '%.6f', RBMsHD514{1}.X(i));
-    % Write the corresponding intensity values from each spectrum
-    for k = 1:numSpectra
-        fprintf(fileID, ', %.6f', RBMsHD514{k}.Y(i));
-    end
-    fprintf(fileID, '\n');
-end
-
-% Close the file
-fclose(fileID);
+% 
+% fileID = fopen('DATA.txt', 'w');
+% 
+% numSpectra = length(RBMsHD514);
+% 
+% % Get the number of data points (assuming all X are of the same length)
+% numDataPoints = length(RBMsHD514{1}.X);
+% 
+% % Loop through each data point
+% for i = 1:numDataPoints
+%     % Write the X value
+%     fprintf(fileID, '%.6f', RBMsHD514{1}.X(i));
+%     % Write the corresponding intensity values from each spectrum
+%     for k = 1:numSpectra
+%         fprintf(fileID, ', %.6f', RBMsHD514{k}.Y(i));
+%     end
+%     fprintf(fileID, '\n');
+% end
+% 
+% % Close the file
+% fclose(fileID);

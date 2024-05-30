@@ -79,7 +79,7 @@ classdef UsefulFunctions
         % Iterate over each sample to be normalized
         for sampleIdx = 1:length(samplesToNormalize)
             currentSample = samplesToNormalize{sampleIdx};
-            %currentSample.Y = currentSample.Y/ComputeIntegral(currentSample,lowerLimit, upperLimit);
+            %currentSample.Y = currentSample.Y/ComputeIntegral(currentSample,lowerLimit, upperLimit);            
             currentSample.Y = currentSample.Y/UsefulFunctions.ComputeMaximum(currentSample,lowerLimit, upperLimit);
             NormedSamples{sampleIdx} = currentSample;
         end
@@ -122,6 +122,7 @@ classdef UsefulFunctions
                     structure.(sampleName).Y = Y';
                     structure.(sampleName).N = sampleName;
                     structure.(sampleName).P = (1:1024)';
+                    
                 end 
                dataStructures.(fieldName) = structure;
                assignin('caller', fieldName, structure); % Assign data to a variable in the caller workspace
@@ -163,7 +164,7 @@ classdef UsefulFunctions
 
             % Calculate the linear background using the equation of the line
             background = m*X + b;
-
+                    
             % Subtract the background
             currentSample.Y = currentSample.Y - background;
             CorrectedSpectra{i} = currentSample;

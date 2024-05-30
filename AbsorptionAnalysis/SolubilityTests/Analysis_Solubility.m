@@ -27,6 +27,7 @@ path_20240506e = [rootpath,'20240506\EthylAcetate.csv'];
 path_20240506f = [rootpath,'20240506\Methanol.csv'];
 
 path_20240528 = [rootpath,'20240528\Ethanol.csv'];
+
 %Select the paths of interest
 paths = {
            path_20240415a

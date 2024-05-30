@@ -10,13 +10,11 @@ close all;
 % variables, respectively. The total number of files should be included in
 % total.
 
-path = '/Users/natms/Documents/Trabajo/Data analysis/Paper Matlab code/interface';
-file_name={ '6,5-SWCNT';
-    'CuMINT';};
-total=2; % Total number of files
+addpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Raman\Automated\';
+file_name={ [addpath 'SWCNT']    };
+total=1; % Total number of files
 type = '.txt';
-name={'6,5-SWCNT';
-    'CuMINT'}; % Indicate here the names of the data for legend, titles and data output. No spaces allowed.
+name={'A'}; % Indicate here the names of the data for legend, titles and data output. No spaces allowed.
 
 
 %% Model: Choose the method to analyse spectral features 
@@ -148,8 +146,7 @@ Intensity(:,:)=IN(:,2:end); % Raman intensities are all data from column 2 til e
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 %%%%%%% Set color scales for plots %%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-cmap = {gray(length(Intensity(1,:))+20);
-winter(length(Intensity(1,:))+5);
+cmap = {winter(length(Intensity(1,:))+5);
 summer(length(Intensity(1,:))+5);
 autumn(length(Intensity(1,:))+5);
 parula(length(Intensity(1,:))+5);
@@ -157,7 +154,8 @@ cool(length(Intensity(1,:))+5);
 spring(length(Intensity(1,:))+5);
 copper(length(Intensity(1,:))+5);
 pink(length(Intensity(1,:))+5);
-hot(length(Intensity(1,:))+5)}; % Sets color maps for different files
+hot(length(Intensity(1,:))+5)};
+gray(length(Intensity(1,:))+20); % Sets color maps for different files
 
 color=cmap{z};
 
