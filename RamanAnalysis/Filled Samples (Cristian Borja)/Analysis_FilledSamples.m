@@ -255,12 +255,21 @@ GBand520LD = {
         
 
 % %Normalization
-LG = 1280;
-HG = 1450;
-NP = 1340;
+LG = 1500;
+HG = 1650;
+NP = 1590;
 Tol = 10;
-GBand520LD = SubstractLinearBG(GBand520LD, LG, HG);
-GBand520LD = NormalizeSample(GBand520LD,NP-Tol, NP+Tol);       
+
+% GBand520LD = SubstractLinearBG(GBand520LD, LG, HG);
+% GBand520LD = NormalizeSample(GBand520LD,NP-Tol, NP+Tol); 
+% GBand520LD = ClipSamples(GBand520LD,20,450); 
+% peaks = [1565 1590]; 
+% GBand520LD = FitSamples(GBand520LD,peaks); 
+% 
+% for i=1:length(GBand520LD)
+%     plotRamanFit(GBand520LD{i})
+% end
+
 
 % %Normalization
 LG = 1536;
@@ -275,37 +284,25 @@ LG = 130;
 HG = 220;
 NP = 175;
 Tol = 5;
-RBMs520 = SubstractLinearBG(RBMs520, LG, HG);
-RBMs520 = NormalizeSample(RBMs520,NP-Tol, NP+Tol);       
 
-%plotRaman(FilledSamples520, 0)
+% RBMs520 = ClipSamples(RBMs520,210,210); 
+% RBMs520 = SubstractLinearBG(RBMs520, LG, HG);
+% RBMs520 = NormalizeSample(RBMs520,NP-Tol, NP+Tol);
+% peaks = PeakID(RBMs520, 0.01); 
+% peaks = peaks{1}; 
+% peaks = [155 165 172 178 185 189 202]
+% RBMs520 = FitSamples(RBMs520,peaks); 
+% 
+% for i=1:length(RBMs520)
+%     plotRamanFit(RBMs520{i})
+% end
 
-% plotRaman(RBMs520, 0.25)
+
+% plotRaman(RBMs520, 0.)
 % plotRaman(GBand520HD, 0.0)
 % plotRaman(GBand520LD, 0.0)
 
 %% 514nm DATA 
-
-FilledSamples514 = {
-%                     DATA_20240517.EAH514R
-%                     DATA_20240517.EAL514GD
-%                      DATA_20240517.FF514R
-%                      DATA_20240517.LL514A
-%                      DATA_20240517.LL514B
-%                     DATA_20240517.S2H514R
-%                     DATA_20240517.S2L514GD
-%                     DATA_20240517.S3H514R
-%                     DATA_20240517.S3L514GD
-%                     DATA_20240517.S4H514R
-%                     DATA_20240517.S4L514GD
-%                     DATA_20240517.S5H514R
-%                     DATA_20240517.S5L514GD
-%                     DATA_20240517.S6H514R
-%                     DATA_20240517.S7L514GD
-%                     DATA_20240517.S7H514R
-%                     DATA_20240517.WAH514R
-%                     DATA_20240517.WAL514GD
-                   };
                
 RBMsHD514 = {
                     DATA_20240517.EAH514R
@@ -329,173 +326,40 @@ GDBand514 = {
                     DATA_20240517.WAL514GD
             };   
 
-% %Normalization
-LG = 1280;
-HG = 1490;
-NP = 1590;
-Tol = 5;
-GDBand514 = SubstractLinearBG(GDBand514, LG, HG);
-GDBand514 = NormalizeSample(GDBand514,NP-Tol, NP+Tol);       
+% LG = 1280;
+% HG = 1490;
+% NP = 1590;
+% Tol = 5;
 
-%Normalization
-LG = 135;
-HG = 220;
-NP = 180;
-Tol = 200;
+% GDBand514 = ClipSamples(GDBand514, 15, 600); 
+% GDBand514 = SubstractLinearBG(GDBand514, LG, HG);
+% GDBand514 = NormalizeSample(GDBand514,NP-Tol, NP+Tol);       
+% PeakList = PeakID(GDBand514, 0.05)
+% peaks = [1565, 1589]
+% GDBand514 = FitSamples(GDBand514,peaks);
 
-
-%% Lorentzian Fitting
-
-RBMsHD514 = FlatFieldCorrection(RBMsHD514, DATA_20240517.FF514R);
-RBMsHD514 = SubstractLinearBG(RBMsHD514, LG, HG);
-
-for i=1:length(RBMsHD514)
-    RBMsHD514{i}= clip_spectrum(RBMsHD514{i}, 200, 245);
-end  
-
-DATA_20240517.EAH514R
-RBMsHD514 = NormalizeSample(RBMsHD514,NP-Tol, NP+Tol);       
-%RBMsHD514=PeakID(RBMsHD514, 0.05);
-
-%pp = [156 172 177 183 189]
-pp = [152 159 167 173 179 184 187]
-
-for i=1:length(RBMsHD514)
-    current = RBMsHD514{i};  % Access the cell array element once
-    current.Peaks.x = pp;
-    current.Peaks.h = 1;
-    current.Peaks.p = 1;
-    current.Peaks.w = 1;
-    RBMsHD514{i} = current;
-end   
-% plotRaman(RBMsHD514, 0.2)
-
-% Assuming SampleList contains spectra with identified peaks
-for i = 1:length(RBMsHD514)
-    currentSample = RBMsHD514{i};
-    X = currentSample.X;
-    Y = currentSample.Y;
-    peaks = currentSample.Peaks;
-    peakPositions = peaks.x;  % Extract peak positions from PeakID results
-    peakW = peaks.w;  % Extract peak positions from PeakID results
-    peakA = peaks.h;  % Extract peak positions from PeakID results
-
-    % Fit multi-Lorentzian to the data
-    [fitParams, fitCurve] = fitMultiLorentzian(currentSample, peakPositions);
-    
-    % Store fit parameters or do further analysis
-end
+% for i=1:length(GDBand514)
+%     plotRamanFit(GDBand514{i})
+% end
 
 
-function SamplesPeaks = PeakID(SampleList, peakThreshold)
-   SamplesPeaks = cell(size(SampleList));
-
-    for i = 1:length(SampleList)
-        currentSample = SampleList{i};
-        X = currentSample.X;
-        Y = currentSample.Y;
-        
-        %sorting, just because fitting requires it.
-        [X, sort_idx] = sort(X);
-        Y = Y(sort_idx);
-        
-        % peakThreshold: Minimum height of peaks to be considered (Assuming spectra is normalized)
-
-        % Find peaks using the findpeaks function
-        [h, x, w, p] = findpeaks(Y, X, 'MinPeakProminence', peakThreshold);
-
-        currentSample.Peaks.h = h;
-        currentSample.Peaks.x = x;
-        currentSample.Peaks.w = w;
-        currentSample.Peaks.p = p;
-        
-        SamplesPeaks{i} = currentSample;
-        
-%         figure;
-%         hold on;
-%         plot(x, h, 'rv', 'MarkerFaceColor', 'r');
-%         plot(X, Y);
-%         title('Identified Peaks in RBM Region');
-%         xlabel('Raman Shift (cm^{-1})');
-%         ylabel('Intensity (a.u.)');
-%         legend('Data', 'Peaks'); 
-    end
-
-end
+% LG = 135;
+% HG = 220;
+% NP = 180;
+% Tol = 200;
+% 
+% RBMsHD514 = FlatFieldCorrection(RBMsHD514, DATA_20240517.FF514R);
+% RBMsHD514 = ClipSamples(RBMsHD514, 200, 245); 
+% RBMsHD514 = SubstractLinearBG(RBMsHD514, LG, HG);
+% RBMsHD514 = NormalizeSample(RBMsHD514,NP-Tol, NP+Tol);     
+% peaks = [152 159 167 173 179 184 187];
+% RBMsHD514 = FitSamples(RBMsHD514,peaks);
+% 
+% for i=1:length(RBMsHD514)
+%     plotRamanFit(RBMsHD514{i})
+% end
 
 
-function [fitParams, fitCurve] = fitMultiLorentzian(DS, peakPositions)
-    % Define the multi-Lorentzian function
-    X = DS.X;
-    Y = DS.Y;
-    multiLorentzian = @(params, x) Lorentzian(params, x);
-
-    % Define initial parameter guesses
-    initialParams = zeros(1, 3 * length(peakPositions));
-    initialParams(1:3:end) = 1;  % Initial guess for peak heights
-    initialParams(2:3:end) = peakPositions;  % Initial guess for peak positions
-    initialParams(3:3:end) = 10;  % Initial guess for peak widths
-    
-    % Fit the multi-Lorentzian function to the data
-    fitParams = lsqcurvefit(multiLorentzian, initialParams, X, Y);
-
-    % Generate the fitted curve
-    fitCurve = multiLorentzian(fitParams, DS.X);
-
-        % Plot the data
-    figure;
-    hold on;
-
-    plot(X, Y, 'b', 'LineWidth', 1.5);    
-    plot(X, fitCurve, 'k', 'LineWidth', 1.5);
-    % Plot each Lorentzian peak individually
-    numPeaks = numel(peakPositions);
-    for i = 1:numPeaks
-        amp = fitParams(3*i - 2);
-        pos = fitParams(3*i - 1);
-        width = fitParams(3*i);
-        peakCurve = amp ./ ((X - pos).^2 + width);
-        plot(X, peakCurve, 'r--', 'LineWidth', 1);
-        plot(X, peakCurve, 'r--', 'LineWidth', 1);
-        plot(X, peakCurve, 'r--', 'LineWidth', 1);
-
-    end
-    % Customize plot labels and legend
-    xlabel('Raman Shift (cm^{-1})');
-    ylabel('Intensity (a.u.)');
-    title('Multi-Lorentzian Fitting');
-    legend('Data', 'Individual Peaks', 'Fitted Curve');
-    
-    hold off;
-    
-%     figure;
-%     hold on;
-%     plot(X, Y-fitCurve, 'g', 'LineWidth', 1.5);    
-%     xlabel('Raman Shift (cm^{-1})');
-%     ylabel('Intensity (a.u.)');
-%     title('Multi-Lorentzian Fitting');
-%     hold off;
-end
-
-function result = Lorentzian(params, x)
-    numPeaks = numel(params) / 3;
-    result = zeros(size(x));
-    for i = 1:numPeaks
-        amp = params(3*i - 2);
-        pos = params(3*i - 1);
-        width = params(3*i);
-        result = result + amp ./ ((x - pos).^2 + width);
-    end
-end
-% plotRaman(FilledSamples514, 0.25)
-% plotRaman(GDBand514, 0.25)
-
-
-
-
-%% Peak Calculation
-%GDBand520 = GDBandPeaksCalculation(GDBand520, 1580,1600,1560,1570,1300,1400);
-%exportGDBandPeaks(GDBand520, 'dsfsd.csv');
 
 
 %% Prepare data for AutomatedRaman

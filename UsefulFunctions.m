@@ -2,6 +2,69 @@ classdef UsefulFunctions
     
    methods (Static)
    
+   %% Fitting Functions (Raman)
+   
+    function result = Lorentzian(params, x)
+        %We expect an array of params. 3 params per sample
+        numPeaks = numel(params) / 3;
+        result = zeros(size(x));
+        for i = 1:numPeaks
+            amp = params(3*i - 2);
+            pos = params(3*i - 1);
+            width = params(3*i);
+            result = result + amp ./ ((x - pos).^2 + width);
+        end
+    end
+    function [fitParams, fitCurve] = fitMultiLorentzian(DS, peakPositions)
+        % Define the multi-Lorentzian function
+        X = DS.X;
+        Y = DS.Y;
+        multiLorentzian = @(params, x) UsefulFunctions.Lorentzian(params, x);
+        % Define initial parameter guesses
+        initialParams = zeros(1, 3 * length(peakPositions));
+        initialParams(1:3:end) = 1;                         % Becase I normalized
+        initialParams(2:3:end) = peakPositions;             % peakPositions is the Input
+        initialParams(3:3:end) = 10;                        
+        % Fit the multi-Lorentzian function to the data
+        fitParams = lsqcurvefit(multiLorentzian, initialParams, X, Y);
+        fitCurve = multiLorentzian(fitParams, X);
+    end   
+    function PeakList = PeakID(SampleList, peakThreshold)
+        PeakList = {};
+        for i = 1:length(SampleList)
+            currentSample = SampleList{i};
+            X = currentSample.X;
+            Y = currentSample.Y;
+
+            %sorting, just because fitting requires it.
+            [X, sort_idx] = sort(X);
+            Y = Y(sort_idx);
+
+            % Find peaks using the findpeaks function
+            [h, x, w, p] = findpeaks(Y, X, 'MinPeakProminence', peakThreshold);
+            PeakList{i} = x;
+        end
+    end
+    function FittedSamples = FitSamples(SampleList, peakpos)
+        FittedSamples = cell(size(SampleList));
+        for i = 1:length(SampleList)
+            currentSample = SampleList{i};
+            [fitParams, fitCurve] = UsefulFunctions.fitMultiLorentzian(currentSample, peakpos);
+            currentSample.F.Fit = fitCurve;
+            currentSample.F.Params = reshape(fitParams, 3, length(peakpos)); 
+            FittedSamples{i} = currentSample;
+         end
+    end
+    %INITIALIZE PEAK VALUES.
+    % for i=1:length(RBMsHD514)
+    %     current = RBMsHD514{i};  % Access the cell array element once
+    %     current.Peaks.x = pp;
+    %     current.Peaks.h = 1;
+    %     current.Peaks.p = 1;
+    %     current.Peaks.w = 1;
+    %     RBMsHD514{i} = current;
+    % end   
+ 
    %% Kataura Calculation
 
     function [nuRBM,wl1,wl2,wl3,wl4,diam,theta, type]=CalculateKataura(P)
@@ -58,22 +121,19 @@ classdef UsefulFunctions
     end
 
    %% General Functions
-
-       
+   
     function integralValue = ComputeIntegral(sample, lowerLimit, upperLimit)
         x = sample.X;
         y = sample.Y;
         f = @(xi) interp1(x, y, xi, 'pchip');
         integralValue = integral(f, lowerLimit, upperLimit);
     end
-
     function maximumValue = ComputeMaximum(sample, lowerLimit, upperLimit)
         x = sample.X;
         y = sample.Y;
         indicesInRange = find(x >= lowerLimit & x <= upperLimit);
         maximumValue = max(y(indicesInRange));
-    end
-    
+    end 
     function NormedSamples = NormalizeSample(samplesToNormalize, lowerLimit, upperLimit)
         NormedSamples = cell(size(samplesToNormalize));
         % Iterate over each sample to be normalized
@@ -84,7 +144,6 @@ classdef UsefulFunctions
             NormedSamples{sampleIdx} = currentSample;
         end
     end
-
     function [peakPosition, peakValue] = ComputePeak(sample, lowerLimit, upperLimit)
         x = sample.X;
         y = sample.Y;
@@ -135,7 +194,6 @@ classdef UsefulFunctions
             end
         end       
     end
-    
     function CorrectedSpectra = FlatFieldCorrection(samplesToCorrect, FlatField)
         CorrectedSpectra = cell(size(samplesToCorrect));
         NormedFlat = FlatField.Y / UsefulFunctions.ComputeIntegral(FlatField,FlatField.X(end), FlatField.X(1));
@@ -145,8 +203,7 @@ classdef UsefulFunctions
             currentSample.Y = currentSample.Y ./ NormedFlat;
             CorrectedSpectra{i} = currentSample;
         end
-    end
-    
+    end   
     function CorrectedSpectra = SubstractLinearBG(samplesToCorrect, X1, X2)
         CorrectedSpectra = cell(size(samplesToCorrect));
         for i = 1:length(samplesToCorrect)
@@ -170,7 +227,40 @@ classdef UsefulFunctions
             CorrectedSpectra{i} = currentSample;
         end
     end
+    function plotRamanFit(Sample)
+        % Create a figure for the plot
+        figure;
+        % Iterate over each sample
+        % Get the current sample, X values, and Y values
+        X = Sample.X;
+        Y = Sample.Y;
+        N = Sample.N;
+        fitCurve = Sample.F.Fit;
+        fitParams = Sample.F.Params;
+        numPeaks = size(fitParams, 2);
 
+        plot(X, Y, 'DisplayName', N,'LineWidth', 1.3);
+        hold on; % Add spectra to the same plot
+        plot(X, fitCurve, 'k', 'LineWidth', 1.5, 'DisplayName', 'MultiLorentzFit');
+        %Plot each Lorentzian peak individually
+        
+        for i = 1:numPeaks
+             amp = fitParams(1,i);
+             pos = fitParams(2,i);  
+             width = fitParams(3,i);
+             peakCurve = amp ./ ((X - pos).^2 + width);
+             plot(X, peakCurve, 'r--', 'LineWidth', 1, 'DisplayName', sprintf('Peak at %.1f', pos));
+        end
+
+        xlabel('Raman Shift (cm^{-1})');
+        ylabel('Intesity (a.u.)');
+        title('Raman Spectra');
+        legend('show');
+        % Optional: Customize the plot further if needed
+        grid on;
+        % Hold off to stop adding new plots to the current figure
+        hold on;
+    end
     function plotRaman(SamplesToPlot, offset)
         % Create a figure for the plot
         figure;
@@ -194,9 +284,7 @@ classdef UsefulFunctions
         grid on;
         % Hold off to stop adding new plots to the current figure
         hold off;
-
     end
-
     function sampleList = GDBandPeaksCalculation(sampleList, LGp, HGp, LGm, HGm, LD, HD)
 
         % Iterate over each sample to be normalized
@@ -217,7 +305,6 @@ classdef UsefulFunctions
             sampleList{sampleIdx} = currentSample;
         end
     end
-
     function exportGDBandPeaks(sampleList, fileName)
         % Define the peak fields to include in the CSV file
         peakFields = {'N', 'GpX', 'GpY', 'GmX', 'GmY', 'DX', 'DY'};
@@ -309,7 +396,31 @@ classdef UsefulFunctions
         DS.Y = Y;
         DS.X = X;
     end
-
+    function FixedSpectra = RemoveBackground(samplesToClip)
+        FixedSpectra = cell(size(samplesToClip));
+        for i=1:length(samplesToClip)
+            currentSample = samplesToClip{i};
+            currentSample= UsefulFunctions.remove_bg_poly(currentSample);
+            FixedSpectra{i} = currentSample;
+        end 
+    end
+    function FixedSpectra = RemoveInclination(samplesToClip, WL)
+        FixedSpectra = cell(size(samplesToClip));
+        for i=1:length(samplesToClip)
+            currentSample = samplesToClip{i};
+            currentSample= UsefulFunctions.remove_inclination(currentSample, WL);
+            FixedSpectra{i} = currentSample;
+        end 
+    end
+    function FixedSpectra = InstrumentCorrection(samplesToClip, WL)
+        FixedSpectra = cell(size(samplesToClip));
+        for i=1:length(samplesToClip)
+            currentSample = samplesToClip{i};
+            currentSample= UsefulFunctions.correct_instrument_response(currentSample, WL);
+            FixedSpectra{i} = currentSample;
+        end 
+    end
+    
     function DS = clip_spectrum(DS,ClipLeft0,ClipRight0)
     %function clips spectrum at the left and right sides by calculating its derivative; 
     %ClipLeft and ClipRight determine number of pixels to remove from the center of left and right derivative peaks,respectively; 
@@ -381,13 +492,20 @@ classdef UsefulFunctions
     DS.Y = f.y(condition);
     DS.P = f.p(condition);
     end
+    function ClipedSpectra = ClipSamples(samplesToClip, ClipLeft0, ClipRight0)
+        ClipedSpectra = cell(size(samplesToClip));
 
+        for i=1:length(samplesToClip)
+            currentSample = samplesToClip{i};
+            currentSample= UsefulFunctions.clip_spectrum(currentSample, ClipLeft0, ClipRight0);
+            ClipedSpectra{i} = currentSample;
+        end 
+    end
     function DS = correct_instrument_response(DS, WL)
         load DilorXY_Instrument_Response.mat;
         XL = 10^7./(10^7./WL - DS.X); % x values in nm 
         DS.Y = DS.Y./interp1(instrument_response(:,1),instrument_response(:,2),XL);
-    end
-    
+    end    
     function DS = remove_inclination(DS,WL)
         %Function removes inclination effect for the spectrum for Dilor XY spectrometer
         
@@ -436,7 +554,6 @@ classdef UsefulFunctions
             samples.(sampleName).N = sampleName;
         end
     end
-
     function mergedStruct = mergeStructures(struct1, struct2)
     % Get fieldnames of both structures
     fields2 = fieldnames(struct2);
@@ -447,8 +564,7 @@ classdef UsefulFunctions
         end
     end
         mergedStruct = struct1;
-    end
-    
+    end    
     function mergedStruct = mergeStructuresRaman(structs)
             mergedStruct = struct('X', [], 'Y', [], 'N', 'Merged');
         for i = structs
@@ -456,7 +572,6 @@ classdef UsefulFunctions
             mergedStruct.Y = [mergedStruct.Y;i.Y];
         end
     end
-
     function dataStructures = ReadAbsorptionFromPaths(paths)
         dataStructures = struct();
         for i = 1:length(paths)
@@ -489,7 +604,6 @@ classdef UsefulFunctions
             end
         end
     end
-
     function CorrectedSpectra = SubstractAbsBG(samplesToCorrect, LL1, UL1, LL2, UL2)
         CorrectedSpectra = cell(size(samplesToCorrect));
         for i = 1:length(samplesToCorrect)
@@ -523,7 +637,6 @@ classdef UsefulFunctions
             CorrectedSpectra{i} = currentSample;
         end
     end
-
     function flattenedData = FlattenSpectra(DataStructure, points)
         % Get the fieldnames of the data structure
         sampleNames = fieldnames(DataStructure);
@@ -555,7 +668,6 @@ classdef UsefulFunctions
         % Return the modified data structure
         flattenedData = DataStructure;
     end
-
     function plotAbsorption(SamplesToPlot, offset)
         % Create a figure for the plot
         figure;
@@ -580,8 +692,7 @@ classdef UsefulFunctions
         % Hold off to stop adding new plots to the current figure
         hold off;
 
-    end
-    
+    end    
     function sampleList = TransitionPeaksCalculation(sampleList, LS1, US1, LS2, US2)
 
         % Iterate over each sample to be normalized
@@ -598,7 +709,6 @@ classdef UsefulFunctions
             sampleList{sampleIdx} = currentSample;
         end
     end
-
     function exportTransitionPeaks(sampleList, fileName)
         % Define the peak fields to include in the CSV file
         peakFields = {'N', 'S11W', 'S11A', 'S22W', 'S22A'};

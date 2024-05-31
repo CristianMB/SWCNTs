@@ -52,20 +52,31 @@ DATA_20240515.BBL570RA.N = 'S-SWCNTs Converted Film RBMs1 570nm';
 DATA_20240515.BBL570RB.N = 'S-SWCNTs Converted Film RBMs2 570nm';
 
 
-%%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%DATA_20240426.BAL650R.Y = DATA_20240426.BAL650R.Y/2;
-%DATA_20240426.BAL650RB.Y = DATA_20240426.BAL650RB.Y/2;
 
-%%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
 
-% LG = 1425;
-% HG = 1645;
-% GBand650 = {DATA_20240426.BAL650G, DATA_20240426.BBL650G}
-% %GBand650 = SubstractLinearBG(GBand650, LG, HG);
-% %GBand650 = NormalizeSample(GBand650,1435, 1460)
+LG = 1425;
+HG = 1645;
+NP = 1590;
+Tol = 20;
+
+GBand650 = {DATA_20240426.BAL650G, DATA_20240426.BBL650G};
 % 
+% GBand650 = SubstractLinearBG(GBand650, LG, HG);
+% GBand650 = ClipSamples(GBand650,10,0); 
+% GBand650 = NormalizeSample(GBand650,NP-Tol, NP+Tol); 
+% peaks = [1580 1600]; 
+% GBand650 = FitSamples(GBand650,peaks); 
+% 
+% for i=1:length(GBand650)
+%    plotRamanFit(GBand650{i})
+% end
+
+
+
 % LG = 1220;
 % HG = 1430;
 % DBand650 = {DATA_20240426.BAL650D, DATA_20240426.BBL650D}
@@ -114,65 +125,56 @@ FullSpectra650 = {  DATA_20240426.BAL650D,
                     DATA_20240426.BBL650D,
                     DATA_20240426.BBL650RA,
                     DATA_20240426.BBL650RB
-                };
-
-GBandCarbide650 = {
-       DATA_20240514.BAL650C1
-       DATA_20240514.BAL650C2
-       DATA_20240514.BBL650C1
-       DATA_20240514.BBL650C2  
-       };
+                    DATA_20240514.BAL650C1
+                    DATA_20240514.BAL650C2
+                    DATA_20240514.BBL650C1
+                    DATA_20240514.BBL650C2  
+                    };
 
 FullSpectra570 = {
-                  DATA_20240515.BAL570C
-                  DATA_20240515.BAL570D
-                  DATA_20240515.BAL570G
-                  DATA_20240515.BAL570RA
-                  DATA_20240515.BAL570RB
-                  DATA_20240515.BBL570C
-                  DATA_20240515.BBL570D
-                  DATA_20240515.BBL570G
-                  DATA_20240515.BBL570RA
-                  DATA_20240515.BBL570RB
-                  };
+                    DATA_20240515.BAL570C
+                    DATA_20240515.BAL570D
+                    DATA_20240515.BAL570G
+                    DATA_20240515.BAL570RA
+                    DATA_20240515.BAL570RB
+                    DATA_20240515.BBL570C
+                    DATA_20240515.BBL570D
+                    DATA_20240515.BBL570G
+                    DATA_20240515.BBL570RA
+                    DATA_20240515.BBL570RB
+                    };
 
               
 WL = 650;
-for i=1:length(GBandCarbide650)
-    current = GBandCarbide650{i};  % Access the cell array element once
-    current = clip_spectrum(current, 40, 40);
-    current = remove_inclination(current, WL);
-    current = correct_instrument_response(current, WL);
-    current = remove_bg_poly(current);
-    GBandCarbide650{i} = current;  % Save the result back to the cell array
-end        
-
-WL = 650;
-for i=1:length(FullSpectra650)
-    current = FullSpectra650{i};  % Access the cell array element once
-    current = clip_spectrum(current, 40, 40);
-    current = remove_inclination(current, WL);
-    current = correct_instrument_response(current, WL);
-    current = remove_bg_poly(current);
-    FullSpectra650{i} = current;  % Save the result back to the cell array
-end        
+FullSpectra650 = ClipSamples(FullSpectra650, 40, 40);
+FullSpectra650 = RemoveInclination(FullSpectra650, WL);
+FullSpectra650 = InstrumentCorrection(FullSpectra650, WL);
+FullSpectra650 = RemoveBackground(FullSpectra650);
 
 
 WL = 570;
-for i=1:length(FullSpectra570)
-    current = FullSpectra570{i};  % Access the cell array element once
-    current = clip_spectrum(current, 40, 40);
-    current = remove_inclination(current, WL);
-    current = correct_instrument_response(current, WL);
-    current = remove_bg_poly(current);
-    FullSpectra570{i} = current;  % Save the result back to the cell array
-end      
+FullSpectra570 = ClipSamples(FullSpectra570, 40, 40);
+FullSpectra570 = RemoveInclination(FullSpectra570, WL);
+FullSpectra570 = InstrumentCorrection(FullSpectra570, WL);
+FullSpectra570 = RemoveBackground(FullSpectra570);
+
+plotRaman(FullSpectra570,0)
+
+SampleA.X = [FullSpectra650{9}.X; FullSpectra650{10}.X]
+SampleA.Y = [FullSpectra650{9}.Y; FullSpectra650{10}.Y]
+SampleA.N = 'S-SWCNT'
+
+SampleB.X = [FullSpectra650{11}.X; FullSpectra650{12}.X]
+SampleB.Y = [FullSpectra650{11}.Y; FullSpectra650{12}.Y]
+SampleB.N = 'Covnerted S-SWCNT'
+
+[SampleA.X, sort_idx] = sort(SampleA.X);
+SampleA.Y = SampleA.Y(sort_idx);
 
 
+plotRaman({SampleA},0)
 
-DATA_20240515.FullCarbide = mergeStructuresRaman([DATA_20240514.BAL650C1, DATA_20240514.BAL650C2])
 
-plotRaman({DATA_20240515.FullCarbide}, 0)
 
 %plotRaman(GBandCarbide650, 0)
 %plotRaman(FullSpectra570, 0)
