@@ -1,21 +1,22 @@
 clc;
 clear;
 addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\');
-%addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
+% addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 import UsefulFunctions.*;
 
-%rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
+% rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
 rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
 
 %All paths as default
 %path_baselines = [rootpath,'References.csv'];
 path_KIT = [rootpath,'20240531\KIT_Samples.csv'];
+path_REF = [rootpath,'References.csv'];
 
 %Select the paths of interest
 paths = {
         path_KIT
+        path_REF
         };
-    
 
 %Read and structure data from the paths
 ReadAbsorptionFromPaths(paths);
@@ -30,88 +31,77 @@ ReadAbsorptionFromPaths(paths);
 %H2OD2OFactor = 0.7
 %NicodenzFactor = 1.2
 
-%Corrected = SampleToCorrect;
-%Corrected.N = 'Corrected';
-%Corrected.A = SampleToCorrect.A - DATA_References.H2OinD2O.A*H2OD2OFactor - DATA_References.Nicodenz.A*NicodenzFactor
-%plotSampleList({Corrected, SampleToCorrect},0.0)
-%plotSampleList({DATA_References.H2OinD2O, DATA_References.Nicodenz},0.0)
-
-%-----------------------------------------------
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+DATA_20240531.Baseline.N =  '1% DOC/D2O Baseline';
+DATA_20240531.EA.N =  'Empty ArcSWCNTs';
+DATA_20240531.WA.N =  'Water ArcSWCNTs';
+DATA_20240531.T1Converted.N =  'T1 Converted';
+DATA_20240531.T4Converted.N =  'T4 Converted';
+DATA_20240531.T4ConvertedPellet.N =  'T4 Converted Pellet';
+DATA_20240531.T4ConvertedPelletB.N =  'T4 Converted Pellet';
+DATA_20240531.S2.N =  'PCE@P2-ASWCNTs';
+DATA_20240531.S2B.N =  'PCE@P2-ASWCNTs';
+DATA_20240531.S3.N =  'TCE@P2-ASWCNTs';
+DATA_20240531.S4.N =  'TEMED@P2-ASWCNTs';
+DATA_20240531.S5.N =  'TDAE@P2-ASWCNTs';
+DATA_20240531.S6.N =  'Hexadecane@P2-ASWCNTs';
+DATA_20240531.S7.N =  'Dodecane@P2-ASWCNTs';
        
           
+
 KIT = {     
-    DATA_20240531.Baseline
-    DATA_20240531.EA
-    DATA_20240531.WA
-    DATA_20240531.T1Converted
-    DATA_20240531.T4Converted
-    DATA_20240531.T4ConvertedPellet
-    DATA_20240531.T4ConvertedPelletB
-    DATA_20240531.S2
-    DATA_20240531.S2B
-    DATA_20240531.S3
-    DATA_20240531.S4
-    DATA_20240531.S5
-    DATA_20240531.S6
-    DATA_20240531.S7
-            };
-          
-plotAbsorption(KIT,0.0)
+%     DATA_20240531.Baseline
+%      DATA_20240531.EA
+%      DATA_20240531.WA
+     
+     DATA_20240531.T1Converted
+     DATA_20240531.T4Converted
+%      DATA_20240531.T4ConvertedPellet
+     DATA_20240531.T4ConvertedPelletB
 
-        
+%       DATA_References.H2OinD2O
+%     DATA_20240531.S2  
+
+%       DATA_20240531.S2B
+%       DATA_20240531.S3
+%       DATA_20240531.S4
+%       DATA_20240531.S5
+%       DATA_20240531.S6
+%       DATA_20240531.S7
+             };
+         
 %%%--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Correction is made based on local minima (750, 860) and (1100, 1400)
-% KIT = SubstractAbsBG(KIT,750, 850, 1150, 1250);
 
-%%%--------NORMALIZATION TO S22 PEAK--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Normalization using maximum value of S22 transition, can also use Integral
-% LS2= 900;  
-% US2= 1100;
-% %600a800
+LS2= 1000-20;  
+US2= 1000+20;
+
+KIT = SubtractInverseBG(KIT,[418 610 813]);
+KIT = NormalizeSample(KIT,620, 820);
+
+plotAbsorption(KIT,1.0)
+ 
+% for i=1:length(KIT)
+%     current = KIT{i} 
+%     current.Y = current.Y - KIT{4}.Y
+%     AKIT{i} = current
+% end
+
+% peaks = [463 489 551 586];
+% KIT = FitSamples(KIT,peaks);
+
+% plotAbsorption(KIT,0.0)
 % 
-% DialSamples = NormalizeSample(DialSamples,LS2, US2);
-% BenSamp = NormalizeSample(BenSamp,LS2, US2);
-% plotAbsorption(BenSamp,0.0)
+% for i=1:length(KIT)
+%     plotRamanFit(KIT{i})
+% end
 
+% Blines = {
+%     DATA_20240531.Baseline
+%     DATA_20240308.Baseline
+%             }
 
-%%%--------PEAK CALCULATION AND EXPORT--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Find peaks in these ranges
-% %S11
-% LS1= 1600;
-% US1= 1850;
-% 
-% %Plasmon Right
-% LPR= 260;
-% UPR= 285;
-% %Plasmon Left
-% LPL= 220;
-% UPL= 250;
-
-
-
-%plotAbsorption(Alkanes,1.0)
-%plotAbsorption(Dopants, 0.0)
-
-%plotAbsorption(PCE, 0.0)
-%plotAbsorption(TCE, 0.0)
-%plotAbsorption(TDAE, 0.0)
-%plotAbsorption(TEMED, 0.0)
-%plotAbsorption(Hexadecane, 0.0)
-%plotAbsorption(Dodecane, 0.0)
-
-%plotAbsorption(DialSamples,1.0)
-
-
-%plotAbsorption(DialSamples, 1.5)
-
-%plotAbsorption(DialSamples, 0.0)
-
-%plotAbsorption([DialSamples;DATABEN], 0.0)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 

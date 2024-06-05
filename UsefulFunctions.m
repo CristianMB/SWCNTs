@@ -24,7 +24,7 @@ classdef UsefulFunctions
         initialParams = zeros(1, 3 * length(peakPositions));
         initialParams(1:3:end) = 1;                         % Becase I normalized
         initialParams(2:3:end) = peakPositions;             % peakPositions is the Input
-        initialParams(3:3:end) = 10;                        
+        initialParams(3:3:end) = 1;                        
         % Fit the multi-Lorentzian function to the data
         fitParams = lsqcurvefit(multiLorentzian, initialParams, X, Y);
         fitCurve = multiLorentzian(fitParams, X);
@@ -55,15 +55,6 @@ classdef UsefulFunctions
             FittedSamples{i} = currentSample;
          end
     end
-    %INITIALIZE PEAK VALUES.
-    % for i=1:length(RBMsHD514)
-    %     current = RBMsHD514{i};  % Access the cell array element once
-    %     current.Peaks.x = pp;
-    %     current.Peaks.h = 1;
-    %     current.Peaks.p = 1;
-    %     current.Peaks.w = 1;
-    %     RBMsHD514{i} = current;
-    % end   
  
    %% Kataura Calculation
 
@@ -153,7 +144,7 @@ classdef UsefulFunctions
         peakPosition = x(indicesInRange(maxIndex));
     end
         
-    %% Raman Functions
+    %% Raman/Absorption Correct Functions
 
     function dataStructures = ReadRamanFromPaths(paths)
         dataStructures = struct();  
@@ -224,6 +215,48 @@ classdef UsefulFunctions
                     
             % Subtract the background
             currentSample.Y = currentSample.Y - background;
+            CorrectedSpectra{i} = currentSample;
+        end
+    end
+    function CorrectedSpectra = SubtractInverseBG(samplesToCorrect, zeroPoints)
+        CorrectedSpectra = cell(size(samplesToCorrect));
+
+        % Find the minimum and maximum values of the zeroPoints array
+        X1 = min(zeroPoints);
+        X2 = max(zeroPoints);
+
+        for i = 1:length(samplesToCorrect)
+            currentSample = samplesToCorrect{i};
+            X = currentSample.X;
+            Y = currentSample.Y;
+
+            % Find the indices of X1 and X2 in the X array
+            [~, idx_range1] = min(abs(X - X1));
+            [~, idx_range2] = min(abs(X - X2));
+
+            % Find the indices of the zeroPoints in the X array
+            idx_zeroPoints = arrayfun(@(p) find(abs(X - p) == min(abs(X - p)), 1), zeroPoints);
+
+            % Extract the X and Y values at the zero points
+            X_zero = X(idx_zeroPoints);
+            Y_zero = Y(idx_zeroPoints);
+
+            % Fit the background using the zero points
+            A = sum(Y_zero .* (1 ./ X_zero)) / sum(1 ./ X_zero.^2);
+
+            % Calculate the background using the fitted A
+            background = A ./ X;
+
+            % Subtract the background from the entire spectrum
+            currentSample.Y = Y - background;
+
+            % Ensure no negative values in the specified range
+            while any(currentSample.Y(idx_range1:idx_range2) < 0)
+                A = A * 0.99;  % Reduce A slightly if there are negative values
+                background = A ./ X;
+                currentSample.Y = Y - background;
+            end
+
             CorrectedSpectra{i} = currentSample;
         end
     end
@@ -334,67 +367,14 @@ classdef UsefulFunctions
     end
     
     %% Merge and Correct Functions (Adapted from Dmitry)
-    
-    function DS = remove_bg_poly(DS)
-        %removes background according to the polynomial method (Zhao et al. Applied Spectroscopy 61 11 2007 - 10.1366/000370207782597003)
-        X0 = DS.X;
-        Y0 = DS.Y;
-        spectrum0 = [X0,Y0];
-        EndCycle = false; %declaring logical variable (= criterion for ending the cycle) to start the first iteration of the while loop
-        i=1; %iteration number
+    function FixedSpectra = ClipSamples(samplesToClip, ClipLeft0, ClipRight0)
+        FixedSpectra = cell(size(samplesToClip));
 
-        fitfunc = 'poly1'; %order of the polynomial function
-        options = fitoptions; % initializing "fitoptions" object for removing points during the fit after the first iteration
-        % options = fitoptions(fitfunc, 'Normalize','On','Robust', 'LAR'); %to activate if normalization is needed; however, it works worse than without normalization
-
-        while not(EndCycle)
-
-           %fitting spectrum with high-order polynomial function
-           if i == 1 %choose which spectrum to fit for current iteration
-               current_spectrum = spectrum0(:,2); %take intensity array of input spectrum
-           else
-               current_spectrum = spectrum{i-1};
-           end
-
-           [cpoly{i},gofs{i}] = fit(spectrum0(:,1), current_spectrum, fitfunc, options);
-
-        %    if options.Normalize == 'on' %code to use when normalization is on for fit function
-        %        meanx = mean(spectrum0(:,1));
-        %        stdx = std(spectrum0(:,1));
-        %        tempx = (spectrum0(:,1)-meanx)./stdx;
-        %    else
-        %        tempx = spectrum0(:,1);
-        %    end
-           polyfit{i} = polyval(coeffvalues(cpoly{i}),spectrum0(:,1)); %estimating polynomial function at every x value
-
-           %calculating residual
-           res{i} = current_spectrum - polyfit{i}; 
-
-           %calculating standard deviation of residual
-           dev{i} = std(res{i},1);
-           sum = polyfit{i}+dev{i};
-
-           %reconstructing model input for the next iteration
-           spectrum{i} = sum;
-           if i == 1    %remove peaks from fitting for first iteration
-              PointsToExclude = current_spectrum > sum;
-              options.Exclude = excludedata(spectrum0(:,1),current_spectrum,'indices',PointsToExclude);
-           end
-
-           cond_mod = current_spectrum < sum; %determine at which frequencies spectrum is less then polynomial function
-           spectrum{i}(cond_mod) = current_spectrum(cond_mod);
-
-
-           if i~= 1
-               EndCycle = abs((dev{i}-dev{i-1})/dev{i})<0.05; %calculate condition to end cycle
-           end
-           i = i+1; %change to next iteration
-        end
-
-        X = spectrum0(:,1);
-        Y = spectrum0(:,2) - polyfit{i-1}; % spectral intensity without background contribution
-        DS.Y = Y;
-        DS.X = X;
+        for i=1:length(samplesToClip)
+            currentSample = samplesToClip{i};
+            currentSample= UsefulFunctions.clip_spectrum(currentSample, ClipLeft0, ClipRight0);
+            FixedSpectra{i} = currentSample;
+        end 
     end
     function FixedSpectra = RemoveBackground(samplesToClip)
         FixedSpectra = cell(size(samplesToClip));
@@ -420,7 +400,7 @@ classdef UsefulFunctions
             FixedSpectra{i} = currentSample;
         end 
     end
-    
+
     function DS = clip_spectrum(DS,ClipLeft0,ClipRight0)
     %function clips spectrum at the left and right sides by calculating its derivative; 
     %ClipLeft and ClipRight determine number of pixels to remove from the center of left and right derivative peaks,respectively; 
@@ -492,14 +472,66 @@ classdef UsefulFunctions
     DS.Y = f.y(condition);
     DS.P = f.p(condition);
     end
-    function ClipedSpectra = ClipSamples(samplesToClip, ClipLeft0, ClipRight0)
-        ClipedSpectra = cell(size(samplesToClip));
+    function DS = remove_bg_poly(DS)
+        %removes background according to the polynomial method (Zhao et al. Applied Spectroscopy 61 11 2007 - 10.1366/000370207782597003)
+        X0 = DS.X;
+        Y0 = DS.Y;
+        spectrum0 = [X0,Y0];
+        EndCycle = false; %declaring logical variable (= criterion for ending the cycle) to start the first iteration of the while loop
+        i=1; %iteration number
 
-        for i=1:length(samplesToClip)
-            currentSample = samplesToClip{i};
-            currentSample= UsefulFunctions.clip_spectrum(currentSample, ClipLeft0, ClipRight0);
-            ClipedSpectra{i} = currentSample;
-        end 
+        fitfunc = 'poly1'; %order of the polynomial function
+        options = fitoptions; % initializing "fitoptions" object for removing points during the fit after the first iteration
+        % options = fitoptions(fitfunc, 'Normalize','On','Robust', 'LAR'); %to activate if normalization is needed; however, it works worse than without normalization
+
+        while not(EndCycle)
+
+           %fitting spectrum with high-order polynomial function
+           if i == 1 %choose which spectrum to fit for current iteration
+               current_spectrum = spectrum0(:,2); %take intensity array of input spectrum
+           else
+               current_spectrum = spectrum{i-1};
+           end
+
+           [cpoly{i},gofs{i}] = fit(spectrum0(:,1), current_spectrum, fitfunc, options);
+
+        %    if options.Normalize == 'on' %code to use when normalization is on for fit function
+        %        meanx = mean(spectrum0(:,1));
+        %        stdx = std(spectrum0(:,1));
+        %        tempx = (spectrum0(:,1)-meanx)./stdx;
+        %    else
+        %        tempx = spectrum0(:,1);
+        %    end
+           polyfit{i} = polyval(coeffvalues(cpoly{i}),spectrum0(:,1)); %estimating polynomial function at every x value
+
+           %calculating residual
+           res{i} = current_spectrum - polyfit{i}; 
+
+           %calculating standard deviation of residual
+           dev{i} = std(res{i},1);
+           sum = polyfit{i}+dev{i};
+
+           %reconstructing model input for the next iteration
+           spectrum{i} = sum;
+           if i == 1    %remove peaks from fitting for first iteration
+              PointsToExclude = current_spectrum > sum;
+              options.Exclude = excludedata(spectrum0(:,1),current_spectrum,'indices',PointsToExclude);
+           end
+
+           cond_mod = current_spectrum < sum; %determine at which frequencies spectrum is less then polynomial function
+           spectrum{i}(cond_mod) = current_spectrum(cond_mod);
+
+
+           if i~= 1
+               EndCycle = abs((dev{i}-dev{i-1})/dev{i})<0.05; %calculate condition to end cycle
+           end
+           i = i+1; %change to next iteration
+        end
+
+        X = spectrum0(:,1);
+        Y = spectrum0(:,2) - polyfit{i-1}; % spectral intensity without background contribution
+        DS.Y = Y;
+        DS.X = X;
     end
     function DS = correct_instrument_response(DS, WL)
         load DilorXY_Instrument_Response.mat;
@@ -528,6 +560,7 @@ classdef UsefulFunctions
         Y = Y0./y(p,XL);
         DS.Y = Y;
     end
+    
     %% Absorption Functions
     
     function samples = readSamplesData(filePath)
@@ -604,70 +637,6 @@ classdef UsefulFunctions
             end
         end
     end
-    function CorrectedSpectra = SubstractAbsBG(samplesToCorrect, LL1, UL1, LL2, UL2)
-        CorrectedSpectra = cell(size(samplesToCorrect));
-        for i = 1:length(samplesToCorrect)
-            currentSample = samplesToCorrect{i};
-            % Extract wavelength and absorption data
-            X = currentSample.X;
-            Y = currentSample.Y;
-            % Find the indices corresponding to the specified wavelength ranges
-            idx_range1 = find(X >= LL1 & X <= UL1);
-            idx_range2 = find(X >= LL2 & X <= UL2);
-            % Find the wavelength where the minimum absorption occurs in each range
-            [~, min_idx_range1] = min(Y(idx_range1));
-            [~, min_idx_range2] = min(Y(idx_range2));
-            % Get the corresponding wavelengths
-            lambda_min_range1 = X(idx_range1(min_idx_range1));
-            lambda_min_range2 = X(idx_range2(min_idx_range2));     
-            % Extract data around the two minima
-            X_range1 = X(idx_range1);
-            Y_range1 = Y(idx_range1);
-            X_range2 = X(idx_range2);
-            Y_range2 = Y(idx_range2);
-
-            % Fit a straight line through the two minima
-            fitfunc = @(p, x) p(1) ./ x;
-            initialGuess = [100]; % Initial guess for the fitting parameter A
-            [fitparams, ~] = lsqcurvefit(fitfunc, initialGuess, [X_range1; X_range2], [Y_range1; Y_range2]);
-            background = fitfunc(fitparams, X);
-
-            % Subtract the background
-            currentSample.Y = currentSample.Y - background;
-            CorrectedSpectra{i} = currentSample;
-        end
-    end
-    function flattenedData = FlattenSpectra(DataStructure, points)
-        % Get the fieldnames of the data structure
-        sampleNames = fieldnames(DataStructure);
-
-        % Loop through each sample in the data structure
-        for i = 1:numel(sampleNames)
-            sample = sampleNames{i};
-
-            % Get the wavelength and absorption data for the current sample
-            selected_Y = DataStructure.(sample).Y(ismember(DataStructure.(sample).X, points));
-            selected_X = DataStructure.(sample).X(ismember(DataStructure.(sample).X, points));
-
-            % Define the objective function for least-squares optimization
-            objective = @(a) sum((selected_Y - a ./ selected_X).^2);
-
-            % Choose initial value of 'a'
-            initialA = 1; % or any initial value
-
-            % Perform least-squares optimization to find the optimal value of 'a'
-            optimalA = fmincon(objective, initialA, [], [], [], [], [], [], []);
-            % Subtract the background from the absorption data within the specified range
-            A_flattened = DataStructure.(sample).Y - optimalA ./ DataStructure.(sample).X;
-
-            % Update the absorption data in the data structure
-
-            DataStructure.(sample).Y = A_flattened;
-        end
-
-        % Return the modified data structure
-        flattenedData = DataStructure;
-    end
     function plotAbsorption(SamplesToPlot, offset)
         % Create a figure for the plot
         figure;
@@ -692,7 +661,8 @@ classdef UsefulFunctions
         % Hold off to stop adding new plots to the current figure
         hold off;
 
-    end    
+    end
+    
     function sampleList = TransitionPeaksCalculation(sampleList, LS1, US1, LS2, US2)
 
         % Iterate over each sample to be normalized
