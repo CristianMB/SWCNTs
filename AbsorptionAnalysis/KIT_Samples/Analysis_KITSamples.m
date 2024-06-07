@@ -1,4 +1,4 @@
-clc;
+    clc;
 clear;
 addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 % addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
