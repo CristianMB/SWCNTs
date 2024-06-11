@@ -11,11 +11,13 @@ rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\
 %path_baselines = [rootpath,'References.csv'];
 path_KIT = [rootpath,'20240531\KIT_Samples.csv'];
 path_REF = [rootpath,'References.csv'];
+path_KITDial = [rootpath,'20240611\KIT_Samples.csv'];
 
 %Select the paths of interest
 paths = {
         path_KIT
         path_REF
+        path_KITDial
         };
 
 %Read and structure data from the paths
@@ -56,37 +58,55 @@ KIT = {
 %      DATA_20240531.EA
 %      DATA_20240531.WA
      
-     DATA_20240531.T1Converted
-     DATA_20240531.T4Converted
-%      DATA_20240531.T4ConvertedPellet
-     DATA_20240531.T4ConvertedPelletB
+%      DATA_20240531.T1Converted
+%      DATA_20240531.T4Converted
+% %      DATA_20240531.T4ConvertedPellet
+%      DATA_20240531.T4ConvertedPelletB
 
 %       DATA_References.H2OinD2O
 %     DATA_20240531.S2  
 
-%       DATA_20240531.S2B
-%       DATA_20240531.S3
-%       DATA_20240531.S4
-%       DATA_20240531.S5
-%       DATA_20240531.S6
-%       DATA_20240531.S7
+      DATA_20240531.S2B
+      DATA_20240531.S3
+      DATA_20240531.S4
+      DATA_20240531.S5
+      DATA_20240531.S6
+      DATA_20240531.S7
              };
+ 
+KITDial = {
+      DATA_20240611.S2Dial
+      DATA_20240611.S3Dial
+      DATA_20240611.S4Dial
+      DATA_20240611.S5Dial
+      DATA_20240611.S6Dial
+      DATA_20240611.S7Dial
+      DATA_References.H2OinD2O
+            };
+        
          
 %%%--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 LS2= 1000-20;  
 US2= 1000+20;
 
-KIT = SubtractInverseBG(KIT,[418 610 813]);
-KIT = NormalizeSample(KIT,620, 820);
+KITDial = SubtractInverseBG(KITDial,[418 610 813]);
+KITDial = NormalizeSample(KITDial,620, 820);
+% KITDial = NormalizeSample(KITDial,1450, 1500);
+plotAbsorption(KITDial,0.0)
 
-plotAbsorption(KIT,1.0)
+% KIT = SubtractInverseBG(KIT,[418 610 813]);
+% KIT = NormalizeSample(KIT,620, 820);
+
+% plotAbsorption(KIT,0.0)
  
 % for i=1:length(KIT)
 %     current = KIT{i} 
 %     current.Y = current.Y - KIT{4}.Y
 %     AKIT{i} = current
 % end
+
+
 
 % peaks = [463 489 551 586];
 % KIT = FitSamples(KIT,peaks);
