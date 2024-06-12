@@ -9,11 +9,13 @@ rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\
 
 %All paths as default
 path_20240610 = [rootpath,'20240610\'];
+path_20240612 = [rootpath,'20240612\'];
 
 %Select the paths of interest
 
 paths = {
     path_20240610
+    path_20240612
     };
 
 
@@ -40,6 +42,9 @@ DATA_20240610.S7H514R.N='Dodecane@P2-ASWCNTs';
 DATA_20240610.S7L514GD.N='Dodecane@P2-ASWCNTs';
 DATA_20240610.WAH514R.N='Water ArcSWCNTs';
 DATA_20240610.WAL514GD.N='Water ArcSWCNTs';
+
+
+
 
 %%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -75,15 +80,47 @@ Samples = {
         DATA_20240610.S6H514R
         DATA_20240610.S7H514R
         };
-
+    
+SamplesDialR = {
+        DATA_20240612.WAL514R
+        DATA_20240612.EAL514R
+        DATA_20240612.S2L514R
+        DATA_20240612.S3L514R
+        DATA_20240612.S4L514R
+        DATA_20240612.S5L514R
+        DATA_20240612.S6L514R
+        DATA_20240612.S7L514R
+        };    
+SamplesDialG = {
+        DATA_20240612.WAL514GD
+        DATA_20240612.EAL514GD
+        DATA_20240612.S2L514GD
+        DATA_20240612.S3L514GD
+        DATA_20240612.S4L514GD
+        DATA_20240612.S5L514GD
+        DATA_20240612.S6L514GD
+        DATA_20240612.S7L514GD
+        };
+    
 %for RBMs
-
+% 
 Samples = FlatFieldCorrection(Samples, DATA_20240610.FFH514R)
 Samples = UsefulFunctions.SubstractLinearBG(Samples, 137, 200)
 Samples = UsefulFunctions.NormalizeSample(Samples,140, 160)
 
-%for G/D Bands
+%for G/D Bands 
 % Samples = UsefulFunctions.SubstractLinearBG(Samples, 1250, 1650)
 % Samples = UsefulFunctions.NormalizeSample(Samples,1585, 1595)
 
+
+%For DialSamples
+SamplesDialR = UsefulFunctions.SubstractLinearBG(SamplesDialR, 137, 200)
+SamplesDialR = UsefulFunctions.NormalizeSample(SamplesDialR,140, 160)
+% 
+% SamplesDialG = UsefulFunctions.SubstractLinearBG(SamplesDialG, 1250, 1650)
+% SamplesDialG = UsefulFunctions.NormalizeSample(SamplesDialG,1585, 1595)
+
 plotRaman(Samples, 0.0)
+plotRaman(SamplesDialR, 0.0)
+
+% plotRaman(SamplesDialG, 0.0)

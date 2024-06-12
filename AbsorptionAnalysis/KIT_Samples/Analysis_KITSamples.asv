@@ -36,7 +36,6 @@ ReadAbsorptionFromPaths(paths);
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%DATA_20240531 - Original Samples from KIT in DOC/H2O
 DATA_20240531.Baseline.N =  '1% DOC/D2O Baseline';
 DATA_20240531.EA.N =  'Empty ArcSWCNTs';
 DATA_20240531.WA.N =  'Water ArcSWCNTs';
@@ -44,24 +43,15 @@ DATA_20240531.T1Converted.N =  'T1 Converted';
 DATA_20240531.T4Converted.N =  'T4 Converted';
 DATA_20240531.T4ConvertedPellet.N =  'T4 Converted Pellet';
 DATA_20240531.T4ConvertedPelletB.N =  'T4 Converted Pellet';
-DATA_20240531.S2.N =  'PCE@P2-ASWCNTs KIT after CSA in 1%DOC/H2O';
-DATA_20240531.S2B.N =  'PCE@P2-ASWCNTs KIT after CSA in 1%DOC/H2O';
-DATA_20240531.S3.N =  'TCE@P2-ASWCNTs KIT after CSA in 1%DOC/H2O';
-DATA_20240531.S4.N =  'TEMED@P2-ASWCNTs KIT after CSA in 1%DOC/H2O';
-DATA_20240531.S5.N =  'TDAE@P2-ASWCNTs KIT after CSA in 1%DOC/H2O';
-DATA_20240531.S6.N =  'Hexadecane@P2-ASWCNTs KIT after CSA in 1%DOC/H2O';
-DATA_20240531.S7.N =  'Dodecane@P2-ASWCNTs KIT after CSA in 1%DOC/H2O';
-
-DATA_20240611.S3Dial.N='TCE@P2-ASWCNTs (KIT after exchange)';
-DATA_20240611.S4Dial.N='TEMED@P2-ASWCNTs (KIT after exchange)';
-DATA_20240611.S5Dial.N='TDAE@P2-ASWCNTs (KIT after exchange)';
-DATA_20240611.S6Dial.N='Hexadecane@P2-ASWCNTs (KIT after exchange)';
-DATA_20240611.S7Dial.N='Dodecane@P2-ASWCNTs (KIT after exchange)';
-DATA_20240611.S2Dial.N='PCE@P2-ASWCNTs (KIT after exchange)';
+DATA_20240531.S2.N =  'PCE@P2-ASWCNTs';
+DATA_20240531.S2B.N =  'PCE@P2-ASWCNTs';
+DATA_20240531.S3.N =  'TCE@P2-ASWCNTs';
+DATA_20240531.S4.N =  'TEMED@P2-ASWCNTs';
+DATA_20240531.S5.N =  'TDAE@P2-ASWCNTs';
+DATA_20240531.S6.N =  'Hexadecane@P2-ASWCNTs';
+DATA_20240531.S7.N =  'Dodecane@P2-ASWCNTs';
        
-%DATA_20240611 - Samples from KIT in DOC/D2O after exchange in dialysis
-
-                 
+          
 
 KIT = {     
 %     DATA_20240531.Baseline
@@ -75,6 +65,7 @@ KIT = {
 
 %       DATA_References.H2OinD2O
 %     DATA_20240531.S2  
+
       DATA_20240531.S2B
       DATA_20240531.S3
       DATA_20240531.S4
@@ -85,8 +76,8 @@ KIT = {
  
 DATA_20240611.S2Dial.Y = DATA_20240611.S2Dial.Y - 0.2*DATA_References.H2OinD2O.Y
 DATA_20240611.S3Dial.Y = DATA_20240611.S3Dial.Y - 0.2*DATA_References.H2OinD2O.Y
-DATA_20240611.S4Dial.Y = DATA_20240611.S4Dial.Y - 0.5*DATA_References.H2OinD2O.Y
-DATA_20240611.S5Dial.Y = DATA_20240611.S5Dial.Y - 0.5*DATA_References.H2OinD2O.Y
+DATA_20240611.S4Dial.Y = DATA_20240611.S4Dial.Y - 5*DATA_References.H2OinD2O.Y
+DATA_20240611.S5Dial.Y = DATA_20240611.S5Dial.Y - 0.2*DATA_References.H2OinD2O.Y
 DATA_20240611.S6Dial.Y = DATA_20240611.S6Dial.Y - 0.2*DATA_References.H2OinD2O.Y
 DATA_20240611.S7Dial.Y = DATA_20240611.S7Dial.Y - 0.2*DATA_References.H2OinD2O.Y    
          
@@ -106,8 +97,8 @@ KITDial = {
 LS2= 1000-20;  
 US2= 1000+20;
 
-% KITDial = SubtractInverseBG(KITDial,[418 610 813]);
-KITDial = NormalizeSample(KITDial,900, 1100);
+KITDial = SubtractInverseBG(KITDial,[418 610 813]);
+KITDial = NormalizeSample(KITDial,620, 820);
 % KITDial = NormalizeSample(KITDial,1450, 1500);
 plotAbsorption(KITDial,0.0)
 
