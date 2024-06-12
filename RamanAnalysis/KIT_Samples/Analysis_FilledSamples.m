@@ -43,7 +43,24 @@ DATA_20240610.S7L514GD.N='Dodecane@P2-ASWCNTs';
 DATA_20240610.WAH514R.N='Water ArcSWCNTs';
 DATA_20240610.WAL514GD.N='Water ArcSWCNTs';
 
+DATA_20240612.S2L514R.N='KIT PCE@SWCNT Dial';
+DATA_20240612.S3L514R.N='KIT TCE@SWCNT Dial';
+DATA_20240612.S4L514R.N='KIT TEMED@SWCNT Dial';
+DATA_20240612.S5L514R.N='KIT TDAE@SWCNT Dial';
+DATA_20240612.S6L514R.N='KIT Hexadecane@SWCNT Dial';
+DATA_20240612.S7L514R.N='KIT Dodecane@SWCNT Dial';
+DATA_20240612.LL514A.N='Laser';
+DATA_20240612.WAL514R.N='Water Filled Arc SWCNTs';
+DATA_20240612.EAL514R.N='Empty Arc SWCNTs';
 
+DATA_20240612.S2L514GD.N='KIT PCE@SWCNT Dial';
+DATA_20240612.S3L514GD.N='KIT TCE@SWCNT Dial';
+DATA_20240612.S4L514GD.N='KIT TEMED@SWCNT Dial';
+DATA_20240612.S5L514GD.N='KIT TDAE@SWCNT Dial';
+DATA_20240612.S6L514GD.N='KIT Hexadecane@SWCNT Dial';
+DATA_20240612.S7L514GD.N='KIT Dodecane@SWCNT Dial';
+DATA_20240612.WAL514GD.N='Water Filled Arc SWCNTs';
+DATA_20240612.EAL514GD.N='Empty Arc SWCNTs';
 
 
 %%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,7 +68,7 @@ DATA_20240610.WAL514GD.N='Water ArcSWCNTs';
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Samples = {
+SamplesG = {
 % DATA_20240610.EAH514R
 DATA_20240610.EAL514GD
 % DATA_20240610.S2H514R
@@ -70,7 +87,7 @@ DATA_20240610.S7L514GD
 DATA_20240610.WAL514GD    
 };
 
-Samples = {
+SamplesR = {
         DATA_20240610.WAH514R
         DATA_20240610.EAH514R
         DATA_20240610.S2H514R
@@ -104,13 +121,13 @@ SamplesDialG = {
     
 %for RBMs
 % 
-Samples = FlatFieldCorrection(Samples, DATA_20240610.FFH514R)
-Samples = UsefulFunctions.SubstractLinearBG(Samples, 137, 200)
-Samples = UsefulFunctions.NormalizeSample(Samples,140, 160)
+SamplesR = FlatFieldCorrection(SamplesR, DATA_20240610.FFH514R)
+SamplesR = UsefulFunctions.SubstractLinearBG(SamplesR, 137, 200)
+SamplesR = UsefulFunctions.NormalizeSample(SamplesR,140, 160)
 
 %for G/D Bands 
-% Samples = UsefulFunctions.SubstractLinearBG(Samples, 1250, 1650)
-% Samples = UsefulFunctions.NormalizeSample(Samples,1585, 1595)
+SamplesG = UsefulFunctions.SubstractLinearBG(SamplesG, 1250, 1650)
+SamplesG = UsefulFunctions.NormalizeSample(SamplesG,1585, 1595)
 
 
 %For DialSamples
@@ -120,7 +137,7 @@ SamplesDialR = UsefulFunctions.NormalizeSample(SamplesDialR,140, 160)
 % SamplesDialG = UsefulFunctions.SubstractLinearBG(SamplesDialG, 1250, 1650)
 % SamplesDialG = UsefulFunctions.NormalizeSample(SamplesDialG,1585, 1595)
 
-plotRaman(Samples, 0.0)
-plotRaman(SamplesDialR, 0.0)
-
-% plotRaman(SamplesDialG, 0.0)
+plotRaman(SamplesR, 0.7)
+plotRaman(SamplesG, 0.0)
+plotRaman(SamplesDialR, 0.7)
+plotRaman(SamplesDialG, 0.0)
