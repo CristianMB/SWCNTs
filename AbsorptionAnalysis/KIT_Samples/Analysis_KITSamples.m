@@ -12,9 +12,11 @@ rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\
 path_KIT = [rootpath,'20240531\KIT_Samples.csv'];
 path_REF = [rootpath,'References.csv'];
 path_KITDial = [rootpath,'20240611\KIT_Samples.csv'];
+path_KITConverted = [rootpath,'20240613\KIT_ConvertedSamples.csv'];
 
 %Select the paths of interest
 paths = {
+        path_KITConverted
         path_KIT
         path_REF
         path_KITDial
@@ -61,7 +63,11 @@ DATA_20240611.S2Dial.N='PCE@P2-ASWCNTs (KIT after exchange)';
        
 %DATA_20240611 - Samples from KIT in DOC/D2O after exchange in dialysis
 
-                 
+KITConverted = {
+    DATA_20240613.T1S
+    DATA_20240613.T4S
+    DATA_20240613.T4P
+    };                 
 
 KIT = {     
 %     DATA_20240531.Baseline
@@ -82,13 +88,13 @@ KIT = {
       DATA_20240531.S6
       DATA_20240531.S7
              };
- 
-DATA_20240611.S2Dial.Y = DATA_20240611.S2Dial.Y - 0.2*DATA_References.H2OinD2O.Y
-DATA_20240611.S3Dial.Y = DATA_20240611.S3Dial.Y - 0.2*DATA_References.H2OinD2O.Y
-DATA_20240611.S4Dial.Y = DATA_20240611.S4Dial.Y - 0.5*DATA_References.H2OinD2O.Y
-DATA_20240611.S5Dial.Y = DATA_20240611.S5Dial.Y - 0.5*DATA_References.H2OinD2O.Y
-DATA_20240611.S6Dial.Y = DATA_20240611.S6Dial.Y - 0.2*DATA_References.H2OinD2O.Y
-DATA_20240611.S7Dial.Y = DATA_20240611.S7Dial.Y - 0.2*DATA_References.H2OinD2O.Y    
+%  
+% DATA_20240611.S2Dial.Y = DATA_20240611.S2Dial.Y - 0.2*DATA_References.H2OinD2O.Y- 0.3*DATA_References.DOC.Y
+% DATA_20240611.S3Dial.Y = DATA_20240611.S3Dial.Y - 0.2*DATA_References.H2OinD2O.Y
+% DATA_20240611.S4Dial.Y = DATA_20240611.S4Dial.Y - 0.5*DATA_References.H2OinD2O.Y
+% DATA_20240611.S5Dial.Y = DATA_20240611.S5Dial.Y - 0.5*DATA_References.H2OinD2O.Y
+% DATA_20240611.S6Dial.Y = DATA_20240611.S6Dial.Y - 0.2*DATA_References.H2OinD2O.Y
+% DATA_20240611.S7Dial.Y = DATA_20240611.S7Dial.Y - 0.2*DATA_References.H2OinD2O.Y    
          
 KITDial = {
       DATA_20240611.S2Dial
@@ -106,9 +112,9 @@ KITDial = {
 LS2= 1000-20;  
 US2= 1000+20;
 
-% KITDial = SubtractInverseBG(KITDial,[418 610 813]);
+KITDial = SubtractInverseBG(KITDial,[418 610 813]);
 KITDial = NormalizeSample(KITDial,900, 1100);
-% KITDial = NormalizeSample(KITDial,1450, 1500);
+KITDial = NormalizeSample(KITDial,1450, 1500);
 plotAbsorption(KITDial,0.0)
 
 % KIT = SubtractInverseBG(KIT,[418 610 813]);
@@ -122,6 +128,16 @@ plotAbsorption(KITDial,0.0)
 %     AKIT{i} = current
 % end
 
+
+KITConverted = SubtractInverseBG(KITConverted,[418 610 1260]);
+KITConverted = NormalizeSample(KITConverted,630, 820);
+plotAbsorption(KITConverted,0)
+peaks = [430 457 483 506 542 576];
+
+% KITConverted = FitSamples(KITConverted,peaks);
+% for i=1:length(KITConverted)
+%     plotRamanFit(KITConverted{i})
+% end
 
 
 % peaks = [463 489 551 586];
