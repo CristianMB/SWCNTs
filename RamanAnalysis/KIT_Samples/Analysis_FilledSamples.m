@@ -10,12 +10,16 @@ rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\
 %All paths as default
 path_20240610 = [rootpath,'20240610\'];
 path_20240612 = [rootpath,'20240612\'];
+path_20240614 = [rootpath,'20240614\'];
+path_20240620 = [rootpath,'20240620\'];
 
 %Select the paths of interest
 
 paths = {
     path_20240610
     path_20240612
+    path_20240614
+    path_20240620
     };
 
 
@@ -62,6 +66,31 @@ DATA_20240612.S7L514GD.N='KIT Dodecane@SWCNT Dial';
 DATA_20240612.WAL514GD.N='Water Filled Arc SWCNTs';
 DATA_20240612.EAL514GD.N='Empty Arc SWCNTs';
 
+DATA_20240614.LL514A.N='Laser';
+DATA_20240614.T4SL514R.N='T4 S-SWCNTs Converted';
+DATA_20240614.T1SL514R.N='T1 S-SWCNTs Converted';
+DATA_20240614.T4PL514R.N='T4 P-SWCNTs Converted';
+DATA_20240614.T4SL514G.N='T4 S-SWCNTs Converted';
+DATA_20240614.T1SL514G.N='T1 S-SWCNTs Converted';
+DATA_20240614.T4PL514G.N='T4 P-SWCNTs Converted';
+
+
+
+DATA_20240620.LL514A.N='Laser';
+DATA_20240620.F1SL514R.N='KIT Film T1S';
+DATA_20240620.F1CL514R.N='KIT Film T1S Converted';
+DATA_20240620.F2SL514R.N='KIT Film T2S';
+DATA_20240620.F2CL514R.N='KIT Film T2S Converted';
+DATA_20240620.F9ML514R.N='KIT Film T9M';
+DATA_20240620.F9CL514R.N='KIT Film T9M Converted';
+DATA_20240620.F1SL514G.N='KIT Film T1S';
+DATA_20240620.F1CL514G.N='KIT Film T1S Converted';
+DATA_20240620.F2SL514G.N='KIT Film T2S';
+DATA_20240620.F2CL514G.N='KIT Film T2S Converted';
+DATA_20240620.F9ML514G.N='KIT Film T9M';
+DATA_20240620.F9CL514G.N='KIT Film T9M Converted';
+DATA_20240620.F2SL514C.N='KIT Film T2S';
+
 
 %%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -69,58 +98,86 @@ DATA_20240612.EAL514GD.N='Empty Arc SWCNTs';
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 SamplesG = {
-% DATA_20240610.EAH514R
-DATA_20240610.EAL514GD
-% DATA_20240610.S2H514R
-DATA_20240610.S2L514GD
-% DATA_20240610.S3H514R
-DATA_20240610.S3L514GD
-% DATA_20240610.S4H514R
-DATA_20240610.S4L514GD
-% DATA_20240610.S5H514R
-DATA_20240610.S5L514GD
-% DATA_20240610.S6H514R
-DATA_20240610.S6L514GD
-% DATA_20240610.S7H514R
-DATA_20240610.S7L514GD
-% DATA_20240610.WAH514R
-DATA_20240610.WAL514GD    
-};
+            DATA_20240610.EAL514GD
+            DATA_20240610.S2L514GD
+            DATA_20240610.S3L514GD
+            DATA_20240610.S4L514GD
+            DATA_20240610.S5L514GD
+            DATA_20240610.S6L514GD
+            DATA_20240610.S7L514GD
+            DATA_20240610.WAL514GD    
+            };
 
 SamplesR = {
-        DATA_20240610.WAH514R
-        DATA_20240610.EAH514R
-        DATA_20240610.S2H514R
-        DATA_20240610.S3H514R
-        DATA_20240610.S4H514R
-        DATA_20240610.S5H514R
-        DATA_20240610.S6H514R
-        DATA_20240610.S7H514R
-        };
+            DATA_20240610.WAH514R
+            DATA_20240610.EAH514R
+            DATA_20240610.S2H514R
+            DATA_20240610.S3H514R
+            DATA_20240610.S4H514R
+            DATA_20240610.S5H514R
+            DATA_20240610.S6H514R
+            DATA_20240610.S7H514R
+            };
     
 SamplesDialR = {
-        DATA_20240612.WAL514R
-        DATA_20240612.EAL514R
-        DATA_20240612.S2L514R
-        DATA_20240612.S3L514R
-        DATA_20240612.S4L514R
-        DATA_20240612.S5L514R
-        DATA_20240612.S6L514R
-        DATA_20240612.S7L514R
-        };    
+            DATA_20240612.WAL514R
+            DATA_20240612.EAL514R
+            DATA_20240612.S2L514R
+            DATA_20240612.S3L514R
+            DATA_20240612.S4L514R
+            DATA_20240612.S5L514R
+            DATA_20240612.S6L514R
+            DATA_20240612.S7L514R
+            };    
+        
 SamplesDialG = {
-        DATA_20240612.WAL514GD
-        DATA_20240612.EAL514GD
-        DATA_20240612.S2L514GD
-        DATA_20240612.S3L514GD
-        DATA_20240612.S4L514GD
-        DATA_20240612.S5L514GD
-        DATA_20240612.S6L514GD
-        DATA_20240612.S7L514GD
-        };
+            DATA_20240612.WAL514GD
+            DATA_20240612.EAL514GD
+            DATA_20240612.S2L514GD
+            DATA_20240612.S3L514GD
+            DATA_20240612.S4L514GD
+            DATA_20240612.S5L514GD
+            DATA_20240612.S6L514GD
+            DATA_20240612.S7L514GD
+            };
     
+KITConvertedR = {
+            DATA_20240614.T1SL514R
+            DATA_20240614.T4SL514R
+            DATA_20240614.T4PL514R
+            };
+
+KITConvertedG = {
+%             DATA_20240614.T1SL514G
+%             DATA_20240614.T4SL514G
+%             DATA_20240614.T4PL514G
+            };
+        
+KITFilmsR = {
+            DATA_20240620.F1SL514R
+            DATA_20240620.F1CL514R
+            DATA_20240620.F2SL514R
+            DATA_20240620.F2CL514R
+            DATA_20240620.F9ML514R
+            DATA_20240620.F9CL514R    
+            };
+        
+KITFilmsG = {
+            DATA_20240620.F1SL514G
+            DATA_20240620.F1CL514G
+            DATA_20240620.F2SL514G
+            DATA_20240620.F2CL514G
+            
+            DATA_20240620.F9ML514G
+            DATA_20240620.F9CL514G   
+            };      
+
+KITF1= {
+            DATA_20240620.F2SL514G
+            DATA_20240620.F2SL514C
+       };   
+   
 %for RBMs
-% 
 SamplesR = FlatFieldCorrection(SamplesR, DATA_20240610.FFH514R)
 SamplesR = UsefulFunctions.SubstractLinearBG(SamplesR, 137, 200)
 SamplesR = UsefulFunctions.NormalizeSample(SamplesR,140, 160)
@@ -133,11 +190,41 @@ SamplesG = UsefulFunctions.NormalizeSample(SamplesG,1585, 1595)
 %For DialSamples
 SamplesDialR = UsefulFunctions.SubstractLinearBG(SamplesDialR, 137, 200)
 SamplesDialR = UsefulFunctions.NormalizeSample(SamplesDialR,140, 160)
-% 
-% SamplesDialG = UsefulFunctions.SubstractLinearBG(SamplesDialG, 1250, 1650)
-% SamplesDialG = UsefulFunctions.NormalizeSample(SamplesDialG,1585, 1595)
+%
+SamplesDialG = UsefulFunctions.SubstractLinearBG(SamplesDialG, 1250, 1650)
+SamplesDialG = UsefulFunctions.NormalizeSample(SamplesDialG,1585, 1595)
 
-plotRaman(SamplesR, 0.7)
-plotRaman(SamplesG, 0.0)
-plotRaman(SamplesDialR, 0.7)
-plotRaman(SamplesDialG, 0.0)
+
+%For KITConvertedR
+KITConvertedR = UsefulFunctions.SubstractLinearBG(KITConvertedR, 137, 200)
+KITConvertedR = UsefulFunctions.NormalizeSample(KITConvertedR,140, 160)
+% 
+KITConvertedG = UsefulFunctions.SubstractLinearBG(KITConvertedG, 1250, 1650)
+KITConvertedG = UsefulFunctions.NormalizeSample(KITConvertedG,1585, 1595)
+
+
+
+%For KITFilms
+% KITFilmsR = UsefulFunctions.SubstractLinearBG(KITFilmsR, 137, 200)
+% KITFilmsR = UsefulFunctions.NormalizeSample(KITFilmsR,100, 200)
+% % 
+% KITFilmsG = UsefulFunctions.SubstractLinearBG(KITFilmsG, 1250, 1650)
+% KITFilmsG = UsefulFunctions.NormalizeSample(KITFilmsG,1585, 1595)
+% 
+% 
+
+
+% 
+% plotRaman(KITConvertedR, 0.7)
+% plotRaman(KITConvertedG, 0.0)
+
+% plotRaman(SamplesR, 0.7)
+% plotRaman(SamplesG, 0.0)
+% 
+% plotRaman(SamplesDialR, 0.0)
+% plotRaman(SamplesDialG, 0.0)
+
+
+% plotRaman(KITFilmsR, 3.0)
+% plotRaman(KITFilmsG, 3.0)
+plotRaman(KITF1, 0.0)

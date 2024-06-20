@@ -13,6 +13,7 @@ path_KIT = [rootpath,'20240531\KIT_Samples.csv'];
 path_REF = [rootpath,'References.csv'];
 path_KITDial = [rootpath,'20240611\KIT_Samples.csv'];
 path_KITConverted = [rootpath,'20240613\KIT_ConvertedSamples.csv'];
+path_KITFilms = [rootpath,'20240614\KIT_FilmConvertedSamples.csv'];
 
 %Select the paths of interest
 paths = {
@@ -20,6 +21,7 @@ paths = {
         path_KIT
         path_REF
         path_KITDial
+        path_KITFilms
         };
 
 %Read and structure data from the paths
@@ -61,6 +63,18 @@ DATA_20240611.S6Dial.N='Hexadecane@P2-ASWCNTs (KIT after exchange)';
 DATA_20240611.S7Dial.N='Dodecane@P2-ASWCNTs (KIT after exchange)';
 DATA_20240611.S2Dial.N='PCE@P2-ASWCNTs (KIT after exchange)';
        
+
+DATA_20240614.Baseline.N='Baseline';
+DATA_20240614.FilmT1S.N='T1SFilm';
+DATA_20240614.FilmT1SConverted.N='T1SFilmConverted';
+DATA_20240614.FilmT2S.N='T2SFilm';
+DATA_20240614.FilmT2SConverted.N='T2SFilmConverted';
+DATA_20240614.FilmT9M.N='T9MFilm';
+DATA_20240614.FilmT9MConverted.N='T9MFilmConverted';
+
+
+
+
 %DATA_20240611 - Samples from KIT in DOC/D2O after exchange in dialysis
 
 KITConverted = {
@@ -105,18 +119,27 @@ KITDial = {
       DATA_20240611.S7Dial
 %        DATA_References.H2OinD2O
             };
-        
+   
+KITFilms = {
+%     DATA_20240614.FilmT1S
+%     DATA_20240614.FilmT1SConverted
+%     DATA_20240614.FilmT2S
+%     DATA_20240614.FilmT2SConverted
+    DATA_20240614.FilmT9M
+    DATA_20240614.FilmT9MConverted
+            };
          
+        
 %%%--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 LS2= 1000-20;  
 US2= 1000+20;
 
-KITDial = SubtractInverseBG(KITDial,[418 610 813]);
+% KITDial = SubtractInverseBG(KITDial,[418 610 813]);
 KITDial = NormalizeSample(KITDial,900, 1100);
-KITDial = NormalizeSample(KITDial,1450, 1500);
-plotAbsorption(KITDial,0.0)
-
+% KITDial = NormalizeSample(KITDial,1450, 1500);
+plotAbsorption(KITDial,0.7)
+% 
 % KIT = SubtractInverseBG(KIT,[418 610 813]);
 % KIT = NormalizeSample(KIT,620, 820);
 
@@ -129,16 +152,17 @@ plotAbsorption(KITDial,0.0)
 % end
 
 
-KITConverted = SubtractInverseBG(KITConverted,[418 610 1260]);
-KITConverted = NormalizeSample(KITConverted,630, 820);
-plotAbsorption(KITConverted,0)
-peaks = [430 457 483 506 542 576];
+% KITFilms = SubtractInverseBG(KITFilms,[418 610 1260]);
+% KITFilms = SubtractInverseBG(KITFilms,[688 1380 2480]);
+% KITFilms = NormalizeSample(KITFilms,900, 1100);
+% plotAbsorption(KITFilms,0)
 
 % KITConverted = FitSamples(KITConverted,peaks);
 % for i=1:length(KITConverted)
 %     plotRamanFit(KITConverted{i})
 % end
 
+plotAbsorption(KITConverted, 0.7)
 
 % peaks = [463 489 551 586];
 % KIT = FitSamples(KIT,peaks);
@@ -154,6 +178,11 @@ peaks = [430 457 483 506 542 576];
 %     DATA_20240308.Baseline
 %             }
 
+% 
+% KITDial = SubtractInverseBG(KITDial,[418 610 813]);
+% KITDial = NormalizeSample(KITDial,900, 1100);
+% KITDial = NormalizeSample(KITDial,1450, 1500);
+% plotAbsorption(KITDial,0.0)
 
 
 
