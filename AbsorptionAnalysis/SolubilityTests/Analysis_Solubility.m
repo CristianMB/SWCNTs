@@ -26,8 +26,6 @@ path_20240506d = [rootpath,'20240506\THF.csv'];
 path_20240506e = [rootpath,'20240506\EthylAcetate.csv'];
 path_20240506f = [rootpath,'20240506\Methanol.csv'];
 
-path_20240528 = [rootpath,'20240528\Ethanol.csv'];
-
 %Select the paths of interest
 paths = {
            path_20240415a
@@ -46,8 +44,6 @@ paths = {
            path_20240506d
            path_20240506e
            path_20240506f
-           
-           path_20240528
         };
     
 
@@ -106,21 +102,16 @@ DATA_20240415.TCNQ_THF.N='TCNQ_THF 10,36mg in 15ml - conc 0,690666666666667 - Or
 DATA_20240422.TCNQ_THF.N='TCNQ_THF 10,36mg in 23ml - conc 0,450434782608696 - Diluited';
 DATA_20240506.TCNQ_THF.N='TCNQ_THF 10,36mg in 40ml - conc 0,259 - Diluited';
 
-
-%DATA_20240528 NAMES
-
-
 %%
 
 BLines = {
-%             DATA_20240506.Acetonitrile_Baseline
-%             DATA_20240506.Methanol_Baseline
+            DATA_20240506.Acetonitrile_Baseline
+            DATA_20240506.Methanol_Baseline
             DATA_20240422.Ethanol_Baseline
-%             DATA_20240422.EthylAcetate_Baseline
-%             DATA_20240506.DMF_Baseline
-%             DATA_20240506.THF_Baseline
-%             DATA_20240506.Acetone_Baseline
-            DATA_20240528.Baseline_Ethanol
+            DATA_20240422.EthylAcetate_Baseline
+            DATA_20240506.DMF_Baseline
+            DATA_20240506.THF_Baseline
+            DATA_20240506.Acetone_Baseline
 
 %             DATA_20240415.Acetone_Baseline
 %             DATA_20240415.Methanol_Baseline     %Error in Methanol
@@ -131,12 +122,11 @@ BLines = {
             %
         };
     
-% plotAbsorption(BLines, 0.0)
+% plotAbsorption(BLines, 1.0)
 
 TCNQ = {
         DATA_20240506.TCNQ_Acetonitrile
         DATA_20240506.TCNQ_Methanol
-        DATA_20240528.TCNQ_Ethanol
         DATA_20240422.TCNQ_EthylAcetate
         DATA_20240506.TCNQ_EthylAcetate
         DATA_20240506.TCNQ_EthylAcetate_B
@@ -149,13 +139,12 @@ TCNQ = {
 TCNQ_OK = {
         DATA_20240506.TCNQ_Acetonitrile
         DATA_20240506.TCNQ_Methanol
-        DATA_20240528.TCNQ_Ethanol
         DATA_20240506.TCNQ_EthylAcetate_B
         DATA_20240506.TCNQ_DMF
         DATA_20240506.TCNQ_THF
         DATA_20240506.TCNQ_Acetone
        };
-% plotAbsorption(TCNQ_OK, 0.0)
+%plotAbsorption(TCNQ_OK, 0.0)
    
    
 TCBQ = {
@@ -176,7 +165,6 @@ TCBQOK = {
         DATA_20240506.TCBQ_Acetonitrile
         DATA_20240506.TCBQ_Acetonitrile_B
         DATA_20240506.TCBQ_Methanol
-        DATA_20240528.TCBQ_Ethanol
         %DATA_20240415.TCBQ_Ethanol
         %DATA_20240422.TCBQ_Ethanol
         %DATA_20240422.TCBQ_EthylAcetate
@@ -187,7 +175,7 @@ TCBQOK = {
         %DATA_20240415.TCBQ_Acetone
        };
 
-% plotAbsorption(TCBQOK, 0.0)
+%plotAbsorption(TCBQOK, 0.0)
 
    
 FN = {  
@@ -199,7 +187,6 @@ FN = {
         DATA_20240506.FN_Methanol_B
         DATA_20240415.FN_Ethanol
         DATA_20240422.FN_Ethanol
-        DATA_20240528.FN_Ethanol
         DATA_20240422.FN_EthylAcetate
         DATA_20240506.FN_DMF
         DATA_20240506.FN_THF                    
@@ -209,10 +196,10 @@ FN = {
 FNOK = {  
          DATA_20240506.FN_Acetonitrile
          DATA_20240506.FN_Methanol_B  
-        DATA_20240528.FN_Ethanol
+
         }; 
     
-% plotAbsorption(FNOK, 0.0)
+plotAbsorption(FNOK, 0.0)
 
   
  
@@ -220,7 +207,6 @@ DCB = {
         DATA_20240506.DCB_Acetonitrile
         DATA_20240506.DCB_Acetonitrile_B         
         DATA_20240506.DCB_Methanol
-        DATA_20240528.DCB_Ethanol
         DATA_20240422.DCB_EthylAcetate
         DATA_20240506.DCB_EthylAcetate
         DATA_20240506.DCB_DMF
@@ -234,7 +220,6 @@ DCBOK = {
         DATA_20240506.DCB_Acetonitrile
         DATA_20240506.DCB_Acetonitrile_B         
         DATA_20240506.DCB_Methanol
-        DATA_20240528.DCB_Ethanol
         DATA_20240422.DCB_EthylAcetate
         DATA_20240506.DCB_EthylAcetate
         DATA_20240506.DCB_DMF
@@ -248,7 +233,6 @@ CuCl = {
         DATA_20240506.CuCl_Acetonitrile
         DATA_20240506.CuCl_Acetonitrile_B
         DATA_20240506.CuCl_Methanol
-        DATA_20240528.CuCl_Ethanol
         DATA_20240506.CuCl_EthylAcetate
         DATA_20240506.CuCl_DMF
         DATA_20240506.CuCl_THF
@@ -259,7 +243,6 @@ CuClOK = {
         DATA_20240506.CuCl_Acetonitrile
         DATA_20240506.CuCl_Acetonitrile_B
         DATA_20240506.CuCl_Methanol
-        DATA_20240528.CuCl_Ethanol
         };     
     
 % plotAbsorption(CuClOK, 0.0)
