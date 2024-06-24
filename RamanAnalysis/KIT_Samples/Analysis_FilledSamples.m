@@ -167,15 +167,34 @@ KITFilmsG = {
             DATA_20240620.F1CL514G
             DATA_20240620.F2SL514G
             DATA_20240620.F2CL514G
-            
             DATA_20240620.F9ML514G
             DATA_20240620.F9CL514G   
             };      
 
-KITF1= {
-            DATA_20240620.F2SL514G
-            DATA_20240620.F2SL514C
+KITF1G= {
+            DATA_20240620.F1SL514G
+            DATA_20240620.F1CL514G
        };   
+KITF2G= {
+            DATA_20240620.F2SL514G
+            DATA_20240620.F2CL514G
+       };    
+KITF9G= {
+            DATA_20240620.F9ML514G
+            DATA_20240620.F9CL514G
+       };  
+KITF1R= {
+            DATA_20240620.F1SL514R
+            DATA_20240620.F1CL514R
+       };   
+KITF2R= {
+            DATA_20240620.F2SL514R
+            DATA_20240620.F2CL514R
+       };    
+KITF9R= {
+            DATA_20240620.F9ML514R
+            DATA_20240620.F9CL514R
+       };  
    
 %for RBMs
 SamplesR = FlatFieldCorrection(SamplesR, DATA_20240610.FFH514R)
@@ -224,7 +243,30 @@ KITConvertedG = UsefulFunctions.NormalizeSample(KITConvertedG,1585, 1595)
 % plotRaman(SamplesDialR, 0.0)
 % plotRaman(SamplesDialG, 0.0)
 
-
 % plotRaman(KITFilmsR, 3.0)
 % plotRaman(KITFilmsG, 3.0)
-plotRaman(KITF1, 0.0)
+
+
+
+%Individual Film Analysis KIT
+KITF1R = UsefulFunctions.SubstractLinearBG(KITF1R, 137, 200)
+KITF1R = UsefulFunctions.NormalizeSample(KITF1R,100, 200)
+KITF2R = UsefulFunctions.SubstractLinearBG(KITF2R, 137, 200)
+KITF2R = UsefulFunctions.NormalizeSample(KITF2R,100, 200)
+KITF9R = UsefulFunctions.SubstractLinearBG(KITF9R, 137, 200)
+KITF9R = UsefulFunctions.NormalizeSample(KITF9R,100, 200)
+
+KITF1G = UsefulFunctions.SubstractLinearBG(KITF1G, 1250, 1650)
+KITF1G = UsefulFunctions.NormalizeSample(KITF1G,1550, 1650)
+KITF2G = UsefulFunctions.SubstractLinearBG(KITF2G, 1250, 1650)
+KITF2G = UsefulFunctions.NormalizeSample(KITF2G,1550, 1650)
+KITF9G = UsefulFunctions.SubstractLinearBG(KITF9G, 1250, 1650)
+KITF9G = UsefulFunctions.NormalizeSample(KITF9G,1550, 1650)
+
+plotRaman(KITF1R, 1.0)
+plotRaman(KITF2R, 1.0)
+plotRaman(KITF9R, 1.0)
+
+plotRaman(KITF1G, 0.0)
+plotRaman(KITF2G, 0.0)
+plotRaman(KITF9G, 0.0)
