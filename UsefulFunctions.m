@@ -58,57 +58,79 @@ classdef UsefulFunctions
  
    %% Kataura Calculation
 
-    function [nuRBM,wl1,wl2,wl3,wl4,diam,theta, type]=CalculateKataura(P)
+    function [nuRBM,w11, w22, w33, w44,diam,theta, type]=CalculateKataura(P)
 
     n=P(1);
     m=P(2);
 
-    diam=0.144*sqrt(3)*(sqrt(n.^2+m.^2+n.*m))/pi;
+    %Bachilo 
+    dcc = 0.144;        %nm Carbon carbon distance
+    A = 223.5;          %cm-1
+    B = 12.5;           %cm-1
+    
+    diam= dcc*sqrt(3)*(sqrt(n.^2+m.^2+n.*m))/pi;
     theta=atan(sqrt(3)*m./(m+2*n));
-    nuRBM=(223.5./diam)+12.5;
-
-    a=1.049;%eV nm
+    %nuRBM=(A./diam)+B ;
+    nuRBM=(A./diam)+B ;
+    
+    %Araujo 
+    a=1.049;            %eV nm
     b=0.456;
-    c=0.812;%nm-1
+    c=0.812;            %nm-1
+    hc = 1240.84193;    %h*c value to convert energy to nm
+    
+    
+       if mod(n-m,3)==0 % METALLIC TUBES using Araujo Equations
+            type = 'M';
 
-               if mod(n-m,3)==0 % METALLIC TUBES               
-    %                 freq1=(1*10^7)./(150+(370*diam))+(-2000*cos(3*theta))./diam.^2;
-    %                 wl1=(1*10^7)./freq1; 
-    %                 freq2=10000000./(150+370*diam)+3000*cos(3*theta)./diam.^2;
-    %                 wl2=(1*10^7)./freq2;
-                    energy1=((a*3./diam).*(1+(b*log10(c./(3./diam)))))-0.18*cos(3*theta)/diam^2;%(in eV)
-                    wl1=1240/energy1;
-                    energy2=((a*3./diam).*(1+(b*log10(c./(3./diam)))))+0.29*cos(3*theta)./diam^2;%(in eV)
-                    wl2=1240/energy2;
-                    energy3=((a*6./diam).*(1+(b*log10(c./(6./diam)))))-0.6*cos(3*theta)/diam^2;%(in eV)
-                    wl3=1240/energy3;
-                    energy4=((a*6./diam).*(1+(b*log10(c./(6./diam)))))+0.87*cos(3*theta)./diam^2;%(in eV)
-                    wl4=1240/energy4;
-                    type = 'M';
-               end
-               if mod(n-m,3)==1 % semiconducting tube 
-                    freq1=10000000./(157.5+1066.9*diam)-710*cos(3*theta)./diam.^2;
-                    wl1=(1*10^7)./freq1; 
-                    freq2=10000000./(145.6+575.7*diam)+1375*cos(3*theta)./diam.^2;
-                    wl2=(1*10^7)./freq2;
-                    energy3=((a*4/diam).*(1+(b*log10(c./(4/diam)))))-0.42*cos(3*theta)./diam^2+(0.0596*4/diam);%(in eV)
-                    wl3=1240/energy3;
-                    energy4=((a*5/diam).*(1+(b*log10(c./(5/diam)))))+0.4*cos(3*theta)./diam^2+(0.0596*5/diam);%(in eV)
-                    wl4=1240/energy4;
-                    type = 'S';
+            %M11 Araujo, two branches
+            e1a=((a*3./diam).*(1+(b*log10(c./(3./diam)))))-0.19*cos(3*theta)./diam^2;    %(in eV)
+            e1b=((a*3./diam).*(1+(b*log10(c./(3./diam)))))+0.29*cos(3*theta)./diam^2;    %(in eV)
+            w11=hc/e1a;                                                                 %(in nm)
+            w22=hc/e1b;                                                                 %(in nm)
+          
+            %M22 Araujo, two branches
+            e2a=((a*6./diam).*(1+(b*log10(c./(6./diam)))))-0.60*cos(3*theta)./diam^2;    %(in eV)
+            e2b=((a*6./diam).*(1+(b*log10(c./(6./diam)))))+0.57*cos(3*theta)./diam^2;    %(in eV)
+            w33=hc/e2a;                                                                 %(in nm)
+            w44=hc/e2b;                                                                 %(in nm)
+            
+       end
+       
+       if mod(n-m,3)==1 % SEMICONDUCTING TUBES using Bachilo Equations and Araujo Equations
+           type = 'S';
 
-               end
-               if mod(n-m,3)==2 % semiconducting tube 
-                    freq1=10000000./(157.5+1066.9*diam)+369*cos(3*theta)./diam.^2;
-                    wl1=(1*10^7)./freq1; 
-                    freq2=10000000./(145.6+575.7*diam)-1475*cos(3*theta)./diam.^2;
-                    wl2=(1*10^7)./freq2;
-                    energy3=((a*4/diam).*(1+(b*log10(c./(4/diam)))))+0.42*cos(3*theta)/diam^2+(0.0596*4/diam);%(in eV)
-                    wl3=1240/energy3;
-                    energy4=((a*5/diam).*(1+(b*log10(c./(5/diam)))))-0.4*cos(3*theta)/diam^2+(0.0596*5/diam);%(in eV)
-                    wl4=1240/energy4;
-                    type = 'S';
-               end
+           %S11 and S22 Bachilo with (m-n)%3 = 1
+            nu11=(1*10^7)./(157.5+1066.9*diam)- 710*cos(3*theta)./diam.^2;              %(in cm-1)
+            nu22=(1*10^7)./(145.6+ 575.7*diam)+1375*cos(3*theta)./diam.^2;              %(in cm-1)
+            w11=(1*10^7)./nu11;                                                         %(in nm)
+            w22=(1*10^7)./nu22;                                                         %(in nm)
+            
+            %S33 and S44 Araujo (p=4,5) lower33 (4), upper44 (5)
+            e33=((a*4/diam).*(1+(b*log10(c./(4./diam)))))-0.42*cos(3*theta)./diam^2 +(0.0596*4/diam); %(in eV)
+            e44=((a*5/diam).*(1+(b*log10(c./(5./diam)))))+0.40*cos(3*theta)./diam^2 +(0.0596*5/diam); %(in eV)
+            w33=hc/e33;
+            w44=hc/e44;
+            
+
+       end
+       
+       if mod(n-m,3)==2 % SEMICONDUCTING TUBES using Bachilo Equations and Araujo Equations
+           type = 'S';
+
+           %S11 and S22 Bachilo with (m-n)%3 = 2
+            nu11=(1*10^7)./(157.5+1066.9*diam)+ 369*cos(3*theta)./diam.^2;      %(in cm-1)
+            nu22=(1*10^7)./(145.6+ 575.7*diam)-1475*cos(3*theta)./diam.^2;      %(in cm-1)
+            w11=(1*10^7)./nu11;                                                %(in nm)
+            w22=(1*10^7)./nu22;                                                %(in nm)
+            
+            %S33 and S44 Araujo (p=4,5) upper33 (4), lower44 (5) + term
+            %added for all beyond M11
+            e33=((a*4/diam).*(1+(b*log10(c./(4./diam)))))+0.42*cos(3*theta)/diam^2+(0.0596*4/diam);  %(in eV)
+            e44=((a*5/diam).*(1+(b*log10(c./(5./diam)))))-0.40*cos(3*theta)/diam^2+(0.0596*5/diam);   %(in eV)
+            w33=hc/e33;                                                       %(in nm)
+            w44=hc/e44;                                                       %(in nm)
+       end
     end
 
    %% General Functions
