@@ -173,7 +173,7 @@ classdef UsefulFunctions
         for p = 1:length(paths)
             try
                 dataset_name = strsplit(paths{p}, "\");
-                fieldName = ['DATA_', strrep(dataset_name{7}, '.', '')];
+                fieldName = ['DATA_', strrep(dataset_name{4}, '.', '')];
                 dirInfo = dir(fullfile(paths{p}, '*.m3d'));
                 fileList = {dirInfo(~[dirInfo.isdir]).name};
                 structure = struct();
@@ -182,7 +182,7 @@ classdef UsefulFunctions
                     raw_spectrum = RdExp([paths{p},fileList{f}]);
                     raw_spectrum(:,2)=[];
                     NumSpec=length(raw_spectrum(1,:))-1;
-                    NumDel=1;
+                    NumDel=2;
                     X=raw_spectrum(:,1);
                     for i=1:1024
                         spectrum=sort(raw_spectrum(i,2:NumSpec+1));

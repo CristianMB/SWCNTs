@@ -3,9 +3,15 @@ clc;
 clear;
 import UsefulFunctions.*;
 
+Laserlines = [514.5 561.1 496.5 488 476.5 457.9];
+Tolerances = [5 5 5 5 5 5];
+XAxis = [10, 700];
+YAxis = [0, 1000];
+
+
 hc = 1240.84193;    %h*c value to convert energy to nm
 
-
+KATAURA.Family = [];
 KATAURA.RBM = [];
 KATAURA.WL1 = [];
 KATAURA.WL2 = [];
@@ -24,7 +30,7 @@ KATAURA.Chirality = [];
 KATAURA.Type = [];
 
 % Kataura plot calculation
-for m = 5:14
+for m = 5:18
     for n = 0:m
         [rbm, wl1, w22, w33, w44, diam, theta, type] = CalculateKataura([n, m]);
         KATAURA.RBM = [KATAURA.RBM, rbm];
@@ -64,7 +70,7 @@ for i = 1:length(KATAURA.RBM)
     end
     
     % Loop through each energy level and plot with different marker
-    for energy = 2:4
+    for energy = 1:4
         marker = markers{energy};
         %scatter(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
         scatter(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
@@ -73,6 +79,30 @@ for i = 1:length(KATAURA.RBM)
 %         scatter(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), 50, color, marker, 'filled');
 %         text(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
     end
+end
+
+% Group by (2m+n) family and plot lines connecting points within each Eii branch
+families = unique(2 * [KATAURA.M] + [KATAURA.N]);
+for family = families
+    for energy = 1:4
+        % Find indices of CNTs in the current family and energy level
+        family_indices = find((2 * [KATAURA.M] + [KATAURA.N] == family) & ~isnan(KATAURA.(['WL' num2str(energy)])));
+        
+        if length(family_indices) > 1
+            % Sort by RBM
+            [~, sort_indices] = sort(KATAURA.RBM(family_indices));
+            sorted_indices = family_indices(sort_indices);
+            
+            % Plot line connecting the family within the current energy level
+            plot(KATAURA.RBM(sorted_indices), KATAURA.(['WL' num2str(energy)])(sorted_indices), 'k--');
+        end
+    end
+end
+
+for i = 1:length(Laserlines)
+    y1 = Laserlines(i) - Tolerances(i);
+    y2 = Laserlines(i) + Tolerances(i);
+    patch([min(XAxis) max(XAxis) max(XAxis) min(XAxis)], [y1 y1 y2 y2], [0.8 0.8 0.8], 'FaceAlpha', 0.2, 'EdgeColor', 'none');
 end
 
 % Add custom legend
@@ -87,7 +117,8 @@ h8 = scatter(nan, nan, 50, colors{3}, 's', 'filled');
 
 % legend([h1, h2, h3, h4, h5, h6], {'M11', 'S11','M22', 'S22','M33', 'S33'}, 'Location', 'northeast');
 legend([h1, h2, h3, h4, h5, h6, h7, h8], {'M11 A', 'S11','M11 B', 'S22','M22 A', 'S33','M22 B', 'S44'}, 'Location', 'northeast');
-
+xlim(XAxis);
+ylim(YAxis);
 
 
 % %% Plotting
