@@ -15,6 +15,7 @@ path_20240610 = [rootpath,'20240610\'];
 path_20240612 = [rootpath,'20240612\'];
 path_20240614 = [rootpath,'20240614\'];
 path_20240620 = [rootpath,'20240620\'];
+path_20240628 = [rootpath,'20240628\'];
 
 %Select the paths of interest
 
@@ -23,6 +24,7 @@ paths = {
     path_20240612
     path_20240614
     path_20240620
+    path_20240628
     };
 
 
@@ -100,6 +102,29 @@ DATA_20240620.F9CL514G.N='KIT Film T9M Converted';
 DATA_20240620.F2SL514C.N='KIT Film T2S';
 
 
+
+DATA_20240628.LL561A.N='Laser';
+DATA_20240628.F1SL561R.N='KIT Film T1S';
+DATA_20240628.F1SL561G.N='KIT Film T1S';
+DATA_20240628.F1SL561C.N='KIT Film T1S';
+DATA_20240628.F1CL561R.N='KIT Film T1S Converted';
+DATA_20240628.F1CL561G.N='KIT Film T1S Converted';
+DATA_20240628.F1CL561C.N='KIT Film T1S Converted';
+DATA_20240628.F2SL561R.N='KIT Film T2S';
+DATA_20240628.F2SL561G.N='KIT Film T2S';
+DATA_20240628.F2SL561C.N='KIT Film T2S';
+DATA_20240628.F2CL561R.N='KIT Film T2S Converted';
+DATA_20240628.F2CL561G.N='KIT Film T2S Converted';
+DATA_20240628.F2CL561C.N='KIT Film T2S Converted';
+DATA_20240628.F9ML561R.N='KIT Film T9M';
+DATA_20240628.F9ML561G.N='KIT Film T9M';
+DATA_20240628.F9ML561C.N='KIT Film T9M';
+DATA_20240628.F9CL561R.N='KIT Film T9M Converted';
+DATA_20240628.F9CL561G.N='KIT Film T9M Converted';
+DATA_20240628.F9CL561C.N='KIT Film T9M Converted';
+DATA_20240628.LL561B.N='Laser';
+DATA_20240628.LL561C.N='Laser';
+
 %%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -161,49 +186,56 @@ KITConvertedG = {
             DATA_20240614.T4PL514G
             };
         
-KITFilmsR = {
-            DATA_20240620.F1SL514R
-            DATA_20240620.F1CL514R
-            DATA_20240620.F2SL514R
-            DATA_20240620.F2CL514R
-            DATA_20240620.F9ML514R
-            DATA_20240620.F9CL514R    
-            };
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
         
-KITFilmsG = {
-            DATA_20240620.F1SL514G
-            DATA_20240620.F1CL514G
-            DATA_20240620.F2SL514G
-            DATA_20240620.F2CL514G
-            DATA_20240620.F9ML514G
-            DATA_20240620.F9CL514G   
-            DATA_20240620.F2SL514C
-            };      
+Lines561= {
+            DATA_20240628.LL561A  
+            DATA_20240628.LL561B  
+            DATA_20240628.LL561C  
+            DATA_20240628.LL561D  
+       };
+%Gband 561
+KITF1G561= {
+            DATA_20240628.F1SL561G
+            DATA_20240628.F1CL561G    
+       };   
+KITF2G561= {
+            DATA_20240628.F2SL561G
+            DATA_20240628.F2CL561G  
+       };    
+KITF9G561= {
+            DATA_20240628.F9ML561G
+            DATA_20240628.F9CL561G  
+       };  
+   
+%RBM 561
+KITF1R561= {
+            DATA_20240628.F1SL561R
+            DATA_20240628.F1CL561R
+       };   
+KITF2R561= {
+            DATA_20240628.F2SL561R
+            DATA_20240628.F2CL561R
+       };    
+KITF9R561= {
+            DATA_20240628.F9ML561R
+            DATA_20240628.F9CL561R
+       };  
 
-KITF1G= {
-            DATA_20240620.F1SL514G
-            DATA_20240620.F1CL514G
+%Carbyde 561
+KITF1C561= {
+            DATA_20240628.F1SL561C
+            DATA_20240628.F1CL561C
        };   
-KITF2G= {
-            DATA_20240620.F2SL514G
-            DATA_20240620.F2CL514G
+KITF2C561= {
+            DATA_20240628.F2SL561C
+            DATA_20240628.F2CL561C
        };    
-KITF9G= {
-            DATA_20240620.F9ML514G
-            DATA_20240620.F9CL514G
+KITF9C561= {
+            DATA_20240628.F9ML561C
+            DATA_20240628.F9CL561C
        };  
-KITF1R= {
-            DATA_20240620.F1SL514R
-            DATA_20240620.F1CL514R
-       };   
-KITF2R= {
-            DATA_20240620.F2SL514R
-            DATA_20240620.F2CL514R
-       };    
-KITF9R= {
-            DATA_20240620.F9ML514R
-            DATA_20240620.F9CL514R
-       };  
+   
    
 %for RBMs
 % SamplesR = FlatFieldCorrection(SamplesR, DATA_20240610.FFH514R)
@@ -239,7 +271,7 @@ KITF9R= {
 % KITFilmsG = UsefulFunctions.SubstractLinearBG(KITFilmsG, 1250, 1650)
 % KITFilmsG = UsefulFunctions.NormalizeSample(KITFilmsG,1585, 1595)
 % 
-% 
+
 
 
 % 
@@ -253,38 +285,61 @@ KITF9R= {
 % plotRaman(SamplesDialG, 0.0)
 
 % plotRaman(KITFilmsR, 3.0)
-plotRaman(KITFilmsG, 3.0)
+% plotRaman(KITFilmsG, 3.0)
 
 
 
-%Individual Film Analysis KIT
-KITF1R = UsefulFunctions.SubstractLinearBG(KITF1R, 137, 200);
-KITF1R = UsefulFunctions.NormalizeSample(KITF1R,100, 200);
-KITF2R = UsefulFunctions.SubstractLinearBG(KITF2R, 137, 200);
-KITF2R = UsefulFunctions.NormalizeSample(KITF2R,100, 200);
-KITF9R = UsefulFunctions.SubstractLinearBG(KITF9R, 137, 200);
-KITF9R = UsefulFunctions.NormalizeSample(KITF9R,100, 200);
-
-KITF1G = UsefulFunctions.SubstractLinearBG(KITF1G, 1250, 1650);
-KITF1G = UsefulFunctions.NormalizeSample(KITF1G,1550, 1650);
-KITF2G = UsefulFunctions.SubstractLinearBG(KITF2G, 1250, 1650);
-KITF2G = UsefulFunctions.NormalizeSample(KITF2G,1550, 1650);
-KITF9G = UsefulFunctions.SubstractLinearBG(KITF9G, 1250, 1650);
-KITF9G = UsefulFunctions.NormalizeSample(KITF9G,1550, 1650);
+%Individual Film Analysis KIT at 514
+% KITF1R = UsefulFunctions.SubstractLinearBG(KITF1R, 137, 200);
+% KITF1R = UsefulFunctions.NormalizeSample(KITF1R,100, 200);
+% KITF2R = UsefulFunctions.SubstractLinearBG(KITF2R, 137, 200);
+% KITF2R = UsefulFunctions.NormalizeSample(KITF2R,100, 200);
+% KITF9R = UsefulFunctions.SubstractLinearBG(KITF9R, 137, 200);
+% KITF9R = UsefulFunctions.NormalizeSample(KITF9R,100, 200);
+% 
+% KITF1G = UsefulFunctions.SubstractLinearBG(KITF1G, 1250, 1650);
+% KITF1G = UsefulFunctions.NormalizeSample(KITF1G,1550, 1650);
+% KITF2G = UsefulFunctions.SubstractLinearBG(KITF2G, 1250, 1650);
+% KITF2G = UsefulFunctions.NormalizeSample(KITF2G,1550, 1650);
+% KITF9G = UsefulFunctions.SubstractLinearBG(KITF9G, 1250, 1650);
+% KITF9G = UsefulFunctions.NormalizeSample(KITF9G,1550, 1650);
 
 XAxis = [140, 500];
+
+
+%Individual Film Analysis KIT at 561
+% KITF1R561 = UsefulFunctions.SubstractLinearBG(KITF1R561, 100, 500);
+% KITF1R561 = UsefulFunctions.NormalizeSample(KITF1R561,100, 200);
+% KITF2R561 = UsefulFunctions.SubstractLinearBG(KITF2R561, 100, 500);
+% KITF2R561 = UsefulFunctions.NormalizeSample(KITF2R561,100, 200);
+% KITF9R561 = UsefulFunctions.SubstractLinearBG(KITF9R561, 100, 500);
+% KITF9R561 = UsefulFunctions.NormalizeSample(KITF9R561,100, 500);
+% % 
+% KITF1G561 = UsefulFunctions.SubstractLinearBG(KITF1G561, 1280, 1624);
+% KITF1G561 = UsefulFunctions.NormalizeSample(KITF1G561,1550, 1650);
+% KITF2G561 = UsefulFunctions.SubstractLinearBG(KITF2G561, 1400, 1450);
+% KITF2G561 = UsefulFunctions.NormalizeSample(KITF2G561,1550, 1650);
+% KITF9G561 = UsefulFunctions.SubstractLinearBG(KITF9G561, 1400, 1450);
+% KITF9G561 = UsefulFunctions.NormalizeSample(KITF9G561,1550, 1650);
+% % 
+KITF1C561 = UsefulFunctions.SubstractLinearBG(KITF1C561, 1800, 1900);
+KITF1C561 = UsefulFunctions.NormalizeSample(KITF1C561,1600, 1610);
+KITF2C561 = UsefulFunctions.SubstractLinearBG(KITF2C561, 1800, 1900);
+KITF2C561 = UsefulFunctions.NormalizeSample(KITF2C561,1600, 1610);
+KITF9C561 = UsefulFunctions.SubstractLinearBG(KITF9C561, 1800, 1900);
+KITF9C561 = UsefulFunctions.NormalizeSample(KITF9C561,1600, 1610);
+
+% plotRaman(Lines561, 0.0)
+
+
+% plotRaman(KITF1R561, 0.7)
+% plotRaman(KITF2R561, 0.7)
+% plotRaman(KITF9R561, 0.7)
 % 
-% plotRaman(KITF1R, 1.0);
-% % % xlim(XAxis)
-% % 
-% plotRaman(KITF2R, 1.0);
-% % % xlim(XAxis)
-% % 
-% plotRaman(KITF9R, 1.0);
-% % xlim(XAxis)
-plotRaman(KITF1G, 0.0);
-plotRaman(KITF2G, 0.0);
-plotRaman(KITF9G, 0.0);
+% plotRaman(KITF1G561, 0.0)
+% plotRaman(KITF2G561, 0.0)
+% plotRaman(KITF9G561, 0.0)
 
-
-% plotRaman({DATA_20240620.LL514A}, 0)
+plotRaman(KITF1C561, 0.0)
+plotRaman(KITF2C561, 0.0)
+plotRaman(KITF9C561, 0.0)
