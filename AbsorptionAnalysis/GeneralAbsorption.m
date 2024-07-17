@@ -1,11 +1,11 @@
 clc;
 clear;
-addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\');
+addpath('X:\SWCNTs');
 %addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 import UsefulFunctions.*;
 
 %rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
-rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
+rootpath = 'X:\Measurements Data\Absorption';
 
 %All paths as default
 path_baselines = [rootpath,'References.csv'];

@@ -635,7 +635,7 @@ classdef UsefulFunctions
                 % Extract the suffix from the path variable
                 dataset_name = strsplit(paths{i}, "\");
                 % Create dynamic field name for the structure
-                fieldName = ['DATA_', strrep(dataset_name{7}, '.csv', '')];
+                fieldName = ['DATA_', strrep(dataset_name{4}, '.csv', '')];
                 % Read the data from the current path
                 data = UsefulFunctions.readSamplesData(paths{i});
                 
