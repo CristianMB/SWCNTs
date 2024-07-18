@@ -48,17 +48,17 @@ ReadAbsorptionFromPaths(paths);
 
           
 Samples = {
-%             DATA_20240717.S8R1
-%             DATA_20240717.S8R2
-%             DATA_20240717.S8R3
-%             DATA_20240718.S8R4
-%             DATA_20240718.S8R5
-%             DATA_20240718.S8R5B
+            DATA_20240717.S8R1
+            DATA_20240717.S8R2
+            DATA_20240717.S8R3
+            DATA_20240718.S8R4
+            DATA_20240718.S8R5
+            DATA_20240718.S8R5B
             
-%             DATA_20240717.S9R1
-%             DATA_20240717.S9R2
-%             DATA_20240717.S9R3
-%             DATA_20240718.S9R4
+            DATA_20240717.S9R1
+            DATA_20240717.S9R2
+            DATA_20240717.S9R3
+            DATA_20240718.S9R4
             };
           
        
