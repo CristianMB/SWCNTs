@@ -9,12 +9,14 @@ rootpath = 'X:\Measurements Data\Absorption\';
 
 %All paths as default
 %path_baselines = [rootpath,'References.csv'];
-path_20240220 = [rootpath,'20240220\RinsingS6S7.csv'];
+path_20240717 = [rootpath,'20240717\RinsingS8S9.csv'];
+path_20240718 = [rootpath,'20240718\RinsingS8S9.csv'];
 
 
 %Select the paths of interest
 paths = {
-        path_20240220,
+        path_20240717,
+        path_20240718
         };
     
 
@@ -46,10 +48,17 @@ ReadAbsorptionFromPaths(paths);
 
           
 Samples = {
-               DATA_20240220.Baseline
-                DATA_20240220.S6R1
-                DATA_20240220.S6R2
-                DATA_20240220.S6R3
+%             DATA_20240717.S8R1
+%             DATA_20240717.S8R2
+%             DATA_20240717.S8R3
+%             DATA_20240718.S8R4
+%             DATA_20240718.S8R5
+%             DATA_20240718.S8R5B
+            
+%             DATA_20240717.S9R1
+%             DATA_20240717.S9R2
+%             DATA_20240717.S9R3
+%             DATA_20240718.S9R4
             };
           
        
