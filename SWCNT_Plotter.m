@@ -131,13 +131,16 @@ Bond_data = find(Bond_matrix == 1);
 [i, j] = ind2sub(size(Bond_matrix), Bond_data);
 Bond_data = [i, j];
 
-fid1 = fopen('Atom_data.txt', 'wt');
-fid2 = fopen('Bond_data.txt', 'wt');
-fprintf(fid1, 'Atom_number     X(nm)     Y(nm)     Z(nm)     \n');
-fprintf(fid2, 'Bond_number      Atom1      Atom2     \n');
-fprintf(fid1, '%d  %15.10f  %15.10f  %15.10f  \n', Atom_data);
-fprintf(fid2, '%d  %d  %d  \n', Bond_data);
-fclose(fid1);
-fclose(fid2);
+% fid1 = fopen('Atom_data.txt', 'wt');
+% fid2 = fopen('Bond_data.txt', 'wt');
+% fprintf(fid1, 'Atom_number     X(nm)     Y(nm)     Z(nm)     \n');
+% fprintf(fid2, 'Bond_number      Atom1      Atom2     \n');
+% fprintf(fid1, '%d  %15.10f  %15.10f  %15.10f  \n', Atom_data);
+% fprintf(fid2, '%d  %d  %d  \n', Bond_data);
+% fclose(fid1);
+% fclose(fid2);
+% 
+% delete(fid1);
+% delete(fid2);
 
 hold off;
