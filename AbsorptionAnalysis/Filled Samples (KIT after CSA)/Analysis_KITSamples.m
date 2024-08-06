@@ -13,6 +13,7 @@ path_KIT = [rootpath,'20240531\KIT_Samples.csv'];
 path_REF = [rootpath,'References.csv'];
 path_KITDial = [rootpath,'20240611\KIT_Samples.csv'];
 path_KIT_DialWastes = [rootpath,'20240730\DialysisKITCSA_D1&D2.csv'];
+path_KIT_FinalDialWastes = [rootpath,'20240802\DialysisKITCSA.csv'];
 
 %Select the paths of interest
 paths = {
@@ -20,6 +21,7 @@ paths = {
         path_REF
         path_KITDial
         path_KIT_DialWastes
+        path_KIT_FinalDialWastes
         };
 
 %Read and structure data from the paths
@@ -123,18 +125,26 @@ KITDial = {
             };
    
 KITDialWastes = {
+    
                 DATA_20240730.S2
                 DATA_20240730.S3
                 DATA_20240730.S4
                 DATA_20240730.S5
                 DATA_20240730.S6
                 DATA_20240730.S7
-                DATA_20240730.D2S2
-                DATA_20240730.D2S3
-                DATA_20240730.D2S4
-                DATA_20240730.D2S5
-                DATA_20240730.D2S6
-                DATA_20240730.D2S7
+%                 DATA_20240730.D2S2
+%                 DATA_20240730.D2S3
+%                 DATA_20240730.D2S4
+%                 DATA_20240730.D2S5
+%                 DATA_20240730.D2S6
+%                 DATA_20240730.D2S7
+                DATA_20240802.S2D8
+                DATA_20240802.S3D8
+                DATA_20240802.S4D8
+                DATA_20240802.S5D8
+                DATA_20240802.S6D8
+                DATA_20240802.S7D8
+                
                 }
 
         
@@ -144,8 +154,9 @@ LS2= 1000-20;
 US2= 1000+20;
 
 
-KITDialWastes = NormalizeSample(KITDialWastes,800, 1000);
-plotAbsorption(KITDialWastes, 0.0)
+% KITDialWastes = NormalizeSample(KITDialWastes,800, 1000);
+plotAbsorption(KITDialWastes, 0.1)
+
 
 
 

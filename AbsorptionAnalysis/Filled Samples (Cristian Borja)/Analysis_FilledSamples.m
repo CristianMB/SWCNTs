@@ -1,14 +1,14 @@
 clc;
 clear;
-addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\');
+addpath('X:\SWCNTs\');
 %addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 import UsefulFunctions.*;
 
 %rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
-rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
+rootpath = 'X:\Measurements Data\Absorption\';
 
 %All paths as default
-%path_baselines = [rootpath,'References.csv'];
+path_baselines = [rootpath,'References.csv'];
 path_20231206 = [rootpath,'20231206\alldata20231206.csv'];
 path_20240202 = [rootpath,'20240202\AllData.csv'];
 path_20240212a = [rootpath,'20240212\AllDataCentrifuge.csv'];
@@ -19,7 +19,6 @@ path_20240305 = [rootpath,'20240305\S5.csv'];
 path_20240307 = [rootpath,'20240307\DGUS5S6S7.csv'];
 path_20240308 = [rootpath,'20240308\DialS5S6S7.csv'];
 path_20240308 = [rootpath,'20240308\DialS5S6S7.csv'];
-path_KIT = [rootpath,'KIT_FilledSamples\AbsorptionFilled_KIT.csv'];
 
 %Select the paths of interest
 paths = {
@@ -33,7 +32,6 @@ paths = {
         path_20240305,
         path_20240307,
         path_20240308,
-        path_KIT
         };
     
 
@@ -161,31 +159,31 @@ DialSamples = {
             DATA_20240308.S5DGUCDial
             };
           
-BenSamp = {
-           DATA_KIT_FilledSamples.C12H26SWCNT_stage1_UF1DOC2
-           DATA_20240308.S7DGUCDial
-
-           DATA_KIT_FilledSamples.C16H38SWCNT_stage1_UF1DOC
-           DATA_20240308.S6DGUCDial
-
-           DATA_KIT_FilledSamples.PCESWCNT_stage1_UF1DOC
-           DATA_20240216.S2DGUC
-           
-           DATA_KIT_FilledSamples.TcESWCNT_stage1_UF1DOC
-           DATA_20240216.S3DGUC
-           
-           DATA_KIT_FilledSamples.TDAESWCNT_stage1_UF1DOC1
-           DATA_20240308.S5DGUCDial
-           
-           DATA_KIT_FilledSamples.TEMEDSWCNT_stage1_UF1DOC1
-           DATA_20240216.S4DDGUC
-            };
+% BenSamp = {
+%            DATA_KIT_FilledSamples.C12H26SWCNT_stage1_UF1DOC2
+%            DATA_20240308.S7DGUCDial
+% 
+%            DATA_KIT_FilledSamples.C16H38SWCNT_stage1_UF1DOC
+%            DATA_20240308.S6DGUCDial
+% 
+%            DATA_KIT_FilledSamples.PCESWCNT_stage1_UF1DOC
+%            DATA_20240216.S2DGUC
+%            
+%            DATA_KIT_FilledSamples.TcESWCNT_stage1_UF1DOC
+%            DATA_20240216.S3DGUC
+%            
+%            DATA_KIT_FilledSamples.TDAESWCNT_stage1_UF1DOC1
+%            DATA_20240308.S5DGUCDial
+%            
+%            DATA_KIT_FilledSamples.TEMEDSWCNT_stage1_UF1DOC1
+%            DATA_20240216.S4DDGUC
+%             };
           
        
         
 %%%--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Correction is made based on local minima (750, 860) and (1100, 1400)
-DialSamples = SubstractAbsBG(DialSamples,750, 850, 1150, 1250);
+% DialSamples = SubstractAbsBG(DialSamples,750, 850, 1150, 1250);
 
 %%%--------NORMALIZATION TO S22 PEAK--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Normalization using maximum value of S22 transition, can also use Integral

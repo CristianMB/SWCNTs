@@ -329,13 +329,12 @@ classdef UsefulFunctions
                 plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.3);
                 hold on; % Add spectra to the same plot
         end
-
+        
         % Add labels and legend
-        xlabel('Raman Shift (cm^{-1})');
-        ylabel('Intesity (a.u.)');
+        xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
+        ylabel('Normalized Intesity (a.u.)', 'FontSize', 14)
         title('Raman Spectra');
-        legend('show');
-        % Optional: Customize the plot further if needed
+        legend('show','FontSize', 11);        % Optional: Customize the plot further if needed
         grid on;
         % Hold off to stop adding new plots to the current figure
         hold off;
@@ -674,10 +673,10 @@ classdef UsefulFunctions
         end
 
         % Add labels and legend
-        xlabel('Wavelenght (nm)');
-        ylabel('Absorption (a.u.)');
-        title('Absorption Spectra');
-        legend('show');
+        xlabel('Wavelenght (nm)', 'FontSize', 14);
+        ylabel('Normalized Absorption (a.u.)', 'FontSize', 14);
+        title('Absorption Spectra','FontSize', 14);
+        legend('show','FontSize', 11);
         % Optional: Customize the plot further if needed
         grid on;
         % Hold off to stop adding new plots to the current figure
