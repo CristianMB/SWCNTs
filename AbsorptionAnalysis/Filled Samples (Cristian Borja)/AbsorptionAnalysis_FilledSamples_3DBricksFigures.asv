@@ -28,8 +28,19 @@ paths = {
         };
 
 %Read and structure data from the paths
-ReadAbsorptionFromPaths(paths);
+A = ReadAbsorptionFromPaths(paths);
+Datasets = fieldnames(A);
+Spectra = {};
 
+for i = 1:length(Datasets)
+    dataset_name = Datasets{i};
+    spectra_fields = fieldnames(A.(dataset_name));
+    % Store the spectra fieldnames in the Spectra cell array
+    for j = 1:length(spectra_fields)
+        Spectra{end+1} = [spectra_fields{j}]; 
+    end
+end
+    
 
 %% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -145,33 +156,36 @@ MFilms = {
 CSACompareDode = {
                 DATA_References.empty_P2_dial_0930
 
+                DATA_20240308.S6DGUCDial
+                DATA_20240724.S6A
+                
                 DATA_20240308.S7DGUCDial
                 DATA_20240724.S7A
                 
                 DATA_References.WaterFilled
             };
         
-CSACompareDode = NormalizeSample(CSACompareDode,950, 1050);
-plotAbsorption(CSACompareDode, 0.)
-xline(1774, '--','LineWidth', 1.0,'HandleVisibility','off')
-xline(1002, '--','LineWidth', 1.0,'HandleVisibility','off')
-xlim([390 1890])
-% ylim([0 4])
-
-
-CSACompareHexa = {
-                DATA_References.empty_P2_dial_0930
-                
-                DATA_20240308.S6DGUCDial
-                DATA_20240724.S6A
-                
-                DATA_References.WaterFilled
-            };
-        
-CSACompareHexa = NormalizeSample(CSACompareHexa,950, 1050);
-plotAbsorption(CSACompareHexa, 0.8)
-xline(1777, '--','LineWidth', 1.0,'HandleVisibility','off')
-xline(1003, '--','LineWidth', 1.0,'HandleVisibility','off')
-
-xlim([390 1890])
-% ylim([0 4])
+% CSACompareDode = NormalizeSample(CSACompareDode,950, 1050);
+% plotAbsorption(CSACompareDode, 0.8)
+% xline(1774, '--','LineWidth', 1.0,'HandleVisibility','off')
+% xline(1002, '--','LineWidth', 1.0,'HandleVisibility','off')
+% xlim([400 2100])
+% ylim([-5 1.5])
+% 
+% 
+% CSACompareHexa = {
+%                 DATA_References.empty_P2_dial_0930
+%                 
+%                 DATA_20240308.S6DGUCDial
+%                 DATA_20240724.S6A
+%                 
+%                 DATA_References.WaterFilled
+%             };
+%         
+% CSACompareHexa = NormalizeSample(CSACompareHexa,950, 1050);
+% plotAbsorption(CSACompareHexa, 0.8)
+% xline(1777, '--','LineWidth', 1.0,'HandleVisibility','off')
+% xline(1003, '--','LineWidth', 1.0,'HandleVisibility','off')
+% 
+% xlim([450 2200])
+% ylim([-3.5 1.5])

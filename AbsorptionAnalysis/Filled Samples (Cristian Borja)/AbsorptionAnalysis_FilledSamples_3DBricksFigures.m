@@ -27,8 +27,7 @@ paths = {
         path_DGUCSAAlkane
         };
 
-%Read and structure data from the paths
-ReadAbsorptionFromPaths(paths);
+
 
 
 %% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -154,12 +153,12 @@ CSACompareDode = {
                 DATA_References.WaterFilled
             };
         
-CSACompareDode = NormalizeSample(CSACompareDode,950, 1050);
-plotAbsorption(CSACompareDode, 0.8)
-xline(1774, '--','LineWidth', 1.0,'HandleVisibility','off')
-xline(1002, '--','LineWidth', 1.0,'HandleVisibility','off')
-xlim([400 2100])
-ylim([-5 1.5])
+% CSACompareDode = NormalizeSample(CSACompareDode,950, 1050);
+% plotAbsorption(CSACompareDode, 0.8)
+% xline(1774, '--','LineWidth', 1.0,'HandleVisibility','off')
+% xline(1002, '--','LineWidth', 1.0,'HandleVisibility','off')
+% xlim([400 2100])
+% ylim([-5 1.5])
 % 
 % 
 % CSACompareHexa = {

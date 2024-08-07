@@ -1,22 +1,20 @@
 
-function plot_absorption()
+function plot_raman()
 
     import UsefulFunctions.*;
     % Add the path to the directory containing your functions
-    defaultpath=('X:\Measurements Data\Absorption');
+    defaultpath=('X:\Measurements Data\Raman');
 
     % Step 1: Select the .csv file
-    [file_name, file_path] = uigetfile('*.csv', 'Select the CSV file', defaultpath);
-    if isequal(file_name, 0)
+    folder_path  = uigetdir(defaultpath);
+    if isequal(folder_path, 0)
         disp('No file selected. Exiting.');
         return;
     end
+    paths = {[folder_path, '\']};
 
-    % Full path to the selected file
-    full_file_path = fullfile(file_path, file_name);
-    paths = {full_file_path};
-   
-    A = ReadAbsorptionFromPaths(paths);
+    % Full path to the selected file   
+    A = ReadRamanFromPaths(paths);
     Datasets = fieldnames(A);
     Spectra = {};
 
@@ -31,10 +29,12 @@ function plot_absorption()
             end
      end
      
-    Spectra
+  
+    plotRaman(Spectra, 0.0)
     
-    plotAbsorption(Spectra, 0.0)
-
+    for i=1:length(Spectra)
+        Spectra(i)
+    end
 end
 
 
