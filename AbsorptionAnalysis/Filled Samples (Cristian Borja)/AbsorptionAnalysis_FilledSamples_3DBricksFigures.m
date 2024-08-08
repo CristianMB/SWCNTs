@@ -27,7 +27,9 @@ paths = {
         path_DGUCSAAlkane
         };
 
+%Read and structure data from the paths
 
+ReadAbsorptionFromPaths(paths);
 
 
 %% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
