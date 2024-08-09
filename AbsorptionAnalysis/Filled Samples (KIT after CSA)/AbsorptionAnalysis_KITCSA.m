@@ -63,8 +63,7 @@ Compare = {
 %             DATA_20240611.S4Dial
 %             DATA_20240611.S5Dial
 %             DATA_20240611.S6Dial
-%             DATA_20240611.S7Dial
-%             
+%             DATA_20240611.S7Dial  
             DATA_20240807.CSA_Dial_S2
             DATA_20240807.CSA_Dial_S3
             DATA_20240807.CSA_Dial_S4
