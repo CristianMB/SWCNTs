@@ -11,7 +11,8 @@ function plot_absorption()
         disp('No file selected. Exiting.');
         return;
     end
-
+ 
+    
     % Full path to the selected file
     full_file_path = fullfile(file_path, file_name);
     paths = {full_file_path};
