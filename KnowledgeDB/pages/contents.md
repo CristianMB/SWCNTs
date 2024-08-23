@@ -1,1 +1,4 @@
--
+- **To-Do List**
+	- Ask Sofie about BePOM conference, should I present something? or just attend?
+	-
+	-
