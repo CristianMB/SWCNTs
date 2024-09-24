@@ -6,8 +6,9 @@ import UsefulFunctions.*;
 
 
 %% Choose region
-XAxis = [10, 700];  %RBM Range
-YAxis = [200, 2500];  %WL Range
+% XAxis = [10, 700];  %RBM Range
+% XAxis = [0.4, 2.1];  %Diameter Range
+% YAxis = [200, 2000];  %WL Range
 
 Laserlines = [];
 Tolerances = [];
@@ -36,8 +37,11 @@ KATAURA.Chirality = [];
 KATAURA.Type = [];
 
 % Kataura plot calculation
-for m = 5:18
+
+for m = 5:20
     for n = 0:m
+% for m = 5:18
+%     for n = 0:m
         [rbm, wl1, w22, w33, w44, diam, theta, type] = CalculateKataura([n, m]);
         KATAURA.RBM = [KATAURA.RBM, rbm];
         KATAURA.WL1 = [KATAURA.WL1, wl1];
@@ -58,14 +62,70 @@ for m = 5:18
     end
 end
 
-%% Plotting
+% %% Plotting
+% colors = {[0 0.4470 0.7410], [0.4660 0.6740 0.1880], [0.6350 0.0780 0.1840], [0.9290 0.6940 0.1250]};
+% markers = {'v', 'diamond', 'o', 's'}; % Markers for each energy level
+% 
+% figure;
+% hold on;
+% title('KatauraPlot');
+% xlabel('RBM (cm -1)');
+% ylabel('Wavelength (nm)');
+% 
+% for i = 1:length(KATAURA.RBM)
+%     if strcmp(KATAURA.Type(i), 'M')
+%         color = colors{1}; % Metallic color
+%     else
+%         color = colors{3}; % Semiconducting color
+%     end
+%     
+%     % Loop through each energy level and plot with different marker
+%     for energy = 1:4
+%         marker = markers{energy};
+%         %scatter(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
+%         scatter(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
+%         text(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+% 
+% %         scatter(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), 50, color, marker, 'filled');
+% %         text(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+%     end
+% end
+% 
+% % Group by (2m+n) family and plot lines connecting points within each Eii branch
+% families = unique(2 * [KATAURA.M] + [KATAURA.N]);
+% for family = families
+%     for energy = 1:4
+%         % Find indices of CNTs in the current family and energy level
+%         family_indices = find((2 * [KATAURA.M] + [KATAURA.N] == family) & ~isnan(KATAURA.(['WL' num2str(energy)])));
+%         
+%         if length(family_indices) > 1
+%             % Sort by RBM
+%             [~, sort_indices] = sort(KATAURA.RBM(family_indices));
+%             sorted_indices = family_indices(sort_indices);
+%             
+%             % Plot line connecting the family within the current energy level
+%             plot(KATAURA.RBM(sorted_indices), KATAURA.(['WL' num2str(energy)])(sorted_indices), 'k--');
+%         end
+%     end
+% end
+% 
+% if ~isempty(Laserlines) && ~isempty(Tolerances)
+%     for i = 1:length(Laserlines)
+%         y1 = Laserlines(i) - Tolerances(i);
+%         y2 = Laserlines(i) + Tolerances(i);
+%         patch([min(XAxis) max(XAxis) max(XAxis) min(XAxis)], [y1 y1 y2 y2], [0.8 0.8 0.8], 'FaceAlpha', 0.2, 'EdgeColor', 'none');
+%     end
+% end
+
+
+% Plotting
 colors = {[0 0.4470 0.7410], [0.4660 0.6740 0.1880], [0.6350 0.0780 0.1840], [0.9290 0.6940 0.1250]};
 markers = {'v', 'diamond', 'o', 's'}; % Markers for each energy level
 
 figure;
 hold on;
 title('KatauraPlot');
-xlabel('RBM (cm -1)');
+xlabel('Diameter (nm)');
 ylabel('Wavelength (nm)');
 
 for i = 1:length(KATAURA.RBM)
@@ -75,35 +135,37 @@ for i = 1:length(KATAURA.RBM)
         color = colors{3}; % Semiconducting color
     end
     
-    % Loop through each energy level and plot with different marker
+ %   Loop through each energy level and plot with different marker
     for energy = 1:4
         marker = markers{energy};
-        %scatter(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
-        scatter(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
-        text(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+        scatter(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
+        %scatter(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
+        %text(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
 
-%         scatter(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), 50, color, marker, 'filled');
-%         text(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+        %text(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+
+        %scatter(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), 50, color, marker, 'filled');
+        %text(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
     end
 end
 
-% Group by (2m+n) family and plot lines connecting points within each Eii branch
-families = unique(2 * [KATAURA.M] + [KATAURA.N]);
-for family = families
-    for energy = 1:4
-        % Find indices of CNTs in the current family and energy level
-        family_indices = find((2 * [KATAURA.M] + [KATAURA.N] == family) & ~isnan(KATAURA.(['WL' num2str(energy)])));
-        
-        if length(family_indices) > 1
-            % Sort by RBM
-            [~, sort_indices] = sort(KATAURA.RBM(family_indices));
-            sorted_indices = family_indices(sort_indices);
-            
-            % Plot line connecting the family within the current energy level
-            plot(KATAURA.RBM(sorted_indices), KATAURA.(['WL' num2str(energy)])(sorted_indices), 'k--');
-        end
-    end
-end
+% %Group by (2m+n) family and plot lines connecting points within each Eii branch
+% families = unique(2 * [KATAURA.M] + [KATAURA.N]);
+% for family = families
+%     for energy = 1:4
+%  %       Find indices of CNTs in the current family and energy level
+%         family_indices = find((2 * [KATAURA.M] + [KATAURA.N] == family) & ~isnan(KATAURA.(['WL' num2str(energy)])));
+%         
+%         if length(family_indices) > 1
+% %            Sort by RBM
+%             [~, sort_indices] = sort(KATAURA.RBM(family_indices));
+%             sorted_indices = family_indices(sort_indices);
+%             
+% %            Plot line connecting the family within the current energy level
+%             plot(KATAURA.RBM(sorted_indices), KATAURA.(['WL' num2str(energy)])(sorted_indices), 'k--');
+%         end
+%     end
+% end
 
 if ~isempty(Laserlines) && ~isempty(Tolerances)
     for i = 1:length(Laserlines)
@@ -112,6 +174,48 @@ if ~isempty(Laserlines) && ~isempty(Tolerances)
         patch([min(XAxis) max(XAxis) max(XAxis) min(XAxis)], [y1 y1 y2 y2], [0.8 0.8 0.8], 'FaceAlpha', 0.2, 'EdgeColor', 'none');
     end
 end
+% 
+%% Plotting S11 vs S22
+% colors = {[0 0.4470 0.7410], [0.4660 0.6740 0.1880], [0.6350 0.0780 0.1840], [0.9290 0.6940 0.1250]};
+% markers = {'v', 'diamond', 'o', 's'}; % Markers for each energy level
+% 
+% figure;
+% hold on;
+% title('KatauraPlot');
+% xlabel('Wavelength (nm)');
+% ylabel('Wavelength (nm)');
+% 
+% for i = 1:length(KATAURA.RBM)
+%     if strcmp(KATAURA.Type(i), 'M')
+%         color = colors{1}; % Metallic color
+%         KATAURA.(['WL' num2str(1)])(i) = 0;
+%         KATAURA.(['WL' num2str(2)])(i) = 0;
+%     else
+%         color = colors{3}; % Semiconducting color
+%     end
+%     
+%     marker = 'diamond';
+%     scatter(KATAURA.(['WL' num2str(1)])(i), KATAURA.(['WL' num2str(2)])(i), 50, color, marker, 'filled');
+%     %scatter(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
+%      text(KATAURA.(['WL' num2str(1)])(i), KATAURA.(['WL' num2str(2)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+% 
+% %         text(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+% 
+% %         scatter(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), 50, color, marker, 'filled');
+% %         text(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+% end
+
+% Group by (2m+n) family and plot lines connecting points within each Eii branch
+
+
+% if ~isempty(Laserlines) && ~isempty(Tolerances)
+%     for i = 1:length(Laserlines)
+%         y1 = Laserlines(i) - Tolerances(i);
+%         y2 = Laserlines(i) + Tolerances(i);
+%         patch([min(XAxis) max(XAxis) max(XAxis) min(XAxis)], [y1 y1 y2 y2], [0.8 0.8 0.8], 'FaceAlpha', 0.2, 'EdgeColor', 'none');
+%     end
+% end
+
 
 %% Add custom legend
 h1 = scatter(nan, nan, 50, colors{1}, 'v', 'filled');
@@ -124,6 +228,6 @@ h7 = scatter(nan, nan, 50, colors{1}, 's', 'filled');
 h8 = scatter(nan, nan, 50, colors{3}, 's', 'filled');
 
 % legend([h1, h2, h3, h4, h5, h6], {'M11', 'S11','M22', 'S22','M33', 'S33'}, 'Location', 'northeast');
-legend([h1, h2, h3, h4, h5, h6, h7, h8], {'M11 A', 'S11','M11 B', 'S22','M22 A', 'S33','M22 B', 'S44'}, 'Location', 'northeast');
-xlim(XAxis);
-ylim(YAxis);
+% legend([h1, h2, h3, h4, h5, h6, h7, h8], {'M11 A', 'S11','M11 B', 'S22','M22 A', 'S33','M22 B', 'S44'}, 'Location', 'northeast');
+% xlim(XAxis);
+% ylim(YAxis);

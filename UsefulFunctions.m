@@ -319,15 +319,50 @@ classdef UsefulFunctions
     function plotRaman(SamplesToPlot, offset)
         % Create a figure for the plot
         figure;
-        % Iterate over each sample
+        
         for sampleIdx = 1:length(SamplesToPlot)
             currentSample = SamplesToPlot{sampleIdx};
-                % Get the current sample, X values, and Y values
-                currentX = currentSample.X;
-                currentY = currentSample.Y - offset*sampleIdx;
-                currentN = currentSample.N;
-                plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.3);
-                hold on; % Add spectra to the same plot
+            
+            % Get the current sample, X values, and Y values
+            currentX = currentSample.X;
+            currentY = currentSample.Y - offset*sampleIdx;
+            currentN = currentSample.N;
+            plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.3);
+            hold on; % Add spectra to the same plot
+        end
+        
+        % Add labels and legend
+        xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
+        ylabel('Normalized Intesity (a.u.)', 'FontSize', 14)
+        title('Raman Spectra');
+        legend('show','FontSize', 11);        % Optional: Customize the plot further if needed
+        grid on;
+        % Hold off to stop adding new plots to the current figure
+        hold off;
+    end
+    function plotRamanNewOfsetBetweenPlots(SamplesToPlot, offset)
+        % Create a figure for the plot
+        figure;
+        % Iterate over each sample
+        adjustedSampleIdx = 0;
+        
+        for sampleIdx = 1:length(SamplesToPlot)
+            currentSample = SamplesToPlot{sampleIdx};
+            
+            % Check if the current sample is the 'OffSet' keyword
+            if strcmp(currentSample, 'OffSet')
+                % If it's 'OffSet', increment the adjustedSampleIdx to add an offset
+                adjustedSampleIdx = adjustedSampleIdx + 1; 
+                continue; % Skip plotting for this 'OffSet'
+            end
+            adjustedSampleIdx = adjustedSampleIdx + 1;
+            
+            % Get the current sample, X values, and Y values
+            currentX = currentSample.X;
+            currentY = currentSample.Y - offset*adjustedSampleIdx;
+            currentN = currentSample.N;
+            plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.3);
+            hold on; % Add spectra to the same plot
         end
         
         % Add labels and legend

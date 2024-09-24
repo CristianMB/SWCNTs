@@ -1,18 +1,20 @@
 clc;
 clear;
-addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\');
+addpath('X:\SWCNTs');
+
+addpath('X:\Measurements Data\Raman');
 %addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 import UsefulFunctions.*;
 
 %rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements Data\Raman\';
-rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Raman\';
+rootpath = 'X:\Measurements Data\Raman';
 
 %All paths as default
-path_20240320 = [rootpath,'20240320\'];
-path_20240321 = [rootpath,'20240321\'];
-path_20240514 = [rootpath,'20240514\'];
-path_20240515 = [rootpath,'20240515\'];
-path_20240517 = [rootpath,'20240517\'];
+path_20240320 = [rootpath,'\20240320\'];
+path_20240321 = [rootpath,'\20240321\'];
+path_20240514 = [rootpath,'\20240514\'];
+path_20240515 = [rootpath,'\20240515\'];
+path_20240517 = [rootpath,'\20240517\'];
 
 %Select the paths of interest
 
@@ -22,9 +24,9 @@ paths = {
     };
 
 %All paths as default
-path_20240426 = [rootpath,'20240426\'];
-path_20240514 = [rootpath,'20240514\'];
-path_20240515 = [rootpath,'20240515\'];
+path_20240426 = [rootpath,'\20240426\'];
+path_20240514 = [rootpath,'\20240514\'];
+path_20240515 = [rootpath,'\20240515\'];
 
 %Select the paths of interest
 
@@ -33,6 +35,7 @@ paths = {
     path_20240514
     path_20240515
     };
+
 
 ReadRamanFromPaths(paths);
 
