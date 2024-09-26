@@ -328,6 +328,8 @@ classdef UsefulFunctions
             currentY = currentSample.Y - offset*sampleIdx;
             currentN = currentSample.N;
             plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.3);
+%             scatter(currentX, currentY, 1.5, 'filled', 'DisplayName', currentN);
+
             hold on; % Add spectra to the same plot
         end
         

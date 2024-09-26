@@ -1,11 +1,11 @@
     clc;
 clear;
-addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 % addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 import UsefulFunctions.*;
 
 % rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
-rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
+addpath('X:\Measurements Data\Absorption\');
+rootpath = 'X:\Measurements Data\Absorption\';
 
 %All paths as default
 %path_baselines = [rootpath,'References.csv'];
@@ -77,11 +77,7 @@ DATA_20240614.FilmT9MConverted.N='T9MFilmConverted';
 
 %DATA_20240611 - Samples from KIT in DOC/D2O after exchange in dialysis
 
-KITConverted = {
-    DATA_20240613.T1S
-    DATA_20240613.T4S
-    DATA_20240613.T4P
-    };                 
+                
 
 KIT = {     
 %     DATA_20240531.Baseline
@@ -130,59 +126,84 @@ KITFilms = {
             };
          
         
+KITBeforeExchange = {
+     DATA_20240531.T1Converted
+     DATA_20240531.T4Converted
+     DATA_20240531.T4ConvertedPellet
+%      DATA_20240531.T4ConvertedPelletB
+}
+
+
+DATA_20240613.T1S.Y = DATA_20240613.T1S.Y - 0.051*3*DATA_References.WaterInD2O.Y
+DATA_20240613.T4S.Y = DATA_20240613.T4S.Y - 0.285*3*DATA_References.WaterInD2O.Y
+DATA_20240613.T4P.Y = DATA_20240613.T4P.Y - 0.105*3*DATA_References.WaterInD2O.Y
+
+KITConvertedExchanged = {
+    DATA_20240613.T1S
+    DATA_20240613.T4S
+    DATA_20240613.T4P
+    };         
+        
+KITConvertedExchanged = NormalizeSample(KITConvertedExchanged,900, 1000);
+plotAbsorption(KITConvertedExchanged, 1)
+
+
+KITBeforeExchange = NormalizeSample(KITBeforeExchange,900, 1000);
+plotAbsorption(KITBeforeExchange, 1)
+
+
 %%%--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-LS2= 1000-20;  
-US2= 1000+20;
-
-% KITDial = SubtractInverseBG(KITDial,[418 610 813]);
-KITDial = NormalizeSample(KITDial,900, 1100);
-% KITDial = NormalizeSample(KITDial,1450, 1500);
-plotAbsorption(KITDial,0.7)
+% LS2= 1000-20;  
+% US2= 1000+20;
 % 
-% KIT = SubtractInverseBG(KIT,[418 610 813]);
-% KIT = NormalizeSample(KIT,620, 820);
-
-% plotAbsorption(KIT,0.0)
- 
-% for i=1:length(KIT)
-%     current = KIT{i} 
-%     current.Y = current.Y - KIT{4}.Y
-%     AKIT{i} = current
-% end
-
-
-% KITFilms = SubtractInverseBG(KITFilms,[418 610 1260]);
-% KITFilms = SubtractInverseBG(KITFilms,[688 1380 2480]);
-% KITFilms = NormalizeSample(KITFilms,900, 1100);
-% plotAbsorption(KITFilms,0)
-
-% KITConverted = FitSamples(KITConverted,peaks);
-% for i=1:length(KITConverted)
-%     plotRamanFit(KITConverted{i})
-% end
-
-plotAbsorption(KITConverted, 0.7)
-
-% peaks = [463 489 551 586];
-% KIT = FitSamples(KIT,peaks);
-
-% plotAbsorption(KIT,0.0)
-% 
-% for i=1:length(KIT)
-%     plotRamanFit(KIT{i})
-% end
-
-% Blines = {
-%     DATA_20240531.Baseline
-%     DATA_20240308.Baseline
-%             }
-
-% 
-% KITDial = SubtractInverseBG(KITDial,[418 610 813]);
+% % KITDial = SubtractInverseBG(KITDial,[418 610 813]);
 % KITDial = NormalizeSample(KITDial,900, 1100);
-% KITDial = NormalizeSample(KITDial,1450, 1500);
-% plotAbsorption(KITDial,0.0)
-
-
-
+% % KITDial = NormalizeSample(KITDial,1450, 1500);
+% % plotAbsorption(KITDial,0.7)
+% % 
+% % KIT = SubtractInverseBG(KIT,[418 610 813]);
+% % KIT = NormalizeSample(KIT,620, 820);
+% 
+% % plotAbsorption(KIT,0.0)
+%  
+% % for i=1:length(KIT)
+% %     current = KIT{i} 
+% %     current.Y = current.Y - KIT{4}.Y
+% %     AKIT{i} = current
+% % end
+% 
+% 
+% % KITFilms = SubtractInverseBG(KITFilms,[418 610 1260]);
+% % KITFilms = SubtractInverseBG(KITFilms,[688 1380 2480]);
+% % KITFilms = NormalizeSample(KITFilms,900, 1100);
+% % plotAbsorption(KITFilms,0)
+% 
+% % KITConverted = FitSamples(KITConverted,peaks);
+% % for i=1:length(KITConverted)
+% %     plotRamanFit(KITConverted{i})
+% % end
+% 
+% 
+% % peaks = [463 489 551 586];
+% % KIT = FitSamples(KIT,peaks);
+% 
+% % plotAbsorption(KIT,0.0)
+% % 
+% % for i=1:length(KIT)
+% %     plotRamanFit(KIT{i})
+% % end
+% 
+% % Blines = {
+% %     DATA_20240531.Baseline
+% %     DATA_20240308.Baseline
+% %             }
+% 
+% % 
+% % KITDial = SubtractInverseBG(KITDial,[418 610 813]);
+% % KITDial = NormalizeSample(KITDial,900, 1100);
+% % KITDial = NormalizeSample(KITDial,1450, 1500);
+% % plotAbsorption(KITDial,0.0)
+% 
+% 
+% 
