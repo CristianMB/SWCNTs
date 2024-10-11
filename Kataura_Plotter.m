@@ -7,11 +7,11 @@ import UsefulFunctions.*;
 
 %% Choose region
 % XAxis = [10, 700];  %RBM Range
-% XAxis = [0.4, 2.1];  %Diameter Range
-% YAxis = [200, 2000];  %WL Range
+XAxis = [0.5, 1.5];  %Diameter Range
+YAxis = [440, 680];  %WL Range
 
-Laserlines = [];
-Tolerances = [];
+Laserlines = [561.3];
+Tolerances = [5];
 % Laserlines = [514.5 561.1 496.5 488 476.5 457.9];
 % Tolerances = [5 5 5 5 5 5];
 
@@ -140,7 +140,7 @@ for i = 1:length(KATAURA.RBM)
         marker = markers{energy};
         scatter(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
         %scatter(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
-        %text(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+        text(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
 
         %text(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
 
@@ -149,23 +149,23 @@ for i = 1:length(KATAURA.RBM)
     end
 end
 
-% %Group by (2m+n) family and plot lines connecting points within each Eii branch
-% families = unique(2 * [KATAURA.M] + [KATAURA.N]);
-% for family = families
-%     for energy = 1:4
-%  %       Find indices of CNTs in the current family and energy level
-%         family_indices = find((2 * [KATAURA.M] + [KATAURA.N] == family) & ~isnan(KATAURA.(['WL' num2str(energy)])));
-%         
-%         if length(family_indices) > 1
-% %            Sort by RBM
-%             [~, sort_indices] = sort(KATAURA.RBM(family_indices));
-%             sorted_indices = family_indices(sort_indices);
-%             
-% %            Plot line connecting the family within the current energy level
-%             plot(KATAURA.RBM(sorted_indices), KATAURA.(['WL' num2str(energy)])(sorted_indices), 'k--');
-%         end
-%     end
-% end
+%Group by (2m+n) family and plot lines connecting points within each Eii branch
+families = unique(2 * [KATAURA.M] + [KATAURA.N]);
+for family = families
+    for energy = 1:4
+ %       Find indices of CNTs in the current family and energy level
+        family_indices = find((2 * [KATAURA.M] + [KATAURA.N] == family) & ~isnan(KATAURA.(['WL' num2str(energy)])));
+        
+        if length(family_indices) > 1
+%            Sort by RBM
+            [~, sort_indices] = sort(KATAURA.RBM(family_indices));
+            sorted_indices = family_indices(sort_indices);
+            
+%            Plot line connecting the family within the current energy level
+            plot(KATAURA.RBM(sorted_indices), KATAURA.(['WL' num2str(energy)])(sorted_indices), 'k--');
+        end
+    end
+end
 
 if ~isempty(Laserlines) && ~isempty(Tolerances)
     for i = 1:length(Laserlines)
@@ -229,5 +229,5 @@ h8 = scatter(nan, nan, 50, colors{3}, 's', 'filled');
 
 % legend([h1, h2, h3, h4, h5, h6], {'M11', 'S11','M22', 'S22','M33', 'S33'}, 'Location', 'northeast');
 % legend([h1, h2, h3, h4, h5, h6, h7, h8], {'M11 A', 'S11','M11 B', 'S22','M22 A', 'S33','M22 B', 'S44'}, 'Location', 'northeast');
-% xlim(XAxis);
-% ylim(YAxis);
+xlim(XAxis);
+ylim(YAxis);
