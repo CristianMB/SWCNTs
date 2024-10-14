@@ -363,41 +363,45 @@ classdef UsefulFunctions
         hold on;
     end
     
-function plotRaman(SamplesToPlot, offset)
-    % Create a figure for the plot
-    figure;
-    
-    % Get a ColorBrewer colormap (e.g., 'Set1', 'Dark2', etc.)
-    numSamples = length(SamplesToPlot);  % Number of samples to plot
-    cmap = brewermap(numSamples, 'Set1');  % You can change 'Set1' to any ColorBrewer scheme
-    
-    for sampleIdx = 1:numSamples
-        currentSample = SamplesToPlot{sampleIdx};
-        
-        % Get the current sample, X values, and Y values
-        currentX = currentSample.X;
-        currentY = currentSample.Y - offset * sampleIdx;
-        currentN = currentSample.N;
-        
-        % Plot each sample using a different color from the colormap
-        plot(currentX, currentY, 'Color', cmap(sampleIdx, :), 'DisplayName', currentN, 'LineWidth', 1.3);
-        hold on;  % Add spectra to the same plot
+    function plotRaman(SamplesToPlot, offset, wl)
+        % Create a figure for the plot
+        figure;
+
+        % Get a ColorBrewer colormap (e.g., 'Set1', 'Dark2', etc.)
+        numSamples = length(SamplesToPlot);  % Number of samples to plot
+        cmap = brewermap(10 + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
+        cmap(6, :) = [];  % Remove the 6th color from the colormap
+        for sampleIdx = 1:numSamples
+            currentSample = SamplesToPlot{sampleIdx};
+
+            % Get the current sample, X values, and Y values
+            currentX = currentSample.X;
+            currentY = currentSample.Y - offset * sampleIdx;
+            currentN = currentSample.N;
+
+            % Plot each sample using a different color from the colormap
+            plot(currentX, currentY, 'Color', cmap(sampleIdx, :), 'DisplayName', currentN, 'LineWidth', 1.3);
+            hold on;  % Add spectra to the same plot
+        end
+
+        % Add labels and legend
+        xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
+        ylabel('Normalized Intensity (a.u.)', 'FontSize', 14);
+        % Conditional title based on wavelength parameter 'wl'
+        if nargin < 3 || isempty(wl)
+            title('Raman Spectra');
+        else
+            title(['Raman spectra at ', num2str(wl), ' nm']);
+        end
+            % Show legend with proper font size
+        legend('show', 'FontSize', 11);
+
+        % Optional: Customize the plot further if needed
+        grid on;
+
+        % Hold off to stop adding new plots to the current figure
+        hold off;
     end
-    
-    % Add labels and legend
-    xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
-    ylabel('Normalized Intensity (a.u.)', 'FontSize', 14);
-    title('Raman Spectra');
-    
-    % Show legend with proper font size
-    legend('show', 'FontSize', 11);
-    
-    % Optional: Customize the plot further if needed
-    grid on;
-    
-    % Hold off to stop adding new plots to the current figure
-    hold off;
-end
 
     function plotRamanNewOfsetBetweenPlots(SamplesToPlot, offset)
         % Create a figure for the plot
@@ -434,44 +438,52 @@ end
         hold off;
     end
     
-    function plotRamanGroup(SamplesToPlot, offset, groupingIndex)
+    function plotRamanGroup(SamplesToPlot, offset, groupingIndex, wl)
         % Create a figure for the plot
         figure;
 
-        % Calculate the total number of samples
-        totalSamples = length(SamplesToPlot) / groupingIndex; % Determine number of samples based on grouping index
+        % Calculate the total number of individual spectra
+        totalSpectra = length(SamplesToPlot);
 
-        % Loop through the number of samples based on the grouping index
-        for sampleIdx = 1:totalSamples
-            % Calculate the corresponding indices for the spectra of the current sample
-            currentIndices = (sampleIdx - 1) * groupingIndex + (1:groupingIndex);
+        % Get a ColorBrewer colormap for each individual spectrum
+        cmap = brewermap(10 + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
+        cmap(6, :) = [];  % Remove the 6th color from the colormap
+        
+        % Loop through all samples and spectra
+        for spectrumIdx = 1:totalSpectra
+            currentSample = SamplesToPlot{spectrumIdx};
 
-            % Loop through the indices for the current sample's spectra
-            for j = 1:groupingIndex
-                currentSample = SamplesToPlot{currentIndices(j)};
+            % Get the current sample's X and Y values
+            currentX = currentSample.X;
+            currentY = currentSample.Y - offset * floor((spectrumIdx - 1) / groupingIndex); % Offset based on group
+            currentN = currentSample.N;
 
-                % Get the current sample, X values, and Y values
-                currentX = currentSample.X;
-                currentY = currentSample.Y - offset * (sampleIdx - 1);  % Offset based on sample index
-                currentN = currentSample.N;
-
-                % Plot the current spectrum
-                plot(currentX, currentY, 'DisplayName', currentN, 'LineWidth', 1.3);
-                hold on; % Add spectra to the same plot
-            end
+            % Plot each spectrum using a unique color from the colormap
+            plot(currentX, currentY, 'Color', cmap(spectrumIdx, :), 'DisplayName', currentN, 'LineWidth', 1.3);
+            hold on;  % Add spectra to the same plot
         end
 
         % Add labels and legend
         xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
         ylabel('Normalized Intensity (a.u.)', 'FontSize', 14);
-        title('Raman Spectra');
-        legend('show', 'FontSize', 11);  % Optional: Customize the plot further if needed
+
+        % Conditional title based on wavelength parameter 'wl'
+        if nargin < 4 || isempty(wl)
+            title('Raman Spectra');
+        else
+            title(['Raman spectra at ', num2str(wl), ' nm']);
+        end
+
+        % Show legend with proper font size
+        legend('show', 'FontSize', 11);
+
+        % Optional: Customize the plot further if needed
         grid on;
 
         % Hold off to stop adding new plots to the current figure
         hold off;
     end
-    
+
     function sampleList = GDBandPeaksCalculation(sampleList, LGp, HGp, LGm, HGm, LD, HD)
 
         % Iterate over each sample to be normalized

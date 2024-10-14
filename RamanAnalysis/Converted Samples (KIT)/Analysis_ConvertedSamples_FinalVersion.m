@@ -79,7 +79,8 @@ for i=1:length(GroupedTS650RBMs)
 end
 
 GroupedTS650RBMs = NormalizeSample(GroupedTS650RBMs, 450, 500); 
-plotRaman(GroupedTS650RBMs, 0);
+
+% plotRaman(GroupedTS650RBMs, 0, WL);
 
 
 
@@ -135,11 +136,9 @@ for i=1:length(GroupedTS650GD)
     GroupedTS650GD{i} = current;  % Save the result back to the cell array
 end                
 
-GroupedTS650GD = NormalizeSample(GroupedTS650GD, 0, 2000);                
-plotRaman(GroupedTS650GD, 0.0);
-plotRaman(TestSamples650_DG, 1.0);
-%      
+GroupedTS650GD = NormalizeSample(GroupedTS650GD, 0, 2000);         
 
+% plotRaman(GroupedTS650GD, 0.0, WL);
 
 
 
@@ -180,7 +179,8 @@ GroupedTS650b = {
                     };
              
 GroupedTS650b = UsefulFunctions.NormalizeSample(GroupedTS650b,0, 2000)  ;
-plotRaman(GroupedTS650b, 0.0)
+
+% plotRaman(GroupedTS650b, 0.0, WL)
 
 
 %% DATA 20240515 FIRST TEST SAMPLES RBMs AT 570nm
@@ -236,7 +236,7 @@ for i=1:length(GroupedTS570R)
 end
                 
 GroupedTS570R = NormalizeSample(GroupedTS570R,390, 410);                              
-plotRaman(GroupedTS570R, 0)
+% plotRaman(GroupedTS570R, 0, WL)
 
 
 %% DATA 20240515 FIRST TEST SAMPLES D,G,C Band AT 570nm
@@ -312,7 +312,7 @@ end
        
                 
 GroupedTS570DGC = UsefulFunctions.NormalizeSample(GroupedTS570DGC,0, 2000)  ;                              
-plotRaman(GroupedTS570DGC, 0)
+% plotRaman(GroupedTS570DGC,0, WL)
 
 %% DATA 20240614 SOLUTION SAMPLES RBMs AT 514nm
 
@@ -340,7 +340,7 @@ for i=1:length(SolutionSamples514R)
     SolutionSamples514R{i} = current;  % Save the result back to the cell array
 end
 
-plotRaman(SolutionSamples514R, 0.0)
+% plotRaman(SolutionSamples514R, 0.0, WL)
 
 
 %% DATA 20240614 SOLUTION SAMPLES GDBand AT 514nm
@@ -362,8 +362,8 @@ for i=1:length(SolutionSamples514GD)
     SolutionSamples514GD{i} = current;  % Save the result back to the cell array
 end
 
-SolutionSamples514GD = NormalizeSample(SolutionSamples514GD, 1500, 1600);
-plotRaman(SolutionSamples514GD, 0.0)
+% SolutionSamples514GD = NormalizeSample(SolutionSamples514GD, 1500, 1600);
+% plotRaman(SolutionSamples514GD, 0.0, WL)
 
                 
 %% DATA 20240620 FILM SAMPLES RBMs AT 514nm
@@ -406,7 +406,7 @@ for i=1:length(FilmSamples514R)
 end
                 
 FilmSamples514R = UsefulFunctions.NormalizeSample(FilmSamples514R,100, 200);
-plotRamanGroup(FilmSamples514R, 2, 2)
+% plotRamanGroup(FilmSamples514R, 2, 2, WL)
 
 
 %% DATA 20240620 FILM SAMPLES G and D Band AT 514nm
@@ -436,9 +436,8 @@ end
 
                
 FilmSamples514GD = UsefulFunctions.NormalizeSample(FilmSamples514GD,0, 2000);
-% plotRaman(FilmSamples514GD, 0)
 
-plotRamanGroup(FilmSamples514GD, 0.8, 2)
+% plotRamanGroup(FilmSamples514GD, 0.8, 2, WL)
 
 
 %% DATA 20240628 FILM SAMPLES RBMs SPEC AT 561nm
@@ -486,7 +485,7 @@ end
 
 FilmSamples561R = UsefulFunctions.NormalizeSample(FilmSamples561R,0, 2000);
 
-plotRamanGroup(FilmSamples561R, 1, 2)
+% plotRamanGroup(FilmSamples561R, 1, 2, WL)
 
 %% Just for metallic 
 FilmSamples561RM={
@@ -510,7 +509,7 @@ end
 
 FilmSamples561RM = UsefulFunctions.NormalizeSample(FilmSamples561RM,0, 2000);
 
-plotRaman(FilmSamples561RM, 0)
+% plotRaman(FilmSamples561RM, 0, WL)
 
 %% DATA 20240628 FILM SAMPLES G and D Band, Carbine SPEC AT 561nm
 
@@ -583,8 +582,7 @@ for i=1:length(GroupedFS561)
 end
                 
 GroupedFS561 = UsefulFunctions.NormalizeSample(GroupedFS561,0, 2000);
-plotRamanGroup(GroupedFS561, 1, 2)
-% plotRaman(FilmSamples561GCD, 0)
+plotRamanGroup(GroupedFS561, 1, 2, WL)
 
 
 
