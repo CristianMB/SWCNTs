@@ -141,6 +141,14 @@ classdef UsefulFunctions
         f = @(xi) interp1(x, y, xi, 'pchip');
         integralValue = integral(f, lowerLimit, upperLimit);
     end
+    
+    function integralValue = ComputeIntegralPxl(sample, lowerLimit, upperLimit)
+    x = sample.P;
+    y = sample.Y;
+    f = @(xi) interp1(x, y, xi, 'pchip');
+    integralValue = integral(f, lowerLimit, upperLimit);
+    end
+    
     function maximumValue = ComputeMaximum(sample, lowerLimit, upperLimit)
         x = sample.X;
         y = sample.Y;
@@ -165,6 +173,43 @@ classdef UsefulFunctions
         [peakValue, maxIndex] = max(yInRange);
         peakPosition = x(indicesInRange(maxIndex));
     end
+    function DS = remove_baseline_polynomial(DS, degree)
+        % Remove baseline from Raman spectrum using polynomial fitting
+        % DS: structure with fields X (Raman shift) and Y (intensity)
+        % degree: Degree of the polynomial used for baseline fitting
+
+        % Extract the X and Y data
+        X = DS.X;  % Raman shift (assumed centered at zero)
+        Y = DS.Y;  % Intensity values
+
+        % Identify regions to exclude based on peak detection
+        % You can implement your own peak detection logic here or use findpeaks
+        [pks, locs] = findpeaks(Y, 'MinPeakHeight', 0.05, 'MinPeakDistance', 10);
+
+        % Create a mask for excluding the peak regions
+        exclude_indices = false(size(Y));
+        exclude_indices(locs) = true;
+
+        % Fit a polynomial to the non-peak regions
+        p = polyfit(X(~exclude_indices), Y(~exclude_indices), degree);  % Polynomial coefficients
+        baseline = polyval(p, X);  % Evaluate the polynomial to get the baseline
+
+        % Subtract the baseline from the original intensity
+        Y_corrected = Y - baseline;
+
+        % Find the minimum value of the corrected spectrum
+        min_val = min(Y_corrected);
+
+        % Shift the corrected spectrum so that its minimum value is zero
+        Y_corrected = Y_corrected - min_val;
+
+        % Update the structure with the corrected Y values
+        DS.Y = Y_corrected;
+
+        % Optionally, display the polynomial coefficients
+        disp(['Polynomial Coefficients: ', num2str(p)]);
+    end
+
         
     %% Raman/Absorption Correct Functions
     
@@ -242,6 +287,30 @@ classdef UsefulFunctions
         end       
     end
         %% Raman/Absorption Correct Functions
+
+function CorrectedSpectra = FlatFieldCorrectionPixelWise(samplesToCorrect, FlatField)
+    % Initialize the corrected spectra cell array
+    CorrectedSpectra = cell(size(samplesToCorrect));
+    
+    % Compute the normalized flat field Y values
+    NormedFlat = FlatField.Y / UsefulFunctions.ComputeIntegralPxl(FlatField, FlatField.P(1), FlatField.P(end));
+    
+    % Loop through each sample to correct
+    for i = 1:length(samplesToCorrect)
+        % Get the current sample to correct
+        currentSample = samplesToCorrect{i};
+        
+        % Interpolate the normalized flat field to match the pixel-wise positions (currentSample.P)
+        % P represents the pixel positions for the current sample
+        interpolatedFlatY = interp1(FlatField.P, NormedFlat, currentSample.P, 'linear', 'extrap');
+        
+        % Divide the sample Y-values by the interpolated flat field Y-values
+        currentSample.Y = currentSample.Y ./ interpolatedFlatY;
+        
+        % Store the corrected spectrum
+        CorrectedSpectra{i} = currentSample;
+    end
+end
 
     function CorrectedSpectra = FlatFieldCorrection(samplesToCorrect, FlatField)
         CorrectedSpectra = cell(size(samplesToCorrect));
@@ -403,6 +472,46 @@ classdef UsefulFunctions
         hold off;
     end
 
+        function plotRamanPxl(SamplesToPlot, offset, wl)
+        % Create a figure for the plot
+        figure;
+
+        % Get a ColorBrewer colormap (e.g., 'Set1', 'Dark2', etc.)
+        numSamples = length(SamplesToPlot);  % Number of samples to plot
+        cmap = brewermap(10 + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
+        cmap(6, :) = [];  % Remove the 6th color from the colormap
+        for sampleIdx = 1:numSamples
+            currentSample = SamplesToPlot{sampleIdx};
+
+            % Get the current sample, X values, and Y values
+            currentX = currentSample.P;
+            currentY = currentSample.Y - offset * sampleIdx;
+            currentN = currentSample.N;
+
+            % Plot each sample using a different color from the colormap
+            plot(currentX, currentY, 'Color', cmap(sampleIdx, :), 'DisplayName', currentN, 'LineWidth', 1.3);
+            hold on;  % Add spectra to the same plot
+        end
+
+        % Add labels and legend
+        xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
+        ylabel('Normalized Intensity (a.u.)', 'FontSize', 14);
+        % Conditional title based on wavelength parameter 'wl'
+        if nargin < 3 || isempty(wl)
+            title('Raman Spectra');
+        else
+            title(['Raman spectra at ', num2str(wl), ' nm']);
+        end
+            % Show legend with proper font size
+        legend('show', 'FontSize', 11);
+
+        % Optional: Customize the plot further if needed
+        grid on;
+
+        % Hold off to stop adding new plots to the current figure
+        hold off;
+        end
+    
     function plotRamanNewOfsetBetweenPlots(SamplesToPlot, offset)
         % Create a figure for the plot
         figure;
@@ -579,7 +688,7 @@ classdef UsefulFunctions
     ClipRangeL = ClipLeft0; %number of pixels to add/substract to the deriv. peak
     ClipRangeR = ClipRight0;
 
-    arb = 3; %tolerance = PeakHeight/AverageBaselineValue; determines how high should be the derivative peak, in respect to average value, to be treated as real; 
+    arb = 3; %tolerance = PeakHeight/AverageValue; determines how high should be the derivative peak, in respect to average value, to be treated as real; 
     ClipDef = 150; %default number of pixels to clip if no clear peak present in the derivative
 
     f.x = DS.X;
@@ -809,13 +918,16 @@ classdef UsefulFunctions
         % Create a figure for the plot
         figure;
         % Iterate over each sample
+        cmap = brewermap(10 + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
+        cmap(6, :) = [];  % Remove the 6th color from the colormap
+        
         for sampleIdx = 1:length(SamplesToPlot)
             currentSample = SamplesToPlot{sampleIdx};
                 % Get the current sample, X values, and Y values
                 currentX = currentSample.X;
                 currentY = currentSample.Y - offset*sampleIdx;
                 currentN = currentSample.N;
-                plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.3);
+                plot(currentX, currentY,  'Color', cmap(sampleIdx, :), 'DisplayName', currentN,'LineWidth', 1.3);
                 hold on; % Add spectra to the same plot
         end
 

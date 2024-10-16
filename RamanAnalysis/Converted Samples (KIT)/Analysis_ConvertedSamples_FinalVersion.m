@@ -355,10 +355,12 @@ WL = 514.5;
 
 for i=1:length(SolutionSamples514GD)
     current = SolutionSamples514GD{i};  % Access the cell array element once
-    current = clip_spectrum(current, 10,10);
-    current = remove_inclination(current, WL);
-    current = correct_instrument_response(current, WL);
-    current = remove_bg_poly(current);
+%     current = clip_spectrum(current, 10,10);
+%     current = remove_inclination(current, WL);
+%     current = correct_instrument_response(current, WL);
+%     current = remove_bg_poly(current);
+%     current = remove_baseline_polynomial(current, 0);
+% 
     SolutionSamples514GD{i} = current;  % Save the result back to the cell array
 end
 
@@ -502,6 +504,7 @@ for i=1:length(FilmSamples561RM)
 %     current = correct_instrument_response(current, WL);
 %     current = remove_bg_poly(current);
     current = remove_linear_background(current,100,503);
+    current = remove_baseline_polynomial(current, 0);
 
 %     current = remove_baseline_polynomial(current, 0);
     FilmSamples561RM{i} = current;  % Save the result back to the cell array
@@ -509,7 +512,7 @@ end
 
 FilmSamples561RM = UsefulFunctions.NormalizeSample(FilmSamples561RM,0, 2000);
 
-% plotRaman(FilmSamples561RM, 0, WL)
+plotRamanPxl(FilmSamples561RM, 0, WL)
 
 %% DATA 20240628 FILM SAMPLES G and D Band, Carbine SPEC AT 561nm
 
@@ -582,7 +585,7 @@ for i=1:length(GroupedFS561)
 end
                 
 GroupedFS561 = UsefulFunctions.NormalizeSample(GroupedFS561,0, 2000);
-plotRamanGroup(GroupedFS561, 1, 2, WL)
+% plotRamanGroup(GroupedFS561, 1, 2, WL)
 
 
 
