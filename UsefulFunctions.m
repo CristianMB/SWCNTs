@@ -438,7 +438,7 @@ end
 
         % Get a ColorBrewer colormap (e.g., 'Set1', 'Dark2', etc.)
         numSamples = length(SamplesToPlot);  % Number of samples to plot
-        cmap = brewermap(10 + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
+        cmap = brewermap(numSamples + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
         cmap(6, :) = [];  % Remove the 6th color from the colormap
         for sampleIdx = 1:numSamples
             currentSample = SamplesToPlot{sampleIdx};
