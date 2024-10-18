@@ -2,170 +2,94 @@ classdef UsefulFunctions
     
    methods (Static)
    
-   %% Fitting Functions (Raman)
-   
-    function result = Lorentzian(params, x)
-        %We expect an array of params. 3 params per sample
-        numPeaks = numel(params) / 3;
-        result = zeros(size(x));
-        for i = 1:numPeaks
-            amp = params(3*i - 2);
-            pos = params(3*i - 1);
-            width = params(3*i);
-            result = result + amp ./ ((x - pos).^2 + width);
-        end
-    end
-    function [fitParams, fitCurve] = fitMultiLorentzian(DS, peakPositions)
-        % Define the multi-Lorentzian function
-        X = DS.X;
-        Y = DS.Y;
-        multiLorentzian = @(params, x) UsefulFunctions.Lorentzian(params, x);
-        % Define initial parameter guesses
-        initialParams = zeros(1, 3 * length(peakPositions));
-        initialParams(1:3:end) = 1;                         % Becase I normalized
-        initialParams(2:3:end) = peakPositions;             % peakPositions is the Input
-        initialParams(3:3:end) = 1;                        
-        % Fit the multi-Lorentzian function to the data
-        fitParams = lsqcurvefit(multiLorentzian, initialParams, X, Y);
-        fitCurve = multiLorentzian(fitParams, X);
-    end   
-    function PeakList = PeakID(SampleList, peakThreshold)
-        PeakList = {};
-        for i = 1:length(SampleList)
-            currentSample = SampleList{i};
-            X = currentSample.X;
-            Y = currentSample.Y;
-
-            %sorting, just because fitting requires it.
-            [X, sort_idx] = sort(X);
-            Y = Y(sort_idx);
-
-            % Find peaks using the findpeaks function
-            [h, x, w, p] = findpeaks(Y, X, 'MinPeakProminence', peakThreshold);
-            PeakList{i} = x;
-        end
-    end
-    function FittedSamples = FitSamples(SampleList, peakpos)
-        FittedSamples = cell(size(SampleList));
-        for i = 1:length(SampleList)
-            currentSample = SampleList{i};
-            [fitParams, fitCurve] = UsefulFunctions.fitMultiLorentzian(currentSample, peakpos);
-            currentSample.F.Fit = fitCurve;
-            currentSample.F.Params = reshape(fitParams, 3, length(peakpos)); 
-            FittedSamples{i} = currentSample;
-         end
-    end
- 
-   %% Kataura Calculation
+   %% KATAURA PLOT VALUES CALCULATION
 
     function [nuRBM,w11, w22, w33, w44,diam,theta, type]=CalculateKataura(P)
+    % Calculate RBM frequency, energy transitions (in nm scale), diameter, chiral angle and type of nanotube for chirality [n,m]. Based on Bachilo (2002) and Araujo (2010)
 
     n=P(1);
     m=P(2);
 
-    %Bachilo 
+    %Bachilo: https://www.science.org/doi/10.1126/science.1078727
     dcc = 0.144;        %nm Carbon carbon distance
     A = 223.5;          %cm-1
     B = 12.5;           %cm-1
     
     diam= dcc*sqrt(3)*(sqrt(n.^2+m.^2+n.*m))/pi;
     theta=atan(sqrt(3)*m./(m+2*n));
-    %nuRBM=(A./diam)+B ;
     nuRBM=(A./diam)+B ;
     
-    %Araujo 
+    %Araujo: https://www.sciencedirect.com/science/article/pii/S1386947710000445
     a=1.049;            %eV nm
     b=0.456;
     c=0.812;            %nm-1
     hc = 1240.84193;    %h*c value to convert energy to nm
     
     
-       if mod(n-m,3)==0 % METALLIC TUBES using Araujo Equations
-            type = 'M';
+    if mod(n-m,3)==0 % METALLIC TUBES using Araujo Equations
+        type = 'M';
 
-            %M11 Araujo, two branches
-            e1a=((a*3./diam).*(1+(b*log10(c./(3./diam)))))-0.19*cos(3*theta)./diam^2;    %(in eV)
-            e1b=((a*3./diam).*(1+(b*log10(c./(3./diam)))))+0.29*cos(3*theta)./diam^2;    %(in eV)
-            w11=hc/e1a;                                                                 %(in nm)
-            w22=hc/e1b;                                                                 %(in nm)
-          
-            %M22 Araujo, two branches
-            e2a=((a*6./diam).*(1+(b*log10(c./(6./diam)))))-0.60*cos(3*theta)./diam^2;    %(in eV)
-            e2b=((a*6./diam).*(1+(b*log10(c./(6./diam)))))+0.57*cos(3*theta)./diam^2;    %(in eV)
-            w33=hc/e2a;                                                                 %(in nm)
-            w44=hc/e2b;                                                                 %(in nm)
-            
-       end
+        %M11 Araujo, two branches
+        e1a=((a*3./diam).*(1+(b*log10(c./(3./diam)))))-0.19*cos(3*theta)./diam^2;    %(in eV)
+        e1b=((a*3./diam).*(1+(b*log10(c./(3./diam)))))+0.29*cos(3*theta)./diam^2;    %(in eV)
+        w11=hc/e1a;                                                                 %(in nm)
+        w22=hc/e1b;                                                                 %(in nm)
+
+        %M22 Araujo, two branches
+        e2a=((a*6./diam).*(1+(b*log10(c./(6./diam)))))-0.60*cos(3*theta)./diam^2;    %(in eV)
+        e2b=((a*6./diam).*(1+(b*log10(c./(6./diam)))))+0.57*cos(3*theta)./diam^2;    %(in eV)
+        w33=hc/e2a;                                                                 %(in nm)
+        w44=hc/e2b;                                                                 %(in nm)
+
+    end
        
-       if mod(n-m,3)==1 % SEMICONDUCTING TUBES using Bachilo Equations and Araujo Equations
-           type = 'S';
+    if mod(n-m,3)==1 % SEMICONDUCTING TUBES using Bachilo Equations and Araujo Equations
+       type = 'S';
 
-           %S11 and S22 Bachilo with (m-n)%3 = 1
-            nu11=(1*10^7)./(157.5+1066.9*diam)- 710*cos(3*theta)./diam.^2;              %(in cm-1)
-            nu22=(1*10^7)./(145.6+ 575.7*diam)+1375*cos(3*theta)./diam.^2;              %(in cm-1)
-            w11=(1*10^7)./nu11;                                                         %(in nm)
-            w22=(1*10^7)./nu22;                                                         %(in nm)
-            
-            %S33 and S44 Araujo (p=4,5) lower33 (4), upper44 (5)
-            e33=((a*4/diam).*(1+(b*log10(c./(4./diam)))))-0.42*cos(3*theta)./diam^2 +(0.0596*4/diam); %(in eV)
-            e44=((a*5/diam).*(1+(b*log10(c./(5./diam)))))+0.40*cos(3*theta)./diam^2 +(0.0596*5/diam); %(in eV)
-            w33=hc/e33;
-            w44=hc/e44;
-            
+       %S11 and S22 Bachilo with (m-n)%3 = 1
+        nu11=(1*10^7)./(157.5+1066.9*diam)- 710*cos(3*theta)./diam.^2;              %(in cm-1)
+        nu22=(1*10^7)./(145.6+ 575.7*diam)+1375*cos(3*theta)./diam.^2;              %(in cm-1)
+        w11=(1*10^7)./nu11;                                                         %(in nm)
+        w22=(1*10^7)./nu22;                                                         %(in nm)
 
-       end
+        %S33 and S44 Araujo (p=4,5) lower33 (4), upper44 (5)
+        e33=((a*4/diam).*(1+(b*log10(c./(4./diam)))))-0.42*cos(3*theta)./diam^2 +(0.0596*4/diam); %(in eV)
+        e44=((a*5/diam).*(1+(b*log10(c./(5./diam)))))+0.40*cos(3*theta)./diam^2 +(0.0596*5/diam); %(in eV)
+        w33=hc/e33;
+        w44=hc/e44;
+    end
        
-       if mod(n-m,3)==2 % SEMICONDUCTING TUBES using Bachilo Equations and Araujo Equations
-           type = 'S';
+    if mod(n-m,3)==2 % SEMICONDUCTING TUBES using Bachilo Equations and Araujo Equations
+       type = 'S';
 
-           %S11 and S22 Bachilo with (m-n)%3 = 2
-            nu11=(1*10^7)./(157.5+1066.9*diam)+ 369*cos(3*theta)./diam.^2;      %(in cm-1)
-            nu22=(1*10^7)./(145.6+ 575.7*diam)-1475*cos(3*theta)./diam.^2;      %(in cm-1)
-            w11=(1*10^7)./nu11;                                                %(in nm)
-            w22=(1*10^7)./nu22;                                                %(in nm)
-            
-            %S33 and S44 Araujo (p=4,5) upper33 (4), lower44 (5) + term
-            %added for all beyond M11
-            e33=((a*4/diam).*(1+(b*log10(c./(4./diam)))))+0.42*cos(3*theta)/diam^2+(0.0596*4/diam);  %(in eV)
-            e44=((a*5/diam).*(1+(b*log10(c./(5./diam)))))-0.40*cos(3*theta)/diam^2+(0.0596*5/diam);   %(in eV)
-            w33=hc/e33;                                                       %(in nm)
-            w44=hc/e44;                                                       %(in nm)
-       end
+       %S11 and S22 Bachilo with (m-n)%3 = 2
+        nu11=(1*10^7)./(157.5+1066.9*diam)+ 369*cos(3*theta)./diam.^2;      %(in cm-1)
+        nu22=(1*10^7)./(145.6+ 575.7*diam)-1475*cos(3*theta)./diam.^2;      %(in cm-1)
+        w11=(1*10^7)./nu11;                                                %(in nm)
+        w22=(1*10^7)./nu22;                                                %(in nm)
+
+        %S33 and S44 Araujo (p=4,5) upper33 (4), lower44 (5) + term
+        %added for all beyond M11
+        e33=((a*4/diam).*(1+(b*log10(c./(4./diam)))))+0.42*cos(3*theta)/diam^2+(0.0596*4/diam);  %(in eV)
+        e44=((a*5/diam).*(1+(b*log10(c./(5./diam)))))-0.40*cos(3*theta)/diam^2+(0.0596*5/diam);   %(in eV)
+        w33=hc/e33;                                                       %(in nm)
+        w44=hc/e44;                                                       %(in nm)
+    end
     end
 
-   %% General Functions
+   %% GENERAL FUNCTIONS
    
-    function integralValue = ComputeIntegral(sample, lowerLimit, upperLimit)
-        x = sample.X;
-        y = sample.Y;
-        f = @(xi) interp1(x, y, xi, 'pchip');
-        integralValue = integral(f, lowerLimit, upperLimit);
-    end
-    
-    function integralValue = ComputeIntegralPxl(sample, lowerLimit, upperLimit)
-    x = sample.P;
-    y = sample.Y;
-    f = @(xi) interp1(x, y, xi, 'pchip');
-    integralValue = integral(f, lowerLimit, upperLimit);
-    end
-    
+
     function maximumValue = ComputeMaximum(sample, lowerLimit, upperLimit)
+        % Calculate maximum value between two limit points (X1, X2)
         x = sample.X;
         y = sample.Y;
         indicesInRange = find(x >= lowerLimit & x <= upperLimit);
         maximumValue = max(y(indicesInRange));
-    end 
-    function NormedSamples = NormalizeSample(samplesToNormalize, lowerLimit, upperLimit)
-        NormedSamples = cell(size(samplesToNormalize));
-        % Iterate over each sample to be normalized
-        for sampleIdx = 1:length(samplesToNormalize)
-            currentSample = samplesToNormalize{sampleIdx};
-            %currentSample.Y = currentSample.Y/ComputeIntegral(currentSample,lowerLimit, upperLimit);            
-            currentSample.Y = currentSample.Y/UsefulFunctions.ComputeMaximum(currentSample,lowerLimit, upperLimit);
-            NormedSamples{sampleIdx} = currentSample;
-        end
     end
     function [peakPosition, peakValue] = ComputePeak(sample, lowerLimit, upperLimit)
+        % Calculate peak position and intensity between two limit points (X1, X2)
+
         x = sample.X;
         y = sample.Y;
         indicesInRange = find(x >= lowerLimit & x <= upperLimit);
@@ -173,17 +97,33 @@ classdef UsefulFunctions
         [peakValue, maxIndex] = max(yInRange);
         peakPosition = x(indicesInRange(maxIndex));
     end
-    function DS = remove_baseline_polynomial(DS, degree)
-        % Remove baseline from Raman spectrum using polynomial fitting
-        % DS: structure with fields X (Raman shift) and Y (intensity)
-        % degree: Degree of the polynomial used for baseline fitting
+    function integralValue = ComputeIntegral(sample, lowerLimit, upperLimit)
+        % Calculate integral between two limit points (X1, X2)
+        x = sample.X;
+        y = sample.Y;
+        f = @(xi) interp1(x, y, xi, 'pchip');
+        integralValue = integral(f, lowerLimit, upperLimit);
+    end
+    function normedSamples = NormalizeSample(samplesToNormalize, lowerLimit, upperLimit)
+        % Divide all spectrum by maximum value or integral value between two limit points (X1, X2)
+        normedSamples = cell(size(samplesToNormalize));
+        % Iterate over each sample to be normalized
+        for sampleIdx = 1:length(samplesToNormalize)
+            currentSample = samplesToNormalize{sampleIdx};
+            %currentSample.Y = currentSample.Y/ComputeIntegral(currentSample,lowerLimit, upperLimit);            
+            currentSample.Y = currentSample.Y/UsefulFunctions.ComputeMaximum(currentSample,lowerLimit, upperLimit);
+            normedSamples{sampleIdx} = currentSample;
+        end
+    end
+    function correctedSample = remove_baseline_polynomial(sample, degree)
+        % Remove baseline using polynomial fitting of a chosen degree
 
+        correctedSample = sample;
         % Extract the X and Y data
-        X = DS.X;  % Raman shift (assumed centered at zero)
-        Y = DS.Y;  % Intensity values
+        X = correctedSample.X;  % Raman shift (assumed centered at zero)
+        Y = correctedSample.Y;  % Intensity values
 
         % Identify regions to exclude based on peak detection
-        % You can implement your own peak detection logic here or use findpeaks
         [pks, locs] = findpeaks(Y, 'MinPeakHeight', 0.05, 'MinPeakDistance', 10);
 
         % Create a mask for excluding the peak regions
@@ -204,135 +144,14 @@ classdef UsefulFunctions
         Y_corrected = Y_corrected - min_val;
 
         % Update the structure with the corrected Y values
-        DS.Y = Y_corrected;
+        correctedSample.Y = Y_corrected;
 
         % Optionally, display the polynomial coefficients
         disp(['Polynomial Coefficients: ', num2str(p)]);
     end
+    function correctedSamples = SubstractLinearBG(samplesToCorrect, X1, X2)
+     % Take a list of samples from wich you want to substract a linear profile based just on two values (X1,X2)
 
-        
-    %% Raman/Absorption Correct Functions
-    
-    function dataStructure = ReadIndividualRamanFromFile(path)
-    % Function to read an individual Raman spectrum file and return a structure
-    % containing all spectra individually for later processing.
-
-    % Read the raw spectrum data from the file
-    raw_spectrum = RdExp(path);
-
-    % Prepare the structure to hold the raw data
-    dataStructure = struct();
-
-    % Extract the file name (assuming you want to use the file name as a field)
-    [~, fileName, ~] = fileparts(path);
-    fileName = upper(fileName); % Make sample name uppercase
-    DataName = ['DATA_', fileName];
-
-    % Extract X (Raman shift or wavelength) and Y (intensity) values
-    X = raw_spectrum(:, 1);  % Raman shift or wavelength (X-axis)
-    Y = raw_spectrum(:, 3:end); % Extract only the actual spectra (columns 3 to end)
-
-    % Loop through each spectrum and store it individually in the structure
-    for i = 1:size(Y, 2)  % Loop through the number of spectra
-        spectrumName = sprintf('S%d', i);
-        dataStructure.(spectrumName).X = X;             % Store the X values
-        dataStructure.(spectrumName).Y = Y(:, i);       % Store the Y values for each spectrum
-        dataStructure.(spectrumName).N = sprintf('S%d', i);
-    end
-    
-    % Optionally assign the data structure to the caller's workspace
-    assignin('caller', DataName, dataStructure)
-    end
-
-
-    %% Raman/Absorption Correct Functions
-            
-    function dataStructures = ReadRamanFromPaths(paths, NDel)
-        dataStructures = struct();  
-        for p = 1:length(paths)
-            try
-                dataset_name = strsplit(paths{p}, "\");
-                fieldName = ['DATA_', strrep(dataset_name{4}, '.', '')];
-                dirInfo = dir(fullfile(paths{p}, '*.m3d'));
-                fileList = {dirInfo(~[dirInfo.isdir]).name};
-                structure = struct();
-
-                for f = 1:length(fileList)
-                    raw_spectrum = RdExp([paths{p},fileList{f}]);
-                    raw_spectrum(:,2)=[];
-                    NumSpec=length(raw_spectrum(1,:))-1;
-                    NumDel=NDel;
-                    X=raw_spectrum(:,1);
-                    for i=1:1024
-                        spectrum=sort(raw_spectrum(i,2:NumSpec+1));
-                        Y(:,i)= mean(spectrum(NumDel+1:NumSpec-NumDel));  
-                    end
-                    sampleName = upper(strrep(fileList{f}, '.m3d',''));
-
-                    structure.(sampleName).X = X;
-                    structure.(sampleName).Y = Y';
-                    structure.(sampleName).N = sampleName;
-                    structure.(sampleName).P = (1:1024)';
-                    
-                end 
-               dataStructures.(fieldName) = structure;
-               assignin('caller', fieldName, structure); % Assign data to a variable in the caller workspace
-
-            catch ME
-                % Print the path that caused the error
-                disp(['Error reading data from path: ' paths{p}]);
-                % Re-throw the error
-                rethrow(ME);
-            end
-        end       
-    end
-        %% Raman/Absorption Correct Functions
-
-function CorrectedSpectra = FlatFieldCorrectionPixelWise(samplesToCorrect, FlatField)
-    % Initialize the corrected spectra cell array
-    CorrectedSpectra = cell(size(samplesToCorrect));
-    
-    % Compute the normalized flat field Y values
-    NormedFlat = FlatField.Y / UsefulFunctions.ComputeIntegralPxl(FlatField, FlatField.P(1), FlatField.P(end));
-    
-    % Loop through each sample to correct
-    for i = 1:length(samplesToCorrect)
-        % Get the current sample to correct
-        currentSample = samplesToCorrect{i};
-        
-        % Interpolate the normalized flat field to match the pixel-wise positions (currentSample.P)
-        % P represents the pixel positions for the current sample
-        interpolatedFlatY = interp1(FlatField.P, NormedFlat, currentSample.P, 'linear', 'extrap');
-        
-        % Divide the sample Y-values by the interpolated flat field Y-values
-        currentSample.Y = currentSample.Y ./ interpolatedFlatY;
-        
-        % Store the corrected spectrum
-        CorrectedSpectra{i} = currentSample;
-    end
-end
-
-    function CorrectedSpectra = FlatFieldCorrection(samplesToCorrect, FlatField)
-        CorrectedSpectra = cell(size(samplesToCorrect));
-        NormedFlat = FlatField.Y / UsefulFunctions.ComputeIntegral(FlatField,FlatField.X(end), FlatField.X(1));
-        
-        for i = 1:length(samplesToCorrect)
-            currentSample = samplesToCorrect{i};
-            currentSample.Y = currentSample.Y ./ NormedFlat;
-            CorrectedSpectra{i} = currentSample;
-        end
-    end   
-    
-    function CorrectedSample = FlatFieldCorrectionSingle(sampleToCorrect, FlatField)
-    % Normalize the flat field spectrum
-    NormedFlat = FlatField.Y / UsefulFunctions.ComputeIntegral(FlatField, FlatField.X(end), FlatField.X(1));
-    
-    % Perform the flat-field correction on the single sample
-    CorrectedSample = sampleToCorrect;  % Initialize the corrected sample
-    CorrectedSample.Y = sampleToCorrect.Y ./ NormedFlat;  % Correct the Y values
-    end
-
-    function CorrectedSpectra = SubstractLinearBG(samplesToCorrect, X1, X2)
         CorrectedSpectra = cell(size(samplesToCorrect));
         for i = 1:length(samplesToCorrect)
             currentSample = samplesToCorrect{i};
@@ -352,10 +171,12 @@ end
                     
             % Subtract the background
             currentSample.Y = currentSample.Y - background;
-            CorrectedSpectra{i} = currentSample;
+            correctedSamples{i} = currentSample;
         end
     end
-    function CorrectedSpectra = SubtractInverseBG(samplesToCorrect, zeroPoints)
+    function correctedSamples = SubtractInverseBG(samplesToCorrect, zeroPoints)
+        % Take a list of samples from wich you want to substract backgroundA/lambdda specifiyng non-signal points to sample the background
+ 
         CorrectedSpectra = cell(size(samplesToCorrect));
 
         % Find the minimum and maximum values of the zeroPoints array
@@ -394,44 +215,102 @@ end
                 currentSample.Y = Y - background;
             end
 
-            CorrectedSpectra{i} = currentSample;
+            correctedSamples{i} = currentSample;
         end
-    end
-    function plotRamanFit(Sample)
-        % Create a figure for the plot
-        figure;
-        % Iterate over each sample
-        % Get the current sample, X values, and Y values
-        X = Sample.X;
-        Y = Sample.Y;
-        N = Sample.N;
-        fitCurve = Sample.F.Fit;
-        fitParams = Sample.F.Params;
-        numPeaks = size(fitParams, 2);
-
-        plot(X, Y, 'DisplayName', N,'LineWidth', 1.3);
-        hold on; % Add spectra to the same plot
-        plot(X, fitCurve, 'k', 'LineWidth', 1.5, 'DisplayName', 'MultiLorentzFit');
-        %Plot each Lorentzian peak individually
-        
-        for i = 1:numPeaks
-             amp = fitParams(1,i);
-             pos = fitParams(2,i);  
-             width = fitParams(3,i);
-             peakCurve = amp ./ ((X - pos).^2 + width);
-             plot(X, peakCurve, 'r--', 'LineWidth', 1, 'DisplayName', sprintf('Peak at %.1f', pos));
-        end
-
-        xlabel('Raman Shift (cm^{-1})');
-        ylabel('Intesity (a.u.)');
-        title('Raman Spectra');
-        legend('show');
-        % Optional: Customize the plot further if needed
-        grid on;
-        % Hold off to stop adding new plots to the current figure
-        hold on;
     end
     
+    %% RAMAN MEASUREMENTS FUNCTIONS
+    
+    function dataStructure = ReadIndividualRamanFromFile(path)
+    % Read an individual Raman spectrum file and return a structure containing all spectra takes individually for later processing.
+
+    % Read the raw spectrum data from the file
+    raw_spectrum = RdExp(path);
+
+    % Prepare the structure to hold the raw data
+    dataStructure = struct();
+
+    % Extract the file name (assuming you want to use the file name as a field)
+    [~, fileName, ~] = fileparts(path);
+    fileName = upper(fileName); % Make sample name uppercase
+    DataName = ['DATA_', fileName];
+
+    % Extract X (Raman shift or wavelength) and Y (intensity) values
+    X = raw_spectrum(:, 1);  % Raman shift or wavelength (X-axis)
+    Y = raw_spectrum(:, 3:end); % Extract only the actual spectra (columns 3 to end)
+
+    % Loop through each spectrum and store it individually in the structure
+    for i = 1:size(Y, 2)  % Loop through the number of spectra
+        spectrumName = sprintf('S%d', i);
+        dataStructure.(spectrumName).X = X;             % Store the X values
+        dataStructure.(spectrumName).Y = Y(:, i);       % Store the Y values for each spectrum
+        dataStructure.(spectrumName).N = sprintf('S%d', i);
+    end
+    
+    % Optionally assign the data structure to the caller's workspace
+    assignin('caller', DataName, dataStructure)
+    end            
+    function dataStructures = ReadRamanFromPaths(paths, NDel)
+    % Read an individual Raman spectrum file, perform multimedian filtering and return a structure containing X (Raman shift),P (Pixel positions),Y values(Intensity)
+
+        dataStructures = struct();  
+        for p = 1:length(paths)
+            try
+                dataset_name = strsplit(paths{p}, "\");
+                fieldName = ['DATA_', strrep(dataset_name{end-1}, '.', '')];
+                dirInfo = dir(fullfile(paths{p}, '*.m3d'));
+                fileList = {dirInfo(~[dirInfo.isdir]).name};
+                structure = struct();
+
+                for f = 1:length(fileList)
+                    raw_spectrum = RdExp([paths{p},fileList{f}]);
+                    raw_spectrum(:,2)=[];
+                    NumSpec=length(raw_spectrum(1,:))-1;
+                    NumDel=NDel;
+                    X=raw_spectrum(:,1);
+                    for i=1:1024
+                        spectrum=sort(raw_spectrum(i,2:NumSpec+1));
+                        Y(:,i)= mean(spectrum(NumDel+1:NumSpec-NumDel));  
+                    end
+                    sampleName = upper(strrep(fileList{f}, '.m3d',''));
+
+                    structure.(sampleName).X = X;
+                    structure.(sampleName).Y = Y';
+                    structure.(sampleName).N = sampleName;
+                    structure.(sampleName).P = (1:1024)';
+                    
+                end 
+               dataStructures.(fieldName) = structure;
+               assignin('caller', fieldName, structure); % Assign data to a variable in the caller workspace
+
+            catch ME
+                % Print the path that caused the error
+                disp(['Error reading data from path: ' paths{p}]);
+                % Re-throw the error
+                rethrow(ME);
+            end
+        end       
+    end     
+    function correctedSample = FlatFieldCorrectionSingle(sampleToCorrect, FlatField)
+    % Takes a single sample to correct by a flat field file.
+    NormedFlat = FlatField.Y / UsefulFunctions.ComputeIntegral(FlatField, FlatField.X(end), FlatField.X(1));
+    
+    % Perform the flat-field correction on the single sample
+    correctedSample = sampleToCorrect;  % Initialize the corrected sample
+    correctedSample.Y = sampleToCorrect.Y ./ NormedFlat;  % Correct the Y values
+    end
+    function correctedSamples = FlatFieldCorrection(samplesToCorrect, FlatField)
+     % Takes a list of samples to correct by a flat field file and then divide all spectra by the file after normalization of the flat field
+        correctedSamples = cell(size(samplesToCorrect));
+        NormedFlat = FlatField.Y / UsefulFunctions.ComputeIntegral(FlatField,FlatField.X(end), FlatField.X(1));
+        
+        for i = 1:length(samplesToCorrect)
+            currentSample = samplesToCorrect{i};
+            currentSample.Y = currentSample.Y ./ NormedFlat;
+            correctedSamples{i} = currentSample;
+        end
+    end   
+
     function plotRaman(SamplesToPlot, offset, wl)
         % Create a figure for the plot
         figure;
@@ -471,82 +350,6 @@ end
         % Hold off to stop adding new plots to the current figure
         hold off;
     end
-
-        function plotRamanPxl(SamplesToPlot, offset, wl)
-        % Create a figure for the plot
-        figure;
-
-        % Get a ColorBrewer colormap (e.g., 'Set1', 'Dark2', etc.)
-        numSamples = length(SamplesToPlot);  % Number of samples to plot
-        cmap = brewermap(10 + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
-        cmap(6, :) = [];  % Remove the 6th color from the colormap
-        for sampleIdx = 1:numSamples
-            currentSample = SamplesToPlot{sampleIdx};
-
-            % Get the current sample, X values, and Y values
-            currentX = currentSample.P;
-            currentY = currentSample.Y - offset * sampleIdx;
-            currentN = currentSample.N;
-
-            % Plot each sample using a different color from the colormap
-            plot(currentX, currentY, 'Color', cmap(sampleIdx, :), 'DisplayName', currentN, 'LineWidth', 1.3);
-            hold on;  % Add spectra to the same plot
-        end
-
-        % Add labels and legend
-        xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
-        ylabel('Normalized Intensity (a.u.)', 'FontSize', 14);
-        % Conditional title based on wavelength parameter 'wl'
-        if nargin < 3 || isempty(wl)
-            title('Raman Spectra');
-        else
-            title(['Raman spectra at ', num2str(wl), ' nm']);
-        end
-            % Show legend with proper font size
-        legend('show', 'FontSize', 11);
-
-        % Optional: Customize the plot further if needed
-        grid on;
-
-        % Hold off to stop adding new plots to the current figure
-        hold off;
-        end
-    
-    function plotRamanNewOfsetBetweenPlots(SamplesToPlot, offset)
-        % Create a figure for the plot
-        figure;
-        % Iterate over each sample
-        adjustedSampleIdx = 0;
-        
-        for sampleIdx = 1:length(SamplesToPlot)
-            currentSample = SamplesToPlot{sampleIdx};
-            
-            % Check if the current sample is the 'OffSet' keyword
-            if strcmp(currentSample, 'OffSet')
-                % If it's 'OffSet', increment the adjustedSampleIdx to add an offset
-                adjustedSampleIdx = adjustedSampleIdx + 1; 
-                continue; % Skip plotting for this 'OffSet'
-            end
-            adjustedSampleIdx = adjustedSampleIdx + 1;
-            
-            % Get the current sample, X values, and Y values
-            currentX = currentSample.X;
-            currentY = currentSample.Y - offset*adjustedSampleIdx;
-            currentN = currentSample.N;
-            plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.3);
-            hold on; % Add spectra to the same plot
-        end
-        
-        % Add labels and legend
-        xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
-        ylabel('Normalized Intesity (a.u.)', 'FontSize', 14)
-        title('Raman Spectra');
-        legend('show','FontSize', 11);        % Optional: Customize the plot further if needed
-        grid on;
-        % Hold off to stop adding new plots to the current figure
-        hold off;
-    end
-    
     function plotRamanGroup(SamplesToPlot, offset, groupingIndex, wl)
         % Create a figure for the plot
         figure;
@@ -747,8 +550,6 @@ end
     DS.Y = f.y(condition);
     DS.P = f.p(condition);
     end
-      
-
     function DS = remove_bg_poly(DS)
         %removes background according to the polynomial method (Zhao et al. Applied Spectroscopy 61 11 2007 - 10.1366/000370207782597003)
         X0 = DS.X;
@@ -809,7 +610,6 @@ end
         DS.Y = Y;
         DS.X = X;
     end
-    
     function DS = correct_instrument_response(DS, WL)
         load DilorXY_Instrument_Response.mat;
         XL = 10^7./(10^7./WL - DS.X); % x values in nm 
@@ -838,7 +638,7 @@ end
         DS.Y = Y;
     end
     
-    %% Absorption Functions
+   %% ABSORPTION MEASUREMENTS FUNCTIONS
     
     function samples = readSamplesData(filePath)
         % Read the header
@@ -942,7 +742,6 @@ end
         hold off;
 
     end
-    
     function sampleList = TransitionPeaksCalculation(sampleList, LS1, US1, LS2, US2)
 
         % Iterate over each sample to be normalized
@@ -986,6 +785,172 @@ end
         % Write the table to a CSV file
         writetable(dataTable, fileName);
     end
-       
+    
+    
+       %% FITTING FUNCTIONS
+   
+    function result = Lorentzian(params, x)
+        %We expect an array of params. 3 params per sample
+        numPeaks = numel(params) / 3;
+        result = zeros(size(x));
+        for i = 1:numPeaks
+            amp = params(3*i - 2);
+            pos = params(3*i - 1);
+            width = params(3*i);
+            result = result + amp ./ ((x - pos).^2 + width);
+        end
+    end
+    function [fitParams, fitCurve] = fitMultiLorentzian(DS, peakPositions)
+        % Define the multi-Lorentzian function
+        X = DS.X;
+        Y = DS.Y;
+        multiLorentzian = @(params, x) UsefulFunctions.Lorentzian(params, x);
+        % Define initial parameter guesses
+        initialParams = zeros(1, 3 * length(peakPositions));
+        initialParams(1:3:end) = 1;                         % Becase I normalized
+        initialParams(2:3:end) = peakPositions;             % peakPositions is the Input
+        initialParams(3:3:end) = 1;                        
+        % Fit the multi-Lorentzian function to the data
+        fitParams = lsqcurvefit(multiLorentzian, initialParams, X, Y);
+        fitCurve = multiLorentzian(fitParams, X);
+    end   
+    function PeakList = PeakID(SampleList, peakThreshold)
+        PeakList = {};
+        for i = 1:length(SampleList)
+            currentSample = SampleList{i};
+            X = currentSample.X;
+            Y = currentSample.Y;
+
+            %sorting, just because fitting requires it.
+            [X, sort_idx] = sort(X);
+            Y = Y(sort_idx);
+
+            % Find peaks using the findpeaks function
+            [h, x, w, p] = findpeaks(Y, X, 'MinPeakProminence', peakThreshold);
+            PeakList{i} = x;
+        end
+    end
+    function FittedSamples = FitSamples(SampleList, peakpos)
+        FittedSamples = cell(size(SampleList));
+        for i = 1:length(SampleList)
+            currentSample = SampleList{i};
+            [fitParams, fitCurve] = UsefulFunctions.fitMultiLorentzian(currentSample, peakpos);
+            currentSample.F.Fit = fitCurve;
+            currentSample.F.Params = reshape(fitParams, 3, length(peakpos)); 
+            FittedSamples{i} = currentSample;
+         end
+    end
+    
+    
+%% FUNCTIONS UNDER DEVELOPMENT
+    function plotRamanFit(Sample)
+        % Create a figure for the plot
+        figure;
+        % Iterate over each sample
+        % Get the current sample, X values, and Y values
+        X = Sample.X;
+        Y = Sample.Y;
+        N = Sample.N;
+        fitCurve = Sample.F.Fit;
+        fitParams = Sample.F.Params;
+        numPeaks = size(fitParams, 2);
+
+        plot(X, Y, 'DisplayName', N,'LineWidth', 1.3);
+        hold on; % Add spectra to the same plot
+        plot(X, fitCurve, 'k', 'LineWidth', 1.5, 'DisplayName', 'MultiLorentzFit');
+        %Plot each Lorentzian peak individually
+        
+        for i = 1:numPeaks
+             amp = fitParams(1,i);
+             pos = fitParams(2,i);  
+             width = fitParams(3,i);
+             peakCurve = amp ./ ((X - pos).^2 + width);
+             plot(X, peakCurve, 'r--', 'LineWidth', 1, 'DisplayName', sprintf('Peak at %.1f', pos));
+        end
+
+        xlabel('Raman Shift (cm^{-1})');
+        ylabel('Intesity (a.u.)');
+        title('Raman Spectra');
+        legend('show');
+        % Optional: Customize the plot further if needed
+        grid on;
+        % Hold off to stop adding new plots to the current figure
+        hold on;
+    end
+    function plotRamanPxl(SamplesToPlot, offset, wl)
+        % Create a figure for the plot
+        figure;
+
+        % Get a ColorBrewer colormap (e.g., 'Set1', 'Dark2', etc.)
+        numSamples = length(SamplesToPlot);  % Number of samples to plot
+        cmap = brewermap(10 + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
+        cmap(6, :) = [];  % Remove the 6th color from the colormap
+        for sampleIdx = 1:numSamples
+            currentSample = SamplesToPlot{sampleIdx};
+
+            % Get the current sample, X values, and Y values
+            currentX = currentSample.P;
+            currentY = currentSample.Y - offset * sampleIdx;
+            currentN = currentSample.N;
+
+            % Plot each sample using a different color from the colormap
+            plot(currentX, currentY, 'Color', cmap(sampleIdx, :), 'DisplayName', currentN, 'LineWidth', 1.3);
+            hold on;  % Add spectra to the same plot
+        end
+
+        % Add labels and legend
+        xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
+        ylabel('Normalized Intensity (a.u.)', 'FontSize', 14);
+        % Conditional title based on wavelength parameter 'wl'
+        if nargin < 3 || isempty(wl)
+            title('Raman Spectra');
+        else
+            title(['Raman spectra at ', num2str(wl), ' nm']);
+        end
+            % Show legend with proper font size
+        legend('show', 'FontSize', 11);
+
+        % Optional: Customize the plot further if needed
+        grid on;
+
+        % Hold off to stop adding new plots to the current figure
+        hold off;
+    end
+    function plotRamanNewOfsetBetweenPlots(SamplesToPlot, offset)
+        % Create a figure for the plot
+        figure;
+        % Iterate over each sample
+        adjustedSampleIdx = 0;
+        
+        for sampleIdx = 1:length(SamplesToPlot)
+            currentSample = SamplesToPlot{sampleIdx};
+            
+            % Check if the current sample is the 'OffSet' keyword
+            if strcmp(currentSample, 'OffSet')
+                % If it's 'OffSet', increment the adjustedSampleIdx to add an offset
+                adjustedSampleIdx = adjustedSampleIdx + 1; 
+                continue; % Skip plotting for this 'OffSet'
+            end
+            adjustedSampleIdx = adjustedSampleIdx + 1;
+            
+            % Get the current sample, X values, and Y values
+            currentX = currentSample.X;
+            currentY = currentSample.Y - offset*adjustedSampleIdx;
+            currentN = currentSample.N;
+            plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.3);
+            hold on; % Add spectra to the same plot
+        end
+        
+        % Add labels and legend
+        xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
+        ylabel('Normalized Intesity (a.u.)', 'FontSize', 14)
+        title('Raman Spectra');
+        legend('show','FontSize', 11);        % Optional: Customize the plot further if needed
+        grid on;
+        % Hold off to stop adding new plots to the current figure
+        hold off;
+    end
+
    end
+  
 end

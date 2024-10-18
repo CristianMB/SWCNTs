@@ -78,7 +78,7 @@ FS514R = {
     DATA_20241007.F7L514R
 %     DATA_20241007.FFL514R
     };
-FS514R = FlatFieldCorrectionPixelWise(FS514R, DATA_20241007.FFL514R);
+% FS514R = FlatFieldCorrectionPixelWise(FS514R, DATA_20241007.FFL514R);
 
 WL = 514.5;
 for i=1:length(FS514R)
@@ -92,7 +92,7 @@ for i=1:length(FS514R)
     FS514R{i} = current;  % Save the result back to the cell array
 end
 
-FS514R = NormalizeSample(FS514R, 138, 166);
+% FS514R = NormalizeSample(FS514R, 138, 166);
 
 % plotRaman(FS514R,0,WL)
 
@@ -112,6 +112,7 @@ FS514GD = {
 WL = 514.5;
 for i=1:length(FS514GD)
     current = FS514GD{i};  % Access the cell array element once
+    
     current = clip_spectrum(current, 10,10);
     current = remove_inclination(current, WL);
     current = correct_instrument_response(current, WL);
@@ -121,7 +122,7 @@ for i=1:length(FS514GD)
     FS514GD{i} = current;  % Save the result back to the cell array
 end
 
-FS514GD = NormalizeSample(FS514GD, 0, 20000);
+% FS514GD = NormalizeSample(FS514GD, 0, 20000);
 
 % plotRaman(FS514GD,0,WL)
 
@@ -139,23 +140,23 @@ FS514DD = {
     };
 
    %% Flat field correction indetail 
-figure()
-
-hold on
-for i=1:length(FS514DD)
-    current = FS514DD{i}
-    plot(current.P, current.Y/(current.Y(200)))
-end
-hold off
-    
-figure()
-
-hold on
-for i=1:length(FS514DD)
-    current = FS514DD{i}
-    plot(current.P, current.Y/DATA_20241008.FFL514G.Y)
-end
-hold off
+% figure()
+% 
+% hold on
+% for i=1:length(FS514DD)
+%     current = FS514DD{i}
+%     plot(current.P, current.Y/(current.Y(200)))
+% end
+% hold off
+%     
+% figure()
+% 
+% hold on
+% for i=1:length(FS514DD)
+%     current = FS514DD{i}
+%     plot(current.P, current.Y/DATA_20241008.FFL514G.Y)
+% end
+% hold off
 %%
 
 % FS514DD = FlatFieldCorrectionPixelWise(FS514DD, DATA_20241007.FFL514DD);
@@ -239,6 +240,10 @@ end
 
 % plotRamanPxl(ALLFF,0)
 % plotRaman(ALLFF,0)
+
+
+plotRamanFit(FS514R, 2)
+
 
 function result = concatenateSpectra(structArray, structName)
     % Create a new structure to hold the concatenated data
