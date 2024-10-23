@@ -4,6 +4,7 @@ function plot_absorption()
     import UsefulFunctions.*;
     % Add the path to the directory containing your functions
     defaultpath=('X:\Measurements Data\Absorption');
+    addpath(' X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0');
 
     % Step 1: Select the .csv file
     [file_name, file_path] = uigetfile('*.csv', 'Select the CSV file', defaultpath);
