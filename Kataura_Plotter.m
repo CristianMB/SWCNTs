@@ -6,12 +6,12 @@ import UsefulFunctions.*;
 
 
 %% Choose region
-% XAxis = [10, 700];  %RBM Range
-XAxis = [0.5, 1.5];  %Diameter Range
-YAxis = [440, 680];  %WL Range
+XAxis = [50, 350];  %RBM Range
+% XAxis = [0.5, 1.5];  %Diameter Range
+YAxis = [500, 545];  %WL Range
 
-Laserlines = [561.3];
-Tolerances = [5];
+Laserlines = [514.5, 532.0];
+Tolerances = [3, 3];
 % Laserlines = [514.5 561.1 496.5 488 476.5 457.9];
 % Tolerances = [5 5 5 5 5 5];
 
@@ -38,10 +38,10 @@ KATAURA.Type = [];
 
 % Kataura plot calculation
 
-for m = 10:15
-    for n = 0:m
-% for m = 5:18
+% for m = 5:2
 %     for n = 0:m
+for m = 4:15
+    for n = 0:m
         [rbm, wl1, w22, w33, w44, diam, theta, type] = CalculateKataura([n, m]);
         KATAURA.RBM = [KATAURA.RBM, rbm];
         KATAURA.WL1 = [KATAURA.WL1, wl1];
@@ -86,8 +86,8 @@ for i = 1:length(KATAURA.RBM)
         scatter(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
         text(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
 
-%         scatter(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), 50, color, marker, 'filled');
-%         text(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+        scatter(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), 50, color, marker, 'filled');
+        text(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
     end
 end
 
@@ -125,7 +125,7 @@ markers = {'v', 'diamond', 'o', 's'}; % Markers for each energy level
 figure;
 hold on;
 title('KatauraPlot');
-xlabel('Diameter (nm)');
+xlabel('RBM (wn)');
 ylabel('Wavelength (nm)');
 
 for i = 1:length(KATAURA.RBM)
@@ -138,11 +138,11 @@ for i = 1:length(KATAURA.RBM)
  %   Loop through each energy level and plot with different marker
     for energy = 1:4
         marker = markers{energy};
-        scatter(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
-        %scatter(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
-        text(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+%         scatter(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
+        scatter(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), 50, color, marker, 'filled');
+%         text(KATAURA.D(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
 
-        %text(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
+        text(KATAURA.RBM(i), KATAURA.(['WL' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
 
         %scatter(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), 50, color, marker, 'filled');
         %text(KATAURA.RBM(i), KATAURA.(['E' num2str(energy)])(i), KATAURA.Chirality{i}, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
