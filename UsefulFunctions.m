@@ -721,8 +721,8 @@ classdef UsefulFunctions
         % Create a figure for the plot
         figure;
         % Iterate over each sample
-        cmap = brewermap(10 + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
-        cmap(6, :) = [];  % Remove the 6th color from the colormap
+        cmap = brewermap(length(SamplesToPlot) + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
+%         cmap(6, :) = [];  % Remove the 6th color from the colormap
         
         for sampleIdx = 1:length(SamplesToPlot)
             currentSample = SamplesToPlot{sampleIdx};

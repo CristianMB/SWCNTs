@@ -242,7 +242,7 @@ end
 % plotRaman(ALLFF,0)
 
 
-plotRamanFit(FS514R, 2)
+% plotRamanFit(FS514R, 2)
 
 
 function result = concatenateSpectra(structArray, structName)

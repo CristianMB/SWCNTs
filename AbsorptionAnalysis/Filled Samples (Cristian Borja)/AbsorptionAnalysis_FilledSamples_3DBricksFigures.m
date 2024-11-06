@@ -95,9 +95,9 @@ FilledCNTs = {
         
 
 % 
-% FilledCNTs = NormalizeSample(FilledCNTs,800, 1100);
+FilledCNTs = NormalizeSample(FilledCNTs,800, 1100);
 % 
-% plotAbsorption(FilledCNTs, 0.75)
+plotAbsorption(FilledCNTs, 0.75)
 % hold on
 % xline(1000, '--','LineWidth', 1.0,'HandleVisibility','off')
 % xline(1764, '--','LineWidth', 1.0,'HandleVisibility','off')

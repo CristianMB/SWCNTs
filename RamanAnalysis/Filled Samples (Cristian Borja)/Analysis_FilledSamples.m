@@ -1,11 +1,11 @@
 clc;
 clear;
-addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\');
-%addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
+addpath('X:\SWCNTs');
+% addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 import UsefulFunctions.*;
 
-%rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements Data\Raman\';
-rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Raman\';
+% rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
+rootpath = 'X:\Measurements Data\Raman\';
 
 %All paths as default
 path_20240320 = [rootpath,'20240320\'];
@@ -23,7 +23,7 @@ paths = {
     };
 
 
-ReadRamanFromPaths(paths);
+ReadRamanFromPaths(paths, 2);
 
 
 %%%--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

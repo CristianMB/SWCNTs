@@ -5,7 +5,7 @@ function plot_absorption()
     % Add the path to the directory containing your functions
     defaultpath=('X:\Measurements Data\Absorption');
     addpath(' X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0');
-
+    addpath(' X:\SWCNTs');
     % Step 1: Select the .csv file
     [file_name, file_path] = uigetfile('*.csv', 'Select the CSV file', defaultpath);
     if isequal(file_name, 0)
@@ -33,7 +33,7 @@ function plot_absorption()
             end
      end
      
-    Spectra = NormalizeSample(Spectra, 900, 1000)
+%     Spectra = NormalizeSample(Spectra, 900, 1000)
 %      Spectra = NormalizeSample(Spectra, 1500, 2000)
 
     plotAbsorption(Spectra, 0.0)
