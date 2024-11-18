@@ -340,10 +340,14 @@ S7 = {
 %G 520H
 %G 650L
 
-plotRaman(GDBand514, 0)
-plotRaman(GBand520LD, 0)
-plotRaman(GBand520HD, 0)
-plotRaman(GBands650, 0)
+% plotRaman(GDBand514, 0)
+% fitLorentzianToSamples(GDBand514)
+
+% plotRaman(GBand520LD, 0)
+G520Fit = fitLorentzianToSamplesCurvePeak(GBand520LD, 1560)
+plotRaman([GBand520LD;G520Fit],0)
+% plotRaman(GBand520HD, 0)
+% plotRaman(GBands650, 0)
 
 
 %% Raman Mapping???
@@ -654,6 +658,175 @@ end
 
 
 %Apply to list of samples
+function fittingResults = fitLorentzianToSamplesCurvePeak(samplesToFit, peakPositionGuess)
+    % Initialize output cell array to hold the fitting results
+    fittingResults = cell(size(samplesToFit));
+    
+    % Define the Lorentzian function
+    lorentzian = @(p, x) p(1) ./ (1 + ((x - p(2)) / p(3)).^2);
+    % p(1) = Peak Intensity, p(2) = Peak Position, p(3) = HWHM
+    
+    % Iterate over each sample to apply Lorentzian fitting
+    for sampleIdx = 1:length(samplesToFit)
+        % Get the current sample
+        currentSample = samplesToFit{sampleIdx};
+        
+        % Extract X (Raman shift) and Y (Intensity) data
+        X = currentSample.X;  % Raman shift (independent variable)
+        Y = currentSample.Y;  % Intensity values (dependent variable)
+        
+        % Find the closest position to the provided peakPositionGuess
+        [~, peakIdx] = min(abs(X - peakPositionGuess));
+        peakPosition = X(peakIdx);  % Actual position of the peak closest to the guess
+        
+        % Define a search window around the peak (e.g., +/- 10 cm-1)
+        searchWindow = 10;  % 10 cm-1 window around the guessed peak position
+        windowIdx = (X >= (peakPosition - searchWindow)) & (X <= (peakPosition + searchWindow));
+        
+        % Use the data within the window for fitting
+        X_fit = X(windowIdx);
+        Y_fit = Y(windowIdx);
+        
+        % Define initial guess for the parameters [Intensity, Position, HWHM]
+        initialGuess = [max(Y_fit), peakPosition, 10];  % Guess: peak intensity, peak position, HWHM
+        
+        % Define bounds for the parameters
+        lowerBounds = [0, peakPosition - searchWindow, 0];  % Lower bounds for parameters
+        upperBounds = [inf, peakPosition + searchWindow, max(X) - min(X)];  % Upper bounds for parameters
+        
+        % Perform the fitting using lsqcurvefit (nonlinear least squares)
+        options = optimset('Display', 'off');
+        [fitParams, ~] = lsqcurvefit(lorentzian, initialGuess, X_fit, Y_fit, lowerBounds, upperBounds, options);
+        
+        % Extract the fitted parameters: Peak Intensity, Position, HWHM
+        peakIntensity = fitParams(1);  % Peak intensity (I_0)
+        peakPosition = fitParams(2);   % Peak position (x_0)
+        HWHM = fitParams(3);           % Half-width at half maximum (gamma)
+        FWHM = 2 * HWHM;               % Full width at half maximum
+        
+        % Create the fitted Lorentzian curve for the selected peak
+        lorentzianCurveY = lorentzian(fitParams, X);  % Y values for the fitted curve
+        
+        % Store the fitting results and Lorentzian curve for the current sample
+        fittingResults{sampleIdx}.PeakIntensity = peakIntensity;
+        fittingResults{sampleIdx}.PeakPosition = peakPosition;
+        fittingResults{sampleIdx}.HWHM = HWHM;
+        fittingResults{sampleIdx}.FWHM = FWHM;
+        fittingResults{sampleIdx}.X = X;
+        fittingResults{sampleIdx}.Y = lorentzianCurveY;
+        fittingResults{sampleIdx}.N = currentSample.N;
+        
+        % Optionally, display the fitting results
+        disp(['Sample ', num2str(sampleIdx), ':']);
+        disp(['  Peak Intensity: ', num2str(peakIntensity)]);
+        disp(['  Peak Position: ', num2str(peakPosition)]);
+        disp(['  HWHM: ', num2str(HWHM)]);
+        disp(['  FWHM: ', num2str(FWHM)]);
+    end
+end
+function fittingResults = fitLorentzianToSamplesCurve(samplesToFit)
+    % Initialize output cell array to hold the fitting results
+    fittingResults = cell(size(samplesToFit));
+    
+    % Define the Lorentzian function
+    lorentzian = @(p, x) p(1) ./ (1 + ((x - p(2)) / p(3)).^2);
+    % p(1) = Peak Intensity, p(2) = Peak Position, p(3) = HWHM
+    
+    % Iterate over each sample to apply Lorentzian fitting
+    for sampleIdx = 1:length(samplesToFit)
+        % Get the current sample
+        currentSample = samplesToFit{sampleIdx};
+        
+        % Extract X (Raman shift) and Y (Intensity) data
+        X = currentSample.X;  % Raman shift (independent variable)
+        Y = currentSample.Y;  % Intensity values (dependent variable)
+        
+        % Define initial guess for the parameters [Intensity, Position, HWHM]
+        initialGuess = [max(Y), X(find(Y == max(Y), 1)), 10];  % Guess: peak intensity, peak position, HWHM
+        
+        % Define bounds for the parameters
+        lowerBounds = [0, min(X), 0];  % Lower bounds for parameters
+        upperBounds = [inf, max(X), max(X)-min(X)];  % Upper bounds for parameters
+        
+        % Perform the fitting using lsqcurvefit (nonlinear least squares)
+        options = optimset('Display', 'off');
+        [fitParams, ~] = lsqcurvefit(lorentzian, initialGuess, X, Y, lowerBounds, upperBounds, options);
+        
+        % Extract the fitted parameters: Peak Intensity, Position, HWHM
+        peakIntensity = fitParams(1);  % Peak intensity (I_0)
+        peakPosition = fitParams(2);   % Peak position (x_0)
+        HWHM = fitParams(3);           % Half-width at half maximum (gamma)
+        FWHM = 2 * HWHM;               % Full width at half maximum
+        
+        % Create the fitted Lorentzian curve
+        lorentzianCurveY = lorentzian(fitParams, X);  % Y values for the fitted curve
+        
+        % Store the fitting results and Lorentzian curve for the current sample
+        fittingResults{sampleIdx}.PeakIntensity = peakIntensity;
+        fittingResults{sampleIdx}.PeakPosition = peakPosition;
+        fittingResults{sampleIdx}.HWHM = HWHM;
+        fittingResults{sampleIdx}.FWHM = FWHM;
+        fittingResults{sampleIdx}.X = X;
+        fittingResults{sampleIdx}.Y = lorentzianCurveY;
+        fittingResults{sampleIdx}.N = currentSample.N;
+        
+        % Optionally, display the fitting results
+        disp(['Sample ', num2str(sampleIdx), ':']);
+        disp(['  Peak Intensity: ', num2str(peakIntensity)]);
+        disp(['  Peak Position: ', num2str(peakPosition)]);
+        disp(['  HWHM: ', num2str(HWHM)]);
+        disp(['  FWHM: ', num2str(FWHM)]);
+    end
+end
+function fittingResults = fitLorentzianToSamples(samplesToFit)
+    % Initialize output cell array to hold the fitting results
+    fittingResults = cell(size(samplesToFit));
+    
+    % Define the Lorentzian function
+    lorentzian = @(p, x) p(1) ./ (1 + ((x - p(2)) / p(3)).^2);
+    % p(1) = Peak Intensity, p(2) = Peak Position, p(3) = HWHM
+    
+    % Iterate over each sample to apply Lorentzian fitting
+    for sampleIdx = 1:length(samplesToFit)
+        % Get the current sample
+        currentSample = samplesToFit{sampleIdx};
+        
+        % Extract X (Raman shift) and Y (Intensity) data
+        X = currentSample.X;  % Raman shift (independent variable)
+        Y = currentSample.Y;  % Intensity values (dependent variable)
+        
+        % Define initial guess for the parameters [Intensity, Position, HWHM]
+        initialGuess = [max(Y), X(find(Y == max(Y), 1)), 10];  % Guess: peak intensity, peak position, HWHM
+        
+        % Define bounds for the parameters
+        lowerBounds = [0, min(X), 0];  % Lower bounds for parameters
+        upperBounds = [inf, max(X), max(X)-min(X)];  % Upper bounds for parameters
+        
+        % Perform the fitting using lsqcurvefit (nonlinear least squares)
+        options = optimset('Display', 'off');
+        [fitParams, ~] = lsqcurvefit(lorentzian, initialGuess, X, Y, lowerBounds, upperBounds, options);
+        
+        % Extract the fitted parameters: Peak Intensity, Position, HWHM
+        peakIntensity = fitParams(1);  % Peak intensity (I_0)
+        peakPosition = fitParams(2);   % Peak position (x_0)
+        HWHM = fitParams(3);           % Half-width at half maximum (gamma)
+        FWHM = 2 * HWHM;               % Full width at half maximum
+        
+        % Store the fitting results for the current sample
+        fittingResults{sampleIdx}.PeakIntensity = peakIntensity;
+        fittingResults{sampleIdx}.PeakPosition = peakPosition;
+        fittingResults{sampleIdx}.HWHM = HWHM;
+        fittingResults{sampleIdx}.FWHM = FWHM;
+        
+        % Optionally, display the fitting results
+        disp(['Sample ', num2str(sampleIdx), ':']);
+        disp(['  Peak Intensity: ', num2str(peakIntensity)]);
+        disp(['  Peak Position: ', num2str(peakPosition)]);
+        disp(['  HWHM: ', num2str(HWHM)]);
+        disp(['  FWHM: ', num2str(FWHM)]);
+    end
+end
+
 
 function result = concatenateSpectraNew(structArray, structName)
     % Create a new structure to hold the concatenated data

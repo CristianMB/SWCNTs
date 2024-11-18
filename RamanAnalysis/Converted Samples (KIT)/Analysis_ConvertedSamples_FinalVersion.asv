@@ -602,18 +602,18 @@ GroupedFS561 = UsefulFunctions.NormalizeSample(GroupedFS561,0, 2000);
 % plotRamanGroup(GroupedFS561, 1, 2, WL)
 % exportRamanData(GroupedFS561, 'RamanFilmSamples_GDBand_561nm.csv')
 
-plotRamanData('RamanFilmSamples_GDBand_561nm')
-plotRamanData('RamanMetallicFilmSamples_RBM_561nm')
-plotRamanData('RamanSemicondFilmSamples_RBM_561nm')
-plotRamanData('RamanFilmSamples_GDBand_514nm')
-plotRamanData('RamanFilmSamples_RBM_514nm')
-plotRamanData('RamanSolutionSamples_GDBand_514nm')
-plotRamanData('RamanSolutionSamples_RBM_514nm')
-plotRamanData('RamanTestSamples_GDBand_570nm')
-plotRamanData('RamanTestSamples_GBandCarbyneRegion_650nm')
-plotRamanData('RamanTestSamples_RBM_570nm')
-plotRamanData('RamanTestSamples_GDBand_650nm')
-plotRamanData('RamanTestSamples_RBM_650nm')
+plotRamanData('RamanFilmSamples_GDBand_561nm.')
+'RamanMetallicFilmSamples_RBM_561nm'
+RamanSemicondFilmSamples_RBM_561nm'
+RamanFilmSamples_GDBand_514nm'
+RamanFilmSamples_RBM_514nm'
+RamanSolutionSamples_GDBand_514nm'
+RamanSolutionSamples_RBM_514nm'
+RamanTestSamples_GDBand_570nm'
+RamanTestSamples_GBandCarbyneRegion_650nm'
+RamanTestSamples_RBM_570nm'
+'RamanTestSamples_GDBand_650nm'
+'RamanTestSamples_RBM_650nm'
 
 %% PLOTTING PREVIOUSLY EXPORTED DATA
 

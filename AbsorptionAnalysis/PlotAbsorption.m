@@ -34,7 +34,7 @@ function plot_absorption()
      end
      
 %     Spectra = NormalizeSample(Spectra, 900, 1000)
-%      Spectra = NormalizeSample(Spectra, 1500, 2000)
+%      Spectra = NormalizeSample(Spectra, 445, 448)
 
     plotAbsorption(Spectra, 0.0)
 
