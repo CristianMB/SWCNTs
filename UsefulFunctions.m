@@ -113,8 +113,8 @@ classdef UsefulFunctions
         % Iterate over each sample to be normalized
         for sampleIdx = 1:length(samplesToNormalize)
             currentSample = samplesToNormalize{sampleIdx};
-            %currentSample.Y = currentSample.Y/ComputeIntegral(currentSample,lowerLimit, upperLimit);            
-            currentSample.Y = currentSample.Y/UsefulFunctions.ComputeMaximum(currentSample,lowerLimit, upperLimit);
+            currentSample.Y = currentSample.Y/UsefulFunctions.ComputeIntegral(currentSample,lowerLimit, upperLimit);            
+%             currentSample.Y = currentSample.Y/UsefulFunctions.ComputeMaximum(currentSample,lowerLimit, upperLimit);
             normedSamples{sampleIdx} = currentSample;
         end
     end
@@ -722,7 +722,7 @@ classdef UsefulFunctions
         figure;
         % Iterate over each sample
         cmap = brewermap(length(SamplesToPlot) + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
-%         cmap(6, :) = [];  % Remove the 6th color from the colormap
+        cmap(6, :) = [];  % Remove the 6th color from the colormap
         
         for sampleIdx = 1:length(SamplesToPlot)
             currentSample = SamplesToPlot{sampleIdx};

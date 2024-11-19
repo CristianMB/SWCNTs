@@ -3,6 +3,7 @@ clear;
 addpath('X:\SWCNTs');
 % addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 import UsefulFunctions.*;
+addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0');
 
 % rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
 rootpath = 'X:\Measurements Data\Absorption\';
@@ -81,7 +82,7 @@ DATA_References.empty_P2_dial_0930.Y = DATA_References.empty_P2_dial_0930.Y - 3*
 FilledCNTs = {
                
                 DATA_References.empty_P2_dial_0930
-                DATA_20231206.SFF6dil
+%                 DATA_20231206.SFF6dil
 
                 DATA_20240216.S2DGUC
                 DATA_20240216.S3DGUC

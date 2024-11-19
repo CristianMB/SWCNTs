@@ -130,24 +130,77 @@ CF = {
         
 
 CF = NormalizeSample(CF,800, 1100);
-plotAbsorption(CF, 0.0)
+% plotAbsorption(CF, 0.0)
 
 
-
+DATA_References.empty_P2_dial_0930.N = 'Empty SWCNTs (DGU)'
+DATA_References.WaterFilled.N = 'Water@SWCNT (DGU)'
+DATA_20240216.S2DGUC.N = 'PCE@SWCNT (DGU)'
+DATA_20240216.S3DGUC.N = 'TCE@SWCNT (DGU)'
+DATA_20240216.S4DDGUC.N = 'TEMED@SWCNT (DGU)'
+DATA_20240308.S5DGUCDial.N = 'TDAE@SWCNT (DGU)'
+DATA_20240308.S6DGUCDial.N = 'Hexadecane@SWCNT (DGU)'
+DATA_20240308.S7DGUCDial.N = 'Dodecane@SWCNT (DGU)'
 
 DGU = { 
+%         DATA_References.empty_P2_dial_0930
+
         DATA_20240216.S2DGUC
         DATA_20240216.S3DGUC
         DATA_20240216.S4DDGUC
         DATA_20240308.S5DGUCDial        
         DATA_20240308.S6DGUCDial
         DATA_20240308.S7DGUCDial
-        DATA_20241030.DGUDial_Filled
-        DATA_References.WaterFilled
-        DATA_20241030.DGUDial_Empty
-        DATA_References.empty_P2_dial_0930
+%         DATA_20241030.DGUDial_Filled
+%         DATA_References.WaterFilled
+%         DATA_20241030.DGUDial_Empty
         };
         
 
-% DGU = NormalizeSample(DGU,1500, 1850);
-% plotAbsorption(DGU, 0.0)
+DGU = NormalizeSample(DGU,815, 1250);
+plotAbsorption(DGU, 0.0)
+
+S11_valsDGU = {};
+S22_valsDGU = {};
+
+% for i=1:length(DGU)
+%     samp_i = DGU{i}
+%     S11_valsDGU{i} = ComputeMaximum(samp_i, 1500, 1865)
+%     S22_valsDGU{i} = ComputeMaximum(samp_i, 815, 1250)
+% end
+
+
+DATA_20241003.FS2.N='PCE@SWCNT (Film)';
+DATA_20241003.FS3.N='TCE@SWCNT (Film)';
+DATA_20241003.FS4.N='TEMED@SWCNT (Film)';
+DATA_20241003.FS5.N='TDAE@SWCNT (Film)';
+DATA_20241003.FS6.N='Hexadecane@SWCNT (Film)';
+DATA_20241003.FS7.N='Dodecane@SWCNT (Film)';
+
+Films = { 
+    DATA_20241003.FS2
+    DATA_20241003.FS3
+    DATA_20241003.FS4
+    DATA_20241003.FS5
+    DATA_20241003.FS6
+    DATA_20241003.FS7
+        };
+  
+% Films = NormalizeSample(Films,222, 2500);
+Films = NormalizeSample(Films,902, 1300); %Normalization to S22 peak
+
+S11_vals = {};
+S22_vals = {};
+
+for i=1:length(Films)
+    samp_i = Films{i}
+    S11_vals{i} = ComputeIntegral(samp_i, 1600, 2039)
+    S22_vals{i} = ComputeIntegral(samp_i, 902, 1300)
+end
+% Films = SubtractInverseBG(Films, [618, 846])
+
+%% S11 1600-2039
+%% S22 902-1300
+
+plotAbsorption(Films, 0)
+
