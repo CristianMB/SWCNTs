@@ -3,8 +3,10 @@ clear;
 addpath('X:\SWCNTs');
 import UsefulFunctions.*;
 rootpath = 'X:\Measurements Data\Raman\';
-
+addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 %All paths as default
+path_20231206 = [rootpath,'20231206\'];
+
 path_20240320 = [rootpath,'20240320\'];
 path_20240321 = [rootpath,'20240321\'];
 path_20240325 = [rootpath,'20240325\'];
@@ -23,6 +25,7 @@ paths = {
         path_20240517
         path_20240610
         path_20240612
+        path_20231206
         };
 
 
@@ -135,7 +138,7 @@ RBMsHD514 = RemoveBaselinePolynomial(RBMsHD514, 0);
 RBMsHD514 = RemoveLinearBackground(RBMsHD514, 141, 239);
 RBMsHD514 = RemoveBaselinePolynomial(RBMsHD514, 0);
 RBMsHD514 = NormalizeSample(RBMsHD514,140,200);  
-% plotRaman(RBMsHD514, 0.0, 514);        
+plotRaman(RBMsHD514, 0.0, 514);        
 
 
 GDBand514 = ClipSamples(GDBand514,1250,1665);  
@@ -345,7 +348,7 @@ S7 = {
 
 % plotRaman(GBand520LD, 0)
 G520Fit = fitLorentzianToSamplesCurvePeak(GBand520LD, 1560)
-plotRaman([GBand520LD;G520Fit],0)
+% plotRaman([GBand520LD;G520Fit],0)
 % plotRaman(GBand520HD, 0)
 % plotRaman(GBands650, 0)
 

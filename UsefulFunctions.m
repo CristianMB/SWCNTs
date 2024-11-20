@@ -113,8 +113,8 @@ classdef UsefulFunctions
         % Iterate over each sample to be normalized
         for sampleIdx = 1:length(samplesToNormalize)
             currentSample = samplesToNormalize{sampleIdx};
-            currentSample.Y = currentSample.Y/UsefulFunctions.ComputeIntegral(currentSample,lowerLimit, upperLimit);            
-%             currentSample.Y = currentSample.Y/UsefulFunctions.ComputeMaximum(currentSample,lowerLimit, upperLimit);
+%             currentSample.Y = currentSample.Y/UsefulFunctions.ComputeIntegral(currentSample,lowerLimit, upperLimit);            
+            currentSample.Y = currentSample.Y/UsefulFunctions.ComputeMaximum(currentSample,lowerLimit, upperLimit);
             normedSamples{sampleIdx} = currentSample;
         end
     end

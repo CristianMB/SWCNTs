@@ -6,16 +6,16 @@ import UsefulFunctions.*;
 
 
 %% Choose region
-XAxis = [100, 350];  %RBM Range
+XAxis = [140, 200];  %RBM Range
 % XAxis = [0.5, 1.5];  %Diameter Range
-YAxis = [300, 900];  %WL Range
+YAxis = [440, 590];  %WL Range
 
-Laserlines = [514.5, 532.0];
-Tolerances = [3, 3];
+Laserlines = [514.5];
+Tolerances = [5, 5];
 % Laserlines = [514.5 561.1 496.5 488 476.5 457.9];
 % Tolerances = [5 5 5 5 5 5];
-Laserlines = [];
-Tolerances = [];
+% Laserlines = [];
+% Tolerances = [];
 
 hc = 1240.84193;    %h*c value to convert energy to nm
 
@@ -41,9 +41,17 @@ KATAURA.Type = [];
 
 % for m = 5:2
 %     for n = 0:m
-for m = 5:11
+for m = 4:19
     for n = 0:m
         [rbm, wl1, w22, w33, w44, diam, theta, type] = CalculateKataura([n, m]);
+        
+        rbm_energy = rbm * 1.239841984e-4; % Convert cm^-1 to eV
+        % Apply Stokes correction to each wavelength
+        wl1_corrected = 1239.841984 / (1239.841984 / wl1 - rbm_energy / 2);
+        w22_corrected = 1239.841984 / (1239.841984 / w22 - rbm_energy / 2);
+        w33_corrected = 1239.841984 / (1239.841984 / w33 - rbm_energy / 2);
+        w44_corrected = 1239.841984 / (1239.841984 / w44 - rbm_energy / 2);
+        
         KATAURA.RBM = [KATAURA.RBM, rbm];
         KATAURA.WL1 = [KATAURA.WL1, wl1];
         KATAURA.WL2 = [KATAURA.WL2, w22];
@@ -277,15 +285,15 @@ for family = families
     end
 end
 
-% Adding laser lines if they exist
-if ~isempty(Laserlines) && ~isempty(Tolerances)
-    for i = 1:length(Laserlines)
-        y1 = Laserlines(i) - Tolerances(i);
-        y2 = Laserlines(i) + Tolerances(i);
-        patch([min(XAxis) max(XAxis) max(XAxis) min(XAxis)], [y1 y1 y2 y2], ...
-              [0.8 0.8 0.8], 'FaceAlpha', 0.2, 'EdgeColor', 'none');
-    end
-end
+% % Adding laser lines if they exist
+% if ~isempty(Laserlines) && ~isempty(Tolerances)
+%     for i = 1:length(Laserlines)
+%         y1 = Laserlines(i) - Tolerances(i);
+%         y2 = Laserlines(i) + Tolerances(i);
+%         patch([min(XAxis) max(XAxis) max(XAxis) min(XAxis)], [y1 y1 y2 y2], ...
+%               [0.8 0.8 0.8], 'FaceAlpha', 0.2, 'EdgeColor', 'none');
+%     end
+% end
 
 % Set axis limits after plotting all data
 xlim(XAxis);

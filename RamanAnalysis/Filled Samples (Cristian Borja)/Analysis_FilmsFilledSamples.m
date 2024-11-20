@@ -136,7 +136,7 @@ FS514DD = {
     DATA_20241007.F6L514DD
     DATA_20241007.F7L514DD
 %     DATA_20241007.FFL514DD
-    DATA_20241008.FFL514G
+%     DATA_20241008.FFL514G
     };
 
    %% Flat field correction indetail 
@@ -175,8 +175,15 @@ for i=1:length(FS514DD)
 end
 
 FS514DD = NormalizeSample(FS514DD, 0, 20000);
+% FS514DD{1}.Y = FS514DD{1}.Y-0.04
+% FS514DD{2}.Y = FS514DD{2}.Y-0.04
+% % FS514DD{3}.Y = FS514DD{3}.Y-0.04
+% FS514DD{4}.Y = FS514DD{4}.Y-0.04
+% FS514DD{5}.Y = FS514DD{5}.Y-0.04
+FS514DD{6}.Y = FS514DD{6}.Y-0.055
+FS514DD = NormalizeSample(FS514DD, 0, 20000);
 
-% plotRaman(FS514DD,0, WL)
+plotRaman(FS514DD,0, WL)
 
 
 
