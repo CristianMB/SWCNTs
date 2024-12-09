@@ -18,6 +18,7 @@ classdef UsefulFunctions
     % Free standing environment
 %     A = 248;          %cm-1
 %     B = 0;           %cm-1    
+
     diam= dcc*sqrt(3)*(sqrt(n.^2+m.^2+n.*m))/pi;
     theta=atan(sqrt(3)*m./(m+2*n));
     nuRBM=(A./diam)+B ;
@@ -321,7 +322,7 @@ classdef UsefulFunctions
         % Get a ColorBrewer colormap (e.g., 'Set1', 'Dark2', etc.)
         numSamples = length(SamplesToPlot);  % Number of samples to plot
         cmap = brewermap(numSamples + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
-        cmap(6, :) = [];  % Remove the 6th color from the colormap
+%         cmap(6, :) = [];  % Remove the 6th color from the colormap
         for sampleIdx = 1:numSamples
             currentSample = SamplesToPlot{sampleIdx};
 
@@ -722,7 +723,7 @@ classdef UsefulFunctions
         figure;
         % Iterate over each sample
         cmap = brewermap(length(SamplesToPlot) + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
-        cmap(6, :) = [];  % Remove the 6th color from the colormap
+%         cmap(6, :) = [];  % Remove the 6th color from the colormap
         
         for sampleIdx = 1:length(SamplesToPlot)
             currentSample = SamplesToPlot{sampleIdx};
