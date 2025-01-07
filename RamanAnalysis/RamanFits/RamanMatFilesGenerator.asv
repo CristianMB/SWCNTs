@@ -30,27 +30,117 @@ ReadRamanFromPaths(paths,2);
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+%Explore the data
 Examples = {
     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.SR0H514R_241212
     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.SR1H514R_241212
+%     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FFH514R_241212
         
-DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.EAH514R_240517
-    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FF514R_240517
+    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.EAH514R_240517
+    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_240517
+%    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FF514R_240517
     
     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.EAH514R_241006
-    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FFH514R_241006
-    
-    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FFH514R_241212
-    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FLATHD_240111
-    
+    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_241006
+%     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FFH514R_241006
+        
     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.S240111J_240111
     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.S240111S_240111
-
-    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_240517
-    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_241006
+%     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FLATHD_240111
 }
 
-%FilledSamples514R = FlatFieldCorrection(FilledSamples514R, DATA_20240517.FF514R);
-Examples = NormalizeSample(Examples,0, 2000);       
-plotRaman(Examples, 0)
+
+%Order the data
+D241212 = {    
+        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.SR0H514R_241212
+        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.SR1H514R_241212
+        };
+    
+D240517 = {
+        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.EAH514R_240517
+        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_240517    
+            };
+        
+D241016 = {
+        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.EAH514R_241006
+        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_241006
+            };
+        
+D240111 = {
+        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.S240111S_240111
+        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.S240111J_240111
+
+            };
+
+%Correct the data
+ 
+D241212 = FlatFieldCorrection(D241212, DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FFH514R_241212);
+D240517 = FlatFieldCorrection(D240517, DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FF514R_240517);
+D241016 = FlatFieldCorrection(D241016, DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FFH514R_241006);
+D240111 = FlatFieldCorrection(D240111, DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FLATHD_240111); 
+
+%Filter the data (Mathing ranges)
+
+D241212 = clipRangeEdges(D241212, 135, 235);
+D240517 = clipRangeEdges(D240517, 135, 235);
+D241016 = clipRangeEdges(D241016, 135, 235);
+D240111 = clipRangeEdges(D240111, 130, 220);
+
+
+D241212 = NormalizeSample(D241212, 135, 235)
+D240517 = NormalizeSample(D240517, 135, 235)
+D241016 = NormalizeSample(D241016, 135, 235)
+D240111 = NormalizeSample(D240111, 130, 220)
+
+
+%Plotting the data
+% plotRaman(D241212, 0)
+% plotRaman(D240517, 0)
+% plotRaman(D241016, 0)
+% plotRaman(D240111, 0)
+
+%Export the data
+
+ExportMatFile(D241212,)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function ExportMatFile(DS, filename)
+
+    % Initialize variables to store the output data
+    numSpectra = length(DS); % Number of spectra (elements in DS)
+    xData = DS{1}.X;         % Use the .X attribute of the first structure as the x-axis
+    numPoints = length(xData); % Number of points in xData
+    
+    % Preallocate the matrix for efficiency
+    ExportData = zeros(numPoints, numSpectra + 1); % +1 for the xData column
+    
+    % Set the first column to the xData
+    ExportData(:, 1) = xData;
+    
+    % Loop through each spectrum to collect .Y data
+    for i = 1:numSpectra     
+        % Assign .Y to the corresponding column
+        ExportData(:, i + 1) = DS(i).Y;
+    end
+    
+    % Save the data matrix as a .mat file
+    save(Filename, 'ExportData');
+    
+    % Notify the user
+    fprintf('Data exported successfully to %s\n', Filename);
+end
+
+
+function DS = clipRangeEdges(DS, min_value, max_value)
+    % Iterate over each element in the array of data structures
+    for i = 1:length(DS)
+        % Find the indices where X is within the specified range
+        idx = DS{i}.X >= min_value & DS{i}.X <= max_value;
+        
+        % Filter X, Y, and any other fields that have the same number of elements as X
+        DS{i}.X = DS{i}.X(idx);
+        DS{i}.Y = DS{i}.Y(idx);
+    end
+end
+

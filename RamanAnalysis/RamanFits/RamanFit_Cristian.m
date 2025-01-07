@@ -11,8 +11,14 @@ clc
 % ydata = Raman spectra (can be matrix with in each column another
 % spectrum)
 % usually I create a .mat file and read in this .mat file
-load RamanSofie514.mat
+
+load D241212.mat
+
+figure;
 plot(xdata,ydata)
+title('Raw data');
+xlabel('Raman shift (cm-1)'); 
+ylabel('Intensity (a.u.)');
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%       INPUTS fit paramters     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Create a new .xlsx file. Enter number of peaks and starting parameters of each peak, the parameters 
@@ -21,9 +27,12 @@ plot(xdata,ydata)
 %for each parameter. NOTE! If no boundaries are desired to be set, input 
 % '-inf' on the corresponding position, if you want to "fix" a parameter,
 % put the LB and UB the same as your parameter
-Input = xlsread('Input514nmRaymor_sofie.xlsx','Sheet1','A2:D35');
+
+Input = xlsread('InputD241212.xlsx','Sheet1','A2:D35');
 NumLor = Input(1,1); % number of lorentzians
-x0=Input(:,2); LB=Input(:,3); UB=Input(:,4);
+x0=Input(:,2); 
+LB=Input(:,3); 
+UB=Input(:,4);
 NumSpec=size(ydata,2);% number of spectra to fit simultaneously
 
 % Check if the initial parameters are good (adjust if needed)
@@ -31,42 +40,59 @@ NumSpec=size(ydata,2);% number of spectra to fit simultaneously
 FITinital=RamanFit(xdata,ydata,x0,NumSpec,NumLor);
        
 %We plot it to test our guess
-    figure;
-    plot(xdata,ydata,'-',xdata,FITinital,'k');title('Initial guess');xlabel('Raman shift (cm-1)'); ylabel('Intensity (a.u.)');
+figure;
+plot(xdata,ydata,'-',xdata,FITinital,'k');
+title('Initial guess');
+xlabel('Raman shift (cm-1)'); 
+ylabel('Intensity (a.u.)');
  
+
+
 %% FITTING SECTION. we use lsqcurvefit
 %experimental data. fminsearchbnd(fun,x0,LB,UB,options,varargin)
-%options=optimset('MaxFunEvals',2e15,'MaxIter',2e15,'TolX',1e-20);
+% options=optimset('MaxFunEvals',2e15,'MaxIter',2e15,'TolX',1e-20);
 options = optimset('MaxFunEvals',1e4,'MaxIter',100,'Display','iter','TolX',1e-10,'TolFun',1e-10);
 [FittedParams,chi2,residual,~,~,~,Jacobian] =  lsqcurvefit(@(x0,xdata)RamanFit(xdata,ydata,x0,NumSpec,NumLor),x0,xdata,ydata,LB,UB,options);
 [FIT,L,A] = RamanFit(xdata,ydata,FittedParams,NumSpec,NumLor);
+
+figure;
 plot(xdata,ydata,'k',xdata,FIT,'r')
+title('SecondPlot FittingSection');
+xlabel('Raman shift (cm-1)'); 
+ylabel('Intensity (a.u.)');
+
+
 
 %% PLOT SECTION
 %Create the fitted function and plot it
-figure;xlabel('Raman shift (cm-1)');ylabel('Intensity (a.u.)')
-    hold on
+figure;
+title('FinalPlot');
+xlabel('Raman shift (cm-1)');
+ylabel('Intensity (a.u.)')
+
+hold on
 
 for i = 1:NumSpec
 %Plot the data and the fit
     plot(xdata,ydata(:,i),'.k',xdata,FIT(:,i),'g');
-    xlim([140 210]);
+    xlim([min(xdata) max(xdata)]);
 %Plot the individual components of the sum of lorentzians to check the fits  
     for k = 1:2:NumLor-1 % these are the empty peaks
         IndivComp = L(:,k)*A(k,i)+L(:,end-1)*A(end-1,i)+L(:,end)*A(end,i);
         plot(xdata,IndivComp,'color','r');
         IndCompSave(:,i,k) = IndivComp;
+        
     end
     for k = 2:2:NumLor % these are the water-filled peaks
         IndivComp = L(:,k)*A(k,i)+L(:,end-1)*A(end-1,i)+L(:,end)*A(end,i);
         plot(xdata,IndivComp,'color','b');
         IndCompSave(:,i,k) = IndivComp;
+        
     end
 end
 
 
 %% Make error bars on the fitted parameters
 ci=nlparci(FittedParams,residual,'Jacobian',Jacobian); % gives two-sigma upper and lower boundaries of the fit parameters
-
 error=max(abs(FittedParams-ci(:,1)),abs(FittedParams-ci(:,2)))/2; % take the maximum of the difference, and then divide by 2 to have one sigma errors.
 
