@@ -746,6 +746,42 @@ classdef UsefulFunctions
         hold off;
 
     end
+    
+    function plotAbsorptionOrdered(SamplesToPlot, offset)
+    % Create a figure for the plot
+    figure;
+
+    % Generate a colormap with a gradient (e.g., from blue to red)
+    numSamples = length(SamplesToPlot);
+    cmap = parula(numSamples);  % Smooth gradient colormap
+
+    % Iterate over each sample
+    for sampleIdx = 1:numSamples
+        % Get the current sample, X values, and Y values
+        currentSample = SamplesToPlot{sampleIdx};
+        currentX = currentSample.X;
+        currentY = currentSample.Y - offset * sampleIdx;
+        currentN = currentSample.N;
+
+        % Plot the current sample with the corresponding color
+        plot(currentX, currentY, 'Color', cmap(sampleIdx, :), ...
+            'DisplayName', currentN, 'LineWidth', 1.3);
+        hold on; % Add spectra to the same plot
+    end
+
+    % Add labels and legend
+    xlabel('Wavelength (nm)', 'FontSize', 14);
+    ylabel('Normalized Absorption (a.u.)', 'FontSize', 14);
+    title('Absorption Spectra', 'FontSize', 14);
+    legend('show', 'FontSize', 11);
+
+    % Optional: Customize the plot further if needed
+    grid on;
+
+    % Hold off to stop adding new plots to the current figure
+    hold off;
+end
+
     function sampleList = TransitionPeaksCalculation(sampleList, LS1, US1, LS2, US2)
 
         % Iterate over each sample to be normalized

@@ -6,16 +6,16 @@ import UsefulFunctions.*;
 
 
 %% Choose region
-XAxis = [0, 1000];  %RBM Range
+XAxis = [120, 220];  %RBM Range
 % XAxis = [0.5, 1.5];  %Diameter Range
-YAxis = [0, 1500];  %WL Range
+YAxis = [450, 650];  %WL Range
 
-% Laserlines = [514.5];
-% Tolerances = [5, 5];
+Laserlines = [514.5];
+Tolerances = [5, 5];
 % Laserlines = [514.5 561.1 496.5 488 476.5 457.9];
 % Tolerances = [5 5 5 5 5 5];
-Laserlines = [];
-Tolerances = [];
+% Laserlines = [];
+% Tolerances = [];
 
 hc = 1240.84193;    %h*c value to convert energy to nm
 
