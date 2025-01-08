@@ -40,9 +40,9 @@ Examples = {
     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_240517
 %    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FF514R_240517
     
-    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.EAH514R_241006
-    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_241006
-%     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FFH514R_241006
+    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.EAH514R_240610
+    DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_240610
+%     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FFH514R_240610
         
     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.S240111J_240111
     DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.S240111S_240111
@@ -61,9 +61,9 @@ D240517 = {
         DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_240517    
             };
         
-D241016 = {
-        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.EAH514R_241006
-        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_241006
+D240610 = {
+        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.EAH514R_240610
+        DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.WAH514R_240610
             };
         
 D240111 = {
@@ -76,20 +76,20 @@ D240111 = {
  
 D241212 = FlatFieldCorrection(D241212, DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FFH514R_241212);
 D240517 = FlatFieldCorrection(D240517, DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FF514R_240517);
-D241016 = FlatFieldCorrection(D241016, DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FFH514R_241006);
+D240610 = FlatFieldCorrection(D240610, DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FFH514R_240610);
 D240111 = FlatFieldCorrection(D240111, DATA_Raman_2020412_TestData_LorentzianFitting_EmptyWater.FLATHD_240111); 
 
 %Filter the data (Mathing ranges)
 
 D241212 = clipRangeEdges(D241212, 135, 220);
 D240517 = clipRangeEdges(D240517, 135, 220);
-D241016 = clipRangeEdges(D241016, 135, 220);
+D240610 = clipRangeEdges(D240610, 135, 220);
 D240111 = clipRangeEdges(D240111, 135, 220);
 
 
 D241212 = NormalizeSample(D241212, 135, 220)
 D240517 = NormalizeSample(D240517, 135, 220)
-D241016 = NormalizeSample(D241016, 135, 220)
+D240610 = NormalizeSample(D240610, 135, 220)
 D240111 = NormalizeSample(D240111, 135, 220)
 
 AllData = {
@@ -97,8 +97,8 @@ AllData = {
             D241212{2}
             D240517{1}
             D240517{2}
-            D241016{1}
-            D241016{2}
+            D240610{1}
+            D240610{2}
             D240111{1}
             D240111{2}
             }
@@ -117,6 +117,10 @@ currentDir = pwd;
 
 %Offset
 D241212{1}.Y=D241212{1}.Y+1
+D240517{1}.Y=D240517{1}.Y+1
+D240610{1}.Y=D240610{1}.Y+1
+D240111{1}.Y=D240111{1}.Y+1
+
 
 AllData{2}.Y = AllData{2}.Y + 1
 AllData{3}.Y = AllData{3}.Y + 2
@@ -130,7 +134,7 @@ plotRaman(AllData,0)
 
 ExportMatFile(D241212, [currentDir,'\D241212.mat'])
 ExportMatFile(D240517, [currentDir,'\D240517.mat'])
-ExportMatFile(D241016, [currentDir,'\D241016.mat'])
+ExportMatFile(D240610, [currentDir,'\D240610.mat'])
 ExportMatFile(D240111, [currentDir,'\D240111.mat'])
 ExportMatFile(AllData, [currentDir,'\AllData.mat'])
 

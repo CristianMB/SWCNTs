@@ -1,5 +1,8 @@
-clear all; close all;
+clear all;
 clc
+addpath('X:\SWCNTs');
+import UsefulFunctions.*;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%       PROGRAM TO FIT MULTIPLE RAMAN DATA      %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -12,7 +15,7 @@ clc
 % spectrum)
 % usually I create a .mat file and read in this .mat file
 
-load D241212.mat
+load D240610.mat
 
 figure;
 plot(xdata,ydata)
@@ -28,7 +31,7 @@ ylabel('Intensity (a.u.)');
 % '-inf' on the corresponding position, if you want to "fix" a parameter,
 % put the LB and UB the same as your parameter
 
-Input = xlsread('InputD241212.xlsx','Sheet1','A2:D35');
+Input = xlsread('InputParameters.xlsx','D241212','A2:D35');
 NumLor = Input(1,1); % number of lorentzians
 x0=Input(:,2); 
 LB=Input(:,3); 
