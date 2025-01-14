@@ -108,27 +108,7 @@ classdef UsefulFunctions
         f = @(xi) interp1(x, y, xi, 'pchip');
         integralValue = integral(f, lowerLimit, upperLimit);
     end
-    function normedSamples = Normalize(samplesToNormalize, lowerLimit, upperLimit, type)
-    % Normalize the samples based on either the maximum value ('M') or integral value ('I') between the limits.
-        normedSamples = cell(size(samplesToNormalize));
-
-        % Iterate over each sample to be normalized
-        for sampleIdx = 1:length(samplesToNormalize)
-            currentSample = samplesToNormalize{sampleIdx};
-
-            % Check the type parameter to decide the normalization method
-            if type == 'M'  % Normalization based on maximum value
-                currentSample.Y = currentSample.Y / UsefulFunctions.ComputeMaximum(currentSample, lowerLimit, upperLimit);
-            elseif type == 'I'  % Normalization based on integral value
-                currentSample.Y = currentSample.Y / UsefulFunctions.ComputeIntegral(currentSample, lowerLimit, upperLimit);
-            else
-                error('Invalid type parameter. Use ''M'' for maximum normalization or ''I'' for integral normalization.');
-            end
-
-            normedSamples{sampleIdx} = currentSample;
-        end
-    end
-    function normedSamples = NormalizeSample(samplesToNormalize, lowerLimit, upperLimit)
+    function normedSamples = NormalizeSample(samplesToNormalize, lowerLimit, upperLimit, type)
         % Divide all spectrum by maximum value or integral value between two limit points (X1, X2)
         normedSamples = cell(size(samplesToNormalize));
         % Iterate over each sample to be normalized
