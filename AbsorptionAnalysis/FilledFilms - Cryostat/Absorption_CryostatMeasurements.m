@@ -1,5 +1,5 @@
 clc;
-clear;
+clear all;
 addpath('X:\SWCNTs');
 import UsefulFunctions.*;
 rootpath = 'X:\Measurements Data\Absorption\';
@@ -120,26 +120,113 @@ FS7 = {
         DATA_20241216.Dodecane_KIT_Air_B
     };
 
-% FS4 = NormalizeSample(FS4,1000, 1050);
-% FS4 = NormalizeSample(FS4,680, 720);
-% plotAbsorptionOrdered(FS4, 0)
 
-
-FS4 = FilterDataByXRange(FS4, 0, 2500)
+% FS4 = FilterDataByXRange(FS4, 0, 2600);
+% FS4 = NormalizeSample(FS4,902, 1300); 
+FS4 = RemovePolyBG(FS4, 0);
 FS4 = NormalizeSample(FS4,902, 1300); 
-FS4 = RemovePolyBG(FS4, 0)
-FS4 = NormalizeSample(FS4,902, 1300); 
-plotAbsorptionOrdered(FS4, 0)
+plotAbsorptionOrdered(FS4, 0);
 
-% FS7 = FilterDataByXRange(FS7, 0, 2500)
+% FS7 = FilterDataByXRange(FS7, 0, 2600);
 % FS7 = NormalizeSample(FS7,902, 1300); 
-% FS7 = RemovePolyBG(FS7, 0)
+% FS7 = RemovePolyBG(FS7, 0);
 % FS7 = NormalizeSample(FS7,902, 1300); 
-% plotAbsorptionOrdered(FS7, 0)
+% plotAbsorptionOrdered(FS7, 0);
+
+
+% plotAbsorptionOrdered(FS4, 0);
+% FS4 = BackgroundSubtraction(FS4, [200, 2600]);
+% FS4 = NormalizeSample(FS4,902, 1300); 
+% plotAbsorptionOrdered(FS4, 0);
+
+
+%RIGHT PARAMETERS!! - Dont modify
+% plotAbsorptionOrdered(FS7, 0);
+% % FS7 = BackgroundSubtraction(FS7, [250, 2500]);
+% % FS7 = NormalizeSample(FS7,902, 1300); 
+% % plotAbsorptionOrdered(FS7, 0);
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function DSListOut = BackgroundSubtraction(DSList, range)
+    % DSList is the input array of data structures with fields X and Y
+    
+    DSListOut = DSList; % Initialize output as the input DSList
+    
+%     figure
+%     hold on
+    
+    % Loop over each structure in DSList
+    for i = 1:length(DSList)
+        % Extract the X and Y values from the current data structure
+        xx = DSList{i}.X; % Wavelength
+        yy = DSList{i}.Y; % Absorption
+        
+        if xx(1) > xx(end)
+            xx = flip(xx); % Flip xx to ascending order
+            yy = flip(yy); % Flip yy to match xx
+        end
+
+        % Interpolate the data to ensure it is evenly spaced
+        xx_interp = round(xx(1)):1:round(xx(end)); % Interpolation range
+        yy_interp = interp1(xx, yy, xx_interp, 'linear'); % Interpolated Y values
+        xx_interp = xx_interp'; 
+        yy_interp = yy_interp';
+        
+               
+         % Find the index for range(1) (closest value greater than or equal to range(1))
+         [~, start_idx] = min(abs(xx_interp - range(1))); % Closest value to range(1)
+         [~, end_idx] = min(abs(xx_interp - range(2))); % Closest value to range(2)
+         
+       
+         % Write the temporary data to a text file
+        dataToWrite = [xx_interp(start_idx:end_idx), yy_interp(start_idx:end_idx)];
+        if isempty(dataToWrite)
+            error('No data to write to the temporary file.');
+        else
+            disp('Writing data to temp_data.txt');
+            dlmwrite('temp_data.txt', dataToWrite);
+        end
+        
+        % Optimization options for fmincon
+        options = optimoptions('fmincon', 'Algorithm', 'interior-point', 'Display', 'off');
+        
+        % Perform the optimization to find A and b (initial guess: [0.2, 0.00002])
+        xn = fmincon(@Naumov, [.2, 0.00002], [], [], [], [], [], [], @conf_naumov, options); % % Approach of Naumov et al. requires two starting values for A (0.2) and b (0.002).
+        
+        % Define the background subtraction model
+        F_naumov = @(x) double(yy_interp(start_idx:end_idx) - x(1) * exp(-x(2) * xx_interp(start_idx:end_idx))); 
+        
+        BKG = yy_interp(start_idx:end_idx) - F_naumov(xn);
+                 
+        % Update the Y values in the data structure with the background-subtracted data
+        DSListOut{i}.Y = yy - interp1(xx_interp(start_idx:end_idx), BKG, xx, 'linear', 'extrap');
+        DSListOut{i}.X = xx;
+         
+        % Delete the temporary file after use
+        delete('temp_data.txt');
+    end
+end
+
+function err = Naumov(x) % Calculates the difference between the absorption data and the background. The MATLAB function "fmincon" tries to minimize this difference by fitting x(1)=A and x(2)=b
+
+A=dlmread('temp_data.txt');
+c = A(:,2)-x(1)*exp(-x(2).*A(:,1));
+err = double(sum(c));
+
+end
+
+function [c,ceq] = conf_naumov(x) % Constraint function, that forces the background to be smaller than the absorption data for every single wavelength
+
+A=dlmread('temp_data.txt');
+% Nonlinear inequality constraints
+c = double(x(1)*exp(-x(2).*A(:,1))-A(:,2));
+% Nonlinear equality constraints
+ceq = [];
+end
+
 function filteredSamples = FilterDataByXRange(samplesToFilter, xMin, xMax)
     % FilterDataByXRange filters the data of each sample to include only the points within the specified X-range.
     %
@@ -253,4 +340,3 @@ function DSList = RemovePolyBG(DSList, degree)
         DSList{i} = DS;
     end
 end
-

@@ -130,7 +130,7 @@ AllData{6}.Y = AllData{6}.Y + 5
 AllData{7}.Y = AllData{7}.Y + 6
 AllData{8}.Y = AllData{8}.Y + 7
 
-plotRaman(AllData,0)
+% plotRaman(AllData,0)
 
 ExportMatFile(D241212, [currentDir,'\D241212.mat'])
 ExportMatFile(D240517, [currentDir,'\D240517.mat'])
