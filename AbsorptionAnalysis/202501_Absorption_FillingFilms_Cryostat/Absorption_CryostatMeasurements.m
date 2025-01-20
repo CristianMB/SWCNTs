@@ -5,6 +5,7 @@ import UsefulFunctions.*;
 rootpath = 'X:\Measurements Data\Absorption\';
 
 %All paths as default
+set(0,'DefaultFigureWindowStyle','docked')
 
 
 CryoFS4 = [rootpath,'20241216\TDAE_VacuumMeasurements.csv'];
@@ -123,9 +124,9 @@ FS7 = {
 
 % FS4 = FilterDataByXRange(FS4, 0, 2600);
 % FS4 = NormalizeSample(FS4,902, 1300); 
-FS4 = RemovePolyBG(FS4, 0);
-FS4 = NormalizeSample(FS4,902, 1300); 
-plotAbsorptionOrdered(FS4, 0);
+% FS4 = RemovePolyBG(FS4, 0);
+% FS4 = NormalizeSample(FS4,902, 1300); 
+% plotAbsorptionOrdered(FS4, 0);
 
 % FS7 = FilterDataByXRange(FS7, 0, 2600);
 % FS7 = NormalizeSample(FS7,902, 1300); 
@@ -133,22 +134,206 @@ plotAbsorptionOrdered(FS4, 0);
 % FS7 = NormalizeSample(FS7,902, 1300); 
 % plotAbsorptionOrdered(FS7, 0);
 
+close;
+% backgr = [330, 610, 840, 1320, 2500];
+backgr = [330,610, 1311, 2500];
+
+% FS4 = BackgroundSubtractionExcludeRanges(FS4, [[620,800], [900, 1220], [1578, 2260]]);
+% FS4 = BackgroundSubtractionWithSpecifiedPoints(FS4, backgr);
+% FS4 = Normalize(FS4,902, 1300, 'I'); 
+% plotAbsorptionOrdered(FS4, 0);
 
 % plotAbsorptionOrdered(FS4, 0);
-% FS4 = BackgroundSubtraction(FS4, [200, 2600]);
-% FS4 = NormalizeSample(FS4,902, 1300); 
-% plotAbsorptionOrdered(FS4, 0);
+FS4 = FilterDataByXRange(FS4, 0, 2500);
+FS4 = BackgroundSubtraction(FS4, [250, 2500]);
+plotAbsorptionOrdered(FS4, 0);
 
 
 %RIGHT PARAMETERS!! - Dont modify
 % plotAbsorptionOrdered(FS7, 0);
-% % FS7 = BackgroundSubtraction(FS7, [250, 2500]);
-% % FS7 = NormalizeSample(FS7,902, 1300); 
-% % plotAbsorptionOrdered(FS7, 0);
+FS7 = BackgroundSubtraction(FS7, [250, 2500]);
+FS7 = Normalize(FS7,902, 1300, 'M'); 
+plotAbsorptionOrdered(FS7, 0);
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
+    % BackgroundSubtractionExcludeRanges performs background subtraction using the Naumov model,
+    % excluding specified ranges from the background fit.
+    %
+    % Inputs:
+    %   DSList: Array of data structures with fields X (wavelength) and Y (absorption).
+    %   excludeRanges: Nx2 matrix where each row defines [rmin, rmax] to exclude.
+    %
+    % Output:
+    %   DSListOut: Modified DSList with background-subtracted Y values.
+
+    DSListOut = DSList; % Initialize output as the input DSList
+
+    for i = 1:length(DSList)
+        % Extract X and Y values from the current spectrum
+        xx = DSList{i}.X; % Wavelength
+        yy = DSList{i}.Y; % Absorption
+
+        % Ensure X is in ascending order
+        if xx(1) > xx(end)
+            xx = flip(xx); 
+            yy = flip(yy); 
+        end
+
+        % Interpolate the data to ensure even spacing
+        xx_interp = round(xx(1)):1:round(xx(end)); % Interpolation range
+        yy_interp = interp1(xx, yy, xx_interp, 'linear'); % Interpolated Y values
+        xx_interp = xx_interp'; 
+        yy_interp = yy_interp';
+
+        % Identify indices to exclude based on excludeRanges
+        excludeMask = false(size(xx_interp));
+        for j = 1:size(excludeRanges, 1)
+            range = excludeRanges(j, :);
+            excludeMask = excludeMask | (xx_interp >= range(1) & xx_interp <= range(2));
+        end
+
+        % Select only points outside the excluded ranges
+        bgPoints = xx_interp(~excludeMask);
+        bgY = yy_interp(~excludeMask);
+
+        % Check if sufficient points remain for fitting
+        if numel(bgPoints) < 2
+            error('Not enough points outside the excluded ranges for fitting.');
+        end
+
+        % Write the background data to a temporary text file
+        dataToWrite = [bgPoints, bgY];
+        if isempty(dataToWrite)
+            error('No data to write to the temporary file.');
+        else
+            disp('Writing background data to temp_data.txt');
+            dlmwrite('temp_data.txt', dataToWrite);
+        end
+
+        % Optimization options for fmincon
+        options = optimoptions('fmincon', 'Algorithm', 'interior-point', 'Display', 'off');
+
+        % Perform the optimization to find A and b (initial guess: [0.2, 0.00002])
+        xn = fmincon(@Naumov, [0.2, 0.00002], [], [], [], [], [], [], @conf_naumov, options); 
+        % Naumov optimization using the specified points
+
+        % Define the Naumov background model
+        F_naumov = @(x) x(1) * exp(-x(2) * xx_interp);
+
+        % Evaluate the background using the Naumov function
+        BKG = F_naumov(xn);
+
+        % Subtract the background from the interpolated Y values
+        correctedY = yy_interp - BKG;
+
+        % Update the Y values in the original X range
+        DSListOut{i}.Y = yy - interp1(xx_interp, BKG, xx, 'linear', 'extrap');
+        DSListOut{i}.X = xx;
+
+        % Delete the temporary file after use
+        delete('temp_data.txt');
+
+        % Plot (optional, for debugging/visualization)
+%         figure;
+%         hold on;
+%         plot(xx, yy, 'b', 'DisplayName', 'Original Spectrum');
+%         plot(xx_interp, BKG, 'r--', 'DisplayName', 'Background Fit');
+%         plot(xx, DSListOut{i}.Y, 'g', 'DisplayName', 'Corrected Spectrum');
+%         legend('show');
+%         title(['Background Subtraction - Spectrum ', num2str(i)]);
+%         xlabel('X (Wavelength)');
+%         ylabel('Y (Absorption)');
+%         hold off;
+    end
+end
+
+function DSListOut = BackgroundSubtractionWithSpecifiedPoints(DSList, bgPoints)
+    % BackgroundSubtractionWithSpecifiedPoints performs background subtraction using the Naumov model,
+    % fitting the background based on user-specified X-values (bgPoints).
+    %
+    % Inputs:
+    %   DSList: Array of data structures with fields X (wavelength) and Y (absorption).
+    %   bgPoints: Array of X-values where the background is calculated.
+    %
+    % Output:
+    %   DSListOut: Modified DSList with background-subtracted Y values.
+
+    DSListOut = DSList; % Initialize output as the input DSList
+
+    % Loop over each spectrum in DSList
+    for i = 1:length(DSList)
+        % Extract X and Y values from the current spectrum
+        xx = DSList{i}.X; % Wavelength
+        yy = DSList{i}.Y; % Absorption
+
+        % Ensure X is in ascending order
+        if xx(1) > xx(end)
+            xx = flip(xx); 
+            yy = flip(yy); 
+        end
+
+        % Interpolate the data to ensure even spacing
+        xx_interp = round(xx(1)):1:round(xx(end)); % Interpolation range
+        yy_interp = interp1(xx, yy, xx_interp, 'linear'); % Interpolated Y values
+        xx_interp = xx_interp'; 
+        yy_interp = yy_interp';
+
+        % Ensure bgPoints is a column vector
+        bgPoints = bgPoints(:);
+
+        % Interpolate Y-values at the specified background points
+        bgY = interp1(xx_interp, yy_interp, bgPoints, 'linear', 'extrap');
+        bgY = bgY(:); % Ensure bgY is also a column vector
+
+        % Write the background data to a temporary text file
+        dataToWrite = [bgPoints, bgY];
+        if isempty(dataToWrite)
+            error('No data to write to the temporary file.');
+        else
+            disp('Writing background data to temp_data.txt');
+            dlmwrite('temp_data.txt', dataToWrite);
+        end
+
+        % Optimization options for fmincon
+        options = optimoptions('fmincon', 'Algorithm', 'interior-point', 'Display', 'off');
+
+        % Perform the optimization to find A and b (initial guess: [0.2, 0.00002])
+        xn = fmincon(@Naumov, [0.2, 0.00002], [], [], [], [], [], [], @conf_naumov, options); 
+        % Naumov optimization using the specified points
+
+        % Define the Naumov background model
+        F_naumov = @(x) x(1) * exp(-x(2) * xx_interp);
+
+        % Evaluate the background using the Naumov function
+        BKG = F_naumov(xn);
+
+        % Subtract the background from the interpolated Y values
+        correctedY = yy_interp - BKG;
+
+        % Update the Y values in the original X range
+        DSListOut{i}.Y = yy - interp1(xx_interp, BKG, xx, 'linear', 'extrap');
+        DSListOut{i}.X = xx;
+
+        % Delete the temporary file after use
+        delete('temp_data.txt');
+
+%         % Plot (optional, for debugging/visualization)
+%         figure;
+%         hold on;
+%         plot(xx, yy, 'b', 'DisplayName', 'Original Spectrum');
+%         plot(xx_interp, BKG, 'r--', 'DisplayName', 'Background Fit');
+%         plot(xx, DSListOut{i}.Y, 'g', 'DisplayName', 'Corrected Spectrum');
+% %         scatter(bgPoints, bgY, 'k', 'DisplayName', 'Background Points', 'filled');
+%         legend('show');
+%         title(['Background Subtraction - Spectrum ', num2str(i)]);
+%         xlabel('X (Wavelength)');
+%         ylabel('Y (Absorption)');
+%         hold off;
+    end
+end
 
 function DSListOut = BackgroundSubtraction(DSList, range)
     % DSList is the input array of data structures with fields X and Y

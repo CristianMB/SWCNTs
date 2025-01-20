@@ -83,7 +83,7 @@ All = {
             DATA_20241003.FS2
             DATA_20241202.F5PCE
 
-            DATA_20241003.FS3
+%             DATA_20241003.FS3
             
             DATA_20241003.FS4
             DATA_20241202.F4TEMED
@@ -91,22 +91,28 @@ All = {
             DATA_20241003.FS5
             DATA_20241202.F2TDAE
             
-            DATA_20241003.FS6
+%             DATA_20241003.FS6
             
             DATA_20241003.FS7
             DATA_20241202.F1Dodecane
             
-            DATA_20241202.F3TTF
+%             DATA_20241202.F3TTF
             
         };
 
-
-All = FilterDataByXRange(All, 250, 2700);
+All = FilterDataByXRange(All, 200, 2500);
 % % % FR2 = NormalizeSample(FR2,902, 1300); 
 % All = RemovePolyBG(All, 0);
 % All = Normalize(All,902, 1300,'M'); 
-All = BackgroundSubtraction(All, [270, 2700]);
+All = BackgroundSubtraction(All, [200, 2500]);
 All = Normalize(All,902, 1300,'I'); 
+
+All{2}.Y = All{2}.Y + 0.01;
+All{4}.Y = All{4}.Y + 0.01;
+All{6}.Y = All{6}.Y + 0.01;
+All{8}.Y = All{8}.Y + 0.01;
+% All{11}.Y = All{11}.Y + 0.01;
+
 plotAbsorption(All, 0);
 
 

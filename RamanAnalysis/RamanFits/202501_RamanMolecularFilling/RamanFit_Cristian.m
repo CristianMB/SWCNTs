@@ -15,7 +15,7 @@ import UsefulFunctions.*;
 % spectrum)
 % usually I create a .mat file and read in this .mat file
 
-load FilledB.mat
+load Filled.mat
 
 figure;
 plot(xdata,ydata)

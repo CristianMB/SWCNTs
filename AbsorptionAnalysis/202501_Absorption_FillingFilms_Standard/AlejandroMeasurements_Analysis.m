@@ -6,13 +6,13 @@ rootpath = 'X:\Measurements Data\Absorption\';
 addpath 'X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0'
 
 %All paths as default
-KIT_FILM_Round1= [rootpath,'20241003\FilledSamplesFilms.csv'];
-KIT_FILM_Round2 = [rootpath,'20241202\Films_KIT_Set2.csv'];
+KIT_FILM_Round1= [rootpath,'20250116\AlejandroMeasurements.csv'];
+REF= [rootpath,'References.csv'];
 
 %Select the paths of interest
 paths = {   
             KIT_FILM_Round1
-            KIT_FILM_Round2
+            REF
         };
 
 %Read and structure data from the paths
@@ -22,71 +22,37 @@ ReadAbsorptionFromPaths(paths);
 
 %% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-DATA_20241003.FS2.N = 'PCE@SWCNT p-doping';
-DATA_20241003.FS3.N = 'TCE@SWCNT p-doping';
-DATA_20241003.FS4.N = 'TEMED@SWCNT p-doping';
-DATA_20241003.FS5.N = 'TDAE@SWCNT p-doping';
-DATA_20241003.FS6.N = 'Hexadecane@SWCNT p-doping';
-DATA_20241003.FS7.N = 'Dodecane@SWCNT p-doping';
 
-DATA_20241202.F1Dodecane.N = 'Dodecane@SWCNT p-doping';
-DATA_20241202.F2TDAE.N = 'TDAE@SWCNT p-doping';
-DATA_20241202.F3TTF.N = 'TTF@SWCNT p-doping';
-DATA_20241202.F5PCE.N = 'PCE@SWCNT p-doping';
-DATA_20241202.F4TEMED.N = 'TEMED@SWCNT p-doping';
 %% %--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %% %--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+DATA_20250116.EdipsSWCNT_Empty.Y = DATA_20250116.EdipsSWCNT_Empty.Y + 0.15*3*DATA_References.WaterInD2O.Y
+DATA_20250116.EdipsSWCNT_BiTeI.Y =  DATA_20250116.EdipsSWCNT_BiTeI.Y + 0.13*3*DATA_References.WaterInD2O.Y
+DATA_20250116.MWCNT_short_empty.Y = DATA_20250116.MWCNT_short_empty.Y  + 0.11*3*DATA_References.WaterInD2O.Y
 
 %% %--------SPECTRA SELECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-FR1 = {
-            DATA_20241003.FS2
-            DATA_20241003.FS3
-            DATA_20241003.FS4
-            DATA_20241003.FS5
-            DATA_20241003.FS6
-            DATA_20241003.FS7
+% 
+% 
+DATA_References.WaterInD2O.Y = -DATA_References.WaterInD2O.Y
+All = {
+        DATA_20250116.EdipsSWCNT_Empty
+        DATA_20250116.EdipsSWCNT_BiTeI
+        DATA_20250116.MWCNT_short_empty
+%         DATA_References.WaterInD2O
     };
 
-FR2 = {
-            DATA_20241202.F1Dodecane
-            DATA_20241202.F2TDAE
-            DATA_20241202.F3TTF
-            DATA_20241202.F5PCE
-            DATA_20241202.F4TEMED
-        };
 
-
-% FR1 = FilterDataByXRange(FR1, 200, 2600);
-% % % FR1 = NormalizeSample(FR1,902, 1300); 
-% % % FR1 = RemovePolyBG(FR1, 0);
-% % % FR1 = NormalizeSample(FR1,902, 1300); 
-% FR1 = BackgroundSubtraction(FR1, [500, 2600]);
-% FR1 = NormalizeSample(FR1,902, 1300); 
-% plotAbsorption(FR1, 0);
-
-FR2 = FilterDataByXRange(FR2, 200, 2600);
-% % % FR2 = NormalizeSample(FR2,902, 1300); 
-FR2 = RemovePolyBG(FR2, 0);
-% % % FR2 = NormalizeSample(FR2,902, 1300); 
-FR2 = BackgroundSubtraction(FR2, [0, 2500]);
-FR2 = NormalizeSample(FR2,902, 1300); 
-plotAbsorption(FR2, 0);
+% 
+All = FilterDataByXRange(All, 200, 2500)
+All = RemoveBackgroundProfile(All, [900, 2500])
+All = Normalize(All,200, 1500,'I'); 
+plotAbsorption(All, 0);
 
 
 
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function DSListOut = BackgroundSubtraction(DSList, range)
     % DSList is the input array of data structures with fields X and Y
