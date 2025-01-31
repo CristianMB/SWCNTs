@@ -6,13 +6,13 @@ rootpath = 'X:\Measurements Data\Absorption\';
 addpath 'X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0'
 
 %All paths as default
-KIT_FILM_Round1= [rootpath,'20241003\FilledSamplesFilms.csv'];
-KIT_FILM_Round2 = [rootpath,'20241202\Films_KIT_Set2.csv'];
+FilmsBefore= [rootpath,'20250127\KIT_Films_R1_BeforeTCM.csv'];
+FilmsAfter = [rootpath,'20250128\KIT_Films_R1_AfterTCM.csv'];
 
 %Select the paths of interest
 paths = {   
-            KIT_FILM_Round1
-            KIT_FILM_Round2
+            FilmsBefore
+            FilmsAfter
         };
 
 %Read and structure data from the paths
@@ -21,20 +21,19 @@ ReadAbsorptionFromPaths(paths);
 
 
 %% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+DATA_20250127.F2_PCE.N = 'PCE@SWCNTs - Before TCM'
+DATA_20250127.F3_TCE.N = 'TCE@SWCNTs - Before TCM'
+DATA_20250127.F4_TEMED.N = 'TEMED@SWCNTs - Before TCM'
+DATA_20250127.F5_TDAE.N = 'TDAE@SWCNTs - Before TCM'
+DATA_20250127.F6_Hexadecane.N = 'Hexadecane@SWCNTs - Before TCM'
+DATA_20250127.F7_Dodecane.N = 'Dodecane@SWCNTs - Before TCM'
 
-DATA_20241003.FS2.N = 'PCE@SWCNT p-doping';
-DATA_20241003.FS3.N = 'TCE@SWCNT p-doping';
-DATA_20241003.FS4.N = 'TEMED@SWCNT n-doping';
-DATA_20241003.FS5.N = 'TDAE@SWCNT n-doping';
-DATA_20241003.FS6.N = 'Hexadecane@SWCNT neutral';
-DATA_20241003.FS7.N = 'Dodecane@SWCNT neutral';
-
-DATA_20241202.F1Dodecane.N = 'Dodecane@SWCNT neutral';
-DATA_20241202.F2TDAE.N = 'TDAE@SWCNT n-doping';
-DATA_20241202.F3TTF.N = 'TTF@SWCNT n-doping';
-DATA_20241202.F5PCE.N = 'PCE@SWCNT p-doping';
-DATA_20241202.F4TEMED.N = 'TEMED@SWCNT n-doping';
-
+DATA_20250128.F2_PCE.N = 'PCE@SWCNTs - After TCM'
+DATA_20250128.F3_TCE.N = 'TCE@SWCNTs - After TCM'
+DATA_20250128.F4_TEMED.N = 'TEMED@SWCNTs - After TCM'
+DATA_20250128.F5_TDAE_a.N = 'TDAE@SWCNTs - After TCM'
+DATA_20250128.F6_Hexadecane.N = 'Hexadecane@SWCNTs - After TCM'
+DATA_20250128.F7_Dodecane.N = 'Dodecane@SWCNTs - After TCM'
 %% %--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -44,23 +43,69 @@ DATA_20241202.F4TEMED.N = 'TEMED@SWCNT n-doping';
 %% %--------SPECTRA SELECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-FR1 = {
-            DATA_20241003.FS2
-            DATA_20241003.FS3
-            DATA_20241003.FS4
-            DATA_20241003.FS5
-            DATA_20241003.FS6
-            DATA_20241003.FS7
+FB = {
+        DATA_20250127.F2_PCE
+        DATA_20250127.F3_TCE
+        DATA_20250127.F4_TEMED
+        DATA_20250127.F5_TDAE
+        DATA_20250127.F6_Hexadecane
+        DATA_20250127.F7_Dodecane
+
     };
 
-FR2 = {
-            DATA_20241202.F1Dodecane
-            DATA_20241202.F2TDAE
-            DATA_20241202.F3TTF
-            DATA_20241202.F5PCE
-            DATA_20241202.F4TEMED
+% FB = FilterDataByXRange(FB, 230, 2500);
+% FB = BackgroundSubtraction(FB, [300,2600]);
+% FB = Normalize(FB, 600, 820, 'M');
+% plotAbsorption(FB, 0);
+
+FA = {
+        DATA_20250128.F2_PCE
+        DATA_20250128.F3_TCE
+        DATA_20250128.F4_TEMED
+        DATA_20250128.F5_TDAE_a
+        DATA_20250128.F6_Hexadecane
+        DATA_20250128.F7_Dodecane
+        };
+  
+% FA = FilterDataByXRange(FA, 230, 2500);
+% FA = BackgroundSubtraction(FA, [300,2600]);
+% FA = Normalize(FA, 600, 820, 'M');
+% plotAbsorption(FA, 0);
+
+FILMS = {
+        DATA_20250127.F2_PCE
+        DATA_20250127.F3_TCE
+        DATA_20250127.F4_TEMED
+        DATA_20250127.F5_TDAE
+        DATA_20250127.F6_Hexadecane
+        DATA_20250127.F7_Dodecane
+        
+        DATA_20250128.F2_PCE
+        DATA_20250128.F3_TCE
+        DATA_20250128.F4_TEMED
+        DATA_20250128.F5_TDAE_a
+        DATA_20250128.F6_Hexadecane
+        DATA_20250128.F7_Dodecane
         };
 
+
+FILMS = FilterDataByXRange(FILMS, 230, 2500);
+FILMS = RemovePolyBG(FILMS, 0);
+FILMS = Normalize(FILMS, 230,1280, 'I');
+
+
+% FILMS = BackgroundSubtraction(FILMS, [300,2600]);
+% FILMS = Normalize(FILMS, 400, 1300, 'M');
+
+ofs = 1;
+for i=6:12
+%     FILMS{i}.Y = FILMS{i}.Y    
+end
+
+plotAbsorption(FILMS, 0);
+
+
+% plotAbsorption(FILMS,0);
 
 % FR1 = FilterDataByXRange(FR1, 200, 2600);
 % % % FR1 = NormalizeSample(FR1,902, 1300); 
@@ -79,42 +124,23 @@ FR2 = {
 % plotAbsorption(FR2, 0);
 
 
-All = {
-            DATA_20241003.FS2
-            DATA_20241202.F5PCE
 
-%             DATA_20241003.FS3
-            
-            DATA_20241003.FS4
-            DATA_20241202.F4TEMED
-            
-            DATA_20241003.FS5
-            DATA_20241202.F2TDAE
-            
-%             DATA_20241003.FS6
-            
-            DATA_20241003.FS7
-            DATA_20241202.F1Dodecane
-            
-%             DATA_20241202.F3TTF
-            
-        };
+% 
+% All = FilterDataByXRange(All, 200, 2500);
+% % % % FR2 = NormalizeSample(FR2,902, 1300); 
+% % All = RemovePolyBG(All, 0);
+% % All = Normalize(All,902, 1300,'M'); 
+% All = BackgroundSubtraction(All, [200, 2500]);
+% All = Normalize(All,800, 1200,'M'); 
 
-All = FilterDataByXRange(All, 200, 2500);
-% % % FR2 = NormalizeSample(FR2,902, 1300); 
-% All = RemovePolyBG(All, 0);
-% All = Normalize(All,902, 1300,'M'); 
-All = BackgroundSubtraction(All, [200, 2500]);
-All = Normalize(All,902, 1300,'I'); 
 
-All{2}.Y = All{2}.Y + 0.01;
-All{4}.Y = All{4}.Y + 0.01;
-All{6}.Y = All{6}.Y + 0.01;
-All{8}.Y = All{8}.Y + 0.01;
 % All{11}.Y = All{11}.Y + 0.01;
 
-plotAbsorption(All, 0);
+% plotAbsorption(All, 0);
 
+
+           
+% plotAbsorption(Compare, 0);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

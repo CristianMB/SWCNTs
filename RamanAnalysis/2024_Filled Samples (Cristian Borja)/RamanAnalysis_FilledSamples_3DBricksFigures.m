@@ -69,7 +69,7 @@ HG = 1500;
 NP = 1560;
 Tol = 20;
 
-% plotRaman(FilledSamples514G,0)
+plotRaman(FilledSamples514G,0)
 
 % FilledSamples514G = SubstractLinearBG(FilledSamples514G,LG, HG);       
 % FilledSamples514G = NormalizeSample(FilledSamples514G,NP-Tol, NP+Tol);       
@@ -98,22 +98,22 @@ FilledSamples514R = {
 
 
 % %Normalization
-LG = 1450;
-HG = 1640;
-
-NP = 170;
-Tol = 20;
-
-FilledSamples514R = FlatFieldCorrection(FilledSamples514R, DATA_20240517.FF514R);
-FilledSamples514R = NormalizeSample(FilledSamples514R,NP-Tol, NP+Tol);       
-plotRaman(FilledSamples514R, 0.65)
-hold on
-xline(167.5, '--','LineWidth', 1.0,'HandleVisibility','off')
-xline(151.5, '--','LineWidth', 1.0,'HandleVisibility','off')
-xline(173.5, '--','LineWidth', 1.0,'HandleVisibility','off')
-xline(179.5, '--','LineWidth', 1.0,'HandleVisibility','off')
-xline(184.5, '--','LineWidth', 1.0,'HandleVisibility','off')
-
-xlim([140 230])
-% ylim([-2 1.0])
+% LG = 1450;
+% HG = 1640;
+% 
+% NP = 170;
+% Tol = 20;
+% 
+% FilledSamples514R = FlatFieldCorrection(FilledSamples514R, DATA_20240517.FF514R);
+% FilledSamples514R = NormalizeSample(FilledSamples514R,NP-Tol, NP+Tol);       
+% plotRaman(FilledSamples514R, 0.65)
+% hold on
+% xline(167.5, '--','LineWidth', 1.0,'HandleVisibility','off')
+% xline(151.5, '--','LineWidth', 1.0,'HandleVisibility','off')
+% xline(173.5, '--','LineWidth', 1.0,'HandleVisibility','off')
+% xline(179.5, '--','LineWidth', 1.0,'HandleVisibility','off')
+% xline(184.5, '--','LineWidth', 1.0,'HandleVisibility','off')
+% 
+% xlim([140 230])
+% % ylim([-2 1.0])
 

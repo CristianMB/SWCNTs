@@ -1,11 +1,11 @@
 clc;
 clear;
-addpath('C:\Users\cborja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 %addpath('C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\SWCNTs\');
 import UsefulFunctions.*;
+addpath('X:SWCNTs\');
 
 %rootpath = 'C:\Users\Cristian Borja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
-rootpath = 'C:\Users\cborja\OneDrive - Universiteit Antwerpen\Measurements Data\Absorption\';
+rootpath = 'X:\Measurements Data\Absorption\';
 
 %All paths as default
 
@@ -25,6 +25,7 @@ path_20240506c = [rootpath,'20240506\DMF.csv'];
 path_20240506d = [rootpath,'20240506\THF.csv'];
 path_20240506e = [rootpath,'20240506\EthylAcetate.csv'];
 path_20240506f = [rootpath,'20240506\Methanol.csv'];
+path_20240528 = [rootpath,'20240528\Ethanol.csv'];
 
 %Select the paths of interest
 paths = {
@@ -44,6 +45,8 @@ paths = {
            path_20240506d
            path_20240506e
            path_20240506f
+           
+           path_20240528
         };
     
 
@@ -54,6 +57,7 @@ DATA_20240506.CuCl_Acetone.N='CuCl_Acetone 2,18mg in 20ml - conc 0,109 - Origina
 DATA_20240506.CuCl_Acetonitrile.N='CuCl_Acetonitrile 1,86mg in 20ml - conc 0,093 - Original';
 DATA_20240506.CuCl_Acetonitrile_B.N='CuCl_Acetonitrile_B 1,86mg in 20ml - conc 0,0465 - Diluited';
 DATA_20240506.CuCl_DMF.N='CuCl_DMF 2,06mg in 20ml - conc 0,103 - Original';
+DATA_20240528.CuCl_Ethanol.N ='CuCl_Ethanol 1,89mg in 20ml - Centrifuged';
 DATA_.CuCl_Ethanol.N='CuCl_Ethanol 1,89mg in 20ml - conc 0,0945 - Original';
 DATA_20240506.CuCl_EthylAcetate.N='CuCl_EthylAcetate 1,45mg in 20ml - conc 0,0725 - Original';
 DATA_20240506.CuCl_Methanol.N='CuCl_Methanol 2,29mg in 20ml - conc 0,1145 - Original';
@@ -199,7 +203,7 @@ FNOK = {
 
         }; 
     
-plotAbsorption(FNOK, 0.0)
+% plotAbsorption(FNOK, 0.0)
 
   
  
@@ -233,10 +237,11 @@ CuCl = {
         DATA_20240506.CuCl_Acetonitrile
         DATA_20240506.CuCl_Acetonitrile_B
         DATA_20240506.CuCl_Methanol
-        DATA_20240506.CuCl_EthylAcetate
-        DATA_20240506.CuCl_DMF
-        DATA_20240506.CuCl_THF
-        DATA_20240506.CuCl_Acetone
+%         DATA_20240506.CuCl_EthylAcetate
+%         DATA_20240506.CuCl_DMF
+%         DATA_20240506.CuCl_THF
+%         DATA_20240506.CuCl_Acetone
+        DATA_20240528.CuCl_Ethanol
         }; 
     
 CuClOK = {
@@ -245,6 +250,6 @@ CuClOK = {
         DATA_20240506.CuCl_Methanol
         };     
     
-% plotAbsorption(CuClOK, 0.0)
+plotAbsorption(CuCl, 0.0)
 
 

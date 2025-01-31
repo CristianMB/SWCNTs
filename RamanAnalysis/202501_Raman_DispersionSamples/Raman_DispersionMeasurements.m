@@ -1,200 +1,110 @@
 clc;
-clear all;
+clear;
 addpath('X:\SWCNTs');
 import UsefulFunctions.*;
-rootpath = 'X:\Measurements Data\Absorption\';
+rootpath = 'X:\Measurements (RAW)\Raman\';
 
+% rootpath = 'X:\Measurements Data\Raman\';
+addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 %All paths as default
-set(0,'DefaultFigureWindowStyle','normal')
-
-
-CryoFS4 = [rootpath,'20241216\TDAE_VacuumMeasurements.csv'];
-CryoFS7 = [rootpath,'20241216\Dodecane_VacuumMeasurements.csv'];
+path_powder = [rootpath,'20250131\'];
 
 %Select the paths of interest
-paths = {   CryoFS4
-            CryoFS7
+
+paths = {
+        path_powder
         };
 
-%Read and structure data from the paths
 
-ReadAbsorptionFromPaths(paths);
+ReadRamanFromPaths(paths, 2);
 
-
-%% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-DATA_20241216.Baseline.N='Baseline';
-DATA_20241216.Dodecane_KIT_Air_A.N='Dodecane_KIT_Air_A';
-DATA_20241216.Dodecane_KIT_Vac_1.N='Dodecane_KIT_Vac_1';
-DATA_20241216.Dodecane_KIT_Vac_20.N='Dodecane_KIT_Vac_20';
-DATA_20241216.Dodecane_KIT_Vac_75.N='Dodecane_KIT_Vac_75';
-DATA_20241216.Dodecane_KIT_Vac_140.N='Dodecane_KIT_Vac_140';
-DATA_20241216.Dodecane_KIT_Vac_350.N='Dodecane_KIT_Vac_350';
-DATA_20241216.Dodecane_KIT_Vac_1175.N='Dodecane_KIT_Vac_1175';
-DATA_20241216.Dodecane_KIT_N2_B.N='Dodecane_KIT_N2_B';
-DATA_20241216.Dodecane_KIT_Vac_1200.N='Dodecane_KIT_Vac_1200';
-DATA_20241216.Dodecane_KIT_N2_C.N='Dodecane_KIT_N2_C';
-DATA_20241216.Dodecane_KIT_Vac_1300.N='Dodecane_KIT_Vac_1300';
-DATA_20241216.Dodecane_KIT_Temp_50.N='Dodecane_KIT_Temp_50';
-DATA_20241216.Dodecane_KIT_Temp_50_B.N='Dodecane_KIT_Temp_50_B';
-DATA_20241216.Dodecane_KIT_Vac_1420.N='Dodecane_KIT_Vac_1420';
-DATA_20241216.Dodecane_KIT_HotWater_A.N='Dodecane_KIT_HotWater_A';
-DATA_20241216.Dodecane_KIT_N2_D.N='Dodecane_KIT_N2_D';
-DATA_20241216.Dodecane_KIT_Temp_75.N='Dodecane_KIT_Temp_75';
-DATA_20241216.Dodecane_KIT_Temp_85.N='Dodecane_KIT_Temp_85';
-DATA_20241216.Dodecane_KIT_Temp_98.N='Dodecane_KIT_Temp_98';
-DATA_20241216.Dodecane_KIT_Air_B.N='Dodecane_KIT_Air_B';
-
-DATA_20241216.Baseline.N='Baseline';
-DATA_20241216.TDAE_KIT_Air.N='TDAE_KIT_Air';
-DATA_20241216.TDAE_KIT_Vac_1.N='TDAE_KIT_Vac_1';
-DATA_20241216.TDAE_KIT_Vac_10.N='TDAE_KIT_Vac_10';
-DATA_20241216.TDAE_KIT_Vac_20.N='TDAE_KIT_Vac_20';
-DATA_20241216.TDAE_KIT_Vac_30.N='TDAE_KIT_Vac_30';
-DATA_20241216.TDAE_KIT_Vac_60.N='TDAE_KIT_Vac_60';
-DATA_20241216.TDAE_KIT_N2.N='TDAE_KIT_N2';
-DATA_20241216.TDAE_KIT_Vac_150.N='TDAE_KIT_Vac_150';
-DATA_20241216.TDAE_KIT_Vac_300.N='TDAE_KIT_Vac_300';
-DATA_20241216.TDAE_KIT_Vac_1254.N='TDAE_KIT_Vac_1254';
-DATA_20241216.TDAE_KIT_N2_B.N='TDAE_KIT_N2_B';
-DATA_20241216.TDAE_KIT_Vac_1282.N='TDAE_KIT_Vac_1282';
-DATA_20241216.TDAE_KIT_Vac_1293.N='TDAE_KIT_Vac_1293';
-DATA_20241216.TDAE_KIT_Vac_1300.N='TDAE_KIT_Vac_1300';
-DATA_20241216.TDAE_KIT_Vac_1300.N='TDAE_KIT_Vac_1300';
-DATA_20241216.TDAE_KIT_Vac_1425.N='TDAE_KIT_Vac_1425';
-DATA_20241216.TDAE_KIT_Air_B.N='TDAE_KIT_Air_B';
-
-%% %--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
-%% %--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% %--------SPECTRA SELECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% KIT Converted Sample - Dispersion Labeled 'T6 SWCNTs Converted Megasonicated'
+               
+R = {
+        DATA_20250131.KITL514R
+        DATA_20250131.KTLL514R         
+    };   
+     
+G = {   DATA_20250131.KITL514G
+        DATA_20250131.KTLL514G
+        DATA_20250131.KT3L514G
+        DATA_20250131.KT5L514G
+    };   
 
-%% Rinsings
+% R = FlatFieldCorrection(R,DATA_20250131.FFL514R);
+% G = FlatFieldCorrection(G,DATA_20250131.FFL514G);
 
+% R = FilterDataByXRange(R, 10, 300);
+% G = FilterDataByXRange(G, 1250, 1680);
+             
+% R = RemovePolyBG(R, 0);
+% G = RemovePolyBG(G, 0);
 
-FS4 = {
-%         DATA_20241216.Baseline
-        DATA_20241216.TDAE_KIT_Air
-%         DATA_20241216.TDAE_KIT_Vac_1
-%         DATA_20241216.TDAE_KIT_Vac_10
-%         DATA_20241216.TDAE_KIT_Vac_20
-%         DATA_20241216.TDAE_KIT_Vac_30
-%         DATA_20241216.TDAE_KIT_Vac_60
-%         DATA_20241216.TDAE_KIT_N2
-        DATA_20241216.TDAE_KIT_Vac_150
-%         DATA_20241216.TDAE_KIT_Vac_300
-%         DATA_20241216.TDAE_KIT_Vac_1254
-%         DATA_20241216.TDAE_KIT_N2_B
-%         DATA_20241216.TDAE_KIT_Vac_1282
-        DATA_20241216.TDAE_KIT_Vac_1293
-        DATA_20241216.TDAE_KIT_Vac_1300
-%         DATA_20241216.TDAE_KIT_Vac_1300
-        DATA_20241216.TDAE_KIT_Vac_1425
-        DATA_20241216.TDAE_KIT_Air_B
-    };
+R = Normalize(R, 140, 200, 'M');
+G = Normalize(G, 0, 3000, 'M');
 
-FS7 = {
-%         DATA_20241216.Baseline
-        DATA_20241216.Dodecane_KIT_Air_A
-%         DATA_20241216.Dodecane_KIT_Vac_1
-%         DATA_20241216.Dodecane_KIT_Vac_20
-%         DATA_20241216.Dodecane_KIT_Vac_75
-        DATA_20241216.Dodecane_KIT_Vac_140
-%         DATA_20241216.Dodecane_KIT_Vac_350
-%         DATA_20241216.Dodecane_KIT_Vac_1175
-%         DATA_20241216.Dodecane_KIT_N2_B
-        DATA_20241216.Dodecane_KIT_Vac_1200
-%         DATA_20241216.Dodecane_KIT_N2_C
-%         DATA_20241216.Dodecane_KIT_Vac_1300
-%         DATA_20241216.Dodecane_KIT_Temp_50
-        DATA_20241216.Dodecane_KIT_Temp_50_B
-%         DATA_20241216.Dodecane_KIT_Vac_1420
-%         DATA_20241216.Dodecane_KIT_HotWater_A
-%         DATA_20241216.Dodecane_KIT_N2_D
-%         DATA_20241216.Dodecane_KIT_Temp_75
-%         DATA_20241216.Dodecane_KIT_Temp_85
-        DATA_20241216.Dodecane_KIT_Temp_98
-        DATA_20241216.Dodecane_KIT_Air_B
-    };
+% plotRaman(R, 0, 514);        
+% plotRaman(G, 0, 514);        
 
+%% Centrifuged Samples
+               
+R = {
+        DATA_20250131.SR0L514R
+        DATA_20250131.SR1L514R
+        DATA_20250131.SWFL514R
+        DATA_20250131.SR2L514R
+        DATA_20250131.S10L514R
+        DATA_20250131.S11L514R
+    };   
+     
+G = {        
+        DATA_20250131.SR0L514G
+        DATA_20250131.SR1L514G
+        DATA_20250131.SWFL514G
+        DATA_20250131.SR2L514G
+        DATA_20250131.S10L514G
+        DATA_20250131.S11L514G
+    };   
 
-% FS4 = FilterDataByXRange(FS4, 0, 2600);
-% FS4 = NormalizeSample(FS4,902, 1300); 
-% FS4 = RemovePolyBG(FS4, 0);
-% FS4 = NormalizeSample(FS4,902, 1300); 
-% plotAbsorptionOrdered(FS4, 0);
+% R = FlatFieldCorrection(R,DATA_20250131.FFL514R);
+% G = FlatFieldCorrection(G,DATA_20250131.FFL514G);
+% 
+% R = FilterDataByXRange(R, 20, 500);
+% G = FilterDataByXRange(G, 1250, 1680);
+%              
+% R = RemovePolyBG(R, 0);
+% G = RemovePolyBG(G, 0);
+
+R = Normalize(R, 140, 200, 'M');
+G = Normalize(G, 0, 3000, 'M');
+
+% plotRaman(R, 0, 514);        
+% plotRaman(G, 0, 514);  
+
 
 % FS7 = FilterDataByXRange(FS7, 0, 2600);
-% FS7 = NormalizeSample(FS7,902, 1300); 
 % FS7 = RemovePolyBG(FS7, 0);
-% FS7 = NormalizeSample(FS7,902, 1300); 
-% plotAbsorptionOrdered(FS7, 0);
-
-% close;
-% backgr = [330, 610, 840, 1320, 2500];
-backgr = [330,610, 1311, 2500];
-
-% FS4 = BackgroundSubtractionExcludeRanges(FS4, [[620,800], [900, 1220], [1578, 2260]]);
-% FS4 = BackgroundSubtractionWithSpecifiedPoints(FS4, backgr);
-% FS4 = Normalize(FS4,902, 1300, 'I'); 
-% plotAbsorptionOrdered(FS4, 0);
-
-% plotAbsorptionOrdered(FS4, 0);
-FS4 = FilterDataByXRange(FS4, 0, 2520);
-FS4 = BackgroundSubtraction(FS4, [500, 2600]);
-FS4 = Normalize(FS4,910, 1290, 'M'); 
-% plotAbsorptionOrdered(FS4, 0);
-
-% Define los límites del rango
-x_min = 800;
-x_max = 860;
-
-% Itera sobre cada dataset en la lista
-for i = 1:length(FS4)
-    DS = FS4{i};
-    
-    % Encuentra los índices donde DS.X está entre 800 y 860
-    idx_range = (DS.X >= x_min) & (DS.X <= x_max);
-    
-    % Encuentra el valor mínimo de DS.Y en ese rango
-    min_val = min(DS.Y(idx_range));
-    
-    
-    idx_range2 = (DS.X >= 0) & (DS.X <= 900);
-
-    % Sustrae este valor mínimo de DS.Y solo en el rango especificado
-    DS.Y(idx_range2) = DS.Y(idx_range2) - min_val;
-    
-    % Guarda los cambios en el dataset actual
-    FS4{i} = DS;
-end
 
 
-plotAbsorptionOrdered(FS4, 0);
+LLines = {
+    DATA_20250131.LL514A
+    DATA_20250131.LL514B
+    DATA_20250131.LL514C
+    DATA_20250131.LL514D
+};
 
-% Define the list of datasets
-
-% FS7 = FilterDataByXRange(FS7, 0, 2520);
-% FS7 = BackgroundSubtraction(FS7, [500, 2500]);
-% FS7 = Normalize(FS7,902, 1300, 'M'); 
-% plotAbsorptionOrdered(FS7, 0);
-
-
-%RIGHT PARAMETERS!! - Dont modify
-% plotAbsorptionOrdered(FS7, 0);
-
-% FS7 = FilterDataByXRange(FS7, 0, 2520);
-% FS7 = BackgroundSubtraction(FS7, [250, 2500]);
-% FS7 = Normalize(FS7,902, 1300, 'M'); 
-% plotAbsorptionOrdered(FS7, 0);
+% LLines = NormalizeSample(LLines, 0, 3000);
+plotRaman(LLines,0)
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
     % BackgroundSubtractionExcludeRanges performs background subtraction using the Naumov model,
     % excluding specified ranges from the background fit.
@@ -562,3 +472,5 @@ function DSList = RemovePolyBG(DSList, degree)
         DSList{i} = DS;
     end
 end
+
+

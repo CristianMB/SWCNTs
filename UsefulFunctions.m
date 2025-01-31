@@ -134,8 +134,8 @@ classdef UsefulFunctions
         % Iterate over each sample to be normalized
         for sampleIdx = 1:length(samplesToNormalize)
             currentSample = samplesToNormalize{sampleIdx};
-            currentSample.Y = currentSample.Y/UsefulFunctions.ComputeIntegral(currentSample,lowerLimit, upperLimit);            
-%             currentSample.Y = currentSample.Y/UsefulFunctions.ComputeMaximum(currentSample,lowerLimit, upperLimit);
+%             currentSample.Y = currentSample.Y/UsefulFunctions.ComputeIntegral(currentSample,lowerLimit, upperLimit);            
+            currentSample.Y = currentSample.Y/UsefulFunctions.ComputeMaximum(currentSample,lowerLimit, upperLimit);
             normedSamples{sampleIdx} = currentSample;
         end
     end
@@ -671,7 +671,7 @@ classdef UsefulFunctions
         sampleNames = header(1, 1:2:end);
         warning('off', 'MATLAB:strrep:InvalidInputType');
         % Read ONLY the datalines
-        data = readmatrix(filePath, 'Range', ['A' num2str(3) ':AZ' num2str(2328)]);
+        data = readmatrix(filePath, 'Range', ['A' num2str(3) ':AZ' num2str(3000)]);
 
         samples = struct();
 

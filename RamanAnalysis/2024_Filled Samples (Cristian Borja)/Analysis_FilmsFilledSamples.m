@@ -10,16 +10,18 @@ rootpath = 'X:\Measurements Data\Raman\';
 %All paths as default
 path_FS514 = [rootpath,'20241007\'];
 path_F0514 = [rootpath,'20241008\'];
+path_R2 = [rootpath,'20241213\'];
 
 %Select the paths of interest
 
 paths = {
     path_FS514
     path_F0514
+    path_R2
     };
 
 
-ReadRamanFromPaths(paths, 2);
+ReadRamanFromPaths(paths, 3);
 
 
 %%%--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,6 +65,18 @@ DATA_20241008.FFL514F.N='FlatFieldF';
 DATA_20241008.F0L514G.N='Sapphire SubstrateG';
 DATA_20241008.FFL514G.N='FlatFieldG';
 
+DATA_20241213.FS5L514G.N='Film 2 (S5 TDAE@CNTs)';
+DATA_20241213.FS5L514D.N='Film 2 (S5 TDAE@CNTs)';
+DATA_20241213.FS7L514G.N='Film 1 (S7 Dodecane@CNTs)';
+DATA_20241213.FS7L514D.N='Film 1 (S7 Dodecane@CNTs)';
+DATA_20241213.FS8L514G.N='Film 5 (S8 PCE@CNTs)';
+DATA_20241213.FS8L514D.N='Film 5 (S8 PCE@CNTs)';
+DATA_20241213.FS9L514G.N='Film 4 (S9 TEMED@CNTs)';
+DATA_20241213.FS9L514D.N='Film 4 (S9 TEMED@CNTs)';
+DATA_20241213.FF6L514G.N='Film 3 (SFF6 TTF@CNTs)';
+DATA_20241213.FF6L514D.N='Film 3 (SFF6 TTF@CNTs)';
+
+
 %%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -83,7 +97,7 @@ FS514R = {
 WL = 514.5;
 for i=1:length(FS514R)
     current = FS514R{i};  % Access the cell array element once
-    current = clip_spectrum(current, 10,10);
+%     current = filere(current, 10,10);
     current = remove_inclination(current, WL);
     current = correct_instrument_response(current, WL);
     current = remove_bg_poly(current);
@@ -96,94 +110,172 @@ end
 
 % plotRaman(FS514R,0,WL)
 
-%%%%%GBand
-FS514GD = {
-    DATA_20241007.F2L514GD
-    DATA_20241007.F3L514GD
-    DATA_20241007.F4L514GD
-    DATA_20241007.F5L514GD
-    DATA_20241007.F6L514GD
-    DATA_20241007.F7L514GD
-%     DATA_20241007.FFL514GD
-    };
-% FS514GD = FlatFieldCorrectionPixelWise(FS514GD, DATA_20241007.FFL514GD);
-
-
-WL = 514.5;
-for i=1:length(FS514GD)
-    current = FS514GD{i};  % Access the cell array element once
-    
-    current = clip_spectrum(current, 10,10);
-    current = remove_inclination(current, WL);
-    current = correct_instrument_response(current, WL);
-    current = remove_bg_poly(current);
-    current = remove_baseline_polynomial(current, 0);
-
-    FS514GD{i} = current;  % Save the result back to the cell array
-end
-
-% FS514GD = NormalizeSample(FS514GD, 0, 20000);
-
-% plotRaman(FS514GD,0,WL)
-
-
-%%%%%2DBand
-FS514DD = {
-    DATA_20241007.F2L514DD
-    DATA_20241007.F3L514DD
-    DATA_20241007.F4L514DD
-    DATA_20241007.F5L514DD
-    DATA_20241007.F6L514DD
-    DATA_20241007.F7L514DD
-%     DATA_20241007.FFL514DD
-%     DATA_20241008.FFL514G
-    };
-
-   %% Flat field correction indetail 
-% figure()
+% %%%%%GBand
+% FS514GD = {
+%     DATA_20241007.F2L514GD
+%     DATA_20241007.F3L514GD
+%     DATA_20241007.F4L514GD
+%     DATA_20241007.F5L514GD
+%     DATA_20241007.F6L514GD
+%     DATA_20241007.F7L514GD
+% %     DATA_20241007.FFL514GD
+%     };
+% % FS514GD = FlatFieldCorrectionPixelWise(FS514GD, DATA_20241007.FFL514GD);
 % 
-% hold on
-% for i=1:length(FS514DD)
-%     current = FS514DD{i}
-%     plot(current.P, current.Y/(current.Y(200)))
-% end
-% hold off
+% 
+% WL = 514.5;
+% for i=1:length(FS514GD)
+%     current = FS514GD{i};  % Access the cell array element once
 %     
-% figure()
+%     current = clip_spectrum(current, 10,10);
+%     current = remove_inclination(current, WL);
+%     current = correct_instrument_response(current, WL);
+%     current = remove_bg_poly(current);
+%     current = remove_baseline_polynomial(current, 0);
 % 
-% hold on
-% for i=1:length(FS514DD)
-%     current = FS514DD{i}
-%     plot(current.P, current.Y/DATA_20241008.FFL514G.Y)
+%     FS514GD{i} = current;  % Save the result back to the cell array
 % end
-% hold off
-%%
-
-% FS514DD = FlatFieldCorrectionPixelWise(FS514DD, DATA_20241007.FFL514DD);
+% 
+% % FS514GD = NormalizeSample(FS514GD, 0, 20000);
+% 
+% % plotRaman(FS514GD,0,WL)
+% 
+% 
+% %%%%%2DBand
+% FS514DD = {
+%     DATA_20241007.F2L514DD
+%     DATA_20241007.F3L514DD
+%     DATA_20241007.F4L514DD
+%     DATA_20241007.F5L514DD
+%     DATA_20241007.F6L514DD
+%     DATA_20241007.F7L514DD
+% %     DATA_20241007.FFL514DD
+% %     DATA_20241008.FFL514G
+%     };
+% 
+%    %% Flat field correction indetail 
+% % figure()
+% % 
+% % hold on
+% % for i=1:length(FS514DD)
+% %     current = FS514DD{i}
+% %     plot(current.P, current.Y/(current.Y(200)))
+% % end
+% % hold off
+% %     
+% % figure()
+% % 
+% % hold on
+% % for i=1:length(FS514DD)
+% %     current = FS514DD{i}
+% %     plot(current.P, current.Y/DATA_20241008.FFL514G.Y)
+% % end
+% % hold off
+% %%
+% 
+% % FS514DD = FlatFieldCorrectionPixelWise(FS514DD, DATA_20241007.FFL514DD);
+% % 
+% % plotRaman(FS514DD,0, WL)
+% 
+% WL = 514.5;
+% for i=1:length(FS514DD)
+%     current = FS514DD{i};  % Access the cell array element once
+%     current = clip_spectrum(current, 10,10);
+%     current = remove_inclination(current, WL);
+%     current = correct_instrument_response(current, WL);
+%     current = remove_bg_poly(current);
+%     current = remove_baseline_polynomial(current, 0);
+%     FS514DD{i} = current;  % Save the result back to the cell array
+% end
+% 
+% FS514DD = NormalizeSample(FS514DD, 0, 20000);
+% % FS514DD{1}.Y = FS514DD{1}.Y-0.04
+% % FS514DD{2}.Y = FS514DD{2}.Y-0.04
+% % % FS514DD{3}.Y = FS514DD{3}.Y-0.04
+% % FS514DD{4}.Y = FS514DD{4}.Y-0.04
+% % FS514DD{5}.Y = FS514DD{5}.Y-0.04
+% FS514DD{6}.Y = FS514DD{6}.Y-0.055
+% FS514DD = NormalizeSample(FS514DD, 0, 20000);
 % 
 % plotRaman(FS514DD,0, WL)
+% 
+%%%%%%%%%%%%%%%%%%%%%%%NEW BUT FOR ROUND 2
 
+%%%%%GBand
+GBAND = {
+    DATA_20241213.FS5L514G
+    DATA_20241213.FS7L514G
+    DATA_20241213.FS8L514G
+    DATA_20241213.FS9L514G
+    DATA_20241213.FF6L514G
+    };
+GBAND = FlatFieldCorrection(GBAND, DATA_20241213.FFL514GB);
+
+
+GBAND = FilterDataByXRange(GBAND, 1250, 1660)
 WL = 514.5;
-for i=1:length(FS514DD)
-    current = FS514DD{i};  % Access the cell array element once
-    current = clip_spectrum(current, 10,10);
+
+for i=1:length(GBAND)
+    current = GBAND{i};  % Access the cell array element once
     current = remove_inclination(current, WL);
     current = correct_instrument_response(current, WL);
     current = remove_bg_poly(current);
     current = remove_baseline_polynomial(current, 0);
-    FS514DD{i} = current;  % Save the result back to the cell array
+
+    GBAND{i} = current;  % Save the result back to the cell array
 end
 
-FS514DD = NormalizeSample(FS514DD, 0, 20000);
-% FS514DD{1}.Y = FS514DD{1}.Y-0.04
-% FS514DD{2}.Y = FS514DD{2}.Y-0.04
-% % FS514DD{3}.Y = FS514DD{3}.Y-0.04
-% FS514DD{4}.Y = FS514DD{4}.Y-0.04
-% FS514DD{5}.Y = FS514DD{5}.Y-0.04
-FS514DD{6}.Y = FS514DD{6}.Y-0.055
-FS514DD = NormalizeSample(FS514DD, 0, 20000);
+GBAND = NormalizeSample(GBAND, 0, 20000);
 
-plotRaman(FS514DD,0, WL)
+% plotRaman(GBAND,0,WL)
+
+% %%%%%2DBand
+DDBANDS = {
+    DATA_20241213.FS5L514D
+    DATA_20241213.FS7L514D
+    DATA_20241213.FS8L514D
+    DATA_20241213.FS9L514D
+    DATA_20241213.FF6L514D
+
+    };
+
+DDBANDS = FlatFieldCorrection(DDBANDS, DATA_20241213.FFL514D);
+DDBANDS = FilterDataByXRange(DDBANDS, 2480, 2845)
+
+for i=1:length(DDBANDS)
+    current = DDBANDS{i};  % Access the cell array element once
+    current = remove_inclination(current, WL);
+    current = correct_instrument_response(current, WL);
+    current = remove_bg_poly(current);
+    current = remove_baseline_polynomial(current, 0);
+
+    DDBANDS{i} = current;  % Save the result back to the cell array
+end
+
+DDBANDS = NormalizeSample(DDBANDS, 0, 20000);
+plotRaman(DDBANDS,0, WL)
+% 
+% WL = 514.5;
+% for i=1:length(FS514DD)
+%     current = FS514DD{i};  % Access the cell array element once
+%     current = clip_spectrum(current, 10,10);
+%     current = remove_inclination(current, WL);
+%     current = correct_instrument_response(current, WL);
+%     current = remove_bg_poly(current);
+%     current = remove_baseline_polynomial(current, 0);
+%     FS514DD{i} = current;  % Save the result back to the cell array
+% end
+% 
+% FS514DD = NormalizeSample(FS514DD, 0, 20000);
+% % FS514DD{1}.Y = FS514DD{1}.Y-0.04
+% % FS514DD{2}.Y = FS514DD{2}.Y-0.04
+% % % FS514DD{3}.Y = FS514DD{3}.Y-0.04
+% % FS514DD{4}.Y = FS514DD{4}.Y-0.04
+% % FS514DD{5}.Y = FS514DD{5}.Y-0.04
+% FS514DD{6}.Y = FS514DD{6}.Y-0.055
+% FS514DD = NormalizeSample(FS514DD, 0, 20000);
+% 
+% plotRaman(FS514DD,0, WL)
 
 
 
@@ -279,3 +371,33 @@ function result = concatenateSpectra(structArray, structName)
     result.Y = sorted_y;
     result.N = structName;
 end
+
+function filteredSamples = FilterDataByXRange(samplesToFilter, xMin, xMax)
+    % FilterDataByXRange filters the data of each sample to include only the points within the specified X-range.
+    %
+    % Inputs:
+    %   - samplesToFilter: Cell array of structures, each with fields 'X' and 'Y'.
+    %   - xMin: The minimum value of X to include in the filtered data.
+    %   - xMax: The maximum value of X to include in the filtered data.
+    % Outputs:
+    %   - filteredSamples: Cell array of structures with filtered 'X' and 'Y' values within the range [xMin, xMax].
+
+    filteredSamples = cell(size(samplesToFilter));
+    
+    % Iterate over each sample to filter
+    for sampleIdx = 1:length(samplesToFilter)
+        currentSample = samplesToFilter{sampleIdx};
+        
+        % Find the indices of X-values within the specified range
+        validIndices = currentSample.X >= xMin & currentSample.X <= xMax;
+        
+        % Filter the data based on valid indices
+        filteredSample = currentSample;
+        filteredSample.X = currentSample.X(validIndices);
+        filteredSample.Y = currentSample.Y(validIndices);
+        
+        % Store the filtered sample
+        filteredSamples{sampleIdx} = filteredSample;
+    end
+end
+

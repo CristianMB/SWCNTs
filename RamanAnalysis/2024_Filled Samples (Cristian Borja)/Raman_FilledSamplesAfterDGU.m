@@ -138,7 +138,8 @@ RBMsHD514 = RemoveBaselinePolynomial(RBMsHD514, 0);
 RBMsHD514 = RemoveLinearBackground(RBMsHD514, 141, 239);
 RBMsHD514 = RemoveBaselinePolynomial(RBMsHD514, 0);
 RBMsHD514 = NormalizeSample(RBMsHD514,140,200);  
-plotRaman(RBMsHD514, 0.0, 514);        
+
+plotRaman(RBMsHD514, 0.95, 514);        
 
 
 GDBand514 = ClipSamples(GDBand514,1250,1665);  

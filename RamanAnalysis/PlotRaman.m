@@ -3,8 +3,9 @@ function plot_raman()
 
     import UsefulFunctions.*;
     % Add the path to the directory containing your functions
+    addpath('X:\SWCNTs');
+    addpath(' X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0');
     defaultpath=('X:\Measurements Data\Raman');
-
     % Step 1: Select the .csv file
     folder_path  = uigetdir(defaultpath);
     if isequal(folder_path, 0)
@@ -14,7 +15,7 @@ function plot_raman()
     paths = {[folder_path, '\']};
 
     % Full path to the selected file   
-    A = ReadRamanFromPaths(paths, 2);
+    A = UsefulFunctions.ReadRamanFromPaths(paths, 2);
     Datasets = fieldnames(A);
     Spectra = {};
 
@@ -29,7 +30,7 @@ function plot_raman()
             end
      end
      
-    Spectra = NormalizeSample(Spectra, 0, 3000)
+%     Spectra = NormalizeSample(Spectra, 0, 3000)
     plotRaman(Spectra, 0)
     
 end
