@@ -1,6 +1,7 @@
 clc;
 clear;
 import UsefulFunctions.*;
+addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 
 rootpath = 'X:\Measurements Data\Absorption\';
 
