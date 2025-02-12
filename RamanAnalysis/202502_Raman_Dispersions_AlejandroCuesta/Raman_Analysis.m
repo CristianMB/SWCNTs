@@ -8,11 +8,13 @@ rootpath = 'X:\Measurements (RAW)\Raman\';
 addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 %All paths as default
 path_powder = [rootpath,'20250211\'];
+path_aina = [rootpath,'20250126\'];
 
 %Select the paths of interest
 
 paths = {
         path_powder
+        path_aina
         };
 
 
@@ -39,9 +41,77 @@ DATA_20250211.S2DH514G.N = 'BiTeI@SWCNTs - DGU D';
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% 514nm DATA 
-% S2-S6 + References
+%% AINA AND ALEJANDRO
 
+%% CRISTIAN AND ALENADRO
+               
+R = {
+%         DATA_20250126.L496A
+%         DATA_20250126.L514A
+%         
+%         DATA_20250126.DOCRBMA
+%         DATA_20250126.DOCRBMB
+%         
+%         DATA_20250126.MEGPRA
+%         DATA_20250126.MERBMA
+%         DATA_20250126.MERBMPRA
+%         DATA_20250126.MERBMSON
+        
+%         DATA_20250126.SEGA
+%         DATA_20250126.SEGB
+        DATA_20250126.SERBMA
+%         DATA_20250126.SERBMB
+        
+%         DATA_20250126.SFGA
+%         DATA_20250126.SFGB
+        DATA_20250126.SFRBMA
+%         DATA_20250126.SFRBMB
+            };   
+        
+               
+G = {
+%         DATA_20250126.L496A
+%         DATA_20250126.L514A
+%         
+%         DATA_20250126.DOCRBMA
+%         DATA_20250126.DOCRBMB
+%         
+%         DATA_20250126.MEGPRA
+%         DATA_20250126.MERBMA
+%         DATA_20250126.MERBMPRA
+%         DATA_20250126.MERBMSON
+        
+        DATA_20250126.SEGA
+%         DATA_20250126.SEGB
+%         DATA_20250126.SERBMA
+%         DATA_20250126.SERBMB
+        
+        DATA_20250126.SFGA
+%         DATA_20250126.SFGB
+%         DATA_20250126.SFRBMA
+%         DATA_20250126.SFRBMB
+            };   
+
+
+
+ 
+R = FilterDataByXRange(R, 50, 550);
+G = FilterDataByXRange(G, 1400, 1800);
+
+
+% R = RemovePolyBG(R, 0);
+% G = RemovePolyBG(G, 0);
+
+R = Normalize(R, 150, 190, 'M');
+G = Normalize(G, 1560, 1600, 'M');
+
+
+plotRaman(R, 0.0, 514);        
+plotRaman(G, 0.0, 514);        
+% plotRaman(DD, 0, 514);        
+
+
+%% CRISTIAN AND ALENADRO
                
 R = {
         DATA_20250211.S1BH514R
@@ -80,9 +150,9 @@ R = RemovePolyBG(R, 1);
 R = Normalize(R, 150, 190, 'M');
 G = Normalize(G, 1560, 1600, 'M');
 % DD = Normalize(DD, 0, 3000, 'M');
-
-plotRaman(R, 0.0, 514);        
-plotRaman(G, 0.0, 514);        
+% 
+% plotRaman(R, 0.0, 514);        
+% plotRaman(G, 0.0, 514);        
 % plotRaman(DD, 0, 514);        
 
 
