@@ -2,19 +2,23 @@ clc;
 clear;
 addpath('X:\SWCNTs');
 import UsefulFunctions.*;
-rootpath = 'X:\Measurements (RAW)\Raman\';
+rootpath = 'X:\Measurements Data\Raman\';
 
 % rootpath = 'X:\Measurements Data\Raman\';
 addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 %All paths as default
-path_powder = [rootpath,'20250211\'];
-path_aina = [rootpath,'20250126\'];
+path_powder = [rootpath,'20250131\'];
+path_dgua = [rootpath,'20240517\'];
+path_dgub = [rootpath,'20241212\'];
+path_sf = [rootpath,'20240111\'];
 
 %Select the paths of interest
 
 paths = {
         path_powder
-        path_aina
+        path_dgua
+        path_dgub
+        path_sf
         };
 
 
@@ -22,138 +26,97 @@ ReadRamanFromPaths(paths, 2);
 
 %%%--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+DATA_20250131.S10L514R.N='Dispersion S10 - TMG@P2-SWCNTs';
+DATA_20250131.S11L514R.N='Dispersion S11 - TTF@P2-SWCNTs';
+DATA_20250131.SR0L514R.N='Dispersion SR0 - Empty@P2-SWCNTs';
+DATA_20250131.SR1L514R.N='Dispersion SR1 - D2O@P2-SWCNTs - KVD';
+DATA_20250131.SR2L514R.N='Dispersion SR2 - MeOH@P2-SWCNTs';
+DATA_20250131.SWFL514R.N='Dispersion SWF - D2O@P2-SWCNTs (Salome)';
+DATA_20250131.P12L514R.N='Powder S12 - TTF@P2-SWCNTs';
+DATA_20250131.P12RBM.N='Powder S12 - TTF@P2-SWCNTs';
+DATA_20250131.P2ARBM.N='Powder P2-SWCNTs Annealed';
+DATA_20250131.PAPL514R.N='Powder AP-SWCNTs';
+DATA_20250131.PP2L514R.N='Powder P2-SWCNTs Annealed';
+DATA_20240517.EAH514R.N='Empty Arc SWCNTs';
+DATA_20240517.S2H514R.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S3H514R.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S4H514R.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S5H514R.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S6H514R.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S7H514R.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.WAH514R.N='Water Filled Arc SWCNTs';
+DATA_20241212.S1BH514R.N='TEMED Filled DGU (SFF1B)';
+DATA_20241212.SF6H514R.N='TTF Filled DGU (SFF6)';
+DATA_20241212.SR0H514R.N='SF6 Sofie Empty';
+DATA_20241212.SR1H514R.N='Water Filled DGU (KVDP2)';
+DATA_20240111.S240111J.N='SF D2O@SWCNT 514nm';
+DATA_20240111.S240111K.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111KK.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111L.N='SF Methanol@SWCNT 514nm';
+DATA_20240111.S240111M.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111N.N='SF TTF@SWCNT 514nm';
+DATA_20240111.S240111O.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111P.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111Q.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111R.N='SF TEMED@SWCNT 514nm';
+DATA_20240111.S240111S.N='SC Empty@SWCNT 514nm ';
 
-
-DATA_20250211.S1BH514R.N = 'SWCNTs - DGU B';
-DATA_20250211.S1CH514R.N = 'SWCNTs - DGU C';
-DATA_20250211.S1DH514R.N = 'SWCNTs - DGU D';
-DATA_20250211.S2BH514R.N = 'BiTeI@SWCNTs - DGU B';
-DATA_20250211.S2CH514R.N = 'BiTeI@SWCNTs - DGU C';
-DATA_20250211.S2DH514R.N = 'BiTeI@SWCNTs - DGU D';
-DATA_20250211.S1BH514G.N = 'SWCNTs - DGU B';
-DATA_20250211.S1CH514G.N = 'SWCNTs - DGU C';
-DATA_20250211.S1DH514G.N = 'SWCNTs - DGU D';
-DATA_20250211.S2BH514G.N = 'BiTeI@SWCNTs - DGU B';
-DATA_20250211.S2CH514G.N = 'BiTeI@SWCNTs - DGU C';
-DATA_20250211.S2DH514G.N = 'BiTeI@SWCNTs - DGU D';
 
 %%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% AINA AND ALEJANDRO
 
-%% CRISTIAN AND ALENADRO
+%% Centrifuged Samples
                
 R = {
-%         DATA_20250126.L496A
-%         DATA_20250126.L514A
-%         
-%         DATA_20250126.DOCRBMA
-%         DATA_20250126.DOCRBMB
-%         
-%         DATA_20250126.MEGPRA
-%         DATA_20250126.MERBMA
-%         DATA_20250126.MERBMPRA
-%         DATA_20250126.MERBMSON
-        
-%         DATA_20250126.SEGA
-%         DATA_20250126.SEGB
-        DATA_20250126.SERBMA
-%         DATA_20250126.SERBMB
-        
-%         DATA_20250126.SFGA
-%         DATA_20250126.SFGB
-        DATA_20250126.SFRBMA
-%         DATA_20250126.SFRBMB
-            };   
-        
-               
-G = {
-        DATA_20250126.L496A
-        DATA_20250126.L514A
-        
-        DATA_20250126.DOCRBMA
-        DATA_20250126.DOCRBMB
-        
-        DATA_20250126.MEGPRA
-        DATA_20250126.MERBMA
-        DATA_20250126.MERBMPRA
-        DATA_20250126.MERBMSON
-        
-        DATA_20250126.SEGA
-        DATA_20250126.SEGB
-        DATA_20250126.SERBMA
-        DATA_20250126.SERBMB
-        
-        DATA_20250126.SFGA
-        DATA_20250126.SFGB
-        DATA_20250126.SFRBMA
-        DATA_20250126.SFRBMB
-            };   
+        DATA_20250131.SR0L514R
+        DATA_20250131.SR1L514R
+% %         DATA_20250131.SWFL514R
+% %         DATA_20250131.SR2L514R
+% %         DATA_20250131.S10L514R
+        DATA_20250131.S11L514R
+
+%         DATA_20240517.WAH514R
+% %         DATA_20240517.EAH514R
+%         DATA_20240517.S2H514R
+%         DATA_20240517.S3H514R
+%         DATA_20240517.S4H514R
+%         DATA_20240517.S5H514R
+%         DATA_20240517.S6H514R
+%         DATA_20240517.S7H514R
+
+         
+%         DATA_20241212.S1BH514R
+%         DATA_20241212.SF6H514R
+%         DATA_20241212.SR0H514R
+%         DATA_20241212.SR1H514R
+
+%         DATA_20240111.S240111J
+%         DATA_20240111.S240111K
+%         DATA_20240111.S240111KK
+%         DATA_20240111.S240111L
+%         DATA_20240111.S240111M
+%         DATA_20240111.S240111N
+%         DATA_20240111.S240111O
+%         DATA_20240111.S240111P
+%         DATA_20240111.S240111Q
+%         DATA_20240111.S240111R
+%         DATA_20240610.EAH514R
 
 
 
- 
-R = FilterDataByXRange(R, 50, 550);
-G = FilterDataByXRange(G, 1400, 1800);
+    };   
+     
 
-
-% R = RemovePolyBG(R, 0);
-% G = RemovePolyBG(G, 0);
-
-R = Normalize(R, 150, 190, 'M');
-G = Normalize(G, 1560, 1600, 'M');
-
-
-plotRaman(R, 0.0, 514);        
-plotRaman(G, 0.0, 514);        
-% plotRaman(DD, 0, 514);        
-
-
-%% CRISTIAN AND ALENADRO
-               
-R = {
-        DATA_20250211.S1BH514R
-        DATA_20250211.S1CH514R
-        DATA_20250211.S1DH514R
-        DATA_20250211.S2BH514R
-        DATA_20250211.S2CH514R
-        DATA_20250211.S2DH514R
-        
-            };   
-        
-               
-G = {
-        DATA_20250211.S1BH514G
-        DATA_20250211.S1CH514G
-        DATA_20250211.S1DH514G
-        DATA_20250211.S2BH514G
-        DATA_20250211.S2CH514G
-        DATA_20250211.S2DH514G
-            };   
-
-
-
-R = FlatFieldCorrection(R,DATA_20250211.FFH514R);
-G = FlatFieldCorrection(G,DATA_20250211.FFH514G);
-
-% 
-R = FilterDataByXRange(R, 130, 220);
-G = FilterDataByXRange(G, 1540, 1620);
-%         
-%         
+% R = FlatFieldCorrection(R,DATA_20250131.FFL514R);
+R = FilterDataByXRange(R, 100, 250);           
 R = RemovePolyBG(R, 1);
-% G = RemovePolyBG(G, 1);
-% DD = RemovePolyBG(DD, 0);
-% 
-R = Normalize(R, 150, 190, 'M');
-G = Normalize(G, 1560, 1600, 'M');
-% DD = Normalize(DD, 0, 3000, 'M');
-% 
-% plotRaman(R, 0.0, 514);        
-% plotRaman(G, 0.0, 514);        
-% plotRaman(DD, 0, 514);        
+R = Normalize(R, 100, 250, 'M');
+plotRaman(R, 0.0, 514);        
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)

@@ -931,7 +931,7 @@ end
             Y = Y(sort_idx);
 
             % Find peaks using the findpeaks function
-            [h, x, w, p] = findpeaks(Y, X, 'MinPeakProminence', peakThreshold);
+            [h, x, w, ~] = findpeaks(Y, X, 'MinPeakProminence', peakThreshold);
             PeakList{i} = x;
         end
     end

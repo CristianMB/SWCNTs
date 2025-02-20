@@ -128,11 +128,11 @@ FS7 = {
 % FS4 = NormalizeSample(FS4,902, 1300); 
 % plotAbsorptionOrdered(FS4, 0);
 
-% FS7 = FilterDataByXRange(FS7, 0, 2600);
-% FS7 = NormalizeSample(FS7,902, 1300); 
-% FS7 = RemovePolyBG(FS7, 0);
-% FS7 = NormalizeSample(FS7,902, 1300); 
-% plotAbsorptionOrdered(FS7, 0);
+FS7 = FilterDataByXRange(FS7, 0, 2600);
+FS7 = NormalizeSample(FS7,902, 1300); 
+FS7 = RemovePolyBG(FS7, 0);
+FS7 = NormalizeSample(FS7,902, 1300); 
+plotAbsorptionOrdered(FS7, 0);
 
 % close;
 % backgr = [330, 610, 840, 1320, 2500];
@@ -532,7 +532,7 @@ function DSList = RemovePolyBG(DSList, degree)
         Y = DS.Y;  % Intensity values
         
         % Identify regions to exclude based on peak detection
-        % You can implement your own peak detection logic here or use findpeaks
+        % Findpeaks
         [pks, locs] = findpeaks(Y, 'MinPeakHeight', 0.05, 'MinPeakDistance', 10);
         
         % Create a mask for excluding the peak regions
