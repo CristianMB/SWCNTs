@@ -3,18 +3,17 @@ clear all;
 addpath('X:\SWCNTs');
 import UsefulFunctions.*;
 % rootpath = 'X:\Measurements Data\Absorption\';
-% rootpath = 'X:\Measurements Data\Absorption\';
+rootpath = 'X:\Measurements (RAW)\Absorption\';
 
 %All paths as default
 set(0,'DefaultFigureWindowStyle','normal')
 
 
-CryoFS4 = [rootpath,'20241216\TDAE_VacuumMeasurements.csv'];
-CryoFS7 = [rootpath,'20241216\Dodecane_VacuumMeasurements.csv'];
+CryoFS6 = [rootpath,'20250220\Cryostat_Hexadecane_Film.csv'];
 
 %Select the paths of interest
-paths = {   CryoFS4
-            CryoFS7
+paths = {   
+            CryoFS6
         };
 
 %Read and structure data from the paths
@@ -24,120 +23,93 @@ ReadAbsorptionFromPaths(paths);
 
 %% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-DATA_20241216.Baseline.N='Baseline';
-DATA_20241216.Dodecane_KIT_Air_A.N='Dodecane_KIT_Air_A';
-DATA_20241216.Dodecane_KIT_Vac_1.N='Dodecane_KIT_Vac_1';
-DATA_20241216.Dodecane_KIT_Vac_20.N='Dodecane_KIT_Vac_20';
-DATA_20241216.Dodecane_KIT_Vac_75.N='Dodecane_KIT_Vac_75';
-DATA_20241216.Dodecane_KIT_Vac_140.N='Dodecane_KIT_Vac_140';
-DATA_20241216.Dodecane_KIT_Vac_350.N='Dodecane_KIT_Vac_350';
-DATA_20241216.Dodecane_KIT_Vac_1175.N='Dodecane_KIT_Vac_1175';
-DATA_20241216.Dodecane_KIT_N2_B.N='Dodecane_KIT_N2_B';
-DATA_20241216.Dodecane_KIT_Vac_1200.N='Dodecane_KIT_Vac_1200';
-DATA_20241216.Dodecane_KIT_N2_C.N='Dodecane_KIT_N2_C';
-DATA_20241216.Dodecane_KIT_Vac_1300.N='Dodecane_KIT_Vac_1300';
-DATA_20241216.Dodecane_KIT_Temp_50.N='Dodecane_KIT_Temp_50';
-DATA_20241216.Dodecane_KIT_Temp_50_B.N='Dodecane_KIT_Temp_50_B';
-DATA_20241216.Dodecane_KIT_Vac_1420.N='Dodecane_KIT_Vac_1420';
-DATA_20241216.Dodecane_KIT_HotWater_A.N='Dodecane_KIT_HotWater_A';
-DATA_20241216.Dodecane_KIT_N2_D.N='Dodecane_KIT_N2_D';
-DATA_20241216.Dodecane_KIT_Temp_75.N='Dodecane_KIT_Temp_75';
-DATA_20241216.Dodecane_KIT_Temp_85.N='Dodecane_KIT_Temp_85';
-DATA_20241216.Dodecane_KIT_Temp_98.N='Dodecane_KIT_Temp_98';
-DATA_20241216.Dodecane_KIT_Air_B.N='Dodecane_KIT_Air_B';
-
-DATA_20241216.Baseline.N='Baseline';
-DATA_20241216.TDAE_KIT_Air.N='TDAE_KIT_Air';
-DATA_20241216.TDAE_KIT_Vac_1.N='TDAE_KIT_Vac_1';
-DATA_20241216.TDAE_KIT_Vac_10.N='TDAE_KIT_Vac_10';
-DATA_20241216.TDAE_KIT_Vac_20.N='TDAE_KIT_Vac_20';
-DATA_20241216.TDAE_KIT_Vac_30.N='TDAE_KIT_Vac_30';
-DATA_20241216.TDAE_KIT_Vac_60.N='TDAE_KIT_Vac_60';
-DATA_20241216.TDAE_KIT_N2.N='TDAE_KIT_N2';
-DATA_20241216.TDAE_KIT_Vac_150.N='TDAE_KIT_Vac_150';
-DATA_20241216.TDAE_KIT_Vac_300.N='TDAE_KIT_Vac_300';
-DATA_20241216.TDAE_KIT_Vac_1254.N='TDAE_KIT_Vac_1254';
-DATA_20241216.TDAE_KIT_N2_B.N='TDAE_KIT_N2_B';
-DATA_20241216.TDAE_KIT_Vac_1282.N='TDAE_KIT_Vac_1282';
-DATA_20241216.TDAE_KIT_Vac_1293.N='TDAE_KIT_Vac_1293';
-DATA_20241216.TDAE_KIT_Vac_1300.N='TDAE_KIT_Vac_1300';
-DATA_20241216.TDAE_KIT_Vac_1300.N='TDAE_KIT_Vac_1300';
-DATA_20241216.TDAE_KIT_Vac_1425.N='TDAE_KIT_Vac_1425';
-DATA_20241216.TDAE_KIT_Air_B.N='TDAE_KIT_Air_B';
+% DATA_20241216.Baseline.N='Baseline';
+% DATA_20241216.Dodecane_KIT_Air_A.N='Dodecane_KIT_Air_A';
 
 %% %--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 %% %--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% %--------SPECTRA SELECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%% Rinsings
-
-
-FS4 = {
-%         DATA_20241216.Baseline
-        DATA_20241216.TDAE_KIT_Air
-%         DATA_20241216.TDAE_KIT_Vac_1
-%         DATA_20241216.TDAE_KIT_Vac_10
-%         DATA_20241216.TDAE_KIT_Vac_20
-%         DATA_20241216.TDAE_KIT_Vac_30
-%         DATA_20241216.TDAE_KIT_Vac_60
-%         DATA_20241216.TDAE_KIT_N2
-        DATA_20241216.TDAE_KIT_Vac_150
-%         DATA_20241216.TDAE_KIT_Vac_300
-%         DATA_20241216.TDAE_KIT_Vac_1254
-%         DATA_20241216.TDAE_KIT_N2_B
-%         DATA_20241216.TDAE_KIT_Vac_1282
-        DATA_20241216.TDAE_KIT_Vac_1293
-        DATA_20241216.TDAE_KIT_Vac_1300
-%         DATA_20241216.TDAE_KIT_Vac_1300
-        DATA_20241216.TDAE_KIT_Vac_1425
-        DATA_20241216.TDAE_KIT_Air_B
+FS6 = {
+%         DATA_20250220.Baseline
+%         DATA_20250220.Cryostat_Air
+        DATA_20250220.Hexadecane_Initial
+        DATA_20250220.Hexadecane_V1
+        DATA_20250220.Hexadecane_V2
+        DATA_20250220.Hexadecane_V3
+        DATA_20250220.Hexadecane_V4
+        DATA_20250220.Hexadecane_V5_T1
+        DATA_20250220.Hexadecane_V6_T1
+        DATA_20250220.Hexadecane_V6_T2
+        DATA_20250220.Hexadecane_V8_T2
+        DATA_20250220.Hexadecane_V9_T3
+        DATA_20250220.Hexadecane_V10_T3
+        DATA_20250220.Hexadecane_V11_T4
+        DATA_20250220.Hexadecane_V12_T4
+        DATA_20250220.Hexadecane_V13_C1
+        DATA_20250220.Hexadecane_V14_C2
+        DATA_20250220.Hexadecane_V15_C3
+        DATA_20250220.Hexadecane_V15_C4
     };
 
-FS7 = {
-%         DATA_20241216.Baseline
-        DATA_20241216.Dodecane_KIT_Air_A
-%         DATA_20241216.Dodecane_KIT_Vac_1
-%         DATA_20241216.Dodecane_KIT_Vac_20
-%         DATA_20241216.Dodecane_KIT_Vac_75
-        DATA_20241216.Dodecane_KIT_Vac_140
-%         DATA_20241216.Dodecane_KIT_Vac_350
-%         DATA_20241216.Dodecane_KIT_Vac_1175
-%         DATA_20241216.Dodecane_KIT_N2_B
-        DATA_20241216.Dodecane_KIT_Vac_1200
-%         DATA_20241216.Dodecane_KIT_N2_C
-%         DATA_20241216.Dodecane_KIT_Vac_1300
-%         DATA_20241216.Dodecane_KIT_Temp_50
-        DATA_20241216.Dodecane_KIT_Temp_50_B
-%         DATA_20241216.Dodecane_KIT_Vac_1420
-%         DATA_20241216.Dodecane_KIT_HotWater_A
-%         DATA_20241216.Dodecane_KIT_N2_D
-%         DATA_20241216.Dodecane_KIT_Temp_75
-%         DATA_20241216.Dodecane_KIT_Temp_85
-        DATA_20241216.Dodecane_KIT_Temp_98
-        DATA_20241216.Dodecane_KIT_Air_B
-    };
+FS6 = FilterDataByXRange(FS6, 190, 2500);
+FS6 = matchSpectra(FS6, 900, 5);
+FS6 = matchSpectra(FS6, 1199, 5);
+FS6 = Normalize(FS6,950, 1150, 'M');
+plotAbsorptionOrdered(FS6, 0.03);
+% plotMaxima(FS6, 960, 1060, 0.05);
+plotMaxima(FS6, 1740, 1060, 0.05);
 
 
-% FS4 = FilterDataByXRange(FS4, 0, 2600);
-% FS4 = NormalizeSample(FS4,902, 1300); 
-% FS4 = RemovePolyBG(FS4, 0);
-% FS4 = NormalizeSample(FS4,902, 1300); 
-% plotAbsorptionOrdered(FS4, 0);
+function plotMaxima(FS6, x_min, x_max, offset)
+    figure; hold on;
+    for i = 1:length(FS6)
+        DS = FS6{i};
+        
+        % Apply offset to Y values
+        DS.Y = DS.Y - (i - 1) * offset;
+        
+        % Filter data within the specified region
+        idx_range = (DS.X >= x_min) & (DS.X <= x_max);
+        X_fit = DS.X(idx_range);
+        Y_fit = DS.Y(idx_range);
+        
+        % Fit a Lorentzian model to the selected data
+        lorentzEqn = 'a / (1 + ((x-b)/c)^2) + d';
+        startPoints = [max(Y_fit), mean(X_fit), std(X_fit), min(Y_fit)];
+        fitResult = fit(X_fit, Y_fit, lorentzEqn, 'Start', startPoints);
+        
+        % Find the peak from the fit
+        max_x = fitResult.b;
+        max_val = fitResult.a / (1 + ((max_x - fitResult.b)/fitResult.c)^2) + fitResult.d;
+        
+        % Plot the spectrum
+        plot(DS.X, DS.Y, '-');
+        
+        % Mark the maximum point
+        plot(max_x, max_val, 'ro', 'MarkerSize', 8, 'LineWidth', 2);
+    end
+    hold off;
+end
 
-FS7 = FilterDataByXRange(FS7, 0, 2600);
-FS7 = NormalizeSample(FS7,902, 1300); 
-FS7 = RemovePolyBG(FS7, 0);
-FS7 = NormalizeSample(FS7,902, 1300); 
-plotAbsorptionOrdered(FS7, 0);
+
+
+% FS6 = ConvertedEnergy(FS6);
+% plotAbsorptionOrdered(FS6, 0);
+
+
+% FS7 = NormalizeSample(FS7,902, 1300); 
+% FS7 = RemovePolyBG(FS7, 0);
+% FS7 = NormalizeSample(FS7,902, 1300); 
+
+
 
 % close;
 % backgr = [330, 610, 840, 1320, 2500];
-backgr = [330,610, 1311, 2500];
+% backgr = [330,610, 1311, 2500];
 
 % FS4 = BackgroundSubtractionExcludeRanges(FS4, [[620,800], [900, 1220], [1578, 2260]]);
 % FS4 = BackgroundSubtractionWithSpecifiedPoints(FS4, backgr);
@@ -145,37 +117,19 @@ backgr = [330,610, 1311, 2500];
 % plotAbsorptionOrdered(FS4, 0);
 
 % plotAbsorptionOrdered(FS4, 0);
-FS4 = FilterDataByXRange(FS4, 0, 2520);
-FS4 = BackgroundSubtraction(FS4, [500, 2600]);
-FS4 = Normalize(FS4,910, 1290, 'M'); 
-% plotAbsorptionOrdered(FS4, 0);
-
-% Define los límites del rango
-x_min = 800;
-x_max = 860;
+% FS4 = FilterDataByXRange(FS4, 0, 2520);
+% FS4 = BackgroundSubtraction(FS4, [500, 2600]);
+% FS4 = Normalize(FS4,910, 1290, 'M'); 
+% % plotAbsorptionOrdered(FS4, 0);
+% 
+% % Define los límites del rango
+% x_min = 800;
+% x_max = 860;
 
 % Itera sobre cada dataset en la lista
-for i = 1:length(FS4)
-    DS = FS4{i};
-    
-    % Encuentra los índices donde DS.X está entre 800 y 860
-    idx_range = (DS.X >= x_min) & (DS.X <= x_max);
-    
-    % Encuentra el valor mínimo de DS.Y en ese rango
-    min_val = min(DS.Y(idx_range));
-    
-    
-    idx_range2 = (DS.X >= 0) & (DS.X <= 900);
-
-    % Sustrae este valor mínimo de DS.Y solo en el rango especificado
-    DS.Y(idx_range2) = DS.Y(idx_range2) - min_val;
-    
-    % Guarda los cambios en el dataset actual
-    FS4{i} = DS;
-end
 
 
-plotAbsorptionOrdered(FS4, 0);
+% plotAbsorptionOrdered(FS4, 0);
 
 % Define the list of datasets
 
@@ -196,6 +150,46 @@ plotAbsorptionOrdered(FS4, 0);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function FS6 = matchSpectra(FS6, x0, delta)
+    for i = 1:length(FS6)
+        DS = FS6{i};
+        
+        % Definir los rangos izquierdo y derecho alrededor de x0
+        idx_left = (DS.X >= (x0 - delta)) & (DS.X <= x0);
+        idx_right = (DS.X >= x0) & (DS.X <= (x0 + delta));
+        
+        % Calcular los promedios de Y en cada región
+        mean_left = mean(DS.Y(idx_left));
+        mean_right = mean(DS.Y(idx_right));
+        
+        % Calcular el ajuste necesario
+        adjustment = mean_right - mean_left;
+        
+        % Aplicar el ajuste a la parte izquierda o derecha (puedes cambiar esto según necesites)
+%         DS.Y(DS.X < x0) = DS.Y(DS.X < x0) + adjustment;
+          DS.Y(DS.X > x0) = DS.Y(DS.X > x0) - adjustment;
+        
+        % Guardar los cambios en el dataset actual
+        FS6{i} = DS;
+    end
+end
+
+function DS_list = ConvertedEnergy(DS_list)
+    h = 4.135667696e-15; % Planck's constant in eV*s
+    c = 299792458; % Speed of light in m/s
+    
+    for i = 1:length(DS_list)
+        DS = DS_list{i};
+        
+        % Convert wavelength (nm) to energy (eV)
+        DS.X = (h * c) ./ (DS.X * 1e-9);
+        
+        % Store the converted dataset
+        DS_list{i} = DS;
+    end
+end
+
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
     % BackgroundSubtractionExcludeRanges performs background subtraction using the Naumov model,
     % excluding specified ranges from the background fit.

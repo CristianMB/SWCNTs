@@ -10,10 +10,12 @@ set(0,'DefaultFigureWindowStyle','normal')
 
 
 CryoFS6 = [rootpath,'20250220\Cryostat_Hexadecane_Film.csv'];
+CryoFS4 = [rootpath,'20250221\Cryostat_TDAE_Film.csv'];
 
 %Select the paths of interest
 paths = {   
             CryoFS6
+            CryoFS4
         };
 
 %Read and structure data from the paths
@@ -35,7 +37,7 @@ ReadAbsorptionFromPaths(paths);
 
 FS6 = {
 %         DATA_20250220.Baseline
-%         DATA_20250220.Cryostat_Air
+        DATA_20250220.Cryostat_Air
         DATA_20250220.Hexadecane_Initial
         DATA_20250220.Hexadecane_V1
         DATA_20250220.Hexadecane_V2
@@ -52,19 +54,90 @@ FS6 = {
         DATA_20250220.Hexadecane_V13_C1
         DATA_20250220.Hexadecane_V14_C2
         DATA_20250220.Hexadecane_V15_C3
+        DATA_20250220.Hexadecane_V15_C4
+        DATA_20250220.Hexadecane_V17_C5
+        DATA_20250220.Hexadecane_V18_A1
     };
 
-FS6 = FilterDataByXRange(FS6, 190, 2500);
-% plotAbsorptionOrdered(FS6, 0);
+FS4 = {
+%     DATA_20250221.Baseline
+%     DATA_20250221.Cryostat_Air
+    DATA_20250221.TDAE_V0
+    DATA_20250221.TDAE_V1
+    DATA_20250221.TDAE_V2_T1
+    DATA_20250221.TDAE_V3_T2
+    DATA_20250221.TDAE_V4_T3
+    DATA_20250221.TDAE_V5_T4
+    DATA_20250221.TDAE_V6_T5
+    DATA_20250221.TDAE_V7_T6
+    DATA_20250221.TDAE_V8_T7
+    };
 
+plotMaxima(FS6, 960, 1060, 0.05);
+
+% plotAbsorptionOrdered(FS6, 0.00);
+% plotAbsorptionOrdered(FS4, 0.00);
+
+FS4 = FilterDataByXRange(FS4, 190, 2500);
+FS6 = FilterDataByXRange(FS6, 190, 2500);
 FS6 = matchSpectra(FS6, 900, 5);
 FS6 = matchSpectra(FS6, 1199, 5);
+FS4 = matchSpectra(FS4, 900, 5);
+FS4 = matchSpectra(FS4, 1199, 5);
+FS4 = Normalize(FS4,950, 1150, 'M');
+FS6 = Normalize(FS6,950, 1150, 'M');
 
-FS6 = Normalize(FS6,950, 1150, 'I');
-plotAbsorptionOrdered(FS6, 0);
+plotAbsorption(FS6, 0.00);
+% FS4 = ConvertedEnergy(FS4);
+% plotAbsorptionOrdered(FS4, 0.00);
 
-FS6 = ConvertedEnergy(FS6);
-plotAbsorptionOrdered(FS6, 0);
+% FS6 = FilterDataByXRange(FS6, 190, 2500);
+% FS6 = matchSpectra(FS6, 900, 5);
+% FS6 = matchSpectra(FS6, 1199, 5);
+% FS6 = RemovePolyBG(FS6, 0);
+% FS6 = Normalize(FS6,950, 1150, 'M');
+% % FS6 = Normalize(FS6,906, 1380, 'I');
+% 
+% plotAbsorptionOrdered(FS6, 0.0001);
+% plotMaxima(FS6, 1600, 2120, 0.05);
+% plotMaxima(FS6, 960, 1060, 0.05);
+
+
+function plotMaxima(FS6, x_min, x_max, offset)
+    figure; hold on;
+    for i = 1:length(FS6)
+        DS = FS6{i};
+        
+        % Apply offset to Y values
+        DS.Y = DS.Y - (i - 1) * offset;
+        
+        % Filter data within the specified region
+        idx_range = (DS.X >= x_min) & (DS.X <= x_max);
+        X_fit = DS.X(idx_range);
+        Y_fit = DS.Y(idx_range);
+        
+        % Fit a Lorentzian model to the selected data
+        lorentzEqn = 'a / (1 + ((x-b)/c)^2) + d';
+        startPoints = [max(Y_fit), mean(X_fit), std(X_fit), min(Y_fit)];
+        fitResult = fit(X_fit, Y_fit, lorentzEqn, 'Start', startPoints);
+        
+        % Find the peak from the fit
+        max_x = fitResult.b;
+        max_val = fitResult.a / (1 + ((max_x - fitResult.b)/fitResult.c)^2) + fitResult.d;
+        
+        % Plot the spectrum
+        plot(DS.X, DS.Y, '-');
+        
+        % Mark the maximum point
+        plot(max_x, max_val, 'ro', 'MarkerSize', 8, 'LineWidth', 2);
+    end
+    hold off;
+end
+
+
+
+% FS6 = ConvertedEnergy(FS6);
+% plotAbsorptionOrdered(FS6, 0);
 
 
 % FS7 = NormalizeSample(FS7,902, 1300); 
