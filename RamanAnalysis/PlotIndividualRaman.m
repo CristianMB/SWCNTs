@@ -3,6 +3,8 @@ function plot_individualRaman()
     import UsefulFunctions.*;
         % Add the path to the directory containing your functions
         defaultpath = 'X:\Measurements Data\Raman';
+        addpath('X:\SWCNTs\');
+        addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 
         % Step 1: Select the .csv file
         [file_name, folder_path] = uigetfile(fullfile(defaultpath, '*.m3d'), 'Select Raman Data File');

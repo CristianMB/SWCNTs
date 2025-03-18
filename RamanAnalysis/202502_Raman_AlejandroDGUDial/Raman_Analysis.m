@@ -1,194 +1,160 @@
 clc;
-clear all;
+clear;
 addpath('X:\SWCNTs');
 import UsefulFunctions.*;
-% rootpath = 'X:\Measurements Data\Absorption\';
-rootpath = 'X:\Measurements (RAW)\Absorption\';
+rootpath = 'X:\Measurements (RAW)\Raman\';
 
+% rootpath = 'X:\Measurements Data\Raman\';
+addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 %All paths as default
-set(0,'DefaultFigureWindowStyle','normal')
-
-
-CryoFS6 = [rootpath,'20250220\Cryostat_Hexadecane_Film.csv'];
+path_powder = [rootpath,'20250211\'];
+path_aina = [rootpath,'20250126\'];
 
 %Select the paths of interest
-paths = {   
-            CryoFS6
+
+paths = {
+        path_powder
+        path_aina
         };
 
-%Read and structure data from the paths
 
-ReadAbsorptionFromPaths(paths);
+ReadRamanFromPaths(paths, 2);
 
-
-%% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% DATA_20241216.Baseline.N='Baseline';
-% DATA_20241216.Dodecane_KIT_Air_A.N='Dodecane_KIT_Air_A';
-
-%% %--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% %--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% %--------SPECTRA SELECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-FS6 = {
-%         DATA_20250220.Baseline
-%         DATA_20250220.Cryostat_Air
-        DATA_20250220.Hexadecane_Initial
-        DATA_20250220.Hexadecane_V1
-        DATA_20250220.Hexadecane_V2
-        DATA_20250220.Hexadecane_V3
-        DATA_20250220.Hexadecane_V4
-        DATA_20250220.Hexadecane_V5_T1
-        DATA_20250220.Hexadecane_V6_T1
-        DATA_20250220.Hexadecane_V6_T2
-        DATA_20250220.Hexadecane_V8_T2
-        DATA_20250220.Hexadecane_V9_T3
-        DATA_20250220.Hexadecane_V10_T3
-        DATA_20250220.Hexadecane_V11_T4
-        DATA_20250220.Hexadecane_V12_T4
-        DATA_20250220.Hexadecane_V13_C1
-        DATA_20250220.Hexadecane_V14_C2
-        DATA_20250220.Hexadecane_V15_C3
-        DATA_20250220.Hexadecane_V15_C4
-    };
 
-FS6 = FilterDataByXRange(FS6, 190, 2500);
-FS6 = matchSpectra(FS6, 900, 5);
-FS6 = matchSpectra(FS6, 1199, 5);
-FS6 = Normalize(FS6,950, 1150, 'M');
-plotAbsorptionOrdered(FS6, 0.03);
-% plotMaxima(FS6, 960, 1060, 0.05);
-plotMaxima(FS6, 1740, 1060, 0.05);
+% DATA_20250211.S1BH514R.N = 'SWCNTs - DGU B';
+% DATA_20250211.S1CH514R.N = 'SWCNTs - DGU C';
+% DATA_20250211.S1DH514R.N = 'SWCNTs - DGU D';
+% DATA_20250211.S2BH514R.N = 'BiTeI@SWCNTs - DGU B';
+% DATA_20250211.S2CH514R.N = 'BiTeI@SWCNTs - DGU C';
+% DATA_20250211.S2DH514R.N = 'BiTeI@SWCNTs - DGU D';
+% DATA_20250211.S1BH514G.N = 'SWCNTs - DGU B';
+% DATA_20250211.S1CH514G.N = 'SWCNTs - DGU C';
+% DATA_20250211.S1DH514G.N = 'SWCNTs - DGU D';
+% DATA_20250211.S2BH514G.N = 'BiTeI@SWCNTs - DGU B';
+% DATA_20250211.S2CH514G.N = 'BiTeI@SWCNTs - DGU C';
+% DATA_20250211.S2DH514G.N = 'BiTeI@SWCNTs - DGU D';
 
+%%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function plotMaxima(FS6, x_min, x_max, offset)
-    figure; hold on;
-    for i = 1:length(FS6)
-        DS = FS6{i};
+%%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% AINA AND ALEJANDRO
+
+%% CRISTIAN AND ALENADRO
+               
+R = {
+%         DATA_20250126.L496A
+%         DATA_20250126.L514A
+%         
+%         DATA_20250126.DOCRBMA
+%         DATA_20250126.DOCRBMB
+%         
+%         DATA_20250126.MEGPRA
+%         DATA_20250126.MERBMA
+%         DATA_20250126.MERBMPRA
+%         DATA_20250126.MERBMSON
         
-        % Apply offset to Y values
-        DS.Y = DS.Y - (i - 1) * offset;
+%         DATA_20250126.SEGA
+%         DATA_20250126.SEGB
+        DATA_20250126.SERBMA
+%         DATA_20250126.SERBMB
         
-        % Filter data within the specified region
-        idx_range = (DS.X >= x_min) & (DS.X <= x_max);
-        X_fit = DS.X(idx_range);
-        Y_fit = DS.Y(idx_range);
+%         DATA_20250126.SFGA
+%         DATA_20250126.SFGB
+        DATA_20250126.SFRBMA
+%         DATA_20250126.SFRBMB
+            };   
         
-        % Fit a Lorentzian model to the selected data
-        lorentzEqn = 'a / (1 + ((x-b)/c)^2) + d';
-        startPoints = [max(Y_fit), mean(X_fit), std(X_fit), min(Y_fit)];
-        fitResult = fit(X_fit, Y_fit, lorentzEqn, 'Start', startPoints);
+               
+G = {
+        DATA_20250126.L496A
+        DATA_20250126.L514A
         
-        % Find the peak from the fit
-        max_x = fitResult.b;
-        max_val = fitResult.a / (1 + ((max_x - fitResult.b)/fitResult.c)^2) + fitResult.d;
+        DATA_20250126.DOCRBMA
+        DATA_20250126.DOCRBMB
         
-        % Plot the spectrum
-        plot(DS.X, DS.Y, '-');
+        DATA_20250126.MEGPRA
+        DATA_20250126.MERBMA
+        DATA_20250126.MERBMPRA
+        DATA_20250126.MERBMSON
         
-        % Mark the maximum point
-        plot(max_x, max_val, 'ro', 'MarkerSize', 8, 'LineWidth', 2);
-    end
-    hold off;
-end
+        DATA_20250126.SEGA
+        DATA_20250126.SEGB
+        DATA_20250126.SERBMA
+        DATA_20250126.SERBMB
+        
+        DATA_20250126.SFGA
+        DATA_20250126.SFGB
+        DATA_20250126.SFRBMA
+        DATA_20250126.SFRBMB
+            };   
 
 
 
-% FS6 = ConvertedEnergy(FS6);
-% plotAbsorptionOrdered(FS6, 0);
+ 
+R = FilterDataByXRange(R, 50, 550);
+G = FilterDataByXRange(G, 1400, 1800);
 
 
-% FS7 = NormalizeSample(FS7,902, 1300); 
-% FS7 = RemovePolyBG(FS7, 0);
-% FS7 = NormalizeSample(FS7,902, 1300); 
+% R = RemovePolyBG(R, 0);
+% G = RemovePolyBG(G, 0);
+
+R = Normalize(R, 150, 190, 'M');
+G = Normalize(G, 1560, 1600, 'M');
+
+
+plotRaman(R, 0.0, 514);        
+plotRaman(G, 0.0, 514);        
+% plotRaman(DD, 0, 514);        
+
+
+%% CRISTIAN AND ALENADRO
+               
+R = {
+        DATA_20250211.S1BH514R
+        DATA_20250211.S1CH514R
+        DATA_20250211.S1DH514R
+        DATA_20250211.S2BH514R
+        DATA_20250211.S2CH514R
+        DATA_20250211.S2DH514R
+        
+            };   
+        
+               
+G = {
+        DATA_20250211.S1BH514G
+        DATA_20250211.S1CH514G
+        DATA_20250211.S1DH514G
+        DATA_20250211.S2BH514G
+        DATA_20250211.S2CH514G
+        DATA_20250211.S2DH514G
+            };   
 
 
 
-% close;
-% backgr = [330, 610, 840, 1320, 2500];
-% backgr = [330,610, 1311, 2500];
+R = FlatFieldCorrection(R,DATA_20250211.FFH514R);
+G = FlatFieldCorrection(G,DATA_20250211.FFH514G);
 
-% FS4 = BackgroundSubtractionExcludeRanges(FS4, [[620,800], [900, 1220], [1578, 2260]]);
-% FS4 = BackgroundSubtractionWithSpecifiedPoints(FS4, backgr);
-% FS4 = Normalize(FS4,902, 1300, 'I'); 
-% plotAbsorptionOrdered(FS4, 0);
-
-% plotAbsorptionOrdered(FS4, 0);
-% FS4 = FilterDataByXRange(FS4, 0, 2520);
-% FS4 = BackgroundSubtraction(FS4, [500, 2600]);
-% FS4 = Normalize(FS4,910, 1290, 'M'); 
-% % plotAbsorptionOrdered(FS4, 0);
 % 
-% % Define los límites del rango
-% x_min = 800;
-% x_max = 860;
+R = FilterDataByXRange(R, 130, 220);
+G = FilterDataByXRange(G, 1540, 1620);
+%         
+%         
+R = RemovePolyBG(R, 1);
+% G = RemovePolyBG(G, 1);
+% DD = RemovePolyBG(DD, 0);
+% 
+R = Normalize(R, 150, 190, 'M');
+G = Normalize(G, 1560, 1600, 'M');
+% DD = Normalize(DD, 0, 3000, 'M');
+% 
+% plotRaman(R, 0.0, 514);        
+% plotRaman(G, 0.0, 514);        
+% plotRaman(DD, 0, 514);        
 
-% Itera sobre cada dataset en la lista
-
-
-% plotAbsorptionOrdered(FS4, 0);
-
-% Define the list of datasets
-
-% FS7 = FilterDataByXRange(FS7, 0, 2520);
-% FS7 = BackgroundSubtraction(FS7, [500, 2500]);
-% FS7 = Normalize(FS7,902, 1300, 'M'); 
-% plotAbsorptionOrdered(FS7, 0);
-
-
-%RIGHT PARAMETERS!! - Dont modify
-% plotAbsorptionOrdered(FS7, 0);
-
-% FS7 = FilterDataByXRange(FS7, 0, 2520);
-% FS7 = BackgroundSubtraction(FS7, [250, 2500]);
-% FS7 = Normalize(FS7,902, 1300, 'M'); 
-% plotAbsorptionOrdered(FS7, 0);
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function FS6 = matchSpectra(FS6, x0, delta)
-    for i = 1:length(FS6)
-        DS = FS6{i};
-        
-        % Definir los rangos izquierdo y derecho alrededor de x0
-        idx_left = (DS.X >= (x0 - delta)) & (DS.X <= x0);
-        idx_right = (DS.X >= x0) & (DS.X <= (x0 + delta));
-        
-        % Calcular los promedios de Y en cada región
-        mean_left = mean(DS.Y(idx_left));
-        mean_right = mean(DS.Y(idx_right));
-        
-        % Calcular el ajuste necesario
-        adjustment = mean_right - mean_left;
-        
-        % Aplicar el ajuste a la parte izquierda o derecha (puedes cambiar esto según necesites)
-%         DS.Y(DS.X < x0) = DS.Y(DS.X < x0) + adjustment;
-          DS.Y(DS.X > x0) = DS.Y(DS.X > x0) - adjustment;
-        
-        % Guardar los cambios en el dataset actual
-        FS6{i} = DS;
-    end
-end
-
-function DS_list = ConvertedEnergy(DS_list)
-    h = 4.135667696e-15; % Planck's constant in eV*s
-    c = 299792458; % Speed of light in m/s
-    
-    for i = 1:length(DS_list)
-        DS = DS_list{i};
-        
-        % Convert wavelength (nm) to energy (eV)
-        DS.X = (h * c) ./ (DS.X * 1e-9);
-        
-        % Store the converted dataset
-        DS_list{i} = DS;
-    end
-end
 
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
     % BackgroundSubtractionExcludeRanges performs background subtraction using the Naumov model,
@@ -527,7 +493,7 @@ function DSList = RemovePolyBG(DSList, degree)
         Y = DS.Y;  % Intensity values
         
         % Identify regions to exclude based on peak detection
-        % Findpeaks
+        % You can implement your own peak detection logic here or use findpeaks
         [pks, locs] = findpeaks(Y, 'MinPeakHeight', 0.05, 'MinPeakDistance', 10);
         
         % Create a mask for excluding the peak regions
@@ -557,3 +523,5 @@ function DSList = RemovePolyBG(DSList, degree)
         DSList{i} = DS;
     end
 end
+
+

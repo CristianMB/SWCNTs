@@ -151,7 +151,7 @@ R = Normalize(R, 150, 190, 'M');
 G = Normalize(G, 1560, 1600, 'M');
 % DD = Normalize(DD, 0, 3000, 'M');
 % 
-% plotRaman(R, 0.0, 514);        
+plotRaman(R, 0.0, 514);        
 % plotRaman(G, 0.0, 514);        
 % plotRaman(DD, 0, 514);        
 

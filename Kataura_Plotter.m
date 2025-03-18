@@ -6,11 +6,12 @@ import UsefulFunctions.*;
 
 
 %% Choose region
-XAxis = [120, 220];  %RBM Range
+XAxis = [100, 500];  %RBM Range
 % XAxis = [0.5, 1.5];  %Diameter Range
-YAxis = [450, 650];  %WL Range
+% YAxis = [450, 650];  %WL Range
+YAxis = [450, 520];  %WL Range
 
-Laserlines = [514.5];
+Laserlines = [488.0];
 Tolerances = [5, 5];
 % Laserlines = [514.5 561.1 496.5 488 476.5 457.9];
 % Tolerances = [5 5 5 5 5 5];
@@ -41,7 +42,7 @@ KATAURA.Type = [];
 
 % for m = 5:2
 %     for n = 0:m
-for m = 4:19
+for m = 5:16
     for n = 0:m
         [rbm, wl1, w22, w33, w44, diam, theta, type] = CalculateKataura([n, m]);
         

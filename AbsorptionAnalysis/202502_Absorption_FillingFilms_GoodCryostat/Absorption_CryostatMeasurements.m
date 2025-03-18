@@ -4,6 +4,7 @@ addpath('X:\SWCNTs');
 import UsefulFunctions.*;
 % rootpath = 'X:\Measurements Data\Absorption\';
 rootpath = 'X:\Measurements (RAW)\Absorption\';
+% addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 
 %All paths as default
 set(0,'DefaultFigureWindowStyle','normal')
@@ -11,11 +12,13 @@ set(0,'DefaultFigureWindowStyle','normal')
 
 CryoFS6 = [rootpath,'20250220\Cryostat_Hexadecane_Film.csv'];
 CryoFS4 = [rootpath,'20250221\Cryostat_TDAE_Film.csv'];
+CryoFS4_2 = [rootpath,'20250305\TDAE_Cryostat.csv'];
 
 %Select the paths of interest
 paths = {   
             CryoFS6
             CryoFS4
+            CryoFS4_2
         };
 
 %Read and structure data from the paths
@@ -25,8 +28,45 @@ ReadAbsorptionFromPaths(paths);
 
 %% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% DATA_20241216.Baseline.N='Baseline';
-% DATA_20241216.Dodecane_KIT_Air_A.N='Dodecane_KIT_Air_A';
+DATA_20250220.Hexadecane_Initial.N = 'Hexadecane in Air, 22°C'
+DATA_20250220.Hexadecane_V1.N = 'Hexadecane in HV, 22°C'
+DATA_20250220.Hexadecane_V2.N = 'Hexadecane in Air, 22°C'
+DATA_20250220.Hexadecane_V3.N = 'Hexadecane in Air, 22°C'
+DATA_20250220.Hexadecane_V4.N = 'Hexadecane in HV, 22°C'
+DATA_20250220.Hexadecane_V5_T1.N = 'Hexadecane in HV, 76°C'
+DATA_20250220.Hexadecane_V6_T1.N = 'Hexadecane in HV, 76°C'
+DATA_20250220.Hexadecane_V6_T2.N = 'Hexadecane in HV, 127°C'
+DATA_20250220.Hexadecane_V8_T2.N = 'Hexadecane in HV, 127°C'
+DATA_20250220.Hexadecane_V9_T3.N = 'Hexadecane in HV, 177°C'
+DATA_20250220.Hexadecane_V10_T3.N = 'Hexadecane in HV, 177°C'
+DATA_20250220.Hexadecane_V11_T4.N = 'Hexadecane in HV, 226°C'
+DATA_20250220.Hexadecane_V12_T4.N = 'Hexadecane in HV, 226°C'
+DATA_20250220.Hexadecane_V13_C1.N = 'Hexadecane in HV, 196°C'
+DATA_20250220.Hexadecane_V14_C2.N = 'Hexadecane in HV, 177°C'
+DATA_20250220.Hexadecane_V15_C3.N = 'Hexadecane in HV, 137°C'
+DATA_20250220.Hexadecane_V15_C4.N = 'Hexadecane in HV, 71°C'
+DATA_20250220.Hexadecane_V17_C5.N = 'Hexadecane in HV, 22°C'
+DATA_20250220.Hexadecane_V18_A1.N = 'Hexadecane in Air, 22°C'
+
+DATA_20250221.TDAE_V0.N = 'TDAE in Air, 22°C'
+DATA_20250221.TDAE_V1.N = 'TDAE in HV, 22°C'
+DATA_20250221.TDAE_V2_T1.N = 'TDAE in HV, 77°C'
+DATA_20250221.TDAE_V3_T2.N = 'TDAE in HV, 102°C'
+DATA_20250221.TDAE_V4_T3.N = 'TDAE in HV, 127°C'
+DATA_20250221.TDAE_V5_T4.N = 'TDAE in HV, 137°C'
+DATA_20250221.TDAE_V6_T5.N = 'TDAE in HV, 147C'
+DATA_20250221.TDAE_V7_T6.N = 'TDAE in HV, 167°C'
+DATA_20250221.TDAE_V8_T7.N = 'TDAE in HV, 177°C'
+DATA_20250221.TDAE_V9_T8.N = 'TDAE in HV, 88°C'
+DATA_20250221.TDAE_V10_T9.N = 'TDAE in HV, 22°C'
+DATA_20250221.TDAE_V11_A1.N= 'TDAE in Air, 22°C'
+DATA_20250221.TDAE_V12_A2.N = 'TDAE in Air, 22°C'
+
+
+DATA_20250221.TDAE_V0.N = 'TDAE in Air, 22°C Initial'
+DATA_20250220.Hexadecane_Initial.N = 'Hexadecane in Air, 22°C Initial'
+DATA_20250220.Hexadecane_V18_A1.N = 'Hexadecane in Air, 22°C Final'
+DATA_20250221.TDAE_V12_A2.N = 'TDAE in Air, 22°C Final'
 
 %% %--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -37,19 +77,19 @@ ReadAbsorptionFromPaths(paths);
 
 FS6 = {
 %         DATA_20250220.Baseline
-        DATA_20250220.Cryostat_Air
+%         DATA_20250220.Cryostat_Air
         DATA_20250220.Hexadecane_Initial
-        DATA_20250220.Hexadecane_V1
-        DATA_20250220.Hexadecane_V2
-        DATA_20250220.Hexadecane_V3
+%         DATA_20250220.Hexadecane_V1
+%         DATA_20250220.Hexadecane_V2
+%         DATA_20250220.Hexadecane_V3
         DATA_20250220.Hexadecane_V4
-        DATA_20250220.Hexadecane_V5_T1
+%         DATA_20250220.Hexadecane_V5_T1
         DATA_20250220.Hexadecane_V6_T1
-        DATA_20250220.Hexadecane_V6_T2
+%         DATA_20250220.Hexadecane_V6_T2
         DATA_20250220.Hexadecane_V8_T2
-        DATA_20250220.Hexadecane_V9_T3
+%         DATA_20250220.Hexadecane_V9_T3
         DATA_20250220.Hexadecane_V10_T3
-        DATA_20250220.Hexadecane_V11_T4
+%         DATA_20250220.Hexadecane_V11_T4
         DATA_20250220.Hexadecane_V12_T4
         DATA_20250220.Hexadecane_V13_C1
         DATA_20250220.Hexadecane_V14_C2
@@ -71,25 +111,40 @@ FS4 = {
     DATA_20250221.TDAE_V6_T5
     DATA_20250221.TDAE_V7_T6
     DATA_20250221.TDAE_V8_T7
+    DATA_20250221.TDAE_V9_T8
+    DATA_20250221.TDAE_V10_T9
+    DATA_20250221.TDAE_V11_A1
+    DATA_20250221.TDAE_V12_A2
+    DATA_20250305.TDAE_Air_11days
     };
 
-plotMaxima(FS6, 960, 1060, 0.05);
+
+% plotMaxima(FS6, 960, 1060, 0.05);
 
 % plotAbsorptionOrdered(FS6, 0.00);
-% plotAbsorptionOrdered(FS4, 0.00);
-
+% 
 FS4 = FilterDataByXRange(FS4, 190, 2500);
-FS6 = FilterDataByXRange(FS6, 190, 2500);
-FS6 = matchSpectra(FS6, 900, 5);
-FS6 = matchSpectra(FS6, 1199, 5);
 FS4 = matchSpectra(FS4, 900, 5);
 FS4 = matchSpectra(FS4, 1199, 5);
 FS4 = Normalize(FS4,950, 1150, 'M');
-FS6 = Normalize(FS6,950, 1150, 'M');
 
-plotAbsorption(FS6, 0.00);
-% FS4 = ConvertedEnergy(FS4);
+FS6 = FilterDataByXRange(FS6, 190, 2500);
+FS6 = matchSpectra(FS6, 900, 5);
+FS6 = matchSpectra(FS6, 1199, 5);
+FS6 = Normalize(FS6,950, 1150, 'M');
+% 
+% plotAbsorption(FS4, 0.00);
 % plotAbsorptionOrdered(FS4, 0.00);
+
+FS6 = Normalize(FS6,950, 1150, 'M');
+plotAbsorption(FS6, 0.00);
+
+FS6 = Normalize(FS6,950, 1150, 'I');
+plotAbsorption(FS6, 0.00);
+
+% FS4 = ConvertedEnergy(FS4);
+% plotAbsorptionOrdered(FS4, 0.1);
+% plotMaxima(FS4, 960, 1060, 0.1);
 
 % FS6 = FilterDataByXRange(FS6, 190, 2500);
 % FS6 = matchSpectra(FS6, 900, 5);
@@ -101,6 +156,123 @@ plotAbsorption(FS6, 0.00);
 % plotAbsorptionOrdered(FS6, 0.0001);
 % plotMaxima(FS6, 1600, 2120, 0.05);
 % plotMaxima(FS6, 960, 1060, 0.05);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Analysis on S11/S22 ratio
+
+% FS4 = BackgroundSubtractionWithSpecifiedPoints(FS4, [611, 826, 1300]);
+% plotAbsorption(FS4,0);
+% calculateS11S22(FS4, 960, 1060, 1600, 2120, 0.1)
+% calculateS11S22(FS6, 960, 1060, 1600, 2120, 0.1)
+
+
+function calculateS11S22(F, x11_min, x11_max, x22_min, x22_max, offset)
+    % Store values for plotting
+    categories = {};  % Stores qualitative values from DS.N
+    ratios = [];      % Stores computed S11/S22 ratios
+
+    % First Figure: Ratio vs DS.N
+    figure;
+    hold on;
+
+    for i = 1:length(F)
+        DS = F{i}; % Use a single dataset
+
+        % Filter data within the specified region
+        idx_range11 = (DS.X >= x11_min) & (DS.X <= x11_max);
+        X11_fit = DS.X(idx_range11);
+        Y11_fit = DS.Y(idx_range11);
+        
+        idx_range22 = (DS.X >= x22_min) & (DS.X <= x22_max);
+        X22_fit = DS.X(idx_range22);
+        Y22_fit = DS.Y(idx_range22);
+        
+        % Fit a Lorentzian model to the selected data
+        lorentzEqn = 'a / (1 + ((x-b)/c)^2) + d';
+        
+        startPoints11 = [max(Y11_fit), mean(X11_fit), std(X11_fit), min(Y11_fit)];
+        startPoints22 = [max(Y22_fit), mean(X22_fit), std(X22_fit), min(Y22_fit)];
+
+        fitResult11 = fit(X11_fit, Y11_fit, lorentzEqn, 'Start', startPoints11);
+        fitResult22 = fit(X22_fit, Y22_fit, lorentzEqn, 'Start', startPoints22);
+
+        % Extract peak values from fits
+        max_x11 = fitResult11.b;
+        max_val11 = fitResult11.a + fitResult11.d;
+        
+        max_x22 = fitResult22.b;
+        max_val22 = fitResult22.a + fitResult22.d;
+
+        % Compute S11/S22 ratio
+        ratio = max_val11 / max_val22;
+
+        % Store qualitative variable (DS.N) and computed ratio
+        categories{end+1} = DS.N;
+        ratios(end+1) = ratio;
+    end
+
+    % Convert categories to a categorical variable
+    categories = categorical(categories);
+
+    % Plot the ratio vs DS.N
+    scatter(categories, ratios, 'ro', 'filled');
+    xlabel('DS.N (Qualitative)');
+    ylabel('S11/S22 Ratio');
+    title('S11/S22 Ratio vs. DS.N');
+    grid on;
+    hold off;
+
+    % Second Figure: Spectra with peak markers
+    figure;
+    hold on;
+
+    for i = 1:length(F)
+        DS = F{i}; % Use a single dataset
+
+        % Apply offset to Y values
+        DS.Y = DS.Y - (i - 1) * offset;
+
+        % Filter data within the specified region
+        idx_range11 = (DS.X >= x11_min) & (DS.X <= x11_max);
+        X11_fit = DS.X(idx_range11);
+        Y11_fit = DS.Y(idx_range11);
+        
+        idx_range22 = (DS.X >= x22_min) & (DS.X <= x22_max);
+        X22_fit = DS.X(idx_range22);
+        Y22_fit = DS.Y(idx_range22);
+
+        % Fit a Lorentzian model to the selected data
+        lorentzEqn = 'a / (1 + ((x-b)/c)^2) + d';
+        
+        startPoints11 = [max(Y11_fit), mean(X11_fit), std(X11_fit), min(Y11_fit)];
+        startPoints22 = [max(Y22_fit), mean(X22_fit), std(X22_fit), min(Y22_fit)];
+
+        fitResult11 = fit(X11_fit, Y11_fit, lorentzEqn, 'Start', startPoints11);
+        fitResult22 = fit(X22_fit, Y22_fit, lorentzEqn, 'Start', startPoints22);
+
+        % Extract peak values from fits
+        max_x11 = fitResult11.b;
+        max_val11 = fitResult11.a + fitResult11.d;
+        
+        max_x22 = fitResult22.b;
+        max_val22 = fitResult22.a + fitResult22.d;
+
+        % Plot the spectra
+        plot(DS.X, DS.Y, '-', 'DisplayName', sprintf('Spectrum %d', i));
+
+        % Mark the peaks
+        plot(max_x11, max_val11, 'ro', 'MarkerSize', 8, 'LineWidth', 2);
+        plot(max_x22, max_val22, 'bo', 'MarkerSize', 8, 'LineWidth', 2);
+    end
+
+    xlabel('X');
+    ylabel('Y');
+    title('Spectra with Peak Markers');
+%     legend show;
+    grid on;
+    hold off;
+end
 
 
 function plotMaxima(FS6, x_min, x_max, offset)

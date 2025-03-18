@@ -11,6 +11,7 @@ path_powder = [rootpath,'20250131\'];
 path_dgua = [rootpath,'20240517\'];
 path_dgub = [rootpath,'20241212\'];
 path_sf = [rootpath,'20240111\'];
+path_ga = [rootpath,'20240610\'];
 
 %Select the paths of interest
 
@@ -19,6 +20,8 @@ paths = {
         path_dgua
         path_dgub
         path_sf
+        
+        path_ga
         };
 
 
@@ -62,6 +65,27 @@ DATA_20240111.S240111R.N='SF TEMED@SWCNT 514nm';
 DATA_20240111.S240111S.N='SC Empty@SWCNT 514nm ';
 
 
+DATA_20240517.EAL514GD.N = 'Empty@SWCNTs'
+DATA_20240517.S2L514GD.N = 'PCE@SWCNTs'
+DATA_20240517.S3L514GD.N = 'TCE@SWCNTs'
+DATA_20240517.S4L514GD.N = 'TEMED@SWCNTs'
+DATA_20240517.S5L514GD.N = 'TDAE@SWCNTs'
+DATA_20240517.S6L514GD.N = 'Hexadecane@SWCNTs'
+DATA_20240517.S7L514GD.N = 'Dodecane@SWCNTs'
+DATA_20240517.WAL514GD.N = 'H2O@SWCNTs'
+
+DATA_20240111.S240111A.N='SF D2O@SWCNTs';
+DATA_20240111.S240111B.N='SF TCE@SWCNTs';
+DATA_20240111.S240111BB.N='SF TCE@SWCNTs';
+DATA_20240111.S240111C.N='SF MeOH@SWCNTs';
+DATA_20240111.S240111D.N='SF TCE@SWCNTs';
+DATA_20240111.S240111E.N='SF TTF@SWCNTs';
+DATA_20240111.S240111F.N='SF PCE@SWCNTs';
+DATA_20240111.S240111G.N='SF PCE@SWCNTs';
+DATA_20240111.S240111H.N='SF PCE@SWCNs';
+DATA_20240111.S240111I.N='SF TEMED@SWCNTs';
+
+
 %%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,21 +94,21 @@ DATA_20240111.S240111S.N='SC Empty@SWCNT 514nm ';
 %% Centrifuged Samples
                
 R = {
-        DATA_20250131.SR0L514R
-        DATA_20250131.SR1L514R
+%         DATA_20250131.SR0L514R
+%         DATA_20250131.SR1L514R
 % %         DATA_20250131.SWFL514R
 % %         DATA_20250131.SR2L514R
 % %         DATA_20250131.S10L514R
-        DATA_20250131.S11L514R
+%         DATA_20250131.S11L514R
 
 %         DATA_20240517.WAH514R
 % %         DATA_20240517.EAH514R
-%         DATA_20240517.S2H514R
-%         DATA_20240517.S3H514R
-%         DATA_20240517.S4H514R
-%         DATA_20240517.S5H514R
-%         DATA_20240517.S6H514R
-%         DATA_20240517.S7H514R
+        DATA_20240517.S2H514R
+        DATA_20240517.S3H514R
+        DATA_20240517.S4H514R
+        DATA_20240517.S5H514R
+        DATA_20240517.S6H514R
+        DATA_20240517.S7H514R
 
          
 %         DATA_20241212.S1BH514R
@@ -110,15 +134,85 @@ R = {
      
 
 % R = FlatFieldCorrection(R,DATA_20250131.FFL514R);
-R = FilterDataByXRange(R, 100, 250);           
-R = RemovePolyBG(R, 1);
-R = Normalize(R, 100, 250, 'M');
-plotRaman(R, 0.0, 514);        
+% R = FilterDataByXRange(R, 100, 250);           
+% R = RemovePolyBG(R, 1);
+% R = Normalize(R, 100, 250, 'M');
+% plotRaman(R, 0.0, 514);        
 
+%MY SAMPLES AFTER DGU
+G = {
+        DATA_20240517.EAL514GD
+        DATA_20240517.S2L514GD
+        DATA_20240517.S3L514GD
+        DATA_20240517.S4L514GD
+        DATA_20240517.S5L514GD
+        DATA_20240517.S6L514GD
+        DATA_20240517.S7L514GD
+        DATA_20240517.WAL514GD
+%         DATA_20240517.WAH514G
+%         DATA_20240517.EAH514G
+%         DATA_20240517.S2H514G
+%         DATA_20240517.S3H514G
+%         DATA_20240517.S4H514G
+%         DATA_20240517.S5H514G
+%         DATA_20240517.S6H514G
+%         DATA_20240517.S7H514G
+    };   
+
+%SALOME SAMPLES G BAND AFTER CF but not DGU
+% G = {
+%         DATA_20240111.S240111A
+%         DATA_20240111.S240111B
+%         DATA_20240111.S240111BB
+%         DATA_20240111.S240111C
+%         DATA_20240111.S240111D
+%         DATA_20240111.S240111E
+%         DATA_20240111.S240111F
+%         DATA_20240111.S240111G
+%         DATA_20240111.S240111H
+%         DATA_20240111.S240111I
+%               
+%     };   
+
+% G = FlatFieldCorrection(G,DATA_20250131.FFL514R);
+G = FilterDataByXRange(G, 1260, 1660);           
+G = RemovePolyBG(G, 0);
+G = Normalize(G, 1260, 1680, 'M');
+plotRaman(G, 0.02, 514);    
+% plotMaxima(G, 1575, 1610, 0.05)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+function plotMaxima(FS6, x_min, x_max, offset)
+    figure; hold on;
+    for i = 1:length(FS6)
+        DS = FS6{i};
+        
+        % Apply offset to Y values
+        DS.Y = DS.Y - (i - 1) * offset;
+        
+        % Filter data within the specified region
+        idx_range = (DS.X >= x_min) & (DS.X <= x_max);
+        X_fit = DS.X(idx_range);
+        Y_fit = DS.Y(idx_range);
+        
+        % Fit a Lorentzian model to the selected data
+        lorentzEqn = 'a / (1 + ((x-b)/c)^2) + d';
+        startPoints = [max(Y_fit), mean(X_fit), std(X_fit), min(Y_fit)];
+        fitResult = fit(X_fit, Y_fit, lorentzEqn, 'Start', startPoints);
+        
+        % Find the peak from the fit
+        max_x = fitResult.b;
+        max_val = fitResult.a / (1 + ((max_x - fitResult.b)/fitResult.c)^2) + fitResult.d;
+        
+        % Plot the spectrum
+        plot(DS.X, DS.Y, '-');
+        
+        % Mark the maximum point
+        plot(max_x, max_val, 'ro', 'MarkerSize', 8, 'LineWidth', 2);
+    end
+    hold off;
+end
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
     % BackgroundSubtractionExcludeRanges performs background subtraction using the Naumov model,
     % excluding specified ranges from the background fit.
