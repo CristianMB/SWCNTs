@@ -741,6 +741,31 @@ classdef UsefulFunctions
     function plotAbsorption(SamplesToPlot, offset)
         % Create a figure for the plot
         figure;
+        
+        for sampleIdx = 1:length(SamplesToPlot)
+            currentSample = SamplesToPlot{sampleIdx};
+                % Get the current sample, X values, and Y values
+                currentX = currentSample.X;
+                currentY = currentSample.Y - offset*sampleIdx;
+                currentN = currentSample.N;
+                plot(currentX, currentY, 'DisplayName', currentN,'LineWidth', 1.3);
+                hold on; % Add spectra to the same plot
+        end
+
+        % Add labels and legend
+        xlabel('Wavelenght (nm)', 'FontSize', 14);
+        ylabel('Normalized Absorption (a.u.)', 'FontSize', 14);
+        title('Absorption Spectra','FontSize', 14);
+        legend('show','FontSize', 11);
+        % Optional: Customize the plot further if needed
+        grid on;
+        % Hold off to stop adding new plots to the current figure
+        hold off;
+
+    end
+    function plotAbsorptionBMap(SamplesToPlot, offset)
+        % Create a figure for the plot
+        figure;
         % Iterate over each sample
         cmap = brewermap(length(SamplesToPlot) + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
 %         cmap(6, :) = [];  % Remove the 6th color from the colormap
