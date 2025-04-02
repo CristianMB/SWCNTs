@@ -1,0 +1,31 @@
+set(0, 'Format', 'eps'); 
+set(0, 'Preview', 'none');  
+set(0, 'Width', 'auto');
+set(0, 'Height', 'auto');
+set(0, 'Units', 'centimeters');
+set(0, 'Color', 'rgb');
+set(0, 'Background', 'w');
+set(0, 'FixedFontSize', '10');
+
+% 
+% ScaledFontSize auto
+% FontMode scaled
+% FontSizeMin 8
+% FixedLineWidth 1
+% ScaledLineWidth auto
+% LineMode none
+% LineWidthMin 0.5
+% FontName auto
+% FontWeight auto
+% FontAngle auto
+% FontEncoding latin1
+% PSLevel 3
+% Renderer auto
+% Resolution 600
+% LineStyleMap none
+% ApplyStyle 0
+% Bounds loose
+% LockAxes on
+% LockAxesTicks off
+% ShowUI on
+% SeparateText off
