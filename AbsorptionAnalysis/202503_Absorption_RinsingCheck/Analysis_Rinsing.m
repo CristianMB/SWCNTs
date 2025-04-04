@@ -123,7 +123,7 @@ S12 = {
             DATA_20250128.TTF_S12_R5_1
             DATA_20250128.TTF_S12_R6_1
             };        
-% plotAbsorption(S12, 0.0);
+plotAbsorption(S12, 0.0);
 
 
 S13 = {
@@ -148,7 +148,7 @@ S15 = {
             DATA_20250331.S15_Dode_EA_R2_1
             };
         
-plotAbsorption(S15, 0.0);
+% plotAbsorption(S15, 0.0);
 
 % DATA_20250331.DodeEA_10pc.Y = DATA_20250331.DodeEA_10pc.Y - DATA_20250331.EthylAcetate.Y
 
@@ -160,4 +160,4 @@ Solvents = {
         
 
 % Solvents = Normalize(Solvents, 0, 3000, 'M');
-plotAbsorption(Solvents, 0.00);
+% plotAbsorption(Solvents, 0.00);

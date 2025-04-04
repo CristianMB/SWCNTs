@@ -6,13 +6,13 @@ import UsefulFunctions.*;
 
 
 %% Choose region
-XAxis = [100, 500];  %RBM Range
+XAxis = [50, 600];  %RBM Range
 % XAxis = [0.5, 1.5];  %Diameter Range
-% YAxis = [450, 650];  %WL Range
-YAxis = [450, 520];  %WL Range
+YAxis = [450, 600];  %WL Range
+% YAxis = [450, 520];  %WL Range
 
-Laserlines = [488.0];
-Tolerances = [5, 5];
+Laserlines = [457.9, 476.50, 496.50, 514.5, 561.0];
+Tolerances = [5, 5, 5, 5, 5];
 % Laserlines = [514.5 561.1 496.5 488 476.5 457.9];
 % Tolerances = [5 5 5 5 5 5];
 % Laserlines = [];
