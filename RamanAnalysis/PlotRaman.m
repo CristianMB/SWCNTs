@@ -15,7 +15,7 @@ function plot_raman()
     paths = {[folder_path, '\']};
 
     % Full path to the selected file   
-    A = UsefulFunctions.ReadRamanFromPaths(paths, 2);
+    A = UsefulFunctions.ReadRamanFromPaths(paths, 1);
     Datasets = fieldnames(A);
     Spectra = {};
 

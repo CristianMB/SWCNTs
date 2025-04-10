@@ -7,6 +7,7 @@ rootpath = 'X:\Measurements (RAW)\Raman\';
 % rootpath = 'X:\Measurements Data\Raman\';
 addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 %All paths as default
+
 path_powder = [rootpath,'20250131\'];
 path_powderS12_S15_514 = [rootpath,'20250403\'];
 path_powderS12_S15_458 = [rootpath,'20250404\'];
@@ -63,6 +64,31 @@ DATA_20250403.P13L514R.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
 DATA_20250403.P14L514R.N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
 DATA_20250403.P15L514R.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
 DATA_20250403.FFL514R.N='FlatField';
+
+DATA_20250404.FAL458D.N='KIT Empty CNT film (A)';
+DATA_20250404.FBL458D .N='KIT Empty CNT film (B)';
+DATA_20250404.P12L458D.N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
+DATA_20250404.P13L458D .N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
+DATA_20250404.P14L458D  .N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
+DATA_20250404.P15L458D.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
+DATA_20250404.PP2L458D.N='Powder P2-SWCNTs Annealed';
+DATA_20250404.FAL458G.N='KIT Empty CNT film (A)';
+DATA_20250404.FBL458G  .N='KIT Empty CNT film (B)';
+DATA_20250404.P12L458G .N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
+DATA_20250404.P13L458G.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
+DATA_20250404.P14L458G  .N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
+DATA_20250404.P15L458G .N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
+DATA_20250404.PP2L458G.N='Powder P2-SWCNTs Annealed';
+DATA_20250404.SR0L458G.N='Empty Arc SWCNTs (SF6)';
+DATA_20250404.LL458A .N='Laser';
+DATA_20250404.FAL458R.N='KIT Empty CNT film (A)';
+DATA_20250404.FBL458R.N='KIT Empty CNT film (B)';
+DATA_20250404.P12L458R .N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
+DATA_20250404.P13L458R.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
+DATA_20250404.P14L458R.N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
+DATA_20250404.P15L458R.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
+DATA_20250404.PP2L458R.N='Powder P2-SWCNTs Annealed';
+DATA_20250404.SR0L458R.N='Empty Arc SWCNTs (SF6)';
 
 
 %%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -144,7 +170,7 @@ G = FilterDataByXRange(G, 1250, 1680);
 DD = FilterDataByXRange(DD, 2500, 2840);
         
         
-R = RemovePolyBG(R, 0);
+R = RemovePolyBG(R, 3);
 G = RemovePolyBG(G, 0);
 DD = RemovePolyBG(DD, 0);
 
@@ -165,22 +191,22 @@ DD = Normalize(DD, 0, 3000, 'M');
 % S12-S15 + P2 ANNEALED REFERENCE
 
                
-R = {
-
-    };                        
+% R = {
+% 
+%     };                        
 G = {
             DATA_20250403.PP2L514G
             DATA_20250403.P12L514G
             DATA_20250403.P13L514G
-            DATA_20250403.P14L514G
-            DATA_20250403.P15L514G
+%             DATA_20250403.P14L514G
+%             DATA_20250403.P15L514G
     };   
 DD = {
             DATA_20250403.PP2L514D
             DATA_20250403.P12L514D
             DATA_20250403.P13L514D
-            DATA_20250403.P14L514D
-            DATA_20250403.P15L514D         
+%             DATA_20250403.P14L514D
+%             DATA_20250403.P15L514D         
     };  
         
 % 
@@ -203,8 +229,8 @@ G = Normalize(G, 0, 3000, 'M');
 DD = Normalize(DD, 0, 3000, 'M');        
 
 % plotRaman(R, 0, 514.5);        
-% plotRaman(G, 0, 514.5);        
-% plotRaman(DD, 0, 514.5);   
+plotRaman(G, 0, 514.5);        
+plotRaman(DD, 0, 514.5);   
         
 
 %%%%%%%%%%%%%%%%%%%%MEASUREMENTS AT 458
@@ -245,7 +271,7 @@ DD = {
 
 R = FilterDataByXRange(R, 70, 660);
 G = FilterDataByXRange(G, 220, 1690);
-DD = FilterDataByXRange(DD, 2600, 2800);
+DD = FilterDataByXRange(DD, 2500, 2900);
 
 
 R = RemovePolyBG(R, 0);
@@ -256,9 +282,9 @@ R = Normalize(R, 150, 180, 'M');
 G = Normalize(G, 1540, 1640, 'I');
 DD = Normalize(DD, 2680, 2730, 'M');        
 
-plotRaman(R, 0.2, 457.9);        
-plotRaman(G, 0.0, 457.9);       
-plotRaman(DD, 0.0, 457.9);    
+% plotRaman(R, 0.0, 457.9);        
+% plotRaman(G, 0.0, 457.9);       
+% plotRaman(DD, 0.0, 457.9);    
         
 
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
