@@ -11,13 +11,15 @@ addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 path_powder = [rootpath,'20250131\'];
 path_powderS12_S15_514 = [rootpath,'20250403\'];
 path_powderS12_S15_458 = [rootpath,'20250404\'];
-
+path_solutions = [rootpath,'20250411\'];
 %Select the paths of interest
 
 paths = {
         path_powder
         path_powderS12_S15_514
         path_powderS12_S15_458
+        
+        path_solutions
         };
 
 
@@ -229,8 +231,8 @@ G = Normalize(G, 0, 3000, 'M');
 DD = Normalize(DD, 0, 3000, 'M');        
 
 % plotRaman(R, 0, 514.5);        
-plotRaman(G, 0, 514.5);        
-plotRaman(DD, 0, 514.5);   
+% plotRaman(G, 0, 514.5);        
+% plotRaman(DD, 0, 514.5);   
         
 
 %%%%%%%%%%%%%%%%%%%%MEASUREMENTS AT 458
@@ -265,7 +267,7 @@ DD = {
         DATA_20250404.P12L458D
         DATA_20250404.P13L458D
 %         DATA_20250404.P14L458D
-%         DATA_20250404.P15L458D
+% %         DATA_20250404.P15L458D
     };  
         
 
@@ -279,13 +281,81 @@ G = RemovePolyBG(G, 0);
 DD = RemovePolyBG(DD, 0);
 
 R = Normalize(R, 150, 180, 'M');
-G = Normalize(G, 1540, 1640, 'I');
+G = Normalize(G, 1580, 1640, 'M');
 DD = Normalize(DD, 2680, 2730, 'M');        
 
 % plotRaman(R, 0.0, 457.9);        
 % plotRaman(G, 0.0, 457.9);       
 % plotRaman(DD, 0.0, 457.9);    
+     
+
+
+%%%%%%%%%%%%%%%%%%%%MEASUREMENTS AT 458
+
+R = {
+    DATA_20250411.SR0L476R
+%     DATA_20250411.S14L476R
+%     DATA_20250411.S15L476R
+%     DATA_20250411.S11L476R
+%     DATA_20250411.S12L476R
+    DATA_20250411.S13L476R
+    DATA_20250411.SWFL476R
+
+    };   
+
+G = {
+%     DATA_20250411.PP2L476G
+%     DATA_20250411.P12L476G
+%     DATA_20250411.P13L476G
+
+    DATA_20250411.SR0L476G
+    DATA_20250411.S14L476G
+    DATA_20250411.S15L476G
+    DATA_20250411.S11L476G
+    DATA_20250411.S12L476G
+    DATA_20250411.S13L476G
+    DATA_20250411.SWFL476G
+
+    };   
+
+DD = {
+%     DATA_20250411.PP2L476D
+%     DATA_20250411.P12L476D
+%     DATA_20250411.P13L476D
+
+    DATA_20250411.SR0L476D
+    DATA_20250411.S11L476D
+    DATA_20250411.S12L476D
+    DATA_20250411.S13L476D
+    DATA_20250411.S14L476D
+    DATA_20250411.S15L476D
+    DATA_20250411.SWFL476D
+
+    };  
         
+
+R = FilterDataByXRange(R, 80, 680);
+G = FilterDataByXRange(G, 1250, 1700);
+DD = FilterDataByXRange(DD, 2500, 2900);
+
+
+R = RemovePolyBG(R, 1);
+G = RemovePolyBG(G, 0);
+DD = RemovePolyBG(DD, 0);
+
+R = Normalize(R, 150, 170, 'M');
+G = Normalize(G, 1580, 1640, 'M');
+% G = Normalize(G, 1560, 1575, 'M');
+% G = Normalize(G, 1576, 1577, 'M');
+
+DD = Normalize(DD, 2650, 2750, 'M');        
+
+plotRaman(R, 0.1, 476.5);        
+% plotRaman(G, 0.00, 476.5);       
+% plotRaman(DD, 0.00, 476.5);   
+
+
+
 
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
     % BackgroundSubtractionExcludeRanges performs background subtraction using the Naumov model,

@@ -15,12 +15,16 @@ Refs= [rootpath,'References.csv'];
 FilmsR1= [rootpath,'20250127\KIT_Films_R1_BeforeTCM.csv'];
 FilmsR2 = [rootpath,'20241202\Films_KIT_Set2.csv'];
 
+Dispersions = [rootpath,'20250411\CentrifugedSamples_S11_S15.csv'];
+
+
 %Select the paths of interest
 paths = {
         Refs   
         Films
         FilmsR1
         FilmsR2
+        Dispersions
         };
     
 
@@ -51,12 +55,35 @@ F = {
 %           DATA_20241202.F5PCE
     };
 %         
-F = FilterDataByXRange(F, 190,6000);
-F = BackgroundSubtraction(F, [190,6000]);
-F = Normalize(F, 950, 1050, 'M');
-plotAbsorption(F, 0.20);
+% F = FilterDataByXRange(F, 190,6000);
+% F = BackgroundSubtraction(F, [190,6000]);
+% F = Normalize(F, 950, 1050, 'M');
+% plotAbsorption(F, 0.20);
 
 
+%%%%%%%%%%% Quick check solutions
+DATA_20250411.Baseline.N='Baseline';
+DATA_20250411.S11.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
+DATA_20250411.S12_d2.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
+DATA_20250411.S13_d2.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
+DATA_20250411.S14_d3.N='Dispersion S14 - C_{16}H_{34}@P2-SWCNTs (Liquid)';
+DATA_20250411.S15_d2.N='Dispersion S15 - C_{12}H_{26}@P2-SWCNTs (Liquid)';
+
+D = {
+%         DATA_References.empty_P2_dial_0930
+%         DATA_References.WaterFilled
+        DATA_20250411.S11
+        DATA_20250411.S12_d2
+        DATA_20250411.S13_d2
+        DATA_20250411.S14_d3
+        DATA_20250411.S15_d2
+
+    };
+
+D = FilterDataByXRange(D, 240,6000);
+D = BackgroundSubtraction(D, [200,6000]);
+D = Normalize(D, 950, 1050, 'M');
+plotAbsorption(D, 0.00);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

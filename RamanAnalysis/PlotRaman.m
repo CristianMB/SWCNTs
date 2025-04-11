@@ -30,7 +30,7 @@ function plot_raman()
             end
      end
      
-%     Spectra = NormalizeSample(Spectra, 120, 210)
+    Spectra = NormalizeSample(Spectra, 0, 8000)
     plotRaman(Spectra, 0)
     
 end

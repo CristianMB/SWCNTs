@@ -341,8 +341,6 @@ classdef UsefulFunctions
 
         % Get a ColorBrewer colormap (e.g., 'Set1', 'Dark2', etc.)
         numSamples = length(SamplesToPlot);  % Number of samples to plot
-        cmap = brewermap(numSamples + 1, 'Set1');  % Generate 1 more color than needed to skip the 6th
-%         cmap(6, :) = [];  % Remove the 6th color from the colormap
         for sampleIdx = 1:numSamples
             currentSample = SamplesToPlot{sampleIdx};
 
@@ -352,7 +350,7 @@ classdef UsefulFunctions
             currentN = currentSample.N;
 
             % Plot each sample using a different color from the colormap
-            plot(currentX, currentY, 'Color', cmap(sampleIdx, :), 'DisplayName', currentN, 'LineWidth', 1.3);
+            plot(currentX, currentY, 'DisplayName', currentN, 'LineWidth', 1.3);
             hold on;  % Add spectra to the same plot
         end
 
