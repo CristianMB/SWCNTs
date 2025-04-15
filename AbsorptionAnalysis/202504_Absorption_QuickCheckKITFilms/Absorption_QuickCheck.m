@@ -41,12 +41,12 @@ F = {
 %         DATA_20250407.Substrate
 %         DATA_20250407.Glass_4mm_vial
 
-%         DATA_20250127.F2_PCE
-%         DATA_20250127.F3_TCE
-%         DATA_20250127.F4_TEMED
-%         DATA_20250127.F5_TDAE
-%         DATA_20250127.F6_Hexadecane
-%         DATA_20250127.F7_Dodecane
+        DATA_20250127.F2_PCE
+        DATA_20250127.F3_TCE
+        DATA_20250127.F4_TEMED
+        DATA_20250127.F5_TDAE
+        DATA_20250127.F6_Hexadecane
+        DATA_20250127.F7_Dodecane
 
 %           DATA_20241202.F1Dodecane
 %           DATA_20241202.F2TDAE

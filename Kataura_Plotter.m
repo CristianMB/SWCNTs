@@ -8,7 +8,7 @@ import UsefulFunctions.*;
 %% Choose region
 % XAxis = [50, 600];  %RBM Range
 XAxis = [0.0, 2.5];  %Diameter Range
-YAxis = [450, 600];  %WL Range
+YAxis = [450, 750];  %WL Range
 % YAxis = [450, 520];  %WL Range
 
 % Laserlines = [457.9, 476.50, 496.50, 514.5, 561.0];
@@ -190,7 +190,7 @@ end
 
 XAxis = [50, 600];  %RBM Range
 % XAxis = [0.0, 2.5];  %Diameter Range
-YAxis = [450, 600];  %WL Range
+YAxis = [450, 750];  %WL Range
 % YAxis = [450, 520];  %WL Range
 
 Laserlines = [457.9, 476.50, 496.50, 514.5, 561.0];
@@ -325,7 +325,7 @@ ylim(YAxis);
 %% NEWW PLOTTING  PART
 % XAxis = [50, 600];  %RBM Range
 XAxis = [0.0, 2.5];  %Diameter Range
-YAxis = [450, 600];  %WL Range
+YAxis = [450, 750];  %WL Range
 % YAxis = [450, 520];  %WL Range
 
 Laserlines = [457.9, 476.50, 496.50, 514.5, 561.0];

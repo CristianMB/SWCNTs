@@ -2,24 +2,23 @@ clc;
 clear;
 addpath('X:\SWCNTs');
 import UsefulFunctions.*;
-rootpath = 'X:\Measurements (RAW)\Raman\';
+rootpath = 'X:\Measurements Data\Raman\';
 
 % rootpath = 'X:\Measurements Data\Raman\';
-addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 %All paths as default
 
 path_powder = [rootpath,'20250131\'];
 path_powderS12_S15_514 = [rootpath,'20250403\'];
 path_powderS12_S15_458 = [rootpath,'20250404\'];
-path_solutions = [rootpath,'20250411\'];
+path_powderS12_S15_476 = [rootpath,'20250411\'];
 %Select the paths of interest
 
 paths = {
         path_powder
         path_powderS12_S15_514
         path_powderS12_S15_458
+        path_powderS12_S15_476
         
-        path_solutions
         };
 
 
@@ -124,65 +123,32 @@ DATA_20250411.SR0L476R.N='Dispersion SR0 - Empty@P2-SWCNTs';
 DATA_20250411.SWFL476R.N='Dispersion SWF - D2O@P2-SWCNTs (SF6)';
 
 
-%%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% 514nm DATA - 20250131
-% S2-S6 + References
-
-               
-R = {
-        DATA_20250131.PAPL514R
-        DATA_20250131.PP2L514R
-        DATA_20250131.P12L514R
-
-            };   
-        
-               
+%% 514nm DATA - 20250131                
 G = {
-        DATA_20250131.PAPL514G
         DATA_20250131.PP2L514G
         DATA_20250131.P12L514G                
             };   
-
 DD = {
-        DATA_20250131.PAPL514D
         DATA_20250131.PP2L514D
         DATA_20250131.P12L514D          
             };  
-% 
-R = FlatFieldCorrection(R,DATA_20250131.FFL514R);
-G = FlatFieldCorrection(G,DATA_20250131.FFL514G);
-DD = FlatFieldCorrection(DD,DATA_20250131.FFL514D);
 
-
-R = FilterDataByXRange(R, 10, 300);
 G = FilterDataByXRange(G, 1250, 1680);
 DD = FilterDataByXRange(DD, 2500, 2840);
-        
-        
-R = RemovePolyBG(R, 0);
+             
 G = RemovePolyBG(G, 0);
 DD = RemovePolyBG(DD, 0);
 
-R = Normalize(R, 0, 3000, 'M');
 G = Normalize(G, 0, 3000, 'M');
 DD = Normalize(DD, 0, 3000, 'M');
 
-% plotRaman(R, 0, 514);        
 % plotRaman(G, 0, 514);        
 % plotRaman(DD, 0, 514);        
 
-% VERIFICATION
-
-               
-R = {
-        DATA_20250131.P2ARBM
-        DATA_20250131.P12RBM
-            };   
-        
-               
+% VERIFICATION SAME DAY
+                    
 G = {
         DATA_20250131.P2AG
         DATA_20250131.P12G          
@@ -192,190 +158,107 @@ DD = {
         DATA_20250131.P2ADD
         DATA_20250131.P12DD      
             };  
-% 
-R = FlatFieldCorrection(R,DATA_20250131.FFL514R);
+
 G = FlatFieldCorrection(G,DATA_20250131.FFL514G);
 DD = FlatFieldCorrection(DD,DATA_20250131.FFL514D);
 
-
-R = FilterDataByXRange(R, 10, 300);
 G = FilterDataByXRange(G, 1250, 1680);
 DD = FilterDataByXRange(DD, 2500, 2840);
         
-        
-R = RemovePolyBG(R, 3);
 G = RemovePolyBG(G, 0);
 DD = RemovePolyBG(DD, 0);
 
-R = Normalize(R, 140, 160, 'M');
 G = Normalize(G, 0, 3000, 'M');
 DD = Normalize(DD, 0, 3000, 'M');
 % 
-% plotRaman(R, 0, 514);        
-% plotRaman(G, 0, 514);        
-% plotRaman(DD, 0, 514);   
-
-% FS7 = FilterDataByXRange(FS7, 0, 2600);
-% FS7 = RemovePolyBG(FS7, 0);
+plotRaman(G, 0, 514);        
+plotRaman(DD, 0, 514);
 
 
-
-%% 514nm DATA - 20250403 - COMPARING REFLUX VS GAS PHASE TTF + ALKANE NEW SAMPLES
-% S12-S15 + P2 ANNEALED REFERENCE
-
-               
-% R = {
-% 
-%     };                        
+%% 514nm DATA - 20250403 - COMPARING REFLUX VS GAS PHASE TTF
+                                    
 G = {
             DATA_20250403.PP2L514G
             DATA_20250403.P12L514G
             DATA_20250403.P13L514G
-            DATA_20250403.P14L514G
-            DATA_20250403.P15L514G
     };   
 DD = {
             DATA_20250403.PP2L514D
             DATA_20250403.P12L514D
-            DATA_20250403.P13L514D
-            DATA_20250403.P14L514D
-            DATA_20250403.P15L514D         
+            DATA_20250403.P13L514D       
     };  
-        
-% 
-% R = FlatFieldCorrection(R,DATA_20250403.FFL514R);
-G = FlatFieldCorrection(G,DATA_20250403.FFL514G);
-DD = FlatFieldCorrection(DD,DATA_20250403.FFL514D);
 
-
-% R = FilterDataByXRange(R, 10, 300);
 G = FilterDataByXRange(G, 1250, 1680);
 DD = FilterDataByXRange(DD, 2500, 2840);
 
-
-% R = RemovePolyBG(R, 0);
 G = RemovePolyBG(G, 0);
 DD = RemovePolyBG(DD, 0);
 
-% R = Normalize(R, 140, 160, 'M');
 G = Normalize(G, 0, 3000, 'M');
 DD = Normalize(DD, 0, 3000, 'M');        
 
-% plotRaman(R, 0, 514.5);        
-plotRaman(G, 0, 514.5);        
-plotRaman(DD, 0, 514.5);   
-        
+% plotRaman(G, 0, 514.5);        
+% plotRaman(DD, 0, 514.5);   
+%         
 
-%%%%%%%%%%%%%%%%%%%%MEASUREMENTS AT 458
+%%548nm DATA - 20250404 - COMPARING REFLUX VS GAS PHASE TTF
 
-
-
-
-R = {
-%         DATA_20250404.FAL458R 
-%         DATA_20250404.FBL458R
-%         DATA_20250404.SR0L458R
-        DATA_20250404.PP2L458R
-        DATA_20250404.P12L458R 
-        DATA_20250404.P13L458R
-%         DATA_20250404.P14L458R
-%         DATA_20250404.P15L458R
-    };                        
+               
 G = {
-%         DATA_20250404.FAL458G
-%         DATA_20250404.FBL458G
-%         DATA_20250404.SR0L458G
         DATA_20250404.PP2L458G
         DATA_20250404.P12L458G 
         DATA_20250404.P13L458G
-        DATA_20250404.P14L458G
-        DATA_20250404.P15L458G
     };   
 DD = {
-%         DATA_20250404.FAL458D
-%         DATA_20250404.FBL458D
+
         DATA_20250404.PP2L458D
         DATA_20250404.P12L458D
         DATA_20250404.P13L458D
-        DATA_20250404.P14L458D
-        DATA_20250404.P15L458D
-    };  
-        
 
-R = FilterDataByXRange(R, 70, 660);
+    };  
+
 G = FilterDataByXRange(G, 220, 1690);
 DD = FilterDataByXRange(DD, 2500, 2900);
 
-
-R = RemovePolyBG(R, 0);
 G = RemovePolyBG(G, 0);
 DD = RemovePolyBG(DD, 0);
 
-R = Normalize(R, 150, 180, 'M');
 G = Normalize(G, 1580, 1640, 'M');
 DD = Normalize(DD, 2680, 2730, 'M');        
-
-% plotRaman(R, 0.0, 457.9);        
-plotRaman(G, 0.0, 457.9);       
-plotRaman(DD, 0.0, 457.9);    
+  
+% plotRaman(G, 0.0, 457.9);       
+% plotRaman(DD, 0.0, 457.9);    
      
 
+%%576nm DATA - 20250404 - COMPARING REFLUX VS GAS PHASE TTF
 
-%%%%%%%%%%%%%%%%%%%%MEASUREMENTS AT 476
-
-R = {
-    DATA_20250411.SR0L476R
-%     DATA_20250411.S14L476R
-%     DATA_20250411.S15L476R
-%     DATA_20250411.S11L476R
-%     DATA_20250411.S12L476R
-    DATA_20250411.S13L476R
-    DATA_20250411.SWFL476R
-    };   
 
 G = {
-%     DATA_20250411.PP2L476G
-%     DATA_20250411.P12L476G
-%     DATA_20250411.P13L476G
-
-%     DATA_20250411.SR0L476G
-%     DATA_20250411.S14L476G
-%     DATA_20250411.S15L476G
-    DATA_20250411.S11L476G
-    DATA_20250411.S12L476G
-    DATA_20250411.S13L476G
-%     DATA_20250411.SWFL476G
+    DATA_20250411.PP2L476G
+    DATA_20250411.P12L476G
+    DATA_20250411.P13L476G
     };   
 
 DD = {
     DATA_20250411.PP2L476D
     DATA_20250411.P12L476D
     DATA_20250411.P13L476D
-
-%     DATA_20250411.SR0L476D
-%     DATA_20250411.S11L476D
-%     DATA_20250411.S12L476D
-%     DATA_20250411.S13L476D
-%     DATA_20250411.S14L476D
-%     DATA_20250411.S15L476D
-%     DATA_20250411.SWFL476D
     };  
         
-R = FilterDataByXRange(R, 80, 680);
 G = FilterDataByXRange(G, 1250, 1700);
 DD = FilterDataByXRange(DD, 2500, 2900);
 
-R = RemovePolyBG(R, 1);
 G = RemovePolyBG(G, 0);
 DD = RemovePolyBG(DD, 0);
 
-R = Normalize(R, 150, 170, 'M');
 G = Normalize(G, 1580, 1640, 'M');
 DD = Normalize(DD, 2650, 2750, 'M');        
 
-% plotRaman(R, 0.0, 476.5);        
-plotRaman(G, 0.00, 476.5);       
+% plotRaman(G, 0.00, 476.5);       
 % plotRaman(DD, 0.00, 476.5);   
+
+
+
 
 
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
