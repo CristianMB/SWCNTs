@@ -751,7 +751,7 @@ classdef UsefulFunctions
         end
 
         % Add labels and legend
-        xlabel('Wavelenght (nm)', 'FontSize', 14);
+        xlabel('Wavelength (nm)', 'FontSize', 14);
         ylabel('Normalized Absorption (a.u.)', 'FontSize', 14);
         title('Absorption Spectra','FontSize', 14);
         legend('show','FontSize', 11);
@@ -779,7 +779,7 @@ classdef UsefulFunctions
         end
 
         % Add labels and legend
-        xlabel('Wavelenght (nm)', 'FontSize', 14);
+        xlabel('Wavelength (nm)', 'FontSize', 14);
         ylabel('Normalized Absorption (a.u.)', 'FontSize', 14);
         title('Absorption Spectra','FontSize', 14);
         legend('show','FontSize', 11);
@@ -789,7 +789,45 @@ classdef UsefulFunctions
         hold off;
 
     end
-    
+    function plotAbsorptionGroup(SamplesToPlot, offset, groupingIndex)
+        % Create a figure for the plot
+        figure;
+
+        % Calculate the total number of individual spectra
+        totalSpectra = length(SamplesToPlot);
+       
+        % Loop through all samples and spectra
+        for spectrumIdx = 1:totalSpectra
+            currentSample = SamplesToPlot{spectrumIdx};
+
+            % Get the current sample's X and Y values
+            currentX = currentSample.X;
+            currentY = currentSample.Y - offset * floor((spectrumIdx - 1) / groupingIndex); % Offset based on group
+            currentN = currentSample.N;
+
+            % Plot each spectrum using a unique color from the colormap
+            plot(currentX, currentY, 'DisplayName', currentN, 'LineWidth', 1.3);
+            hold on;  % Add spectra to the same plot
+        end
+
+        % Add labels and legend
+        xlabel('Wavelength (nm)', 'FontSize', 14);
+        ylabel('Normalized Absorption (a.u.)', 'FontSize', 14);
+
+        % Conditional title based on wavelength parameter 'wl'
+        title('Absorption Spectra');
+ 
+
+        % Show legend with proper font size
+        legend('show', 'FontSize', 11);
+
+        % Optional: Customize the plot further if needed
+        grid on;
+
+        % Hold off to stop adding new plots to the current figure
+        hold off;
+    end
+
     function plotAbsorptionOrdered(SamplesToPlot, offset)
     % Create a figure for the plot
     figure;

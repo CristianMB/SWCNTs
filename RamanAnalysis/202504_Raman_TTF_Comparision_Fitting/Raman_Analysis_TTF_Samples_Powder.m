@@ -1,8 +1,9 @@
 clc;
 clear;
-addpath('X:\SWCNTs');
 import UsefulFunctions.*;
 rootpath = 'X:\Measurements Data\Raman\';
+addpath('X:\SWCNTs\RamanAnalysis\Raman - Voigt Fitting\Faddeeva_voigt');
+addpath('X:\SWCNTs');
 
 % rootpath = 'X:\Measurements Data\Raman\';
 %All paths as default
