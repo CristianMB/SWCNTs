@@ -7,19 +7,15 @@ addpath('X:\SWCNTs')
 
 %All paths as default
 
-Films = [rootpath,'20250407\KIT_ME_SC_Films.csv'];
 
 
 Refs= [rootpath,'References.csv'];
-DCF = [rootpath,'20250416\DropCastedFilms_S11S13.csv'];
-Dispersions = [rootpath,'20250411\CentrifugedSamples_S11_S15.csv'];
-Dispersions = [rootpath,'20250411\CentrifugedSamples_S11_S15.csv'];
+DGU = [rootpath,'20250422\DGU_Fractions_S11_S14.csv'];
 
 %Select the paths of interest
 paths = {
         Refs   
-        DCF
-        Dispersions
+        DGU
         };
     
 
@@ -27,77 +23,46 @@ paths = {
 ReadAbsorptionFromPaths(paths);
 
 % Labeling
-DATA_20250411.Baseline.N='Baseline';
-DATA_20250411.S11.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
-DATA_20250411.S12_d2.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
-DATA_20250411.S13_d2.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
-DATA_20250411.S14_d3.N='Dispersion S14 - C_{16}H_{34}@P2-SWCNTs (Liquid)';
-DATA_20250411.S15_d2.N='Dispersion S15 - C_{12}H_{26}@P2-SWCNTs (Liquid)';
-
-DATA_20250416.Baseline.N='Film Holder';
-DATA_20250416.DCF_AP1.N='DC. Film - AP SWCNTs (Empty)';
-DATA_20250416.DCF_S11.N='DC. Film - S11 - TTF@P2-SWCNTs (Melt)';
-DATA_20250416.DCF_S12.N='DC. Film - S12 - TTF@P2-SWCNTs (Reflux)';
-DATA_20250416.DCF_S13.N='DC. Film - S13 - TTF@P2-SWCNTs (GasPhase)';
-            
-% Plotting
-
-F = {
-      DATA_20250416.DCF_AP1
-      DATA_20250416.DCF_S11
-
-      DATA_20250411.S11
-      DATA_20250416.DCF_S11
-    
-      DATA_20250411.S12_d2
-      DATA_20250416.DCF_S12
-      
-      DATA_20250411.S13_d2
-      DATA_20250416.DCF_S13
-    };
-%         
-F = FilterDataByXRange(F, 250,2500);
-% F = BackgroundSubtraction(F, [250,2500]);
-F = RemovePolyBG(F, 0);
-F = Normalize(F, 900, 1200, 'I');
-plotAbsorption(F, 0.0000);
-
-plotAbsorptionGroup(F, 0.0045, 2)
-
-F = {
-%       DATA_20250416.DCF_AP1
-%       DATA_20250416.DCF_S11
-      DATA_20250411.S11
-      DATA_20250411.S12_d2
-      DATA_20250411.S13_d2
-      DATA_20250416.DCF_S11
-      DATA_20250416.DCF_S12
-      DATA_20250416.DCF_S13
-    };
-
-
-
-
 
             
 % Plotting
 
-F = {
-%       DATA_20250416.DCF_AP1
-%       DATA_20250416.DCF_S11
-      DATA_20250411.S11
-      DATA_20250411.S12_d2
-      DATA_20250411.S13_d2
-      DATA_20250411.S14_d3
-      DATA_20250411.S15_d2
+
+DATA_20250422.DGU_S11_B.Y = DATA_20250422.DGU_S11_B.Y - DATA_References.WaterInD2O.Y
+
+
+DGU = {
+%         DATA_20250422.DGU_S11_A
+        DATA_20250422.DGU_S11_B
+%         DATA_20250422.DGU_S11_C
+%         DATA_20250422.DGU_S11_D
+%         DATA_20250422.DGU_S11_E
+        
+%         DATA_20250422.DGU_S12_A
+        DATA_20250422.DGU_S12_B
+%         DATA_20250422.DGU_S12_C
+%         DATA_20250422.DGU_S12_D
+%         DATA_20250422.DGU_S12_E
+        
+%         DATA_20250422.DGU_S13_A
+        DATA_20250422.DGU_S12_B
+%         DATA_20250422.DGU_S13_C
+%         DATA_20250422.DGU_S13_D
+%         DATA_20250422.DGU_S13_E   
+        
+%         DATA_20250422.DGU_S14_E
+% %         DATA_20250422.DGU_S14_F
+        DATA_20250422.DGU_S14_F_d2
     };
-%         
-F = FilterDataByXRange(F, 250,2500);
-F = BackgroundSubtraction(F, [500,2500]);
+
+        
+% F = FilterDataByXRange(F, 250,2500);
+% F = BackgroundSubtraction(F, [500,2500]);
 % F = RemovePolyBG(F, 0);
-F = Normalize(F, 265, 1244, 'I');
+DGU = Normalize(DGU, 960, 1020, 'M');
 % plotAbsorption(F, 0.0000);
-plotAbsorption(F, 0.0000);
+plotAbsorption(DGU, 0.2);
+% plotAbsorptionGroup(DGU, 10, 2);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

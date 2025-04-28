@@ -172,8 +172,8 @@ DD = RemovePolyBG(DD, 0);
 G = Normalize(G, 0, 3000, 'M');
 DD = Normalize(DD, 0, 3000, 'M');
 % 
-plotRaman(G, 0, 514);        
-plotRaman(DD, 0, 514);
+% plotRaman(G, 0, 514);        
+% plotRaman(DD, 0, 514);
 
 
 %% 514nm DATA - 20250403 - COMPARING REFLUX VS GAS PHASE TTF
@@ -222,7 +222,7 @@ G = FilterDataByXRange(G, 220, 1690);
 DD = FilterDataByXRange(DD, 2500, 2900);
 
 G = RemovePolyBG(G, 0);
-DD = RemovePolyBG(DD, 0);
+DD = RemovePolyBG(DD, 1);
 
 G = Normalize(G, 1580, 1640, 'M');
 DD = Normalize(DD, 2680, 2730, 'M');        
@@ -255,8 +255,8 @@ DD = RemovePolyBG(DD, 0);
 G = Normalize(G, 1580, 1640, 'M');
 DD = Normalize(DD, 2650, 2750, 'M');        
 
-% plotRaman(G, 0.00, 476.5);       
-% plotRaman(DD, 0.00, 476.5);   
+plotRaman(G, 0.00, 476.5);       
+plotRaman(DD, 0.00, 476.5);   
 
 
 
