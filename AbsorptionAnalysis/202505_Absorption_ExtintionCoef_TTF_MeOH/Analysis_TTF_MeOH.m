@@ -62,8 +62,16 @@ Spec = {
             DATA_20250509.TTF_MeOH_SAT_70
             DATA_20250509.TTF_MeOH_SAT_100
        };
-
-
 plotAbsorption(Spec, 0.0);
 
-
+Spec = {
+            DATA_20250509.TTF_MeOH_LC_3
+            DATA_20250509.TTF_MeOH_LC_5
+            DATA_20250509.TTF_MeOH_LC_10
+            DATA_20250509.TTF_MeOH_LC_70
+            
+%             DATA_20250509.TTF_MeOH_SAT_10
+%             DATA_20250509.TTF_MeOH_SAT_70
+%             DATA_20250509.TTF_MeOH_SAT_100
+       };
+plotAbsorption(Spec, 0.0);

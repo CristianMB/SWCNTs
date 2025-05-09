@@ -1,159 +1,46 @@
 clc;
 clear;
-addpath('X:\SWCNTs');
+addpath('S:\cborjapena\RamanJesus\'); %UsefulFunctions needs to be in this path
 import UsefulFunctions.*;
-rootpath = 'X:\Measurements (RAW)\Raman\';
+rootpath = 'S:\cborjapena\RamanJesus\'; %This path needs to contain the Raman data, can be the same as Main PAth
 
-% rootpath = 'X:\Measurements Data\Raman\';
-addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
 %All paths as default
-path_powder = [rootpath,'20250211\'];
-path_aina = [rootpath,'20250126\'];
+path = [rootpath,'20250423\']; %Roothpath+Date is the Raman Data
 
 %Select the paths of interest
 
 paths = {
-        path_powder
-        path_aina
+        path
         };
 
 
-ReadRamanFromPaths(paths, 2);
+ReadRamanFromPaths(paths, 3);
 
 %%%--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 % DATA_20250211.S1BH514R.N = 'SWCNTs - DGU B';
 % DATA_20250211.S1CH514R.N = 'SWCNTs - DGU C';
 % DATA_20250211.S1DH514R.N = 'SWCNTs - DGU D';
 % DATA_20250211.S2BH514R.N = 'BiTeI@SWCNTs - DGU B';
 % DATA_20250211.S2CH514R.N = 'BiTeI@SWCNTs - DGU C';
-% DATA_20250211.S2DH514R.N = 'BiTeI@SWCNTs - DGU D';
-% DATA_20250211.S1BH514G.N = 'SWCNTs - DGU B';
-% DATA_20250211.S1CH514G.N = 'SWCNTs - DGU C';
-% DATA_20250211.S1DH514G.N = 'SWCNTs - DGU D';
-% DATA_20250211.S2BH514G.N = 'BiTeI@SWCNTs - DGU B';
-% DATA_20250211.S2CH514G.N = 'BiTeI@SWCNTs - DGU C';
-% DATA_20250211.S2DH514G.N = 'BiTeI@SWCNTs - DGU D';
-
-%%%--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% AINA AND ALEJANDRO
-
-%% CRISTIAN AND ALENADRO
-               
-R = {
-%         DATA_20250126.L496A
-%         DATA_20250126.L514A
-%         
-%         DATA_20250126.DOCRBMA
-%         DATA_20250126.DOCRBMB
-%         
-%         DATA_20250126.MEGPRA
-%         DATA_20250126.MERBMA
-%         DATA_20250126.MERBMPRA
-%         DATA_20250126.MERBMSON
-        
-%         DATA_20250126.SEGA
-%         DATA_20250126.SEGB
-        DATA_20250126.SERBMA
-%         DATA_20250126.SERBMB
-        
-%         DATA_20250126.SFGA
-%         DATA_20250126.SFGB
-        DATA_20250126.SFRBMA
-%         DATA_20250126.SFRBMB
+           
+Spectra = {
+            DATA_20250423.MNCO
+            DATA_20250423.MNCO5
+            DATA_20250423.MNFE1
+            DATA_20250423.MNFE2
             };   
-        
-               
-G = {
-        DATA_20250126.L496A
-        DATA_20250126.L514A
-        
-        DATA_20250126.DOCRBMA
-        DATA_20250126.DOCRBMB
-        
-        DATA_20250126.MEGPRA
-        DATA_20250126.MERBMA
-        DATA_20250126.MERBMPRA
-        DATA_20250126.MERBMSON
-        
-        DATA_20250126.SEGA
-        DATA_20250126.SEGB
-        DATA_20250126.SERBMA
-        DATA_20250126.SERBMB
-        
-        DATA_20250126.SFGA
-        DATA_20250126.SFGB
-        DATA_20250126.SFRBMA
-        DATA_20250126.SFRBMB
-            };   
-
-
-
+    
  
-R = FilterDataByXRange(R, 50, 550);
-G = FilterDataByXRange(G, 1400, 1800);
-
-
-% R = RemovePolyBG(R, 0);
-% G = RemovePolyBG(G, 0);
-
-R = Normalize(R, 150, 190, 'M');
-G = Normalize(G, 1560, 1600, 'M');
-
-
-plotRaman(R, 0.0, 514);        
-plotRaman(G, 0.0, 514);        
-% plotRaman(DD, 0, 514);        
-
-
-%% CRISTIAN AND ALENADRO
-               
-R = {
-        DATA_20250211.S1BH514R
-        DATA_20250211.S1CH514R
-        DATA_20250211.S1DH514R
-        DATA_20250211.S2BH514R
-        DATA_20250211.S2CH514R
-        DATA_20250211.S2DH514R
-        
-            };   
-        
-               
-G = {
-        DATA_20250211.S1BH514G
-        DATA_20250211.S1CH514G
-        DATA_20250211.S1DH514G
-        DATA_20250211.S2BH514G
-        DATA_20250211.S2CH514G
-        DATA_20250211.S2DH514G
-            };   
+% Spectra = FilterDataByXRange(Spectra, 50, 550);
+% Spectra = RemovePolyBG(Spectra, 0);
+% Spectra = Normalize(Spectra, 150, 190, 'M');
+plotRaman(Spectra, 0.0, 514);        
 
 
 
-R = FlatFieldCorrection(R,DATA_20250211.FFH514R);
-G = FlatFieldCorrection(G,DATA_20250211.FFH514G);
-
-% 
-R = FilterDataByXRange(R, 130, 220);
-G = FilterDataByXRange(G, 1540, 1620);
-%         
-%         
-R = RemovePolyBG(R, 1);
-% G = RemovePolyBG(G, 1);
-% DD = RemovePolyBG(DD, 0);
-% 
-R = Normalize(R, 150, 190, 'M');
-G = Normalize(G, 1560, 1600, 'M');
-% DD = Normalize(DD, 0, 3000, 'M');
-% 
-% plotRaman(R, 0.0, 514);        
-% plotRaman(G, 0.0, 514);        
-% plotRaman(DD, 0, 514);        
 
 
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)

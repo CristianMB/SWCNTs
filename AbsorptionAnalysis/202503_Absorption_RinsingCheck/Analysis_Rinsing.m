@@ -21,6 +21,8 @@ S13_TTF_GasPhase = [rootpath,'20250327\S13_TTF_Rinsings.csv'];
 S14_Hexa_LP = [rootpath,'20250331\Rinsing_S14_Hexadecane_EA.csv'];
 S15_Dode_LP = [rootpath,'20250331\Rinsing_S15_Dodecane_EA.csv'];
 
+S16_TTF_GasPhase = [rootpath,'20250430\Rinsing_S16_TTF_MeOH.csv'];
+
 Solvents = [rootpath,'20250331\PureSolvents.csv'];
 
 
@@ -41,7 +43,7 @@ paths = {
     S14_Hexa_LP
     
     S15_Dode_LP
-    
+    S16_TTF_GasPhase
     Solvents
             };
     
@@ -123,7 +125,7 @@ S12 = {
             DATA_20250128.TTF_S12_R5_1
             DATA_20250128.TTF_S12_R6_1
             };        
-plotAbsorption(S12, 0.0);
+% plotAbsorption(S12, 0.0);
 
 
 S13 = {
@@ -151,6 +153,17 @@ S15 = {
 % plotAbsorption(S15, 0.0);
 
 % DATA_20250331.DodeEA_10pc.Y = DATA_20250331.DodeEA_10pc.Y - DATA_20250331.EthylAcetate.Y
+
+S16 = {     
+            DATA_20250430.S16_TTF_MeOH_R1_8
+            DATA_20250430.S16_TTF_MeOH_R2_8
+            DATA_20250430.S16_TTF_MeOH_R3_8
+            DATA_20250430.S16_TTF_MeOH_R4_8
+            DATA_20250430.S16_TTF_MeOH_R5_8
+            DATA_20250430.S16_TTF_MeOH_R6_4
+            };
+        
+plotAbsorption(S16, 0.0);
 
 Solvents = {    
             DATA_20250331.EthylAcetate
