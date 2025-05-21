@@ -8,17 +8,11 @@ addpath('X:\SWCNTs');
 % rootpath = 'X:\Measurements Data\Raman\';
 %All paths as default
 
-path_powder = [rootpath,'20250131\'];
-path_powderS12_S15_514 = [rootpath,'20250403\'];
-path_powderS12_S15_458 = [rootpath,'20250404\'];
-path_powderS12_S15_476 = [rootpath,'20250411\'];
+path_powder = [rootpath,'20250520\'];
 %Select the paths of interest
 
 paths = {
-        path_powder
-        path_powderS12_S15_514
-        path_powderS12_S15_458
-        path_powderS12_S15_476
+    path_powder
         
         };
 
@@ -27,236 +21,91 @@ ReadRamanFromPaths(paths, 2);
 
 %%%--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-DATA_20250131.LL514A.N='Laser';
-DATA_20250131.LL514B.N='Laser';
-DATA_20250131.LL514C .N='Laser';
-DATA_20250131.LL514D.N='Laser';
-DATA_20250131.P12DD.N='Powder S12 - TTF@P2-SWCNTs';
-DATA_20250131.P12G.N='Powder S12 - TTF@P2-SWCNTs';
-DATA_20250131.P12L514D.N='Powder S12 - TTF@P2-SWCNTs';
-DATA_20250131.P12L514G.N='Powder S12 - TTF@P2-SWCNTs';
-DATA_20250131.P12L514R.N='Powder S12 - TTF@P2-SWCNTs';
-DATA_20250131.P12RBM.N='Powder S12 - TTF@P2-SWCNTs';
-DATA_20250131.P2ADD.N='Powder P2-SWCNTs Annealed';
-DATA_20250131.P2AG.N='Powder P2-SWCNTs Annealed';
-DATA_20250131.P2ARBM.N='Powder P2-SWCNTs Annealed';
-DATA_20250131.PAPL514D.N='Powder AP-SWCNTs';
-DATA_20250131.PAPL514G.N='Powder AP-SWCNTs';
-DATA_20250131.PAPL514R.N='Powder AP-SWCNTs';
-DATA_20250131.PP2L514D.N='Powder P2-SWCNTs Annealed';
-DATA_20250131.PP2L514G .N='Powder P2-SWCNTs Annealed';
-DATA_20250131.PP2L514R.N='Powder P2-SWCNTs Annealed';
 
-DATA_20250403.LL514A.N='Laser';
-DATA_20250403.PP2L514G .N='Powder P2-SWCNTs Annealed';
-DATA_20250403.P12L514G.N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250403.P13L514G.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250403.P14L514G.N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
-DATA_20250403.P15L514G.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
-DATA_20250403.FFL514G.N='FlatField';
-DATA_20250403.PP2L514D.N='Powder P2-SWCNTs Annealed';
-DATA_20250403.P12L514D.N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250403.P13L514D.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250403.P14L514D.N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
-DATA_20250403.P15L514D.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
-DATA_20250403.FFL514D.N='FlatField';
-DATA_20250403.PP2L514R.N='Powder P2-SWCNTs Annealed';
-DATA_20250403.P12L514R.N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250403.P13L514R.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250403.P14L514R.N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
-DATA_20250403.P15L514R.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
-DATA_20250403.FFL514R.N='FlatField';
-
-DATA_20250404.FAL458D.N='KIT Empty CNT film (A)';
-DATA_20250404.FBL458D .N='KIT Empty CNT film (B)';
-DATA_20250404.P12L458D.N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250404.P13L458D .N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250404.P14L458D  .N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.P15L458D.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.PP2L458D.N='Powder P2-SWCNTs Annealed';
-DATA_20250404.FAL458G.N='KIT Empty CNT film (A)';
-DATA_20250404.FBL458G  .N='KIT Empty CNT film (B)';
-DATA_20250404.P12L458G .N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250404.P13L458G.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250404.P14L458G  .N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.P15L458G .N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.PP2L458G.N='Powder P2-SWCNTs Annealed';
-DATA_20250404.SR0L458G.N='Empty Arc SWCNTs (SF6)';
-DATA_20250404.LL458A .N='Laser';
-DATA_20250404.FAL458R.N='KIT Empty CNT film (A)';
-DATA_20250404.FBL458R.N='KIT Empty CNT film (B)';
-DATA_20250404.P12L458R .N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250404.P13L458R.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250404.P14L458R.N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.P15L458R.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.PP2L458R.N='Powder P2-SWCNTs Annealed';
-DATA_20250404.SR0L458R.N='Empty Arc SWCNTs (SF6)';
-
-
-DATA_20250411.P12L476D.N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250411.P13L476D.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250411.PP2L476D.N='Powder P2-SWCNTs Annealed';
-DATA_20250411.S11L476D.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
-DATA_20250411.S12L476D.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
-DATA_20250411.S13L476D.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
-DATA_20250411.S14L476D.N='Dispersion S14 - C_{16}H_{34}@P2-SWCNTs (Liquid)';
-DATA_20250411.S15L476D.N='Dispersion S15 - C_{12}H_{26}@P2-SWCNTs (Liquid)';
-DATA_20250411.SR0L476D.N='Dispersion SR0 - Empty@P2-SWCNTs';
-DATA_20250411.SWFL476D.N='Dispersion SWF - D2O@P2-SWCNTs (SF6)';
-DATA_20250411.P12L476G.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250411.P13L476G.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250411.PP2L476G.N='Powder P2-SWCNTs Annealed';
-DATA_20250411.S11L476G.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
-DATA_20250411.S12L476G.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
-DATA_20250411.S13L476G.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
-DATA_20250411.S14L476G.N='Dispersion S14 - C_{16}H_{34}@P2-SWCNTs (Liquid)';
-DATA_20250411.S15L476G.N='Dispersion S15 - C_{12}H_{26}@P2-SWCNTs (Liquid)';
-DATA_20250411.SR0L476G.N='Dispersion SR0 - Empty@P2-SWCNTs';
-DATA_20250411.SWFL476G.N='Dispersion SWF - D2O@P2-SWCNTs (SF6)';
-DATA_20250411.LL476A.N='Laser';
-DATA_20250411.LL476B.N='Laser';
-DATA_20250411.S11L476R.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
-DATA_20250411.S12L476R.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
-DATA_20250411.S13L476R.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
-DATA_20250411.S14L476R.N='Dispersion S14 - C_{16}H_{34}@P2-SWCNTs (Liquid)';
-DATA_20250411.S15L476R.N='Dispersion S15 - C_{12}H_{26}@P2-SWCNTs (Liquid)';
-DATA_20250411.SR0L476R.N='Dispersion SR0 - Empty@P2-SWCNTs';
-DATA_20250411.SWFL476R.N='Dispersion SWF - D2O@P2-SWCNTs (SF6)';
+DATA_20250520.LL514A.N='Laser';
+DATA_20250520.PP2514G.N='P2 Annealed Powder';
+DATA_20250520.PTTF514G.N='TTF Powder';
+DATA_20250520.R16L514G.N='Powder S16@P2-SWCNTs (GP/Melt) Rinsed';
+DATA_20250520.U16L514G.N='Powder S16@P2-SWCNTs (GP/Melt) Unrinsed';
+DATA_20250520.R17L514G.N='Powder S17@P2-SWCNTs (GP) Rinsed';
+DATA_20250520.U17L514G.N='Powder S17@P2-SWCNTs (GP) Unrinsed';
+DATA_20250520.U16B514G.N='Powder S16@P2-SWCNTs (GP/Melt) Unrinsed Verify';
+DATA_20250520.R12L514G.N='Powder S12@P2-SWCNTs (Reflux) Rinsed';
+DATA_20250520.R13L514G.N='Powder S13@P2-SWCNTs (GP) Rinsed';
+DATA_20250520.R13L514D.N='Powder S13@P2-SWCNTs (GP) Rinsed';
+DATA_20250520.R12L514D.N='Powder S12@P2-SWCNTs (Reflux) Rinsed';
+DATA_20250520.PP2L514D.N='P2 Annealed Powder';
+DATA_20250520.R16L514D.N='Powder S16@P2-SWCNTs (GP/Melt) Rinsed';
+DATA_20250520.U16L514D.N='Powder S16@P2-SWCNTs (GP/Melt) Unrinsed';
+DATA_20250520.R17L514D.N='Powder S17@P2-SWCNTs (GP) Rinsed';
+DATA_20250520.U17L514D.N='Powder S17@P2-SWCNTs (GP) Unrinsed';
+DATA_20250520.LLH514A.N='Laser';
 
 
 %%%--------SAMPLE COMPARISION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% 514nm DATA - 20250131                
 G = {
-        DATA_20250131.PP2L514G
-        DATA_20250131.P12L514G                
+          DATA_20250520.PP2514G
+%           DATA_20250520.PTTF514G
+          DATA_20250520.R12L514G
+          DATA_20250520.R13L514G
+%           DATA_20250520.U16L514G
+%           DATA_20250520.U16B514G
+          DATA_20250520.R16L514G
+%           DATA_20250520.U17L514G
+          DATA_20250520.R17L514G
             };   
 DD = {
-        DATA_20250131.PP2L514D
-        DATA_20250131.P12L514D          
+          DATA_20250520.PP2L514D
+          DATA_20250520.R12L514D
+          DATA_20250520.R13L514D
+          DATA_20250520.U16L514D
+          DATA_20250520.R16L514D
+          DATA_20250520.U17L514D
+          DATA_20250520.R17L514D   
             };  
+
+R = {
+        DATA_20250520.PP2H514R
+        DATA_20250520.R12H514R
+        DATA_20250520.R13H514R
+        DATA_20250520.R16H514R
+        DATA_20250520.R17H514R
+    };  
+
+RL = {
+        DATA_20250520.PP2L514R
+        DATA_20250520.R12L514R
+        DATA_20250520.R13L514R
+        DATA_20250520.R16L514R
+        DATA_20250520.R17L514R
+    };  
+
+R = FlatFieldCorrection(R,DATA_20250520.FFH514R);
+
+R = FilterDataByXRange(R, 135, 200);
+RL = FilterDataByXRange(RL, 100, 200);
 
 G = FilterDataByXRange(G, 1250, 1680);
 DD = FilterDataByXRange(DD, 2500, 2840);
-             
+              
 G = RemovePolyBG(G, 0);
 DD = RemovePolyBG(DD, 0);
 
-G = Normalize(G, 0, 3000, 'M');
-DD = Normalize(DD, 0, 3000, 'M');
+R = Normalize(R, 160, 170, 'M');
+RL = Normalize(RL, 160, 170, 'M');
 
-% plotRaman(G, 0, 514);        
-% plotRaman(DD, 0, 514);        
-
-% VERIFICATION SAME DAY
-                    
-G = {
-        DATA_20250131.P2AG
-        DATA_20250131.P12G          
-            };   
-
-DD = {
-        DATA_20250131.P2ADD
-        DATA_20250131.P12DD      
-            };  
-
-G = FlatFieldCorrection(G,DATA_20250131.FFL514G);
-DD = FlatFieldCorrection(DD,DATA_20250131.FFL514D);
-
-G = FilterDataByXRange(G, 1250, 1680);
-DD = FilterDataByXRange(DD, 2500, 2840);
-        
-G = RemovePolyBG(G, 0);
-DD = RemovePolyBG(DD, 0);
-
-G = Normalize(G, 0, 3000, 'M');
+G = Normalize(G, 0, 1650, 'M');
 DD = Normalize(DD, 0, 3000, 'M');
 % 
-% plotRaman(G, 0, 514);        
-% plotRaman(DD, 0, 514);
 
 
-%% 514nm DATA - 20250403 - COMPARING REFLUX VS GAS PHASE TTF
-                                    
-G = {
-            DATA_20250403.PP2L514G
-            DATA_20250403.P12L514G
-            DATA_20250403.P13L514G
-    };   
-DD = {
-            DATA_20250403.PP2L514D
-            DATA_20250403.P12L514D
-            DATA_20250403.P13L514D       
-    };  
+plotRaman(RL, 0.0, 514);  
+% plotRaman(R, 0.2, 514);  
+% plotRaman(G, 0.0, 514);        
+% plotRaman(DD, 0.1, 514);        
 
-G = FilterDataByXRange(G, 1250, 1680);
-DD = FilterDataByXRange(DD, 2500, 2840);
-
-G = RemovePolyBG(G, 0);
-DD = RemovePolyBG(DD, 0);
-
-G = Normalize(G, 0, 3000, 'M');
-DD = Normalize(DD, 0, 3000, 'M');        
-
-% plotRaman(G, 0, 514.5);        
-% plotRaman(DD, 0, 514.5);   
-%         
-
-%%548nm DATA - 20250404 - COMPARING REFLUX VS GAS PHASE TTF
-
-               
-G = {
-        DATA_20250404.PP2L458G
-        DATA_20250404.P12L458G 
-        DATA_20250404.P13L458G
-    };   
-DD = {
-
-        DATA_20250404.PP2L458D
-        DATA_20250404.P12L458D
-        DATA_20250404.P13L458D
-
-    };  
-
-G = FilterDataByXRange(G, 220, 1690);
-DD = FilterDataByXRange(DD, 2500, 2900);
-
-G = RemovePolyBG(G, 0);
-DD = RemovePolyBG(DD, 1);
-
-G = Normalize(G, 1580, 1640, 'M');
-DD = Normalize(DD, 2680, 2730, 'M');        
-  
-% plotRaman(G, 0.0, 457.9);       
-% plotRaman(DD, 0.0, 457.9);    
-     
-
-%%576nm DATA - 20250404 - COMPARING REFLUX VS GAS PHASE TTF
-
-
-G = {
-    DATA_20250411.PP2L476G
-    DATA_20250411.P12L476G
-    DATA_20250411.P13L476G
-    };   
-
-DD = {
-    DATA_20250411.PP2L476D
-    DATA_20250411.P12L476D
-    DATA_20250411.P13L476D
-    };  
-        
-G = FilterDataByXRange(G, 1250, 1700);
-DD = FilterDataByXRange(DD, 2500, 2900);
-
-G = RemovePolyBG(G, 0);
-DD = RemovePolyBG(DD, 0);
-
-G = Normalize(G, 1580, 1640, 'M');
-DD = Normalize(DD, 2650, 2750, 'M');        
-
-% plotRaman(G, 0.00, 476.5);       
-% plotRaman(DD, 0.00, 476.5);   
 
 
 
