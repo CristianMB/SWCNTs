@@ -62,14 +62,12 @@ G = {
           DATA_20250520.PP2514G
 %           DATA_20250520.U16L514G
 %           DATA_20250520.U16B514G
-            DATA_20250520.R12L514G
-
-            DATA_20250520.R16L514G  
-          
-%           DATA_20250520.U17L514G          
+%           DATA_20250520.R12L514G
+%           DATA_20250520.R16L514G
+%             DATA_20250520.U17L514G          
 
           DATA_20250520.R17L514G
-          DATA_20250520.R13L514G
+%           DATA_20250520.R13L514G
           
 
 
@@ -81,13 +79,13 @@ DD = {
                     
           DATA_20250520.U16L514D
 
+%           DATA_20250520.R12L514D
           DATA_20250520.R16L514D
-         DATA_20250520.R12L514D
-
+          
           DATA_20250520.U17L514D
 
           DATA_20250520.R17L514D   
-          DATA_20250520.R13L514D
+%           DATA_20250520.R13L514D
 
             };  
 
@@ -113,9 +111,7 @@ R = FlatFieldCorrection(R,DATA_20250520.FFH514R);
 R = FilterDataByXRange(R, 135, 200);
 RL = FilterDataByXRange(RL, 100, 250);
 
-% G = FilterDataByXRange(G, 1550, 1680);
-G = FilterDataByXRange(G, 1300, 1680);
-
+G = FilterDataByXRange(G, 1250, 1680);
 DD = FilterDataByXRange(DD, 2500, 2840);
               
 G = RemovePolyBG(G, 0);
@@ -135,76 +131,45 @@ DD = Normalize(DD, 0, 2680, 'M');
 % 
 % plotRaman(RL, 0.5, 514);  
 % plotRaman(R, 0.2, 514); 
-% G{6}.Y = G{6}.Y/100
-plotRaman(G, 0.00, 514);     
+
+plotRaman(G, 0.0, 514);     
 % plotRaman({G{4}}, 0.0, 514);        
 
 % plotRaman(DD, 1, 514);        
 
 %% DOPING VECTORS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% FITTED
-% FITTEDD = FitSamples(DD, 2680)
-% 
-% FD = zeros(1, length(FITTEDD));
-% for i=1:length(FITTEDD)
-% %    FITTED{i}.N
-%    FD(i) = FITTEDD{i}.F.Params(2)-FITTEDD{1}.F.Params(2);
-%    FD(i) = FITTEDD{i}.F.Params(2);
-% end
-% 
-% 
-% % FITTED
-% FITTEDG = FitSamples(G, 1592)
-% FG = zeros(1, length(FITTEDG));
-% NG = cell(1, length(FITTEDG));
-% 
-% for i=1:length(FITTEDG)
-% %    FITTED{i}.N
-%    FG(i) = FITTEDG{i}.F.Params(2)-FITTEDG{1}.F.Params(2);
-%    FG(i) = FITTEDG{i}.F.Params(2);
-%    NG{i} = num2str(FITTEDG{i}.N);
-% end
-% 
-% % plot(FG,FD)
-% scatter(FG,FD, 50, 'k','d', 'filled')
-% text(FG, FD, NG, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right', 'FontSize', 8);
-% xlim([1590,1593])
-% ylim([2670,2690])
-% ylabel('2D Band (cm-1)')
-% xlabel('G Band (cm-1)')
+% % % FITTED
+% % FITTEDD = FitSamples(DD, 2680)
+% % 
+% % FD = zeros(1, length(FITTEDD));
+% % for i=1:length(FITTEDD)
+% % %    FITTED{i}.N
+% %    FD(i) = FITTEDD{i}.F.Params(2)-FITTEDD{1}.F.Params(2);
+% %    FD(i) = FITTEDD{i}.F.Params(2);
+% % end
+% % 
+% % 
+% % % FITTED
+% % FITTEDG = FitSamples(G, 1592)
+% % FG = zeros(1, length(FITTEDG));
+% % NG = cell(1, length(FITTEDG));
+% % 
+% % for i=1:length(FITTEDG)
+% % %    FITTED{i}.N
+% %    FG(i) = FITTEDG{i}.F.Params(2)-FITTEDG{1}.F.Params(2);
+% %    FG(i) = FITTEDG{i}.F.Params(2);
+% %    NG{i} = num2str(FITTEDG{i}.N);
+% % end
+% % 
+% % % plot(FG,FD)
+% % scatter(FG,FD, 50, 'k','d', 'filled')
+% % text(FG, FD, NG, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right', 'FontSize', 8);
+% % xlim([1590,1593])
+% % ylim([2670,2690])
+% % ylabel('2D Band (cm-1)')
+% % xlabel('G Band (cm-1)')
 
-%%%%% FITTING V2
-% 
-% FITTEDG = FitSamples(G, 1592);
-% FITTEDD = FitSamples(DD, 2680)
-% 
-% numSamples = length(FITTEDG);
-% FG = zeros(1, numSamples);
-% FD = zeros(1, numSamples);
-% NG = cell(1, numSamples);
-% 
-% % Extract data
-% for i = 1:numSamples
-%     FG(i) = FITTEDG{i}.F.Params(2);
-%     FD(i) = FITTEDD{i}.F.Params(2);  % Assuming you want FD values too
-%     NG{i} = num2str(FITTEDG{i}.N);   % Sample names
-% end
-% 
-% % Assign unique colors
-% colors = lines(numSamples);  % Or use: jet(numSamples), hsv(numSamples), etc.
-% 
-% figure; hold on;
-% for i = 1:numSamples
-%     scatter(FG(i), FD(i), 50, colors(i,:), 'd', 'filled', 'DisplayName', NG{i});
-% end
-% 
-% xlim([1590, 1593]);
-% ylim([2670, 2690]);
-% ylabel('2D Band (cm^{-1})');
-% xlabel('G Band (cm^{-1})');
-% legend();  % Adjust legend location as needed
-% title('Scatter Plot with Unique Colors and Legend');
 
 
 
