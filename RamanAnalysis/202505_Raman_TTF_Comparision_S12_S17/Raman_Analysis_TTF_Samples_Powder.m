@@ -121,14 +121,14 @@ DD = FilterDataByXRange(DD, 2500, 2840);
 G = RemovePolyBG(G, 0);
 DD = RemovePolyBG(DD, 0);
 
-G = SubstractLinearBG(G, 1250, 1680);
+% G = SubstractLinearBG(G, 1250, 1680);
 DD = SubstractLinearBG(DD, 2500,2835);
 RL = SubstractLinearBG(RL, 100, 250);
 
 R = Normalize(R, 160, 170, 'M');
 RL = Normalize(RL, 160, 170, 'M');
 
-G = Normalize(G, 1575, 1650, 'M');
+G = Normalize(G, 1580, 1600, 'M');
 DD = Normalize(DD, 0, 2680, 'M');
 % 
 
