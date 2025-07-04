@@ -28,10 +28,10 @@ DATA_20250520.FFH514R.N='FlatField';
 DATA_20250520.LL514A.N='Laser';
 DATA_20250520.LL514B.N='Laser';
 DATA_20250520.LLH514A.N='Laser';
-DATA_20250520.PP2514G.N='P2 Annealed Powder';
-DATA_20250520.PP2H514R.N='P2 Annealed Powder';
-DATA_20250520.PP2L514D.N='P2 Annealed Powder';
-DATA_20250520.PP2L514R.N='P2 Annealed Powder';
+DATA_20250520.PP2514G.N='P2 Annealed Powder (A)';
+DATA_20250520.PP2H514R.N='P2 Annealed Powder(A)';
+DATA_20250520.PP2L514D.N='P2 Annealed Powder(A)';
+DATA_20250520.PP2L514R.N='P2 Annealed Powder(A)';
 DATA_20250520.PTTF514G.N='TTF Powder';
 DATA_20250520.R12H514R.N='Powder S12@P2-SWCNTs (Reflux)';
 DATA_20250520.R12L514D.N='Powder S12@P2-SWCNTs (Reflux)';
@@ -57,7 +57,7 @@ DATA_20250520.U17L514G.N='Powder S17@P2-SWCNTs (Gas-Melt) Unrinsed';
 
 DATA_20250618.LL514A.N='Laser';
 DATA_20250618.LL514B.N='Laser';
-DATA_20250618.PP2L514G .N='P2 Annealed Powder';
+DATA_20250618.PP2L514G .N='P2 Annealed Powder (B)';
 DATA_20250618.PAPL514G.N='Powder AP-SWCNTs';
 DATA_20250618.TCNQ514G.N='TCNQ Powder';
 DATA_20250618.R19A514G.N='Powder S19 - TEMED + AP Closed CNTs (Rinsed x1)';
@@ -78,7 +78,7 @@ DATA_20250618.R20D514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x4)';
 DATA_20250618.R20E514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x5)';
 DATA_20250618.U18L514D.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Unrinsed)';
 DATA_20250618.U20L514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Unrinsed)';
-DATA_20250618.PP2L514D.N='P2 Annealed Powder'; %(Same as Salome)
+DATA_20250618.PP2L514D.N='P2 Annealed Powder (B)'; %(Same as Salome)
 DATA_20250618.PAPL514D.N='Powder AP-SWCNTs';
 DATA_20250618.TCNQ514D.N='TCNQ Powder';
 
@@ -97,7 +97,7 @@ G = RemovePolyBG(G, 0);
 G = SubstractLinearBG(G, 1250, 1680);
 G = Normalize(G, 1500, 1680, 'M');
 
-plotRaman(G, 0.00, 514);     
+% plotRaman(G, 0.00, 514);     
 
 DD = {
           DATA_20250618.PP2L514D
@@ -119,13 +119,15 @@ DD = Normalize(DD, 2500, 2700, 'M');
 %%ProgressiveRinsing
 G = {
 %           DATA_20250520.PTTF514G
-          DATA_20250618.PP2L514G
           DATA_20250618.U20L514G
           DATA_20250618.R20A514G
           DATA_20250618.R20B514G
           DATA_20250618.R20C514G
           DATA_20250618.R20D514G
           DATA_20250618.R20E514G
+        DATA_20250618.PP2L514G
+        DATA_20250520.PP2514G
+
             };   
         
 G = FilterDataByXRange(G, 1250, 1680);           
@@ -133,15 +135,19 @@ G = RemovePolyBG(G, 0);
 G = SubstractLinearBG(G, 1250, 1680);
 G = Normalize(G, 1540, 1680, 'M');
 
+plotRaman(G, 0.30, 514);    
+
 DD = {
 %           DATA_20250520.PTTF514G
-          DATA_20250618.PP2L514D
           DATA_20250618.U20L514D
           DATA_20250618.R20A514D
           DATA_20250618.R20B514D
           DATA_20250618.R20C514D
           DATA_20250618.R20D514D
           DATA_20250618.R20E514D
+          DATA_20250618.PP2L514D
+          DATA_20250520.PP2L514D
+
             };   
         
 DD = FilterDataByXRange(DD, 2500, 2835);           
@@ -149,76 +155,75 @@ DD = RemovePolyBG(DD, 0);
 DD = SubstractLinearBG(DD, 2500, 2835);
 DD = Normalize(DD, 2500, 2835, 'M');
 
-% % close all
-% plotRaman(G, 0.02, 514);     
-% plotRaman(DD, 0.25, 514);     
+plotRaman(DD, 0.05, 514);   
 
-% % 
-% % % DOPING VECTORS
-% % 
-% % 
-% % FITTEDD = FitSamples(DD, 2680)
-% % 
-% % FD = zeros(1, length(FITTEDD));
-% % for i=1:length(FITTEDD)
-% % %    FITTED{i}.N
-% %    FD(i) = FITTEDD{i}.F.Params(2)-FITTEDD{1}.F.Params(2);
-% %    FD(i) = FITTEDD{i}.F.Params(2);
-% % end
-% % 
-% % 
-% % % FITTED
-% % FITTEDG = FitSamples(G, 1592)
-% % FG = zeros(1, length(FITTEDG));
-% % NG = cell(1, length(FITTEDG));
-% % 
-% % for i=1:length(FITTEDG)
-% % %    FITTED{i}.N
-% %    FG(i) = FITTEDG{i}.F.Params(2)-FITTEDG{1}.F.Params(2);
-% %    FG(i) = FITTEDG{i}.F.Params(2);
-% %    NG{i} = num2str(FITTEDG{i}.N);
-% % end
-% % 
-% % % plot(FG,FD)
-% % scatter(FG,FD, 50, 'k','d', 'filled')
-% % text(FG, FD, NG, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right', 'FontSize', 8);
-% % xlim([1590,1593])
-% % ylim([2670,2690])
-% % ylabel('2D Band (cm-1)')
-% % xlabel('G Band (cm-1)')
-% % 
-% % %%%% FITTING V2
-% % 
-% % FITTEDG = FitSamples(G, 1592);
-% % FITTEDD = FitSamples(DD, 2670)
-% % 
-% % numSamples = length(FITTEDG);
-% % FG = zeros(1, numSamples);
-% % FD = zeros(1, numSamples);
-% % NG = cell(1, numSamples);
-% % 
-% % % Extract data
-% % for i = 1:numSamples
-% %     FG(i) = FITTEDG{i}.F.Params(2);
-% %     FD(i) = FITTEDD{i}.F.Params(2);  % Assuming you want FD values too
-% %     NG{i} = num2str(FITTEDG{i}.N);   % Sample names
-% % end
-% % 
-% % % Assign unique colors
-% % colors = lines(numSamples);  % Or use: jet(numSamples), hsv(numSamples), etc.
-% % 
-% % figure; hold on;
-% % for i = 1:numSamples
-% %     scatter(FG(i), FD(i), 50, colors(i,:), 'd', 'filled', 'DisplayName', NG{i});
-% % end
-% % 
-% % xlim([1590, 1593]);
-% % ylim([2670, 2690]);
-% % ylabel('2D Band (cm^{-1})');
-% % xlabel('G Band (cm^{-1})');
-% % legend();  % Adjust legend location as needed
-% % title('Scatter Plot with Unique Colors and Legend');
-% % 
+
+
+%% DOPING VECTORS
+
+
+FITTEDD = FitSamples(DD, 2680)
+
+FD = zeros(1, length(FITTEDD));
+for i=1:length(FITTEDD)
+%    FITTED{i}.N
+   FD(i) = FITTEDD{i}.F.Params(2)-FITTEDD{1}.F.Params(2);
+   FD(i) = FITTEDD{i}.F.Params(2);
+end
+
+
+% FITTED
+FITTEDG = FitSamples(G, 1592)
+FG = zeros(1, length(FITTEDG));
+NG = cell(1, length(FITTEDG));
+
+for i=1:length(FITTEDG)
+%    FITTED{i}.N
+   FG(i) = FITTEDG{i}.F.Params(2)-FITTEDG{1}.F.Params(2);
+   FG(i) = FITTEDG{i}.F.Params(2);
+   NG{i} = num2str(FITTEDG{i}.N);
+end
+
+plot(FG,FD)
+scatter(FG,FD, 50, 'k','d', 'filled')
+text(FG, FD, NG, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right', 'FontSize', 8);
+xlim([1590, 1593]);
+ylim([2660, 2697]);
+ylabel('2D Band (cm-1)')
+xlabel('G Band (cm-1)')
+
+%%%% FITTING V2
+
+FITTEDG = FitSamples(G, 1590);
+FITTEDD = FitSamples(DD, 2670)
+
+numSamples = length(FITTEDG);
+FG = zeros(1, numSamples);
+FD = zeros(1, numSamples);
+NG = cell(1, numSamples);
+
+% Extract data
+for i = 1:numSamples
+    FG(i) = FITTEDG{i}.F.Params(2);
+    FD(i) = FITTEDD{i}.F.Params(2);  % Assuming you want FD values too
+    NG{i} = num2str(FITTEDG{i}.N);   % Sample names
+end
+
+% Assign unique colors
+colors = lines(numSamples);  % Or use: jet(numSamples), hsv(numSamples), etc.
+
+figure; hold on;
+for i = 1:numSamples
+    scatter(FG(i), FD(i), 50, colors(i,:), 'd', 'filled', 'DisplayName', NG{i});
+end
+
+xlim([1590, 1593]);
+ylim([2660, 2697]);
+ylabel('2D Band (cm^{-1})');
+xlabel('G Band (cm^{-1})');
+legend();  % Adjust legend location as needed
+title('Doping Vectors');
+
 
 
 
@@ -226,84 +231,84 @@ DD = Normalize(DD, 2500, 2835, 'M');
 
 
 %% 514nm DATA - 20250131                
-G = {
-          DATA_20250520.PP2514G
-%           DATA_20250520.U16L514G
-%           DATA_20250520.U16B514G
-            DATA_20250520.R12L514G
-
-            DATA_20250520.R16L514G  
-          
-%           DATA_20250520.U17L514G          
-
-          DATA_20250520.R17L514G
-          DATA_20250520.R13L514G
-          
-
-
-%           DATA_20250520.PTTF514G
-
-            };   
-DD = {
-          DATA_20250520.PP2L514D
-                    
-          DATA_20250520.U16L514D
-
-          DATA_20250520.R16L514D
-         DATA_20250520.R12L514D
-
-          DATA_20250520.U17L514D
-
-          DATA_20250520.R17L514D   
-          DATA_20250520.R13L514D
-
-            };  
-
-R = {
-        DATA_20250520.PP2H514R
-        DATA_20250520.R12H514R
-        DATA_20250520.R13H514R
-        DATA_20250520.R16H514R
-        DATA_20250520.R17H514R
-    };  
-
-RL = {
-        DATA_20250520.PP2L514R
-        DATA_20250520.R12L514R
-        DATA_20250520.R13L514R
-        DATA_20250520.R16L514R
-        DATA_20250520.R17L514R
-
-    };  
-
-R = FlatFieldCorrection(R,DATA_20250520.FFH514R);
-
-R = FilterDataByXRange(R, 135, 200);
-RL = FilterDataByXRange(RL, 100, 250);
-
-% G = FilterDataByXRange(G, 1550, 1680);
-G = FilterDataByXRange(G, 1300, 1680);
-
-DD = FilterDataByXRange(DD, 2500, 2840);
-              
-G = RemovePolyBG(G, 0);
-DD = RemovePolyBG(DD, 0);
-
-% G = SubstractLinearBG(G, 1250, 1680);
-DD = SubstractLinearBG(DD, 2500,2835);
-RL = SubstractLinearBG(RL, 100, 250);
-
-R = Normalize(R, 160, 170, 'M');
-RL = Normalize(RL, 160, 170, 'M');
-
-G = Normalize(G, 1580, 1600, 'M');
-DD = Normalize(DD, 0, 2680, 'M');
+% G = {
+%           DATA_20250520.PP2514G
+% %           DATA_20250520.U16L514G
+% %           DATA_20250520.U16B514G
+%             DATA_20250520.R12L514G
 % 
-
+%             DATA_20250520.R16L514G  
+%           
+% %           DATA_20250520.U17L514G          
 % 
-% plotRaman(RL, 0.5, 514);  
-% plotRaman(R, 0.2, 514); 
-% G{6}.Y = G{6}.Y/100
+%           DATA_20250520.R17L514G
+%           DATA_20250520.R13L514G
+%           
+% 
+% 
+% %           DATA_20250520.PTTF514G
+% 
+%             };   
+% DD = {
+%           DATA_20250520.PP2L514D
+%                     
+%           DATA_20250520.U16L514D
+% 
+%           DATA_20250520.R16L514D
+%          DATA_20250520.R12L514D
+% 
+%           DATA_20250520.U17L514D
+% 
+%           DATA_20250520.R17L514D   
+%           DATA_20250520.R13L514D
+% 
+%             };  
+% 
+% R = {
+%         DATA_20250520.PP2H514R
+%         DATA_20250520.R12H514R
+%         DATA_20250520.R13H514R
+%         DATA_20250520.R16H514R
+%         DATA_20250520.R17H514R
+%     };  
+% 
+% RL = {
+%         DATA_20250520.PP2L514R
+%         DATA_20250520.R12L514R
+%         DATA_20250520.R13L514R
+%         DATA_20250520.R16L514R
+%         DATA_20250520.R17L514R
+% 
+%     };  
+% 
+% R = FlatFieldCorrection(R,DATA_20250520.FFH514R);
+% 
+% R = FilterDataByXRange(R, 135, 200);
+% RL = FilterDataByXRange(RL, 100, 250);
+% 
+% % G = FilterDataByXRange(G, 1550, 1680);
+% G = FilterDataByXRange(G, 1300, 1680);
+% 
+% DD = FilterDataByXRange(DD, 2500, 2840);
+%               
+% G = RemovePolyBG(G, 0);
+% DD = RemovePolyBG(DD, 0);
+% 
+% % G = SubstractLinearBG(G, 1250, 1680);
+% DD = SubstractLinearBG(DD, 2500,2835);
+% RL = SubstractLinearBG(RL, 100, 250);
+% 
+% R = Normalize(R, 160, 170, 'M');
+% RL = Normalize(RL, 160, 170, 'M');
+% 
+% G = Normalize(G, 1580, 1600, 'M');
+% DD = Normalize(DD, 0, 2680, 'M');
+% % 
+% 
+% % 
+% % plotRaman(RL, 0.5, 514);  
+% % plotRaman(R, 0.2, 514); 
+% % G{6}.Y = G{6}.Y/100
 % % % % % % % % % % plotRaman(G, 0.00, 514);     
 % plotRaman({G{4}}, 0.0, 514);        
 
