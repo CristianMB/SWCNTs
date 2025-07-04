@@ -57,7 +57,7 @@ DATA_20250520.U17L514G.N='Powder S17@P2-SWCNTs (Gas-Melt) Unrinsed';
 
 DATA_20250618.LL514A.N='Laser';
 DATA_20250618.LL514B.N='Laser';
-DATA_20250618.PP2L514G .N='P2 Annealed Powder (Same as Salome)';
+DATA_20250618.PP2L514G .N='P2 Annealed Powder';
 DATA_20250618.PAPL514G.N='Powder AP-SWCNTs';
 DATA_20250618.TCNQ514G.N='TCNQ Powder';
 DATA_20250618.R19A514G.N='Powder S19 - TEMED + AP Closed CNTs (Rinsed x1)';
@@ -78,7 +78,7 @@ DATA_20250618.R20D514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x4)';
 DATA_20250618.R20E514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x5)';
 DATA_20250618.U18L514D.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Unrinsed)';
 DATA_20250618.U20L514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Unrinsed)';
-DATA_20250618.PP2L514D.N='P2 Annealed Powder (Same as Salome)';
+DATA_20250618.PP2L514D.N='P2 Annealed Powder'; %(Same as Salome)
 DATA_20250618.PAPL514D.N='Powder AP-SWCNTs';
 DATA_20250618.TCNQ514D.N='TCNQ Powder';
 
@@ -95,23 +95,23 @@ G = {
 G = FilterDataByXRange(G, 1250, 1680);           
 G = RemovePolyBG(G, 0);
 G = SubstractLinearBG(G, 1250, 1680);
-G = Normalize(G, 1540, 1680, 'M');
+G = Normalize(G, 1500, 1680, 'M');
 
 plotRaman(G, 0.00, 514);     
 
 DD = {
           DATA_20250618.PP2L514D
-          DATA_20250618.TCNQ514D
           DATA_20250618.U18L514D
-            };   
+          DATA_20250618.TCNQ514D
+          };   
         
 DD = FilterDataByXRange(DD, 2500, 2835);           
 DD = RemovePolyBG(DD, 0);
 DD = SubstractLinearBG(DD, 2500, 2835);
-DD = Normalize(DD, 2500, 2835, 'M');
+DD = Normalize(DD, 2500, 2700, 'M');
 
 % close all
-plotRaman(DD, 0.00, 514);     
+% plotRaman(DD, 0.50, 514);     
 
 
 %% TTF ANALYSIS
