@@ -8,18 +8,18 @@ addpath('X:\SWCNTs');
 % rootpath = 'X:\Measurements Data\Raman\';
 %All paths as default
 
-path_TTF = [rootpath,'20250520\'];
-path_TCNQ = [rootpath,'20250618\'];
 path_a = [rootpath,'20250131\'];
 path_b = [rootpath,'20250403\'];
+path_c = [rootpath,'20250520\'];
+path_d = [rootpath,'20250618\'];
 
 %Select the paths of interest
 
 paths = {
-    path_TTF
-    path_TCNQ
-    path_a
-    path_b
+        path_a
+        path_b
+        path_c
+        path_d
         };
 
 
@@ -28,85 +28,38 @@ ReadRamanFromPaths(paths, 2);
 %% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-DATA_20250520.FFH514R.N='FlatField';
-DATA_20250520.LL514A.N='Laser';
-DATA_20250520.LL514B.N='Laser';
-DATA_20250520.LLH514A.N='Laser';
-DATA_20250520.PP2514G.N='P2 Annealed Powder (A)';
-DATA_20250520.PP2H514R.N='P2 Annealed Powder(A)';
-DATA_20250520.PP2L514D.N='P2 Annealed Powder(A)';
-DATA_20250520.PP2L514R.N='P2 Annealed Powder(A)';
-DATA_20250520.PTTF514G.N='TTF Powder';
-DATA_20250520.R12H514R.N='Powder S12@P2-SWCNTs (Reflux)';
-DATA_20250520.R12L514D.N='Powder S12@P2-SWCNTs (Reflux)';
-DATA_20250520.R12L514G.N='Powder S12@P2-SWCNTs (Reflux)';
-DATA_20250520.R12L514R.N='Powder S12@P2-SWCNTs (Reflux)';
-DATA_20250520.R13H514R.N='Powder S13@P2-SWCNTs (Gas)';
-DATA_20250520.R13L514D.N='Powder S13@P2-SWCNTs (Gas)';
-DATA_20250520.R13L514G.N='Powder S13@P2-SWCNTs (Gas)';
-DATA_20250520.R13L514R.N='Powder S13@P2-SWCNTs (Gas)';
-DATA_20250520.R16H514R.N='Powder S16@P2-SWCNTs (Melt)';
-DATA_20250520.R16L514D.N='Powder S16@P2-SWCNTs (Melt)';
-DATA_20250520.R16L514G.N='Powder S16@P2-SWCNTs (Melt)';
-DATA_20250520.R16L514R.N='Powder S16@P2-SWCNTs (Melt)';
-DATA_20250520.R17H514R.N='Powder S17@P2-SWCNTs (Gas-Melt)';
-DATA_20250520.R17L514D.N='Powder S17@P2-SWCNTs (Gas-Melt)';
-DATA_20250520.R17L514G.N='Powder S17@P2-SWCNTs (Gas-Melt)';
-DATA_20250520.R17L514R.N='Powder S17@P2-SWCNTs (Gas-Melt)';
-DATA_20250520.U16B514G.N='Powder S16@P2-SWCNTs (Melt) Unrinsed';
-DATA_20250520.U16L514D.N='Powder S16@P2-SWCNTs (Melt) Unrinsed';
-DATA_20250520.U16L514G.N='Powder S16@P2-SWCNTs (Melt) Unrinsed';
-DATA_20250520.U17L514D.N='Powder S17@P2-SWCNTs (Gas-Melt) Unrinsed';
-DATA_20250520.U17L514G.N='Powder S17@P2-SWCNTs (Gas-Melt) Unrinsed';
-
-DATA_20250618.LL514A.N='Laser';
-DATA_20250618.LL514B.N='Laser';
-DATA_20250618.PP2L514G .N='P2 Annealed Powder (B)';
-DATA_20250618.PAPL514G.N='Powder AP-SWCNTs';
-DATA_20250618.TCNQ514G.N='TCNQ Powder';
-DATA_20250618.R19A514G.N='Powder S19 - TEMED + AP Closed CNTs (Rinsed x1)';
-DATA_20250618.S19A514G.N='Powder S19 - TEMED@SWCNTs (Rinsed x1)';
-DATA_20250618.R20A514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x1)';
-DATA_20250618.R20B514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x2)';
-DATA_20250618.R20C514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x3)';
-DATA_20250618.R20D514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x4)';
-DATA_20250618.R20E514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x5)';
-DATA_20250618.U18L514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Unrinsed)';
-DATA_20250618.U20L514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Unrinsed)';
-DATA_20250618.R19A514D.N='Powder S19 - TEMED + AP Closed CNTs (Rinsed x1)';
-DATA_20250618.S19A514D.N='Powder S19 - TEMED@SWCNTs (Rinsed x1)';
-DATA_20250618.R20A514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x1)';
-DATA_20250618.R20B514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x2)';
-DATA_20250618.R20C514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x3)';
-DATA_20250618.R20D514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x4)';
-DATA_20250618.R20E514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x5)';
-DATA_20250618.U18L514D.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Unrinsed)';
-DATA_20250618.U20L514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Unrinsed)';
-DATA_20250618.PP2L514D.N='P2 Annealed Powder (B)'; %(Same as Salome)
-DATA_20250618.PAPL514D.N='Powder AP-SWCNTs';
-DATA_20250618.TCNQ514D.N='TCNQ Powder';
-
-
 %% TCNQ ANALYSIS
 
 % G and 2D Band Plots
 G = {
-          DATA_20250618.PP2L514G
-          DATA_20250618.TCNQ514G
-          DATA_20250618.U18L514G
-            };   
+        DATA_20250131.PP2L514G 
+        DATA_20250403.PP2L514G 
+        DATA_20250520.PP2514G
+        DATA_20250618.PP2L514G 
         
+%         DATA_20250520.U16B514G
+%         DATA_20250520.U17L514G
+%         DATA_20250618.U18L514G
+%         DATA_20250618.U20L514G
+     };   
+%         
 G = FilterDataByXRange(G, 1250, 1680);           
 G = RemovePolyBG(G, 0);
 G = SubstractLinearBG(G, 1250, 1680);
 G = Normalize(G, 1500, 1680, 'M');
 
-% plotRaman(G, 0.00, 514);     
+plotRaman(G, 0.00, 514);     
 
 DD = {
-          DATA_20250618.PP2L514D
-          DATA_20250618.U18L514D
-          DATA_20250618.TCNQ514D
+        DATA_20250131.PP2L514D
+        DATA_20250403.PP2L514D
+        DATA_20250520.PP2L514D
+        DATA_20250618.PP2L514D
+        
+%         DATA_20250520.U17L514D
+%         DATA_20250618.U17L514D
+%         DATA_20250618.U20L514D
+        
           };   
         
 DD = FilterDataByXRange(DD, 2500, 2835);           
@@ -115,79 +68,7 @@ DD = SubstractLinearBG(DD, 2500, 2835);
 DD = Normalize(DD, 2500, 2700, 'M');
 
 % close all
-% plotRaman(DD, 0.50, 514);     
-
-
-%% TTF ANALYSIS
-
-%%ProgressiveRinsing
-G = {
-%           DATA_20250520.PTTF514G
-
-            DATA_20250520.U16B514G
-            DATA_20250520.U17L514G          
-            DATA_20250618.U20L514G   
-            
-            DATA_20250520.R12L514G
-            DATA_20250520.R13L514G
-            DATA_20250520.R16L514G
-            DATA_20250520.R17L514G  
-
-            DATA_20250618.R20A514G
-            DATA_20250618.R20B514G
-            DATA_20250618.R20C514G
-            DATA_20250618.R20D514G
-            DATA_20250618.R20E514G  
-            
-            DATA_20250131.PP2L514G 
-            DATA_20250403.PP2L514G 
-            DATA_20250520.PP2514G
-            DATA_20250618.PP2L514G 
-
-            };   
-        
-G = FilterDataByXRange(G, 1250, 1680);           
-G = RemovePolyBG(G, 0);
-G = SubstractLinearBG(G, 1250, 1680);
-G = Normalize(G, 1540, 1680, 'M');
-
-% plotRaman(G, 0.00, 514);    
-
-DD = {
-    %           DATA_20250520.PTTF514G
-
-
-
-
-            DATA_20250520.U16L514D
-            DATA_20250520.U17L514D
-            DATA_20250618.U20L514D
-            
-            DATA_20250520.R12L514D
-            DATA_20250520.R13L514D
-            DATA_20250520.R16L514D
-            DATA_20250520.R17L514D  
-
-            DATA_20250618.R20A514D
-            DATA_20250618.R20B514D
-            DATA_20250618.R20C514D
-            DATA_20250618.R20D514D
-            DATA_20250618.R20E514D
-
-            DATA_20250131.PP2L514D
-            DATA_20250403.PP2L514D
-            DATA_20250520.PP2L514D
-            DATA_20250618.PP2L514D
-
-            };   
-        
-DD = FilterDataByXRange(DD, 2500, 2835);           
-DD = RemovePolyBG(DD, 0);
-DD = SubstractLinearBG(DD, 2500, 2835);
-DD = Normalize(DD, 2500, 2835, 'M');
-
-% plotRaman(DD, 0.1, 514);   
-
+plotRaman(DD, 0.2, 514);     
 
 
 %% DOPING VECTORS
@@ -225,10 +106,8 @@ xlabel('G Band (cm-1)')
 
 %%%% FITTING V2
 
-% FITTEDG = FitSamples(G, 1592);
-FITTEDG = FitSamples(G, [1550,1560,1590]);
-
-FITTEDD = FitSamples(DD, 2680)
+FITTEDG = FitSamples(G, 1590);
+FITTEDD = FitSamples(DD, 2670)
 
 numSamples = length(FITTEDG);
 FG = zeros(1, numSamples);
@@ -259,9 +138,7 @@ title('Doping Vectors');
 
 
 
-%%%%
 
-plotRamanFits(FITTEDG,0.3)
 
 
 
@@ -417,48 +294,6 @@ plotRamanFits(FITTEDG,0.3)
 
 
 %% FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function plotRamanFits(SamplesToPlot, offset)
-    % Create a figure for the plot
-    figure;
-    
-    for sampleIdx = 1:length(SamplesToPlot)
-        currentSample = SamplesToPlot{sampleIdx};
-
-        % Get sample data
-        X = currentSample.X;
-        Y = currentSample.Y - offset * sampleIdx;
-        N = currentSample.N;
-        fitCurve = currentSample.F.Fit - offset * sampleIdx;
-        fitParams = currentSample.F.Params;
-        numPeaks = size(fitParams, 2);
-
-        % Plot original spectrum with offset
-        plot(X, Y, 'DisplayName', N, 'LineWidth', 1.3);
-        hold on;
-
-        % Plot fitted curve
-        plot(X, fitCurve, 'k', 'LineWidth', 1.5, 'DisplayName', sprintf('%s - Fit', N));
-
-        % Plot individual Lorentzian peaks with offset
-        for j = 1:numPeaks
-            amp = fitParams(1, j);
-            pos = fitParams(2, j);
-            width = fitParams(3, j);
-            peakCurve = amp ./ ((X - pos).^2 + width) - offset * sampleIdx;
-            plot(X, peakCurve, 'r--', 'LineWidth', 1, ...
-                'HandleVisibility', 'off'); % Don't crowd the legend
-        end
-    end
-
-    % Labels and final formatting
-    xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
-    ylabel('Intensity (a.u.)', 'FontSize', 14);
-    title('Raman Spectra with Multi-Lorentzian Fits', 'FontSize', 14);
-    legend('show', 'FontSize', 11);
-    grid on;
-    hold off;
-end
-
 
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
     % BackgroundSubtractionExcludeRanges performs background subtraction using the Naumov model,
