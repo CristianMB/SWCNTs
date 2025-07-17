@@ -1,0 +1,106 @@
+clc;
+clear;
+import UsefulFunctions.*;
+rootpath = 'X:\Measurements Data\Absorption\';
+
+%All paths as default
+
+TTF_MeOH = [rootpath,'20250509\TTF_MeOH_Solubility.csv'];
+S17_TTF_Rinsing = [rootpath,'20250514\S17_Rinsing_TTF_MeOH.csv'];
+S20_TTF_Rinsing = [rootpath,'20250616\Rinsing_S20_TTF_MeOH.csv'];
+S21_TTF_Rinsing = [rootpath,'20250716\Rinsing_S21_TTF_MeOH.csv'];
+
+%Select the paths of interest
+paths = {
+    TTF_MeOH
+    S17_TTF_Rinsing
+    S20_TTF_Rinsing
+    S21_TTF_Rinsing
+};
+
+%% Read and structure data from the paths
+ReadAbsorptionFromPaths(paths);
+
+%% Labeling
+
+DATA_20250616.Baseline.N='Methanol Baseline';
+DATA_20250616.R1_1.N='R1_1';
+DATA_20250616.R1_30.N='R1_30';
+DATA_20250616.R2_1.N='R2_1';
+DATA_20250616.R2_2.N='R2_2';
+DATA_20250616.R3_1.N='R3_1';
+DATA_20250616.R4_1.N='R4_1';
+DATA_20250616.R5_1.N='R5_1';
+
+DATA_20250716.Baseline.N='Baseline Methanol';
+DATA_20250716.R5_1.N='Rinsing 5 - TTF MeOH';
+DATA_20250716.R4_1.N='Rinsing 4 - TTF MeOH';
+DATA_20250716.R3_1.N='Rinsing 3 - TTF MeOH';
+DATA_20250716.R2_1.N='Rinsing 2 - TTF MeOH';
+DATA_20250716.R1_5.N='Rinsing 1 - TTF MeOH';
+DATA_20250716.R1_30.N='Rinsing 1 - TTF MeOH';
+
+
+
+%% Corrections
+
+DATA_20250616.R1_30.Y = DATA_20250616.R1_30.Y*30
+DATA_20250616.R2_2.Y = DATA_20250616.R2_2.Y*2
+
+DATA_20250716.R1_30.Y = DATA_20250716.R1_30.Y*30
+DATA_20250716.R1_5.Y = DATA_20250716.R1_5.Y*5
+
+%% TTF in MeOH
+
+TTFinMeOH = {
+                DATA_20250509.
+            };
+        
+plotAbsorption(TTFinMeOH, 0.00)
+
+%% TTF filled by gas phase 
+
+S17_TTF = {
+           DATA_20250514.R1_10
+           DATA_20250514.R2_1
+           DATA_20250514.R3_1
+           DATA_20250514.R4_1
+           DATA_20250514.R5_1
+           DATA_20250514.R5_1_repeat
+           DATA_20250514.R6_1
+           DATA_20250514.R7_1
+       };
+
+% S17_TTF = Normalize(S17_TTF, 280,340,'M')
+plotAbsorption(S17_TTF, 0.00)
+
+
+%% TTF filled by gas phase 
+
+S20_TTF = {
+%         DATA_20250616.R1_1
+%         DATA_20250616.R1_30
+        DATA_20250616.R2_1
+%         DATA_20250616.R2_2
+        DATA_20250616.R3_1
+        DATA_20250616.R4_1
+        DATA_20250616.R5_1
+       };
+
+% S20_TTF = Normalize(S20_TTF, 280,340,'M')
+% plotAbsorption(S20_TTF, 0.00)
+
+%% TTF filled by melt 
+
+S21_TTF = {
+%             DATA_20250716.R1_5
+%             DATA_20250716.R1_30
+            DATA_20250716.R2_1
+            DATA_20250716.R3_1
+            DATA_20250716.R4_1
+            DATA_20250716.R5_1         
+       };
+
+% S21_TTF = Normalize(S21_TTF, 280,340,'M')
+% plotAbsorption(S21_TTF, 0.00)
+
