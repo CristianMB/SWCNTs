@@ -51,5 +51,5 @@ function plot_individualRaman()
         SpectraArray{i} = S.(fields{i});
     end
 
-    plotRaman(SpectraArray, 10.0)
+    plotRaman(SpectraArray, 0.0)
 end 
