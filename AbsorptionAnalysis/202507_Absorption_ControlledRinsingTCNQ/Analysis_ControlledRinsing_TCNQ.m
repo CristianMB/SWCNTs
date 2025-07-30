@@ -2,7 +2,7 @@ clc;
 clear;
 import UsefulFunctions.*;
 rootpath = 'X:\Measurements Data\Absorption\';
-
+addpath('X:\SWCNTs\');
 %All paths as default
 
 Rinsing_S18_TCNQ_DCM = [rootpath,'20250714\Rinsing_S18_TCNQ_DCM.csv'];
