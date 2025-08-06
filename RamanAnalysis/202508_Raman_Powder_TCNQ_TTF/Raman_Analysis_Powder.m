@@ -222,424 +222,91 @@ DATA_20250718.R18I514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x5)';
 DATA_20250718.TCNQ514G.N='TCNQ Powder';
 DATA_20250718.U18L514G.N='Powder U18 - TCNQ@P2-SWCNTs (GP) (Unrinsed)';
 
+DATA_20250731.R21A514G.N='Powder S21 - TTF@P2-SWCNTs (Melt) (Rinsed x1)';
+DATA_20250731.R21E514G.N='Powder S21 - TTF@P2-SWCNTs (Melt) (Rinsed x5)';
+DATA_20250731.U22L514G.N='Powder S22 - TTF@P2-SWCNTs (Reflux) (R0 Filtered)';
+DATA_20250731.R22C514G.N='Powder S22 - TTF@P2-SWCNTs (Reflux) (Rinsed x3)';
+DATA_20250731.U23L514G.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Unrinsed)';
+DATA_20250731.R23F514G.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
+DATA_20250731.R23G514G.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
+DATA_20250801.B3L514D.N='Batch 3';
+DATA_20250801.B3L514G.N='Batch 3';
+DATA_20250801.B3L514R.N='Batch 3';
+DATA_20250801.LL514A.N='Laser';
+DATA_20250801.R21A514D.N='Powder S21 - TTF@P2-SWCNTs (Melt) (Rinsed x1)';
+DATA_20250801.R21A514G.N='Powder S21 - TTF@P2-SWCNTs (Melt) (Rinsed x1)';
+DATA_20250801.R21A514R.N='Powder S21 - TTF@P2-SWCNTs (Melt) (Rinsed x1)';
+DATA_20250801.R23F514D.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
+DATA_20250801.R23F514G.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
+DATA_20250801.R23F514H.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
+DATA_20250801.R23F514N.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
+DATA_20250801.R23F514R.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
+DATA_20250801.TCNQ514D.N='TCNQ Powder';
+DATA_20250801.TCNQ514G.N='TCNQ Powder';
+DATA_20250801.TCNQ514H.N='TCNQ Powder';
+DATA_20250801.TCNQ514N.N='TCNQ Powder';
+DATA_20250801.TCNQ514R.N='TCNQ Powder';
+DATA_20250801.TTFL514D.N='TTF Powder';
+DATA_20250801.TTFL514G.N='TTF Powder';
+DATA_20250801.TTFL514R.N='TTF Powder';
+DATA_20250801.U22L514D.N='Powder S22 - TTF@P2-SWCNTs (Reflux) (R0 Filtered)';
+DATA_20250801.U22L514G.N='Powder S22 - TTF@P2-SWCNTs (Reflux) (R0 Filtered)';
+DATA_20250801.U22L514R.N='Powder S22 - TTF@P2-SWCNTs (Reflux) (R0 Filtered)';
 
 %% All G vs Ref
 
 close all;
-% G and 2D Band Plots
-G = {      
-            DATA_20250718.B2L514G
-            DATA_20250718.B3L514G
-            
-%             DATA_20250131.P12G
-%             DATA_20250131.P12L514G
-%             DATA_20250403.P12L514G
-            DATA_20250520.R12L514G
-            
-%             DATA_20250403.P13L514G
-            DATA_20250520.R13L514G
-            
-            DATA_20250403.P14L514G
-            
-            DATA_20250403.P15L514G
-            
-            DATA_20250520.U16L514G
-%             DATA_20250520.U16B514G
-            DATA_20250520.R16L514G
-            
-            DATA_20250520.U17L514G
-            DATA_20250520.R17L514G
-            
-            DATA_20250618.U18L514G
-            DATA_20250718.U18L514G
-            DATA_20250718.R18A514G        
-            DATA_20250718.R18B514G
-            DATA_20250718.R18C514G
-            DATA_20250718.R18D514G
-            DATA_20250718.R18E514G
-            DATA_20250718.R18F514G
-            DATA_20250718.R18G514G
-            DATA_20250718.R18H514G
-            DATA_20250718.R18I514G
-%             
-            DATA_20250618.R19A514G
-            DATA_20250618.S19A514G
-%             
-            DATA_20250618.U20L514G
-%             DATA_20250618.R20A514G
-%             DATA_20250618.R20B514G
-%             DATA_20250618.R20C514G
-%             DATA_20250618.R20D514G
-            DATA_20250618.R20E514G
-            };   
-
-G = {      
-%             DATA_20250718.B2L514G
-%             DATA_20250718.B3L514G
-%               DATA_20250731.B3L514G
-
-%             DATA_20250131.P12G
-%             DATA_20250131.P12L514G
-%             DATA_20250403.P12L514G
-%             DATA_20250520.R12L514G
-            
-%             DATA_20250403.P13L514G
-%             DATA_20250520.R13L514G
-            
-%             DATA_20250403.P14L514G
-            
-%             DATA_20250403.P15L514G
-%             
-%             DATA_20250520.U16L514G
-%             DATA_20250520.U16B514G
-%             DATA_20250520.R16L514G
-            
-%             DATA_20250520.U17L514G
-%             DATA_20250520.R17L514G
-%             
-%             DATA_20250618.U18L514G
-%             DATA_20250718.U18L514G
-%             DATA_20250718.R18A514G        
-%             DATA_20250718.R18B514G
-%             DATA_20250718.R18C514G
-%             DATA_20250718.R18D514G
-%             DATA_20250718.R18E514G
-%             DATA_20250718.R18F514G
-%             DATA_20250718.R18G514G
-%             DATA_20250718.R18H514G
-%             DATA_20250718.R18I514G
-% %             
-%             DATA_20250618.R19A514G
-%             DATA_20250618.S19A514G
-%             
-%             DATA_20250618.U20L514G
-%             DATA_20250618.R20A514G
-%             DATA_20250618.R20B514G
-%             DATA_20250618.R20C514G
-%             DATA_20250618.R20D514G
-%             DATA_20250618.R18E514G
-            
-            DATA_20250731.B3L514G
-%             DATA_20250731.R21A514G
-%             DATA_20250731.R21E514G
-%             DATA_20250731.U22L514G
-%             DATA_20250731.R22C514G
-
-            DATA_20250731.U23L514G
-            DATA_20250731.R23F514G
-            DATA_20250731.R23G514G
-            };     
-        
-G = {      
-%              DATA_20250801.LL514A
-%              
-%              DATA_20250801.B3L514D
-%              DATA_20250801.R21A514D
-%              DATA_20250801.R23F514D
-%              DATA_20250801.TCNQ514D
-%              DATA_20250801.TTFL514D
-%              DATA_20250801.U22L514D
-%              
-             DATA_20250801.B3L514G
-%              DATA_20250801.R21A514G
-             DATA_20250801.R23F514G
-             DATA_20250801.TCNQ514G
-%              DATA_20250801.TTFL514G
-%              DATA_20250801.U22L514G
-             
-%              DATA_20250801.R23F514H
-%              DATA_20250801.TCNQ514H
-%              DATA_20250801.R23F514N
-%              DATA_20250801.TCNQ514N
-%              
-%              DATA_20250801.B3L514R
-%              DATA_20250801.R21A514R
-%              DATA_20250801.R23F514R
-%              DATA_20250801.TCNQ514R
-%              DATA_20250801.TTFL514R
-%              DATA_20250801.U22L514R
-
-            };             
+% G and 2D Band Plots          
         
 G = {
-%     DATA_20250801.TTFL514G
+DATA_20250718.B1L514G
+DATA_20250718.B2L514G
+DATA_20250718.B3L514G
 
-DATA_20250801.B3L514G
-
-             
-             
-% DATA_20250131.P12G
-% DATA_20250131.P12L514G
-% DATA_20250403.P12L514G
-% DATA_20250403.P13L514G
-% DATA_20250520.R12L514G
-DATA_20250520.R13L514G
-DATA_20250520.R16L514G
+% DATA_20250801.TTFL514G
+% DATA_20250520.U17L514G             
 DATA_20250520.R17L514G
-% DATA_20250520.U16B514G
-% DATA_20250520.U16L514G
-% DATA_20250520.U17L514G
-% DATA_20250618.U20L514G
-% 
-% DATA_20250618.R20A514G
-% DATA_20250618.R20B514G
-% DATA_20250618.R20C514G
-% DATA_20250618.R20D514G
-DATA_20250618.R20E514G
-% DATA_20250731.R21A514G
-% DATA_20250731.R21E514G
-% DATA_20250731.U22L514G
-% DATA_20250731.R22C514G
-% DATA_20250801.R21A514G
-% DATA_20250801.U22L514G
 
-DATA_20250801.B3L514G
-    
-}        
+% DATA_20250801.TCNQ514G
+% DATA_20250731.U23L514G
+DATA_20250801.R23F514G
+
+}; 
+
 % G = FlatFieldCorrection(G, DATA_20250718.FFL514G);           
 G = FilterDataByXRange(G, 1250, 1680);           
 G = RemovePolyBG(G, 0);
 G = SubstractLinearBG(G, 1250, 1680);
-G = Normalize(G, 1300, 1600, 'M');
+G = Normalize(G, 1580, 1600, 'M');
 % G = Normalize(G, 1577, 1578, 'M');
 
-% DD = FlatFieldCorrection(DD, DATA_20250718.FFL514D);           
-% DD = FilterDataByXRange(DD, 2500, 2835);           
-% DD = RemovePolyBG(DD, 0);
-% DD = SubstractLinearBG(DD, 2500, 2835);
-% DD = Normalize(DD, 2500, 2700, 'M');
-
-% plotRaman(G, 0.02, 514);     
+plotRaman(G, 0.00, 514);     
 
 
-%% TCNQ ANALYSIS Controlled Rinsing - 2025.07.18
 
-% G and 2D Band Plots
-G = {
-%         DATA_20250718.B1L514G
-%         DATA_20250718.B2L514G
-        
+DD= {
 
-        DATA_20250718.TCNQ514G
-% 
-        DATA_20250718.U18L514G
+DATA_20250718.B1L514D
+DATA_20250718.B2L514D
+DATA_20250718.B3L514D
 
-        DATA_20250718.R18A514G
-%         DATA_20250718.R18B514G
-%         DATA_20250718.R18C514G
-        DATA_20250718.R18D514G
-%         DATA_20250718.R18E514G
-        DATA_20250718.R18F514G
-        DATA_20250718.R18G514G
-%         DATA_20250718.R18H514G
-        DATA_20250718.R18I514G
-% 
-        DATA_20250718.B3L514G
-            };   
-
-        
-        
-G = FlatFieldCorrection(G, DATA_20250718.FFL514G);           
-G = FilterDataByXRange(G, 1250, 1680);           
-G = RemovePolyBG(G, 0);
-G = SubstractLinearBG(G, 1250, 1680);
-G = Normalize(G, 1500, 1800, 'M');
-% G = Normalize(G, 1440, 1460, 'M');
-
-% plotRaman(G, -0.95, 514);     
-
-DD = {
-%         DATA_20250718.B1L514D
-% %         DATA_20250718.B2L514D
-        DATA_20250718.R18C514D
-        DATA_20250718.R18D514D
-        DATA_20250718.R18E514D
-                DATA_20250718.B3L514D
-
-      };  
-DD = {
-%     DATA_20250801.TTFL514G
-
-DATA_20250801.B3L514D
-             
-             
-% DATA_20250131.P12G
-% DATA_20250131.P12L514G
-% DATA_20250403.P12L514G
-% DATA_20250403.P13L514G
-% DATA_20250520.R12L514G
-DATA_20250520.R13L514D
-DATA_20250520.R16L514D
+% DATA_20250801.TTFL514D
+% DATA_20250520.U17L514D             
 DATA_20250520.R17L514D
-% DATA_20250520.U16B514G
-% DATA_20250520.U16L514G
-% DATA_20250520.U17L514G
-% DATA_20250618.U20L514G
-% 
-% DATA_20250618.R20A514G
-% DATA_20250618.R20B514G
-% DATA_20250618.R20C514G
-% DATA_20250618.R20D514G
-DATA_20250618.R20E514D
-% DATA_20250731.R21A514G
-% DATA_20250731.R21E514G
-% DATA_20250731.U22L514G
-% DATA_20250731.R22C514G
-% DATA_20250801.R21A514G
-% DATA_20250801.U22L514G
 
-DATA_20250801.B3L514D
-    
-};
+% DATA_20250801.TCNQ514D
+DATA_20250801.R23F514D
 
-        
-DD = FlatFieldCorrection(DD, DATA_20250718.FFL514D);           
+}; 
+
 DD = FilterDataByXRange(DD, 2500, 2835);           
 DD = RemovePolyBG(DD, 0);
 DD = SubstractLinearBG(DD, 2500, 2835);
 DD = Normalize(DD, 2500, 2700, 'M');
 
 % close all
-plotRaman(DD, 0.02, 518);     
+plotRaman(DD, 0.00, 514);     
 
-% % % FITTEDD = FitSamples(DD, 2680)
-% % % 
-% % % FD = zeros(1, length(FITTEDD));
-% % % for i=1:length(FITTEDD)
-% % % %    FITTED{i}.N
-% % %    FD(i) = FITTEDD{i}.F.Params(2)-FITTEDD{1}.F.Params(2);
-% % %    FD(i) = FITTEDD{i}.F.Params(2);
-% % % end
-% % % 
-% % % 
-% % % % FITTED
-% % % FITTEDG = FitSamples(G, 1592)
-% % % FG = zeros(1, length(FITTEDG));
-% % % NG = cell(1, length(FITTEDG));
-% % % 
-% % % for i=1:length(FITTEDG)
-% % % %    FITTED{i}.N
-% % %    FG(i) = FITTEDG{i}.F.Params(2)-FITTEDG{1}.F.Params(2);
-% % %    FG(i) = FITTEDG{i}.F.Params(2);
-% % %    NG{i} = num2str(FITTEDG{i}.N);
-% % % end
-% % % 
-% % % plot(FG,FD)
-% % % scatter(FG,FD, 50, 'k','d', 'filled')
-% % % text(FG, FD, NG, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right', 'FontSize', 8);
-% % % xlim([1590, 1593]);
-% % % ylim([2660, 2697]);
-% % % ylabel('2D Band (cm-1)')
-% % % xlabel('G Band (cm-1)')
-
-
-%% TCNQ ANALYSIS
-
-% G and 2D Band Plots
-G = {
-          DATA_20250618.PP2L514G
-          DATA_20250618.TCNQ514G
-          DATA_20250618.U18L514G
-            };   
-        
-G = FilterDataByXRange(G, 1250, 1680);           
-G = RemovePolyBG(G, 0);
-G = SubstractLinearBG(G, 1250, 1680);
-G = Normalize(G, 1500, 1680, 'M');
-
-% plotRaman(G, 0.00, 514);     
-
-DD = {
-          DATA_20250618.PP2L514D
-          DATA_20250618.U18L514D
-          DATA_20250618.TCNQ514D
-          };   
-        
-DD = FilterDataByXRange(DD, 2500, 2835);           
-DD = RemovePolyBG(DD, 0);
-DD = SubstractLinearBG(DD, 2500, 2835);
-DD = Normalize(DD, 2500, 2700, 'M');
-
-% close all
-% plotRaman(DD, 0.50, 514);     
-
-
-%% TTF ANALYSIS
-
-%%ProgressiveRinsing
-G = {
-%           DATA_20250520.PTTF514G
-             DATA_20250801.TTFL514G
-
-             DATA_20250718.B3L514G
-
-%             DATA_20250520.U16B514G
-%             DATA_20250520.U17L514G          
-            DATA_20250618.U20L514G   
-            DATA_20250618.S19A514G   
-            DATA_20250618.R19A514G   
-
-%             DATA_20250520.R12L514G
-%             DATA_20250520.R13L514G
-%             DATA_20250520.R16L514G
-%             DATA_20250520.R17L514G  
-% 
-%             DATA_20250618.R20A514G
-%             DATA_20250618.R20B514G
-%             DATA_20250618.R20C514G
-%             DATA_20250618.R20D514G
-%             DATA_20250618.R20E514G  
-%             
-%             DATA_20250131.PP2L514G 
-%             DATA_20250403.PP2L514G 
-%             DATA_20250520.PP2514G
-%             DATA_20250618.PP2L514G 
-
-            };   
-        
-G = FilterDataByXRange(G, 1250, 1680);           
-G = RemovePolyBG(G, 0);
-G = SubstractLinearBG(G, 1250, 1680);
-G = Normalize(G, 1540, 1680, 'M');
-% G = Normalize(G, 1500, 1530, 'M');
-
-% plotRaman(G, 0.00, 514);    
-
-DD = {
-    %           DATA_20250520.PTTF514G
-
-              DATA_20250718.B3L514D
-              
-
-
-%             DATA_20250520.U16L514D
-%             DATA_20250520.U17L514D
-            DATA_20250618.U20L514D
-%             
-%             DATA_20250520.R12L514D
-%             DATA_20250520.R13L514D
-%             DATA_20250520.R16L514D
-%             DATA_20250520.R17L514D  
-% 
-            DATA_20250618.R20A514D
-            DATA_20250618.R20B514D
-            DATA_20250618.R20C514D
-            DATA_20250618.R20D514D
-            DATA_20250618.R20E514D
-% 
-%             DATA_20250131.PP2L514D
-%             DATA_20250403.PP2L514D
-%             DATA_20250520.PP2L514D
-%             DATA_20250618.PP2L514D
-
-            };   
-        
-DD = FilterDataByXRange(DD, 2500, 2835);           
-DD = RemovePolyBG(DD, 0);
-DD = SubstractLinearBG(DD, 2500, 2835);
-DD = Normalize(DD, 2500, 2835, 'M');
-
-% plotRaman(DD, 0.3, 514);   
 
 
 
@@ -715,159 +382,6 @@ DD = Normalize(DD, 2500, 2835, 'M');
 % %%%%
 % 
 % plotRamanFits(FITTEDG,0.3)
-
-
-
-%% 514nm DATA - 20250131                
-% G = {
-%           DATA_20250520.PP2514G
-% %           DATA_20250520.U16L514G
-% %           DATA_20250520.U16B514G
-%             DATA_20250520.R12L514G
-% 
-%             DATA_20250520.R16L514G  
-%           
-% %           DATA_20250520.U17L514G          
-% 
-%           DATA_20250520.R17L514G
-%           DATA_20250520.R13L514G
-%           
-% 
-% 
-% %           DATA_20250520.PTTF514G
-% 
-%             };   
-% DD = {
-%           DATA_20250520.PP2L514D
-%                     
-%           DATA_20250520.U16L514D
-% 
-%           DATA_20250520.R16L514D
-%          DATA_20250520.R12L514D
-% 
-%           DATA_20250520.U17L514D
-% 
-%           DATA_20250520.R17L514D   
-%           DATA_20250520.R13L514D
-% 
-%             };  
-% 
-% R = {
-%         DATA_20250520.PP2H514R
-%         DATA_20250520.R12H514R
-%         DATA_20250520.R13H514R
-%         DATA_20250520.R16H514R
-%         DATA_20250520.R17H514R
-%     };  
-% 
-% RL = {
-%         DATA_20250520.PP2L514R
-%         DATA_20250520.R12L514R
-%         DATA_20250520.R13L514R
-%         DATA_20250520.R16L514R
-%         DATA_20250520.R17L514R
-% 
-%     };  
-% 
-% R = FlatFieldCorrection(R,DATA_20250520.FFH514R);
-% 
-% R = FilterDataByXRange(R, 135, 200);
-% RL = FilterDataByXRange(RL, 100, 250);
-% 
-% % G = FilterDataByXRange(G, 1550, 1680);
-% G = FilterDataByXRange(G, 1300, 1680);
-% 
-% DD = FilterDataByXRange(DD, 2500, 2840);
-%               
-% G = RemovePolyBG(G, 0);
-% DD = RemovePolyBG(DD, 0);
-% 
-% % G = SubstractLinearBG(G, 1250, 1680);
-% DD = SubstractLinearBG(DD, 2500,2835);
-% RL = SubstractLinearBG(RL, 100, 250);
-% 
-% R = Normalize(R, 160, 170, 'M');
-% RL = Normalize(RL, 160, 170, 'M');
-% 
-% G = Normalize(G, 1580, 1600, 'M');
-% DD = Normalize(DD, 0, 2680, 'M');
-% % 
-% 
-% % 
-% % plotRaman(RL, 0.5, 514);  
-% % plotRaman(R, 0.2, 514); 
-% % G{6}.Y = G{6}.Y/100
-% % % % % % % % % % plotRaman(G, 0.00, 514);     
-% plotRaman({G{4}}, 0.0, 514);        
-
-% plotRaman(DD, 1, 514);        
-
-%% DOPING VECTORS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% FITTED
-% FITTEDD = FitSamples(DD, 2680)
-% 
-% FD = zeros(1, length(FITTEDD));
-% for i=1:length(FITTEDD)
-% %    FITTED{i}.N
-%    FD(i) = FITTEDD{i}.F.Params(2)-FITTEDD{1}.F.Params(2);
-%    FD(i) = FITTEDD{i}.F.Params(2);
-% end
-% 
-% 
-% % FITTED
-% FITTEDG = FitSamples(G, 1592)
-% FG = zeros(1, length(FITTEDG));
-% NG = cell(1, length(FITTEDG));
-% 
-% for i=1:length(FITTEDG)
-% %    FITTED{i}.N
-%    FG(i) = FITTEDG{i}.F.Params(2)-FITTEDG{1}.F.Params(2);
-%    FG(i) = FITTEDG{i}.F.Params(2);
-%    NG{i} = num2str(FITTEDG{i}.N);
-% end
-% 
-% % plot(FG,FD)
-% scatter(FG,FD, 50, 'k','d', 'filled')
-% text(FG, FD, NG, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right', 'FontSize', 8);
-% xlim([1590,1593])
-% ylim([2670,2690])
-% ylabel('2D Band (cm-1)')
-% xlabel('G Band (cm-1)')
-
-%%%%% FITTING V2
-% 
-% FITTEDG = FitSamples(G, 1592);
-% FITTEDD = FitSamples(DD, 2680)
-% 
-% numSamples = length(FITTEDG);
-% FG = zeros(1, numSamples);
-% FD = zeros(1, numSamples);
-% NG = cell(1, numSamples);
-% 
-% % Extract data
-% for i = 1:numSamples
-%     FG(i) = FITTEDG{i}.F.Params(2);
-%     FD(i) = FITTEDD{i}.F.Params(2);  % Assuming you want FD values too
-%     NG{i} = num2str(FITTEDG{i}.N);   % Sample names
-% end
-% 
-% % Assign unique colors
-% colors = lines(numSamples);  % Or use: jet(numSamples), hsv(numSamples), etc.
-% 
-% figure; hold on;
-% for i = 1:numSamples
-%     scatter(FG(i), FD(i), 50, colors(i,:), 'd', 'filled', 'DisplayName', NG{i});
-% end
-% 
-% xlim([1590, 1593]);
-% ylim([2670, 2690]);
-% ylabel('2D Band (cm^{-1})');
-% xlabel('G Band (cm^{-1})');
-% legend();  % Adjust legend location as needed
-% title('Scatter Plot with Unique Colors and Legend');
-
-
 
 %% FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function plotRamanFits(SamplesToPlot, offset)
