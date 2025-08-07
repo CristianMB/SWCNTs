@@ -117,29 +117,29 @@ EPR_TCNQ= {
 %             DATA_20250806.S060825A  %REF-AnnP2
             
                 DATA_20250806.S060825D  %R23F@2K
-                DATA_20250806.S060825E  %R23F@5K
-                DATA_20250806.S060825F  %R23F@10K
-                DATA_20250806.S060825G  %R23F@25K
-                DATA_20250806.S060825H  %R23F@50K
-                DATA_20250806.S060825I  %R23F@75K
-                DATA_20250806.S060825J  %R23F@100K
+%                 DATA_20250806.S060825E  %R23F@5K
+%                 DATA_20250806.S060825F  %R23F@10K
+%                 DATA_20250806.S060825G  %R23F@25K
+%                 DATA_20250806.S060825H  %R23F@50K
+%                 DATA_20250806.S060825I  %R23F@75K
+%                 DATA_20250806.S060825J  %R23F@100K
 
-%             DATA_20250806.S060825K  %R23C@2K
+            DATA_20250806.S060825K  %R23C@2K
             
-%             DATA_20250806.S060825Q  %TCNQ (old)
-%             DATA_20250806.S060825R  %TCNQ (new)
+            DATA_20250806.S060825Q  %TCNQ (old)
+            DATA_20250806.S060825R  %TCNQ (new)
         };
 
 EPR_TTF= {
 %             DATA_20250806.S060825A  %REF-AnnP2
                    
             DATA_20250806.S060825L  %R13@2K
-            DATA_20250806.S060825M  %R13@5K
-            DATA_20250806.S060825N  %R13@5K
-            DATA_20250806.S060825O  %R13@20K
-            DATA_20250806.S060825P  %R13@55K
+%             DATA_20250806.S060825M  %R13@5K
+%             DATA_20250806.S060825N  %R13@5K
+%             DATA_20250806.S060825O  %R13@20K
+%             DATA_20250806.S060825P  %R13@55K
 
-%             DATA_20250806.S060825S  %TTF (old)        
+            DATA_20250806.S060825S  %TTF (old)        
         };
 
 %% X Axis correction
@@ -150,25 +150,43 @@ DATA_20250806.S060825A.X=DATA_20250806.S060825A.X.*freq/DATA_20250806.S060825A.P
 EPR_TCNQ = CorrectEPRXAxis(EPR_TCNQ,freq);
 EPR_TTF = CorrectEPRXAxis(EPR_TTF,freq);
 
+%% simulation
+Sys.S=1/2;
+Sys.g=2.0022;
+Sys.lw=[1 0.5];
+
+Exp.Range=[330 350]; % mT
+Exp.Harmonic=1;
+Exp.mwFreq=9.44;%GHz
+
+[B,Sim]=pepper(Sys,Exp);
+
 %% Plotting and corrections for plotting
 
 EPR_TTF = FilterDataByXRange(EPR_TTF, 3220, 3520); 
 EPR_TTF = EPR_BG_Correction(EPR_TTF, DATA_20250806.S060825A);
 EPR_TTF = RemovePolyBG(EPR_TTF, 0);
-% EPR_TTF = Normalize(EPR_TTF,3300,3400, 'M');
+EPR_TTF = Normalize(EPR_TTF,3300,3400, 'M');
 
-plotEPR(EPR_TTF, 0)
+% plotEPR(EPR_TTF, 0)
+
+
 
 EPR_TCNQ = FilterDataByXRange(EPR_TCNQ, 3220, 3520); 
 EPR_TCNQ = EPR_BG_Correction(EPR_TCNQ, DATA_20250806.S060825A);
 EPR_TCNQ = RemovePolyBG(EPR_TCNQ, 0);
-% EPR_TCNQ = Normalize(EPR_TCNQ,3300,3400, 'M');
+EPR_TCNQ = Normalize(EPR_TCNQ,3300,3400, 'M');
 
-plotEPR(EPR_TCNQ, 0)
+% plotEPR(EPR_TCNQ, 0)
 
 
-% EPR_All = [EPR_TCNQ(:); EPR_TTF(:)];  % forces both to column vectors
-% plotEPR(EPR_All, 0)
+EPR_All = [EPR_TCNQ(:); EPR_TTF(:)];  % forces both to column vectors
+EPR_TCNQ = RemovePolyBG(EPR_TCNQ, 0);
+
+plotEPR(EPR_All, 0)
+
+hold on;
+plot(B*10,0.45+Sim/(2*max(Sim)),'r')
 
 %% Functions in development for EPR
 

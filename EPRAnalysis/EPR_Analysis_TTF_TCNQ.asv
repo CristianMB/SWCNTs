@@ -1,9 +1,12 @@
 clc;
 clear;
 close all;
-import UsefulFunctions.*;
+
+addpath('X:\SWCNTs\');
 addpath('X:\SWCNTs\SpecialMatlabFunctions\easyspin-6.0.10\');
 rootpath = 'X:\Measurements Data\EPR\';
+
+import UsefulFunctions.*;
 
 path_TTF_TCNQ = [rootpath,'20250806\'];
 
@@ -37,34 +40,30 @@ DATA_20250806.S060825Q.N='Pure TCNQ (old)@2,5K';
 DATA_20250806.S060825R.N='Pure TCNQ (new)@2,5K';
 DATA_20250806.S060825S.N='Pure TTF (old)@2,5K';
 
-
 % DATA_20250806.S060825A  %REF-AnnP2
 % 
-% DATA_20250806.S060825B  %R23F
-% DATA_20250806.S060825C  %R23F
-% DATA_20250806.S060825D  %R23F
-% DATA_20250806.S060825E  %R23F
-% DATA_20250806.S060825F  %R23F
-% DATA_20250806.S060825G  %R23F
-% DATA_20250806.S060825H  %R23F
-% DATA_20250806.S060825I  %R23F
-% DATA_20250806.S060825J  %R23F
-% DATA_20250806.S060825K  %R23C
+% DATA_20250806.S060825B  %R23F@2K broad
+% DATA_20250806.S060825C  %R23F@2K broad
+% DATA_20250806.S060825D  %R23F@2K
+% DATA_20250806.S060825E  %R23F@5K
+% DATA_20250806.S060825F  %R23F@10K
+% DATA_20250806.S060825G  %R23F@25K
+% DATA_20250806.S060825H  %R23F@50K
+% DATA_20250806.S060825I  %R23F@75K
+% DATA_20250806.S060825J  %R23F@100K
+% DATA_20250806.S060825K  %R23C@2K
 % 
-% DATA_20250806.S060825L  %R13
-% DATA_20250806.S060825M  %R13
-% DATA_20250806.S060825N  %R13
-% DATA_20250806.S0608250  %R13
-% DATA_20250806.S060825O  %R13
-% DATA_20250806.S060825P  %R13
+% DATA_20250806.S060825L  %R13@2K
+% DATA_20250806.S060825M  %R13@5K
+% DATA_20250806.S060825N  %R13@5K
+% DATA_20250806.S060825O  %R13@20K
+% DATA_20250806.S060825P  %R13@55K
 % 
 % DATA_20250806.S060825Q  %TCNQ (old)
 % DATA_20250806.S060825R  %TCNQ (new)
 % DATA_20250806.S060825S  %TTF (old)
 
 %% Parameters for corrections
-
-freq=9.44*10^9;
 
 % Rescaling for BG substraction
 
@@ -117,53 +116,77 @@ DATA_20250806.S060825R.RS = 1;  %TCNQ (new)
 EPR_TCNQ= {
 %             DATA_20250806.S060825A  %REF-AnnP2
             
-            DATA_20250806.S060825B  %R23F
-            DATA_20250806.S060825C  %R23F
-            DATA_20250806.S060825D  %R23F
-            DATA_20250806.S060825E  %R23F
-            DATA_20250806.S060825F  %R23F
-            DATA_20250806.S060825G  %R23F
-            DATA_20250806.S060825H  %R23F
-            DATA_20250806.S060825I  %R23F
-            DATA_20250806.S060825J  %R23F
-            DATA_20250806.S060825K  %R23C
+                DATA_20250806.S060825D  %R23F@2K
+%                 DATA_20250806.S060825E  %R23F@5K
+%                 DATA_20250806.S060825F  %R23F@10K
+%                 DATA_20250806.S060825G  %R23F@25K
+%                 DATA_20250806.S060825H  %R23F@50K
+%                 DATA_20250806.S060825I  %R23F@75K
+%                 DATA_20250806.S060825J  %R23F@100K
+
+            DATA_20250806.S060825K  %R23C@2K
             
-%             DATA_20250806.S060825Q  %TCNQ (old)
-%             DATA_20250806.S060825R  %TCNQ (new)
+            DATA_20250806.S060825Q  %TCNQ (old)
+            DATA_20250806.S060825R  %TCNQ (new)
         };
 
 EPR_TTF= {
 %             DATA_20250806.S060825A  %REF-AnnP2
                    
-            DATA_20250806.S060825L  %R13
-            DATA_20250806.S060825M  %R13
-            DATA_20250806.S060825N  %R13
-            DATA_20250806.S0608250  %R13
-            DATA_20250806.S060825O  %R13
-            DATA_20250806.S060825P  %R13
+            DATA_20250806.S060825L  %R13@2K
+%             DATA_20250806.S060825M  %R13@5K
+%             DATA_20250806.S060825N  %R13@5K
+%             DATA_20250806.S060825O  %R13@20K
+%             DATA_20250806.S060825P  %R13@55K
 
-%             DATA_20250806.S060825S  %TTF (old)        
+            DATA_20250806.S060825S  %TTF (old)        
         };
 
 %% X Axis correction
+
+freq=9.44*10^9; %Hz
 
 DATA_20250806.S060825A.X=DATA_20250806.S060825A.X.*freq/DATA_20250806.S060825A.PAR.MWFQ;
 EPR_TCNQ = CorrectEPRXAxis(EPR_TCNQ,freq);
 EPR_TTF = CorrectEPRXAxis(EPR_TTF,freq);
 
-%% Plotting
+%% simulation
+Sys.S=1/2;
+Sys.g=2.005;
+Sys.lw=0.3;
+
+Exp.Range=[330 350]; % mT
+Exp.Harmonic=1;
+Exp.mwFreq=9.44;%GHz
+
+[B,Sim]=pepper(Sys,Exp);
+
+%% Plotting and corrections for plotting
 
 EPR_TTF = FilterDataByXRange(EPR_TTF, 3220, 3520); 
+EPR_TTF = EPR_BG_Correction(EPR_TTF, DATA_20250806.S060825A);
 EPR_TTF = RemovePolyBG(EPR_TTF, 0);
-% EPR_TTF = Normalize(EPR_TTF,3300,3400, 'M');
+EPR_TTF = Normalize(EPR_TTF,3300,3400, 'M');
 
-plotEPR(EPR_TTF, DATA_20250806.S060825A, 0)
+% plotEPR(EPR_TTF, 0)
 
 
-% EPR_TCNQ = FilterDataByXRange(EPR_TCNQ, 3220, 3520);           
-% EPR_TTF = Normalize(EPR_TTF,3300,3400, 'M');
-% plotEPR(EPR_TCNQ, DATA_20250806.S060825A)
 
+EPR_TCNQ = FilterDataByXRange(EPR_TCNQ, 3220, 3520); 
+EPR_TCNQ = EPR_BG_Correction(EPR_TCNQ, DATA_20250806.S060825A);
+EPR_TCNQ = RemovePolyBG(EPR_TCNQ, 0);
+EPR_TCNQ = Normalize(EPR_TCNQ,3300,3400, 'M');
+
+% plotEPR(EPR_TCNQ, 0)
+
+
+EPR_All = [EPR_TCNQ(:); EPR_TTF(:)];  % forces both to column vectors
+EPR_TCNQ = RemovePolyBG(EPR_TCNQ, 0);
+
+plotEPR(EPR_All, 0)
+
+hold on;
+plot(B*10,0Sim/max(Sim),'r')
 
 %% Functions in development for EPR
 
@@ -212,54 +235,29 @@ function DSList = RemovePolyBG(DSList, degree)
     end
 end
 
-function EPR_BG_Correction(SamplesToPlot, BackgroundSample,)
-% Plot corrected EPR spectra with optional background subtraction and rescaling
-%
-% Inputs:
-%   SamplesToPlot    - Cell array of EPR spectrum structures with .X, .Y, .N
-%   BackgroundSample - A single spectrum structure with fields .X and .Y
-%   BackgroundScale  - Cell array of scalars to scale the background per sample
-%   Rescale          - Cell array of scalars to rescale each spectrum after subtraction
-%
-% If BackgroundScale or Rescale are empty ({}), defaults to {1, 1, ..., 1}
-% If BackgroundSample is empty ([]), background subtraction is skipped.
+function DSList = EPR_BG_Correction(DSList, BackgroundSample)
 
-    numSamples = length(SamplesToPlot);
+    numSamples = length(DSList);
 
     bgX = BackgroundSample.X;
     bgY = BackgroundSample.Y;
 
-    figure;
-    hold on;
-
     for i = 1:numSamples
-        sample = SamplesToPlot{i};
+        sample = DSList{i};
         X = sample.X;
         Y = sample.Y;
-        N = sample.N;
         BS = sample.BS;
-        RS = sample.RS;
         
         % Match background to sample X via interpolation
         validIndices = bgX >= min(X) & bgX <= max(X);
         bgY_interp = interp1(bgX(validIndices), bgY(validIndices), X, 'linear', 'extrap');
-
-        % Subtract background and apply scaling
-        Y = ((Y - BS * bgY_interp) * RS) - offset * i;
         
-        plot(X, Y, 'DisplayName', N, 'LineWidth', 1.3);
+        % Subtract background and apply scaling
+        DSList{i}.Y = (Y - BS*bgY_interp);       
     end
-%     plot(bgX, bgY, 'DisplayName', N, 'LineWidth', 1.3);
-
-    xlabel('Magnetic Field (G)', 'FontSize', 14);
-    ylabel('Intensity (a.u.)', 'FontSize', 14);
-    title('EPR Spectra');
-    legend('show', 'FontSize', 11);
-    grid on;
-    hold off;
 end
 
-function plotEPR(SamplesToPlot, BackgroundSample, offset)
+function plotEPR(SamplesToPlot, offset)
 % Plot corrected EPR spectra with optional background subtraction and rescaling
 %
 % Inputs:
@@ -273,9 +271,6 @@ function plotEPR(SamplesToPlot, BackgroundSample, offset)
 
     numSamples = length(SamplesToPlot);
 
-    bgX = BackgroundSample.X;
-    bgY = BackgroundSample.Y;
-
     figure;
     hold on;
 
@@ -284,15 +279,12 @@ function plotEPR(SamplesToPlot, BackgroundSample, offset)
         X = sample.X;
         Y = sample.Y;
         N = sample.N;
-        BS = sample.BS;
         RS = sample.RS;
         
         % Match background to sample X via interpolation
-        validIndices = bgX >= min(X) & bgX <= max(X);
-        bgY_interp = interp1(bgX(validIndices), bgY(validIndices), X, 'linear', 'extrap');
 
         % Subtract background and apply scaling
-        Y = ((Y - BS * bgY_interp) * RS) - offset * i;
+        Y = Y * RS - offset * i;
         
         plot(X, Y, 'DisplayName', N, 'LineWidth', 1.3);
     end
