@@ -8,26 +8,34 @@ addpath('X:\SWCNTs');
 % rootpath = 'X:\Measurements Data\Raman\';
 %All paths as default
 
-path_TTF = [rootpath,'20250520\'];
-path_TCNQ = [rootpath,'20250618\'];
-path_a = [rootpath,'20250131\'];
-path_b = [rootpath,'20250403\'];
+path_a= [rootpath,'20240111\'];
+path_b= [rootpath,'20240517\'];
+path_c= [rootpath,'20240610\'];
+path_d= [rootpath,'20240612\'];
+path_e= [rootpath,'20241007\'];
+path_f= [rootpath,'20241008\'];
+path_g= [rootpath,'20241129\'];
+path_h= [rootpath,'20241212\'];
+path_i= [rootpath,'20241213\'];
+path_j= [rootpath,'20250131\'];
+path_k= [rootpath,'20241212\'];
 
-path_TCNQ_rinsed = [rootpath,'20250718\'];
-path_S21_S22_S23_G = [rootpath,'20250731\'];
-path_intensity = [rootpath,'20250801\'];
 
 
 %Select the paths of interest
 
-paths = {
-    path_TTF
-    path_TCNQ
-    path_a
-    path_b
-    path_TCNQ_rinsed
-    path_S21_S22_S23_G
-    path_intensity
+paths = {   
+            path_a
+            path_b
+            path_c
+            path_d
+            path_e
+            path_f
+            path_g
+            path_h
+            path_i
+            path_j
+            path_k           
         };
 
 
@@ -35,338 +43,148 @@ ReadRamanFromPaths(paths, 2);
 
 %% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-DATA_20250131.FFL514D.N='FlatField';
-DATA_20250131.FFL514G.N='FlatField';
-DATA_20250131.FFL514R.N='FlatField';
+DATA_20240111.S240111A.N='SF D2O@SWCNT 514nm';
+DATA_20240111.S240111B.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111BB.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111C.N='SF Methanol@SWCNT 514nm';
+DATA_20240111.S240111D.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111E.N='SF TTF@SWCNT 514nm';
+DATA_20240111.S240111F.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111G.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111H.N='SF PCE@SWCN 514nm';
+DATA_20240111.S240111I.N='SF TEMED@SWCNT 514nm';
+DATA_20240517.EAL514GD.N='Empty Arc SWCNTs';
+DATA_20240517.S2L514GD.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S3L514GD.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S4L514GD.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S5L514GD.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S6L514GD.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S7L514GD.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.WAL514GD.N='Water Filled Arc SWCNTs';
+DATA_20240610.EAL514GD.N='Empty Arc SWCNTs';
+DATA_20240610.S2L514GD.N='CB PCE@SWCNT After CSA Treatment';
+DATA_20240610.S3L514GD.N='CB TCE@SWCNT After CSA Treatment';
+DATA_20240610.S4L514GD.N='CB TEMED@SWCNT After CSA Treatment';
+DATA_20240610.S5L514GD.N='CB TDAE@SWCNT After CSA Treatment';
+DATA_20240610.S6L514GD.N='CB Hexadecane@SWCNT After CSA Treatment';
+DATA_20240610.S7L514GD.N='CB Dodecane@SWCNT After CSA Treatment';
+DATA_20240610.WAL514GD.N='Water Filled Arc SWCNTs';
+DATA_20240612.EAL514GD.N='Empty Arc SWCNTs';
+DATA_20240612.S2L514GD.N='CB PCE@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.S3L514GD.N='CB TCE@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.S4L514GD.N='CB TEMED@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.S5L514GD.N='CB TDAE@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.S6L514GD.N='CB Hexadecane@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.S7L514GD.N='CB Dodecane@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.WAL514GD.N='Water Filled Arc SWCNTs';
+DATA_20241007.F2L514GD.N='Film PCE@SWCNT';
+DATA_20241007.F3L514GD.N='Film TCE@SWCNT';
+DATA_20241007.F4L514GD.N='Film TEMED@SWCNT';
+DATA_20241007.F5L514GD.N='Film TDEA@SWCNT';
+DATA_20241007.F6L514GD.N='Film Hexadecane@SWCNT';
+DATA_20241007.F7L514GD.N='Film Dodecane@SWCNT';
+DATA_20241008.F0L514C.N='Sapphire SubstrateC';
+DATA_20241008.F0L514D.N='Sapphire SubstrateD';
+DATA_20241008.F0L514E.N='Sapphire SubstrateE';
+DATA_20241008.FFL514C.N='FlatFieldC';
+DATA_20241008.FFL514D.N='FlatFieldD';
+DATA_20241008.FFL514E.N='FlatFieldE';
+DATA_20241213.FF6L514G.N='Film 3 (SFF6 TTF@CNTs)';
+DATA_20241213.FS5L514G.N='Film 2 (S5 TDAE@CNTs)';
+DATA_20241213.FS7L514G.N='Film 1 (S7 Dodecane@CNTs)';
+DATA_20241213.FS8L514G.N='Film 5 (S8 PCE@CNTs)';
+DATA_20241213.FS9L514G.N='Film 4 (S9 TEMED@CNTs)';
+DATA_20241213.P30.N='Power test to see if sample is heated at 30mW';
+DATA_20241213.P50.N='Power test to see if sample is heated at 50mW';
+DATA_20241213.P70.N='Power test to see if sample is heated at 70mW';
+DATA_20241213.S1BL514G.N='TEMED Filled DGU (SFF1B)';
+DATA_20241213.SF6L514G.N='TTF Filled DGU (SFF6)';
+DATA_20241213.SR0L514G.N='SF6 Sofie Empty';
+DATA_20241213.SR1L514G.N='Water Filled DGU (KVDP2)';
 DATA_20250131.KITL514G .N='KIT Converted to DWCNTs (Dispersion)';
-DATA_20250131.KITL514R  .N='KIT Converted to DWCNTs (Dispersion)';
 DATA_20250131.KT3L514G .N='KIT Converted to DWCNTs (Dispersion)';
 DATA_20250131.KT5L514G.N='KIT Converted to DWCNTs (Dispersion)';
 DATA_20250131.KTLL514G.N='KIT Converted to DWCNTs (Dispersion)';
-DATA_20250131.KTLL514R.N='KIT Converted to DWCNTs (Dispersion)';
-DATA_20250131.LL514A.N='Laser';
-DATA_20250131.LL514B.N='Laser';
-DATA_20250131.LL514C .N='Laser';
-DATA_20250131.LL514D.N='Laser';
-DATA_20250131.P12DD.N='Powder S12 - TTF@P2-SWCNTs (Rinsed)';
-DATA_20250131.P12G.N='Powder S12 - TTF@P2-SWCNTs (Rinsed)';
-DATA_20250131.P12L514D.N='Powder S12 - TTF@P2-SWCNTs (Rinsed)';
-DATA_20250131.P12L514G.N='Powder S12 - TTF@P2-SWCNTs (Rinsed)';
-DATA_20250131.P12L514R.N='Powder S12 - TTF@P2-SWCNTs (Rinsed)';
-DATA_20250131.P12RBM.N='Powder S12 - TTF@P2-SWCNTs (Rinsed)';
-DATA_20250131.P2ADD.N='Powder P2-SWCNTs Annealed';
-DATA_20250131.P2AG.N='Powder P2-SWCNTs Annealed';
-DATA_20250131.P2ARBM.N='Powder P2-SWCNTs Annealed';
-DATA_20250131.PAPL514D.N='Powder AP-SWCNTs';
-DATA_20250131.PAPL514G.N='Powder AP-SWCNTs';
-DATA_20250131.PAPL514R.N='Powder AP-SWCNTs';
-DATA_20250131.PP2L514D.N='Powder P2-SWCNTs Annealed';
-DATA_20250131.PP2L514G .N='Powder P2-SWCNTs Annealed';
-DATA_20250131.PP2L514R.N='Powder P2-SWCNTs Annealed';
 DATA_20250131.S10L514G.N='Dispersion S10 - TMG@P2-SWCNTs';
-DATA_20250131.S10L514R.N='Dispersion S10 - TMG@P2-SWCNTs';
 DATA_20250131.S11L514G.N='Dispersion S11 - TTF@P2-SWCNTs';
-DATA_20250131.S11L514R.N='Dispersion S11 - TTF@P2-SWCNTs';
 DATA_20250131.SR0L514G.N='Dispersion SR0 - Empty@P2-SWCNTs';
-DATA_20250131.SR0L514R.N='Dispersion SR0 - Empty@P2-SWCNTs';
 DATA_20250131.SR1L514G.N='Dispersion SR1 - D2O@P2-SWCNTs - KVD';
-DATA_20250131.SR1L514R.N='Dispersion SR1 - D2O@P2-SWCNTs - KVD';
 DATA_20250131.SR2L514G.N='Dispersion SR2 - MeOH@P2-SWCNTs';
-DATA_20250131.SR2L514R.N='Dispersion SR2 - MeOH@P2-SWCNTs';
 DATA_20250131.SWFL514G.N='Dispersion SWF - D2O@P2-SWCNTs (Salome)';
+DATA_20240111.S240111J.N='SF D2O@SWCNT 514nm';
+DATA_20240111.S240111K.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111KK.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111L.N='SF Methanol@SWCNT 514nm';
+DATA_20240111.S240111M.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111N.N='SF TTF@SWCNT 514nm';
+DATA_20240111.S240111O.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111P.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111Q.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111R.N='SF TEMED@SWCNT 514nm';
+DATA_20250131.SR1L514R.N='Dispersion SR1 - D2O@P2-SWCNTs - KVD';
 DATA_20250131.SWFL514R.N='Dispersion SWF - D2O@P2-SWCNTs (Salome)';
-DATA_20250403.FFL514D.N='FlatField';
-DATA_20250403.FFL514G.N='FlatField';
-DATA_20250403.LL514A.N='Laser';
-DATA_20250403.P12L514D.N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250403.P12L514G.N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250403.P13L514D.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250403.P13L514G.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250403.P14L514D.N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
-DATA_20250403.P14L514G.N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
-DATA_20250403.P15L514D.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
-DATA_20250403.P15L514G.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
-DATA_20250403.PP2L514D.N='Powder P2-SWCNTs Annealed';
-DATA_20250403.PP2L514G .N='Powder P2-SWCNTs Annealed';
-DATA_20250404.FAL458D.N='KIT Empty CNT film (A)';
-DATA_20250404.FAL458G.N='KIT Empty CNT film (A)';
-DATA_20250404.FAL458R.N='KIT Empty CNT film (A)';
-DATA_20250404.FBL458D .N='KIT Empty CNT film (B)';
-DATA_20250404.FBL458G  .N='KIT Empty CNT film (B)';
-DATA_20250404.FBL458R.N='KIT Empty CNT film (B)';
-DATA_20250404.LL458A .N='Laser';
-DATA_20250404.P12L458D.N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250404.P12L458G .N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250404.P12L458R .N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250404.P13L458D .N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250404.P13L458G.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250404.P13L458R.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250404.P14L458D  .N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.P14L458G  .N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.P14L458R.N='Powder S14 - C_{16}H_{34}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.P15L458D.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.P15L458G .N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.P15L458R.N='Powder S15 - C_{12}H_{26}@P2-SWCNTs (Liquid phase)';
-DATA_20250404.PP2L458D.N='Powder P2-SWCNTs Annealed';
-DATA_20250404.PP2L458G.N='Powder P2-SWCNTs Annealed';
-DATA_20250404.PP2L458R.N='Powder P2-SWCNTs Annealed';
-DATA_20250404.SR0L458G.N='Empty Arc SWCNTs (SF6)';
-DATA_20250404.SR0L458R.N='Empty Arc SWCNTs (SF6)';
-DATA_20250411.LL476A.N='Laser';
-DATA_20250411.LL476B.N='Laser';
-DATA_20250411.P12L476D.N='Powder S12 - TTF@P2-SWCNTs (Reflux in MeOH)';
-DATA_20250411.P12L476G.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250411.P13L476D.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250411.P13L476G.N='Powder S13 - TTF@P2-SWCNTs (Gas phase)';
-DATA_20250411.PP2L476D.N='Powder P2-SWCNTs Annealed';
-DATA_20250411.PP2L476G.N='Powder P2-SWCNTs Annealed';
-DATA_20250411.S11L476D.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
-DATA_20250411.S11L476G.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
-DATA_20250411.S11L476R.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
-DATA_20250411.S12L476D.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
-DATA_20250411.S12L476G.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
-DATA_20250411.S12L476R.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
-DATA_20250411.S13L476D.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
-DATA_20250411.S13L476G.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
-DATA_20250411.S13L476R.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
-DATA_20250411.S14L476D.N='Dispersion S14 - C_{16}H_{34}@P2-SWCNTs (Liquid)';
-DATA_20250411.S14L476G.N='Dispersion S14 - C_{16}H_{34}@P2-SWCNTs (Liquid)';
-DATA_20250411.S14L476R.N='Dispersion S14 - C_{16}H_{34}@P2-SWCNTs (Liquid)';
-DATA_20250411.S15L476D.N='Dispersion S15 - C_{12}H_{26}@P2-SWCNTs (Liquid)';
-DATA_20250411.S15L476G.N='Dispersion S15 - C_{12}H_{26}@P2-SWCNTs (Liquid)';
-DATA_20250411.S15L476R.N='Dispersion S15 - C_{12}H_{26}@P2-SWCNTs (Liquid)';
-DATA_20250411.SR0L476D.N='Dispersion SR0 - Empty@P2-SWCNTs';
-DATA_20250411.SR0L476G.N='Dispersion SR0 - Empty@P2-SWCNTs';
-DATA_20250411.SR0L476R.N='Dispersion SR0 - Empty@P2-SWCNTs';
-DATA_20250411.SWFL476D.N='Dispersion SWF - D2O@P2-SWCNTs (SF6)';
-DATA_20250411.SWFL476G.N='Dispersion SWF - D2O@P2-SWCNTs (SF6)';
-DATA_20250411.SWFL476R.N='Dispersion SWF - D2O@P2-SWCNTs (SF6)';
-DATA_20250520.FFH514R.N='FlatField';
-DATA_20250520.LL514A.N='Laser';
-DATA_20250520.LL514B.N='Laser';
-DATA_20250520.LLH514A.N='Laser';
-DATA_20250520.PP2514G.N='P2 Annealed Powder';
-DATA_20250520.PP2H514R.N='P2 Annealed Powder';
-DATA_20250520.PP2L514D.N='P2 Annealed Powder';
-DATA_20250520.PP2L514R.N='P2 Annealed Powder';
-DATA_20250520.PTTF514G.N='TTF Powder';
-DATA_20250520.R12H514R.N='Powder S12 TTF@P2-SWCNTs (Reflux) Rinsed';
-DATA_20250520.R12L514D.N='Powder S12 TTF@P2-SWCNTs (Reflux) Rinsed';
-DATA_20250520.R12L514G.N='Powder S12 TTF@P2-SWCNTs (Reflux) Rinsed';
-DATA_20250520.R12L514R.N='Powder S12 TTF@P2-SWCNTs (Reflux) Rinsed';
-DATA_20250520.R13H514R.N='Powder S13 TTF@P2-SWCNTs (GP) Rinsed';
-DATA_20250520.R13L514D.N='Powder S13 TTF@P2-SWCNTs (GP) Rinsed';
-DATA_20250520.R13L514G.N='Powder S13 TTF@P2-SWCNTs (GP) Rinsed';
-DATA_20250520.R13L514R.N='Powder S13 TTF@P2-SWCNTs (GP) Rinsed';
-DATA_20250520.R16H514R.N='Powder S16 TTF@P2-SWCNTs (GP/Melt) Rinsed';
-DATA_20250520.R16L514D.N='Powder S16 TTF@P2-SWCNTs (GP/Melt) Rinsed';
-DATA_20250520.R16L514G.N='Powder S16 TTF@P2-SWCNTs (GP/Melt) Rinsed';
-DATA_20250520.R16L514R.N='Powder S16 TTF@P2-SWCNTs (GP/Melt) Rinsed';
-DATA_20250520.R17H514R.N='Powder S17 TTF@P2-SWCNTs (GP) Rinsed';
-DATA_20250520.R17L514D.N='Powder S17 TTF@P2-SWCNTs (GP) Rinsed';
-DATA_20250520.R17L514G.N='Powder S17 TTF@P2-SWCNTs (GP) Rinsed';
-DATA_20250520.R17L514R.N='Powder S17 TTF@P2-SWCNTs (GP) Rinsed';
-DATA_20250520.U16B514G.N='Powder S16 TTF@P2-SWCNTs (GP/Melt) Unrinsed Verify';
-DATA_20250520.U16L514D.N='Powder S16 TTF@P2-SWCNTs (GP/Melt) Unrinsed';
-DATA_20250520.U16L514G.N='Powder S16 TTF@P2-SWCNTs (GP/Melt) Unrinsed';
-DATA_20250520.U17L514D.N='Powder S17 TTF@P2-SWCNTs (GP) Unrinsed';
-DATA_20250520.U17L514G.N='Powder S17 TTF@P2-SWCNTs (GP) Unrinsed';
-DATA_20250618.LL514A.N='Laser';
-DATA_20250618.LL514B.N='Laser';
-DATA_20250618.PAPL514D.N='Powder AP-SWCNTs';
-DATA_20250618.PAPL514G.N='Powder AP-SWCNTs';
-DATA_20250618.PP2L514D.N='P2 Annealed Powder (Same as Salome)';
-DATA_20250618.PP2L514G .N='P2 Annealed Powder (Same as Salome)';
-DATA_20250618.R19A514D.N='Powder S19 - TEMED + AP Closed CNTs (Rinsed x1)';
-DATA_20250618.R19A514G.N='Powder S19 - TEMED + AP Closed CNTs (Rinsed x1)';
-DATA_20250618.R20A514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x1)';
-DATA_20250618.R20A514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x1)';
-DATA_20250618.R20B514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x2)';
-DATA_20250618.R20B514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x2)';
-DATA_20250618.R20C514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x3)';
-DATA_20250618.R20C514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x3)';
-DATA_20250618.R20D514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x4)';
-DATA_20250618.R20D514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x4)';
-DATA_20250618.R20E514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x5)';
-DATA_20250618.R20E514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Rinsed x5)';
-DATA_20250618.S19A514D.N='Powder S19 - TEMED@SWCNTs (Rinsed x1)';
-DATA_20250618.S19A514G.N='Powder S19 - TEMED@SWCNTs (Rinsed x1)';
-DATA_20250618.TCNQ514D.N='TCNQ Powder';
-DATA_20250618.TCNQ514G.N='TCNQ Powder';
-DATA_20250618.U18L514D.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Unrinsed)';
-DATA_20250618.U18L514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Unrinsed)';
-DATA_20250618.U20L514D.N='Powder S20 - TTF@P2-SWCNTs (GP) (Unrinsed)';
-DATA_20250618.U20L514G.N='Powder S20 - TTF@P2-SWCNTs (GP) (Unrinsed)';
-DATA_20250718.B1L514D.N='Batch 1';
-DATA_20250718.B1L514G.N='Batch 1';
-DATA_20250718.B2L514D.N='Batch 2';
-DATA_20250718.B2L514G.N='Batch 2';
-DATA_20250718.B3L514D.N='Batch 3';
-DATA_20250718.B3L514G.N='Batch 3';
-DATA_20250718.FFL514D.N='FlatField';
-DATA_20250718.FFL514G.N='FlatField';
-DATA_20250718.LL514A.N='Laser';
-DATA_20250718.R18A514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x1)';
-DATA_20250718.R18B514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x1)';
-DATA_20250718.R18C514D.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x3)';
-DATA_20250718.R18C514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x2)';
-DATA_20250718.R18D514D.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x4)';
-DATA_20250718.R18D514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x2)';
-DATA_20250718.R18E514D.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x5)';
-DATA_20250718.R18E514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x3)';
-DATA_20250718.R18F514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x3)';
-DATA_20250718.R18G514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x4)';
-DATA_20250718.R18H514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x5)';
-DATA_20250718.R18I514G.N='Powder S18 - TCNQ@P2-SWCNTs (GP) (Rinsed x5)';
-DATA_20250718.TCNQ514G.N='TCNQ Powder';
-DATA_20250718.U18L514G.N='Powder U18 - TCNQ@P2-SWCNTs (GP) (Unrinsed)';
+DATA_20250131.S10L514R.N='Dispersion S10 - TMG@P2-SWCNTs';
+DATA_20250131.S11L514R.N='Dispersion S11 - TTF@P2-SWCNTs';
+DATA_20250131.SR0L514R.N='Dispersion SR0 - Empty@P2-SWCNTs';
+DATA_20250131.SR2L514R.N='Dispersion SR2 - MeOH@P2-SWCNTs';
 
-DATA_20250731.R21A514G.N='Powder S21 - TTF@P2-SWCNTs (Melt) (Rinsed x1)';
-DATA_20250731.R21E514G.N='Powder S21 - TTF@P2-SWCNTs (Melt) (Rinsed x5)';
-DATA_20250731.U22L514G.N='Powder S22 - TTF@P2-SWCNTs (Reflux) (R0 Filtered)';
-DATA_20250731.R22C514G.N='Powder S22 - TTF@P2-SWCNTs (Reflux) (Rinsed x3)';
-DATA_20250731.U23L514G.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Unrinsed)';
-DATA_20250731.R23F514G.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
-DATA_20250731.R23G514G.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
-DATA_20250801.B3L514D.N='Batch 3';
-DATA_20250801.B3L514G.N='Batch 3';
-DATA_20250801.B3L514R.N='Batch 3';
-DATA_20250801.LL514A.N='Laser';
-DATA_20250801.R21A514D.N='Powder S21 - TTF@P2-SWCNTs (Melt) (Rinsed x1)';
-DATA_20250801.R21A514G.N='Powder S21 - TTF@P2-SWCNTs (Melt) (Rinsed x1)';
-DATA_20250801.R21A514R.N='Powder S21 - TTF@P2-SWCNTs (Melt) (Rinsed x1)';
-DATA_20250801.R23F514D.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
-DATA_20250801.R23F514G.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
-DATA_20250801.R23F514H.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
-DATA_20250801.R23F514N.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
-DATA_20250801.R23F514R.N='Powder S23 - TCNQ@P2-SWCNTs (GP) (Rinsed x6)';
-DATA_20250801.TCNQ514D.N='TCNQ Powder';
-DATA_20250801.TCNQ514G.N='TCNQ Powder';
-DATA_20250801.TCNQ514H.N='TCNQ Powder';
-DATA_20250801.TCNQ514N.N='TCNQ Powder';
-DATA_20250801.TCNQ514R.N='TCNQ Powder';
-DATA_20250801.TTFL514D.N='TTF Powder';
-DATA_20250801.TTFL514G.N='TTF Powder';
-DATA_20250801.TTFL514R.N='TTF Powder';
-DATA_20250801.U22L514D.N='Powder S22 - TTF@P2-SWCNTs (Reflux) (R0 Filtered)';
-DATA_20250801.U22L514G.N='Powder S22 - TTF@P2-SWCNTs (Reflux) (R0 Filtered)';
-DATA_20250801.U22L514R.N='Powder S22 - TTF@P2-SWCNTs (Reflux) (R0 Filtered)';
 
 %% All G vs Ref
 
 close all;
-% G and 2D Band Plots          
         
 G = {
-% DATA_20250718.B1L514G
-% DATA_20250718.B2L514G
-DATA_20250718.B3L514G
-% 
-% % DATA_20250801.TTFL514G
-% % DATA_20250520.U17L514G             
-% % DATA_20250520.R17L514G
-% 
-% % DATA_20250801.TCNQ514G
-% % DATA_20250731.U23L514G
-% 
-% 
-% DATA_20250731.R23G514G
-% DATA_20250731.R23F514G
-% DATA_20250801.R23F514G
+DATA_20240517.WAL514GD
+DATA_20240610.WAL514GD
+DATA_20240612.WAL514GD
+        }; 
 
-
-DATA_20250520.R12L514G
-DATA_20250801.U22L514G
-DATA_20250731.R22C514G
-
-% DATA_20250520.R16L514G
-% DATA_20250520.U16L514G
-% DATA_20250520.U16B514G
-
-% DATA_20250520.R13L514G
-% DATA_20250520.R16L514G
-% DATA_20250520.R17L514G
-% DATA_20250618.R20E514G
-
-% DATA_20250520.U16B514G
-% DATA_20250520.U17L514G
-
-
-% DATA_20250618.U20L514G
-
-% DATA_20250618.R20A514G
-% DATA_20250618.R20B514G
-% DATA_20250618.R20C514G
-% DATA_20250618.R20D514G
-
-% DATA_20250731.R21A514G
-% DATA_20250801.R21A514G
-% DATA_20250731.R21E514G
-
-
-
-}; 
-
-
-a = {
-        DATA_20250718.B1L514G
-        DATA_20250718.B2L514G
-        DATA_20250718.B3L514G
-
-% DATA_20250618.U18L514G
-% DATA_20250718.R18A514G
-% DATA_20250718.R18B514G
-% DATA_20250718.R18C514G
-% DATA_20250718.R18D514G
-% DATA_20250718.R18E514G
-% DATA_20250718.R18F514G
-% DATA_20250718.R18G514G
-% DATA_20250718.R18H514G
-% DATA_20250718.R18I514G
-% DATA_20250718.U18L514G
-
-% DATA_20250731.U23L514G
-% DATA_20250731.R23F514G
-% DATA_20250731.R23G514G
-% DATA_20250801.R23F514G
-
-
-}; 
-
-% G = FlatFieldCorrection(G, DATA_20250718.FFL514G);           
-G = FilterDataByXRange(G, 1250, 1680);           
+G = FilterDataByXRange(G, 1260, 1660);           
 G = RemovePolyBG(G, 0);
-G = SubstractLinearBG(G, 1250, 1680);
+G = SubstractLinearBG(G, 1260, 1680);
 G = Normalize(G, 1580, 1600, 'M');
-% G = Normalize(G, 1577, 1578, 'M');
 
-plotRaman(G, 0.00, 514);     
+plotRaman(G, 0.0, 514);     
 
 
+R = {
+    DATA_20241212.SR1H514R
+    DATA_20240517.WAH514R
+    DATA_20240610.WAH514R
+    DATA_20240612.WAL514R
+
+    }; 
+
+% R= FlatFieldCorrection(R, DATA_20240111.FLATHD);           
+R = FilterDataByXRange(R, 130, 228);           
+R = RemovePolyBG(R, 1);
+R = SubstractLinearBG(R, 130, 228);
+R = Normalize(R, 140, 220, 'M');
+
+plotRaman(R, 0.0, 514);     
 
 DD= {
-
-DATA_20250718.B1L514D
-DATA_20250718.B2L514D
-DATA_20250718.B3L514D
-
-% DATA_20250801.TTFL514D
-% DATA_20250520.U17L514D             
-DATA_20250520.R17L514D
-
-% DATA_20250801.TCNQ514D
-DATA_20250801.R23F514D
-
+    DATA_20241007.F2L514DD
+    DATA_20241007.F3L514DD
+    DATA_20241007.F4L514DD
+    DATA_20241007.F5L514DD
+    DATA_20241007.F6L514DD
+    DATA_20241007.F7L514DD
+    
+    DATA_20241213.FF6L514D
+    DATA_20241213.FS5L514D
+    DATA_20241213.FS7L514D
+    DATA_20241213.FS8L514D
+    DATA_20241213.FS9L514D
 }; 
 
-DD = FilterDataByXRange(DD, 2500, 2835);           
-DD = RemovePolyBG(DD, 0);
-DD = SubstractLinearBG(DD, 2500, 2835);
-DD = Normalize(DD, 2500, 2700, 'M');
-
+% DD = FilterDataByXRange(DD, 2500, 2835);           
+% DD = RemovePolyBG(DD, 0);
+% DD = SubstractLinearBG(DD, 2500, 2835);
+% DD = Normalize(DD, 2500, 2700, 'M');
+% 
 % close all
-% plotRaman(DD, 0.00, 514);     
+% plotRaman(DD, 0.20, 514);     
 
 
 
@@ -486,8 +304,6 @@ function plotRamanFits(SamplesToPlot, offset)
     grid on;
     hold off;
 end
-
-
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
     % BackgroundSubtractionExcludeRanges performs background subtraction using the Naumov model,
     % excluding specified ranges from the background fit.
@@ -579,7 +395,6 @@ function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
 %         hold off;
     end
 end
-
 function DSListOut = BackgroundSubtractionWithSpecifiedPoints(DSList, bgPoints)
     % BackgroundSubtractionWithSpecifiedPoints performs background subtraction using the Naumov model,
     % fitting the background based on user-specified X-values (bgPoints).
@@ -664,7 +479,6 @@ function DSListOut = BackgroundSubtractionWithSpecifiedPoints(DSList, bgPoints)
 %         hold off;
     end
 end
-
 function DSListOut = BackgroundSubtraction(DSList, range)
     % DSList is the input array of data structures with fields X and Y
     
@@ -724,7 +538,6 @@ function DSListOut = BackgroundSubtraction(DSList, range)
         delete('temp_data.txt');
     end
 end
-
 function err = Naumov(x) % Calculates the difference between the absorption data and the background. The MATLAB function "fmincon" tries to minimize this difference by fitting x(1)=A and x(2)=b
 
 A=dlmread('temp_data.txt');
@@ -732,7 +545,6 @@ c = A(:,2)-x(1)*exp(-x(2).*A(:,1));
 err = double(sum(c));
 
 end
-
 function [c,ceq] = conf_naumov(x) % Constraint function, that forces the background to be smaller than the absorption data for every single wavelength
 
 A=dlmread('temp_data.txt');
@@ -741,7 +553,6 @@ c = double(x(1)*exp(-x(2).*A(:,1))-A(:,2));
 % Nonlinear equality constraints
 ceq = [];
 end
-
 function filteredSamples = FilterDataByXRange(samplesToFilter, xMin, xMax)
     % FilterDataByXRange filters the data of each sample to include only the points within the specified X-range.
     %
@@ -770,7 +581,6 @@ function filteredSamples = FilterDataByXRange(samplesToFilter, xMin, xMax)
         filteredSamples{sampleIdx} = filteredSample;
     end
 end
-
 function SpectraList = RemoveBackgroundProfile(SpectraList, Xpoints)
     % Inicializar matrices para almacenar X y Y del fondo
     for i = 1:length(SpectraList)
@@ -810,7 +620,6 @@ function SpectraList = RemoveBackgroundProfile(SpectraList, Xpoints)
         SpectraList{i} = sample;  % Actualizar la lista de espectros
     end
 end
-
 function DSList = RemovePolyBG(DSList, degree)
     % Remove baseline from a list of data structures using polynomial fitting
     % DSList: list of structures, each with fields X (Raman shift) and Y (intensity)

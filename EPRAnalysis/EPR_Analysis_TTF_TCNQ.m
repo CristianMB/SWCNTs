@@ -17,6 +17,11 @@ paths = {
 %% Reading Data
 ReadEPRfromPaths(paths);
 
+h = 6.62607015e-34;         % Planck constant (J*s)
+muB = 9.2740100783e-24;     % Bohr magneton (J/T)
+freqGHz = 9.44;             % Frequency in GHz
+freq=9.44*10^9;             %Hz
+
 %% Labeling
 
 DATA_20250806.S060825A.N='Annealed P2-SWCNTs (Undoped)@2,5K';
@@ -116,7 +121,7 @@ DATA_20250806.S060825R.RS = 1;  %TCNQ (new)
 EPR_TCNQ= {
 %             DATA_20250806.S060825A  %REF-AnnP2
             
-                DATA_20250806.S060825D  %R23F@2K
+%                 DATA_20250806.S060825D  %R23F@2K
 %                 DATA_20250806.S060825E  %R23F@5K
 %                 DATA_20250806.S060825F  %R23F@10K
 %                 DATA_20250806.S060825G  %R23F@25K
@@ -124,7 +129,7 @@ EPR_TCNQ= {
 %                 DATA_20250806.S060825I  %R23F@75K
 %                 DATA_20250806.S060825J  %R23F@100K
 
-            DATA_20250806.S060825K  %R23C@2K
+%             DATA_20250806.S060825K  %R23C@2K
             
             DATA_20250806.S060825Q  %TCNQ (old)
             DATA_20250806.S060825R  %TCNQ (new)
@@ -144,53 +149,86 @@ EPR_TTF= {
 
 %% X Axis correction
 
-freq=9.44*10^9; %Hz
 
-DATA_20250806.S060825A.X=DATA_20250806.S060825A.X.*freq/DATA_20250806.S060825A.PAR.MWFQ;
+DATA_20250806.S060825A = CorrectEPRXAxis(DATA_20250806.S060825A,freq);
 EPR_TCNQ = CorrectEPRXAxis(EPR_TCNQ,freq);
 EPR_TTF = CorrectEPRXAxis(EPR_TTF,freq);
 
-%% simulation
-Sys.S=1/2;
-Sys.g=2.0022;
-Sys.lw=[1 0.5];
-
-Exp.Range=[330 350]; % mT
-Exp.Harmonic=1;
-Exp.mwFreq=9.44;%GHz
-
-[B,Sim]=pepper(Sys,Exp);
-
 %% Plotting and corrections for plotting
 
-EPR_TTF = FilterDataByXRange(EPR_TTF, 3220, 3520); 
+EPR_TTF = FilterDataByXRange(EPR_TTF, 322, 352); 
 EPR_TTF = EPR_BG_Correction(EPR_TTF, DATA_20250806.S060825A);
-EPR_TTF = RemovePolyBG(EPR_TTF, 0);
-EPR_TTF = Normalize(EPR_TTF,3300,3400, 'M');
+EPR_TTF = RemoveEPRPolyBG(EPR_TTF, 2);
+% EPR_TTF = Normalize(EPR_TTF,330,340, 'M');
 
 % plotEPR(EPR_TTF, 0)
 
 
 
-EPR_TCNQ = FilterDataByXRange(EPR_TCNQ, 3220, 3520); 
+EPR_TCNQ = FilterDataByXRange(EPR_TCNQ, 322, 352); 
 EPR_TCNQ = EPR_BG_Correction(EPR_TCNQ, DATA_20250806.S060825A);
-EPR_TCNQ = RemovePolyBG(EPR_TCNQ, 0);
-EPR_TCNQ = Normalize(EPR_TCNQ,3300,3400, 'M');
+EPR_TCNQ = RemoveEPRPolyBG(EPR_TCNQ, 0);
+% EPR_TCNQ = Normalize(EPR_TCNQ,330,340, 'M');
 
 % plotEPR(EPR_TCNQ, 0)
 
 
 EPR_All = [EPR_TCNQ(:); EPR_TTF(:)];  % forces both to column vectors
-EPR_TCNQ = RemovePolyBG(EPR_TCNQ, 0);
+% EPR_All = Normalize(EPR_All,330,340, 'M');
 
-plotEPR(EPR_All, 0)
 
-hold on;
-plot(B*10,0.45+Sim/(2*max(Sim)),'r')
+%% Simulation TCNQ and TTF
+
+%TTF
+SysTTF.S=1/2;
+SysTTF.g=2.0022;
+SysTTF.lw=1.9;
+
+ExpTTF.mwFreq=9.44;%GHz
+ExpTTF.Range=[333 341]; % mT
+ExpTTF.Harmonic=1;
+
+Sim_TTF.N = 'TTF Simulation';
+Sim_TTF.RS = 1;
+[Sim_TTF.X,Sim_TTF.Y]=pepper(SysTTF,ExpTTF);
+Sim_TTF.Y = Sim_TTF.Y/max(Sim_TTF.Y);
+
+%TCNQ
+SysTCNQ.S=1/2;
+SysTCNQ.g=2.0026;
+SysTCNQ.lw=1.5;
+
+ExpTCNQ.mwFreq=9.44;%GHz
+ExpTCNQ.Range=[333 341]; % mT
+ExpTCNQ.Harmonic=1;
+
+Sim_TCNQ.N = 'TCNQ Simulation';
+Sim_TCNQ.RS = 1;
+[Sim_TCNQ.X,Sim_TCNQ.Y]=pepper(SysTCNQ,ExpTCNQ);
+Sim_TCNQ.Y = Sim_TCNQ.Y/max(Sim_TCNQ.Y);
+
+g_value(336.79)
+
+Simulations = {
+%                 Sim_TCNQ
+                Sim_TTF
+            };
+
+% plotEPR(EPR_TTF, 0)
+% hold on;
+% plot(B_TTF,Sim_TTF/max(Sim_TTF),'b')
+
+% plotEPR([EPR_All(:); Simulations(:)], 0.5).
+% plotEPR([EPR_TT(:); Simulations(:)], 0.5)
+
+plotEPR([EPR_TCNQ(:); Simulations(:)], 0.0)
+
+% plotEPR(Simulations, 0.0)
 
 %% Functions in development for EPR
 
-function DSList = RemovePolyBG(DSList, degree)
+
+function DSList = RemoveEPRPolyBG(DSList, degree)
     % Remove baseline from a list of data structures using polynomial fitting
     % DSList: list of structures, each with fields X (Raman shift) and Y (intensity)
     % degree: Degree of the polynomial used for baseline fitting
@@ -221,9 +259,6 @@ function DSList = RemovePolyBG(DSList, degree)
         % Find the minimum value of the corrected spectrum
         min_val = min(Y_corrected);
 
-        % Shift the corrected spectrum so that its minimum value is zero
-        Y_corrected = Y_corrected - min_val;
-
         % Update the structure with the corrected Y values
         DS.Y = Y_corrected;
         
@@ -234,7 +269,6 @@ function DSList = RemovePolyBG(DSList, degree)
         DSList{i} = DS;
     end
 end
-
 function DSList = EPR_BG_Correction(DSList, BackgroundSample)
 
     numSamples = length(DSList);
@@ -258,21 +292,24 @@ function DSList = EPR_BG_Correction(DSList, BackgroundSample)
 end
 
 function plotEPR(SamplesToPlot, offset)
-% Plot corrected EPR spectra with optional background subtraction and rescaling
-%
-% Inputs:
-%   SamplesToPlot    - Cell array of EPR spectrum structures with .X, .Y, .N
-%   BackgroundSample - A single spectrum structure with fields .X and .Y
-%   BackgroundScale  - Cell array of scalars to scale the background per sample
-%   Rescale          - Cell array of scalars to rescale each spectrum after subtraction
-%
-% If BackgroundScale or Rescale are empty ({}), defaults to {1, 1, ..., 1}
-% If BackgroundSample is empty ([]), background subtraction is skipped.
+    % Plot corrected EPR spectra with g-factor on top axis
 
     numSamples = length(SamplesToPlot);
 
     figure;
-    hold on;
+    ax1 = axes;
+    ax2 = axes('Position', get(ax1, 'Position'),'XAxisLocation', 'top',...
+               'Color', 'none', ...
+               'XColor', 'k', ...
+               'YColor', 'none', ...
+               'FontSize', 10);
+    linkaxes([ax1, ax2], 'x');  % Synchronize x-limits
+    set(ax2, 'YTick', []);
+    
+    hold(ax1, 'on');
+
+    minX = -Inf;
+    maxX = Inf;
 
     for i = 1:numSamples
         sample = SamplesToPlot{i};
@@ -280,24 +317,47 @@ function plotEPR(SamplesToPlot, offset)
         Y = sample.Y;
         N = sample.N;
         RS = sample.RS;
-        
-        % Match background to sample X via interpolation
 
-        % Subtract background and apply scaling
         Y = Y * RS - offset * i;
-        
-        plot(X, Y, 'DisplayName', N, 'LineWidth', 1.3);
-    end
-%     plot(bgX, bgY, 'DisplayName', N, 'LineWidth', 1.3);
+        plot(ax1, X, Y, 'DisplayName', N, 'LineWidth', 1.3);
 
-    xlabel('Magnetic Field (G)', 'FontSize', 14);
-    ylabel('Intensity (a.u.)', 'FontSize', 14);
-    title('EPR Spectra');
-    legend('show', 'FontSize', 11);
-    grid on;
+        minX = max(minX, min(X));
+        maxX = min(maxX, max(X));
+    end
+    
+    xlabel(ax1, 'Magnetic Field (mT)', 'FontSize', 14);
+    ylabel(ax1, 'Intensity (a.u.)', 'FontSize', 14);
+%     title('EPR Spectra', 'FontSize', 15, 'Units', 'normalized'); % Avoid overlap
+    legend(ax1, 'show', 'FontSize', 11);
+    grid(ax1, 'on');
+    xlim(ax1, [minX, maxX]);
+
+
+    % Set g-factor ticks based on selected B values
+    h = 6.62607015e-34;  % Planck’s constant in J·s
+    muB = 9.2740100783e-24;  % Bohr magneton in J/T
+    freq=9.44*10^9;             %Hz
+
+    B_mT = linspace(minX, maxX, 20);   % You can increase number of ticks if needed    
+    B_T = B_mT * 1e-3;                % Convert mT to Tesla
+    g_vals = h * freq ./ (muB * B_T); % Calculate g values
+
+    set(ax2, 'XTick', B_mT);
+    set(ax2, 'XTickLabel', arrayfun(@(g) sprintf('%.4f', g), g_vals, 'UniformOutput', false));
+    xlabel(ax2, 'g-Factor', 'FontSize', 14);
+
     hold off;
 end
 
+function g = g_value(B_mT)
+    h = 6.62607015e-34;  % Planck’s constant in J·s
+    muB = 9.2740100783e-24;  % Bohr magneton in J/T
+    freq=9.44*10^9;             %Hz
+
+    B_T = B_mT * 1e-3;                % Convert mT to Tesla
+    
+    g = h * freq /(muB * B_T); % Calculate g values
+end
 function filteredSamples = FilterDataByXRange(samplesToFilter, xMin, xMax)
     % FilterDataByXRange filters the data of each sample to include only the points within the specified X-range.
     %
@@ -326,25 +386,34 @@ function filteredSamples = FilterDataByXRange(samplesToFilter, xMin, xMax)
         filteredSamples{sampleIdx} = filteredSample;
     end
 end
-
-function correctedEPR = CorrectEPRXAxis(EPRcell, freq)
-% Applies X-axis correction for all spectra in the EPRcell array
-% X_corrected = X * freq / par.MWFQ
+function correctedEPR = CorrectEPRXAxis(EPRinput, freq)
+% Applies X-axis correction for EPR spectra.
+% Works on a single struct or a cell array of structs.
+% X_corrected = X * freq / PAR.MWFQ
 % Input:
-%   EPRcell - cell array of EPR spectra (structures with fields X and par)
-%   freq    - experimental microwave frequency in Hz
+%   EPRinput - single structure or cell array of structures with fields .X and .PAR
+%   freq     - experimental microwave frequency in Hz
 % Output:
-%   correctedEPR - corrected cell array (same format)
+%   correctedEPR - same type as input (single struct or cell array)
 
-    correctedEPR = EPRcell; % Initialize output
-    
-    for i = 1:length(EPRcell)
-        sample = EPRcell{i};
+    if iscell(EPRinput)
+        % Input is a cell array of structures
+        correctedEPR = EPRinput; % Initialize output
+        
+        for i = 1:length(EPRinput)
+            sample = EPRinput{i};
+            sample.X = sample.X * freq / sample.PAR.MWFQ;
+            correctedEPR{i} = sample;
+        end
+    elseif isstruct(EPRinput)
+        % Input is a single structure
+        sample = EPRinput;
         sample.X = sample.X * freq / sample.PAR.MWFQ;
-        correctedEPR{i} = sample;
+        correctedEPR = sample;
+    else
+        error('EPRinput must be either a structure or a cell array of structures.');
     end
 end
-
 function dataStructures = ReadEPRfromPaths(paths)
 
         dataStructures = struct();  
@@ -364,7 +433,8 @@ function dataStructures = ReadEPRfromPaths(paths)
                 sampleName = upper(strrep(fileList{f}, '.DSC',''));
                 
                 [structure.(sampleName).X,structure.(sampleName).Y,structure.(sampleName).PAR] = eprload(fullFilePath);
-                 
+               
+                structure.(sampleName).X = structure.(sampleName).X / 10;   % Convert G to mT
                 structure.(sampleName).N = structure.(sampleName).PAR.TITL;
                 
                 structure.(sampleName).BS = 1;  %BG Rescale factor (for substracting BG)
