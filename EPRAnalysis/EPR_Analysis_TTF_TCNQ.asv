@@ -146,34 +146,6 @@ EPR_TTF= {
 
             DATA_20250806.S060825S  %TTF (old)        
         };
-    
-EPR_BG= {
-            DATA_20250806.S060825A  %REF-AnnP2
-            
-            DATA_20250806.S060825A  %REF-AnnP2
-
-            DATA_20250806.S060825L  %R13@2K
-            DATA_20250806.S060825M  %R13@5K
-            DATA_20250806.S060825N  %R13@10K
-            DATA_20250806.S060825O  %R13@20K
-            DATA_20250806.S060825P  %R13@55K
-
-            DATA_20250806.S060825S  %TTF (old)   
-
-            DATA_20250806.S060825D  %R23F@2K
-            DATA_20250806.S060825E  %R23F@5K
-            DATA_20250806.S060825F  %R23F@10K
-            DATA_20250806.S060825G  %R23F@25K
-            DATA_20250806.S060825H  %R23F@50K
-            DATA_20250806.S060825I  %R23F@75K
-            DATA_20250806.S060825J  %R23F@100K
-
-            DATA_20250806.S060825K  %R23C@2K
-
-            DATA_20250806.S060825Q  %TCNQ (old)
-            DATA_20250806.S060825R  %TCNQ (new)
-};
-
 
 %% X Axis correction
 
@@ -182,13 +154,7 @@ DATA_20250806.S060825A = CorrectEPRXAxis(DATA_20250806.S060825A,freq);
 EPR_TCNQ = CorrectEPRXAxis(EPR_TCNQ,freq);
 EPR_TTF = CorrectEPRXAxis(EPR_TTF,freq);
 
-EPR_BG = CorrectEPRXAxis(EPR_BG,freq);
-
 %% Plotting and corrections for plotting
-
-plotEPR(EPR_BG, 0)
-
-
 
 EPR_TTF = FilterDataByXRange(EPR_TTF, 322, 352); 
 EPR_TTF = EPR_BG_Correction(EPR_TTF, DATA_20250806.S060825A);
@@ -222,10 +188,10 @@ SysTTF.g=2.0062;
 SysTTF.lw=1.4;
 
 ExpTTF.mwFreq=9.44;%GHz
-ExpTTF.Range=[330 345]; % mT
+ExpTTF.Range=[333 341]; % mT
 ExpTTF.Harmonic=1;
 
-Sim_TTF.N = ['TTF Simulation g=' num2str(SysTTF.g)];
+Sim_TTF.N = 'TTF Simulation';
 Sim_TTF.RS = 1;
 [Sim_TTF.X,Sim_TTF.Y]=pepper(SysTTF,ExpTTF);
 Sim_TTF.Y = Sim_TTF.Y/max(Sim_TTF.Y);
@@ -236,15 +202,15 @@ SysTCNQ.g=2.0026;
 SysTCNQ.lw=1.29;
 
 ExpTCNQ.mwFreq=9.44;%GHz
-ExpTCNQ.Range=[330 345]; % mT
+ExpTCNQ.Range=[333 341]; % mT
 ExpTCNQ.Harmonic=1;
 
-Sim_TCNQ.N = ['TCNQ Simulation g=' num2str(SysTCNQ.g)];
+Sim_TCNQ.N = 'TCNQ Simulation';
 Sim_TCNQ.RS = 1;
 [Sim_TCNQ.X,Sim_TCNQ.Y]=pepper(SysTCNQ,ExpTCNQ);
 Sim_TCNQ.Y = Sim_TCNQ.Y/max(Sim_TCNQ.Y);
 
-
+g_value(336.79)
 
 Simulations = {
                 Sim_TCNQ
@@ -264,13 +230,9 @@ Simulations = {
 
 % EPR_All = [EPR_TCNQ(:); Simulations(:)];  % forces both to column vectors
 
-% EPR_All = [EPR_TTF(:); Simulations(2)];  % forces both to column vectors
-% EPR_All = Normalize(EPR_All,330,340, 'M');
-% plotEPR(EPR_All, 1)
-% 
-% EPR_All = [EPR_TCNQ(:); Simulations(1)];  % forces both to column vectors
-% EPR_All = Normalize(EPR_All,330,340, 'M');
-% plotEPR(EPR_All, 1)
+EPR_All = [EPR_TCNQ(:); Simulations(1); EPR_TTF(:); Simulations(2)];  % forces both to column vectors
+EPR_All = Normalize(EPR_All,330,340, 'M');
+plotEPR(EPR_All, 1)
 
 %% Functions in development for EPR
 
@@ -384,7 +346,7 @@ function plotEPR(SamplesToPlot, offset)
     muB = 9.2740100783e-24;  % Bohr magneton in J/T
     freq=9.44*10^9;             %Hz
 
-    B_mT = linspace(minX, maxX, 10);   % You can increase number of ticks if needed    
+    B_mT = linspace(minX, maxX, 20);   % You can increase number of ticks if needed    
     B_T = B_mT * 1e-3;                % Convert mT to Tesla
     g_vals = h * freq ./ (muB * B_T); % Calculate g values
 

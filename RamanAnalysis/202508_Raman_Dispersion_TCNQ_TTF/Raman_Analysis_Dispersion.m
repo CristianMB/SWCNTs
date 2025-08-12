@@ -20,6 +20,7 @@ path_i= [rootpath,'20241213\'];
 path_j= [rootpath,'20250131\'];
 path_k= [rootpath,'20241212\'];
 path_l= [rootpath,'20250411\'];
+met = [rootpath,'20240514\']; 
 
 path_TTF = [rootpath,'20250520\'];
 path_TCNQ = [rootpath,'20250618\'];
@@ -29,6 +30,8 @@ path_TCNQ_rinsed = [rootpath,'20250718\'];
 path_S21_S22_S23_G = [rootpath,'20250731\'];
 path_intensity = [rootpath,'20250801\'];
 
+path_bluewla = [rootpath,'20250404\'];
+path_bluewlb= [rootpath,'20250411\'];
 %Select the paths of interest
 
 paths = {   
@@ -51,6 +54,9 @@ paths = {
             path_S21_S22_S23_G
             path_intensity
             path_l
+            met
+            path_bluewla
+            path_bluewlb
         };
 
 
@@ -155,6 +161,22 @@ DATA_20250411.S13L476G.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
 DATA_20250411.S11L476R.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
 DATA_20250411.S12L476R.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
 DATA_20250411.S13L476R.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
+DATA_20240514.EAL650D.N='Empty Arc SWCNTs';
+DATA_20240514.S3L650D.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S4L650D.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S5L650D.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S6L650D.N='CB Hexadecane@SWCNT Dial. DGU C (Filled) 650,06nm';
+DATA_20240514.S7L650D.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.WAL650D.N='Water Filled Arc SWCNTs';
+DATA_20240514.S2L650D.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.EAL650G.N='Empty Arc SWCNTs';
+DATA_20240514.S2L650G.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S3L650G.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S4L650G.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S5L650G.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S6L650G.N='CB Hexadecane@SWCNT Dial. DGU C (Filled) 650,06nm';
+DATA_20240514.S7L650G.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.WAL650G.N='Water Filled Arc SWCNTs';
 
 
 %% All G vs Ref
@@ -162,25 +184,83 @@ DATA_20250411.S13L476R.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
 close all;
         
 G = {
-DATA_20250411.P12L476G
-DATA_20250411.P13L476G
-DATA_20250411.PP2L476G
+% DATA_20250411.P12L476G
+% DATA_20250411.P13L476G
+% DATA_20250411.PP2L476G
+  
+  DATA_20240517.EAL514GD
+% DATA_20250411.S11L476G
+% DATA_20250411.S12L476G
+% DATA_20250411.S13L476G
+% DATA_20250411.S14L476G
+% DATA_20250411.S15L476G
 
+
+       }; 
+% 
+% G = FilterDataByXRange(G, 1260, 1660);           
+% G = RemovePolyBG(G, 0);
+% G = SubstractLinearBG(G, 1260, 1680);
+% G = Normalize(G, 1580, 1600, 'M');
+% % 
+% plotRaman(G, 0.0, 514.5);     
+
+G = {
+%         DATA_20240514.EAL650D
+%         DATA_20240514.S3L650D
+%         DATA_20240514.S4L650D
+%         DATA_20240514.S5L650D
+%         DATA_20240514.S6L650D
+%         DATA_20240514.S7L650D
+%         DATA_20240514.WAL650D
+%         DATA_20240514.S2L650D
+        DATA_20240514.EAL650G
+        DATA_20240514.S2L650G
+        DATA_20240514.S3L650G
+        DATA_20240514.S4L650G
+        DATA_20240514.S5L650G
+        DATA_20240514.S6L650G
+        DATA_20240514.S7L650G
+        DATA_20240514.WAL650G
+
+       }; 
+
+G = FilterDataByXRange(G, 1450, 1650);           
+G = RemovePolyBG(G, 0);
+G = SubstractLinearBG(G, 1450, 1650);
+G = Normalize(G, 1450, 1650, 'M');
+% 
+plotRaman(G, 0.0, 650);   
+
+G = {
+DATA_20250404.FAL458G
+DATA_20250404.FBL458G  
+DATA_20250404.P12L458G 
+DATA_20250404.P13L458G
+DATA_20250404.P14L458G  
+DATA_20250404.P15L458G 
+DATA_20250404.PP2L458G
+DATA_20250404.SR0L458G
 DATA_20250411.S11L476G
 DATA_20250411.S12L476G
 DATA_20250411.S13L476G
 DATA_20250411.S14L476G
 DATA_20250411.S15L476G
-
+DATA_20250411.SR0L476G
+DATA_20250411.SWFL476G
+DATA_20250411.P12L476G
+DATA_20250411.P13L476G
+DATA_20250411.PP2L476G
 
        }; 
 
-% G = FilterDataByXRange(G, 1260, 1660);           
+% G = FilterDataByXRange(G, 1450, 1650);           
 % G = RemovePolyBG(G, 0);
-% G = SubstractLinearBG(G, 1260, 1680);
-% G = Normalize(G, 1580, 1600, 'M');
+% G = SubstractLinearBG(G, 1450, 1650);
+G = Normalize(G, 1450, 1650, 'M');
 % 
-% plotRaman(G, 0.0, 476);     
+plotRaman(G, 0.2, 0);  
+
 
 
 R = {
@@ -192,12 +272,12 @@ DATA_20250411.S15L476R
     }; 
 
 % R= FlatFieldCorrection(R, DATA_20250411.);           
-R = FilterDataByXRange(R, 130, 228);           
-R = RemovePolyBG(R, 1);
-R = SubstractLinearBG(R, 130, 228);
-R = Normalize(R, 140, 220, 'M');
-% 
-plotRaman(R, 0.0, 476);     
+% R = FilterDataByXRange(R, 130, 228);           
+% R = RemovePolyBG(R, 1);
+% R = SubstractLinearBG(R, 130, 228);
+% R = Normalize(R, 140, 220, 'M');
+% % 
+% plotRaman(R, 0.0, 476);     
 
 DD= {
     DATA_20241007.F2L514DD
