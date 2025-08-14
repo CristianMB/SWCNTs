@@ -133,7 +133,11 @@ TCNQ = {
 %%
 
 TCNQ = {
+        DATA_20250617.TCNQ_DCM_1
         DATA_20250617.TCNQ_DCM_30
+        
+        DATA_20250714.TCNQ_DCM_2
+        DATA_20250714.TCNQ_DCM_15
         DATA_20250714.TCNQ_DCM_30
        };
 

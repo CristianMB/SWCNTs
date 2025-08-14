@@ -2,93 +2,125 @@ clc;
 clear;
 import UsefulFunctions.*;
 rootpath = 'X:\Measurements Data\Absorption\';
-addpath('X:\SWCNTs')
-
 
 %All paths as default
 
+Dispersions = [rootpath,'20250813\Dispersions_TTF_TCNQ.csv'];
 
 
-Refs= [rootpath,'References.csv'];
-DGU = [rootpath,'20250422\DGU_Fractions_S11_S14.csv'];
-DISP = [rootpath,'20250411\CentrifugedSamples_S11_S15.csv'];
+
 %Select the paths of interest
 paths = {
-        Refs   
-        DGU
-        DISP
-        };
+    Dispersions
+};
     
 
-%Read and structure data from the paths
+%% Read and structure data from the paths
 ReadAbsorptionFromPaths(paths);
 
-% Labeling
+%% Labeling
 
-            
-% Plotting
+DATA_20250813.Baseline.N='Baseline';
+DATA_20250813.B3_10.N='Batch 3 - Annealed P2-SWCNTs';
+DATA_20250813.R17_10.N='R17 - TTF@P2-SWCNTs (GP) (Rinsed)';
+DATA_20250813.R21D_10.N='R21D - TTF@P2-SWCNTs (Melt) (Rinsed)';
+DATA_20250813.R21D_5.N='R21D - TTF@P2-SWCNTs (Melt) (Rinsed)';
+DATA_20250813.U22_10.N='U22 - TTF@P2-SWCNTs (Reflux) (Unrinsed)';
+DATA_20250813.R18E_10.N='R18E - TCNQ@P2-SWCNTs (GP) (Rinsed)';
+DATA_20250813.R23F_10.N='R23F - TCNQ@P2-SWCNTs (GP) (Rinsed)';
+
+%% Corrections
+
+% on_TCNQ_DCM_LC = 0.1203;
+
+% DATA_20250617.TCNQ_Acetone_1.Y = DATA_20250617.TCNQ_Acetone_1.Y/Con_TCNQ_Acetone;
 
 
-% DATA_20250422.DGU_S11_B.Y = DATA_20250422.DGU_S11_B.Y - DATA_References.WaterInD2O.Y
+%% Plotting
 
-
-DGU = {
-
-
-
-        DATA_20250422.DGU_S11_A
-        DATA_20250422.DGU_S11_B
-        DATA_20250422.DGU_S11_C
-        DATA_20250422.DGU_S11_D
-        DATA_20250422.DGU_S11_E
-%         
-%         DATA_20250422.DGU_S12_A
-%         DATA_20250422.DGU_S12_B
-%         DATA_20250422.DGU_S12_C
-%         DATA_20250422.DGU_S12_D
-%         DATA_20250422.DGU_S12_E
-% %         
-%         DATA_20250422.DGU_S13_A
-%         DATA_20250422.DGU_S13_B
-%         DATA_20250422.DGU_S13_C
-%         DATA_20250422.DGU_S13_D
-% %         DATA_20250422.DGU_S13_E  
-% 
-%             DATA_20250422.DGU_S14_E
-% % %         DATA_20250422.DGU_S14_F
-%         DATA_20250422.DGU_S14_F_d2
-
-%         
-
-    };
-
+All = {
+%         DATA_20250813.Baseline
+        DATA_20250813.B3_10
         
-% F = FilterDataByXRange(F, 250,2500);
-% F = BackgroundSubtraction(F, [500,2500]);
-% F = RemovePolyBG(F, 0);
-DGU = Normalize(DGU, 950, 1050, 'M');
-% plotAbsorption(F, 0.0000);
-plotAbsorption(DGU, 0.1);
-% plotAbsorptionGroup(DGU, 10, 2);
+        DATA_20250813.R17_10
+        DATA_20250813.R21D_5
+        DATA_20250813.U22_10
+
+        DATA_20250813.R18E_10
+        DATA_20250813.R23F_10
+       };
+plotAbsorption(All, 0.0)
+
+All = FilterDataByXRange(All, 200, 2500);
+% All = BackgroundSubtraction(All, [610, 1330]);
+% All = RemoveBackgroundProfile(All, [625, 860, 1320, 2500]);
+
+% All = RemovePolyBG(All, 0)
+% All = RemoveBackgroundProfile(All, [830, 1350, 2500]);
+
+All = RemoveBackgroundProfile(All, [300, 615, 870, 1300]);
+All = Abs_MatchSpectra(All, [1350,1450]);
+All = Normalize(All, 1000, 1200, 'M')
+% All = Normalize(All, 616, 1320, 'I')
+% 
+plotAbsorption(All, 0.0)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function SpectraList = Abs_MatchSpectra(SpectraList, range)
+% ABS_MATCHSPECTRA Aligns spectra vertically by subtracting
+% the average value in a given wavelength range.
+%
+% Inputs:
+%   SpectraList - cell array of structs with fields X and Y
+%   range       - [xMin, xMax] specifying averaging range
+%
+% Output:
+%   SpectraList - vertically aligned spectra
+
+    nSpectra = length(SpectraList);
+    avgValues = zeros(nSpectra,1);
+
+    % Calculate mean value in the given range for each spectrum
+    for i = 1:nSpectra
+        spec = SpectraList{i};
+        mask = spec.X >= range(1) & spec.X <= range(2);
+        avgValues(i) = mean(spec.Y(mask));
+    end
+
+    % Subtract each average from the respective spectrum
+    for i = 1:nSpectra
+        spec = SpectraList{i};
+        spec.Y = spec.Y - avgValues(i);
+        SpectraList{i} = spec;
+    end
+end
+
+function SpectraList = Abs_InverseBackground(SpectraList)
+
+    for i = 1:length(SpectraList)
+        spec = SpectraList{i};
+        X = spec.X(:);
+        Y = spec.Y(:);
+
+        % Objective: fit A/x + B to data (least squares)
+        fitFunc = @(params) sum((Y - (params(1)./X + params(2))).^2);
+
+        % Initial guess for A, B
+        initParams = [1, mean(Y)];
+
+        % Fit using fminsearch
+        options = optimset('Display','off');
+        params = fminsearch(fitFunc, initParams, options);
+
+        % Subtract background
+        background = params(1)./X + params(2);
+        spec.Y = Y - background;
+
+        SpectraList{i} = spec;
+    end
+end
 
 
-
-
-S = {
-DATA_20250411.S11
-DATA_20250411.S12_d2
-DATA_20250411.S13_d2
-DATA_20250411.S14_d3
-DATA_20250411.S15_d2
-    };
-
-% F = FilterDataByXRange(F, 250,2500);
-% F = BackgroundSubtraction(F, [500,2500]);
-% F = RemovePolyBG(F, 0);
-S = Normalize(S, 950, 1050, 'M');
-% plotAbsorption(F, 0.0000);
-plotAbsorption(S, 0.0);
-% plotAbsorptionGroup(DGU, 10, 2);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function DSListOut = BackgroundSubtraction(DSList, range)
@@ -222,9 +254,10 @@ function SpectraList = RemoveBackgroundProfile(SpectraList, Xpoints)
         params = fminsearch(objectiveFunc, initialParams, options);
 
         % Extraer A y B para este espectro
-        A = params(1);
+%         A = params(1);
+%         B = params(2);
+        A = 0;
         B = params(2);
-
         % Calcular el fondo ajustado para este espectro
         background = A + B ./ sample.X;
 
