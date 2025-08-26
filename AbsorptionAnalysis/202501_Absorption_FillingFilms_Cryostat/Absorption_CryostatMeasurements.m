@@ -85,15 +85,15 @@ FS4 = {
 %         DATA_20241216.TDAE_KIT_Vac_30
 %         DATA_20241216.TDAE_KIT_Vac_60
 %         DATA_20241216.TDAE_KIT_N2
-        DATA_20241216.TDAE_KIT_Vac_150
+%         DATA_20241216.TDAE_KIT_Vac_150
 %         DATA_20241216.TDAE_KIT_Vac_300
 %         DATA_20241216.TDAE_KIT_Vac_1254
 %         DATA_20241216.TDAE_KIT_N2_B
 %         DATA_20241216.TDAE_KIT_Vac_1282
-        DATA_20241216.TDAE_KIT_Vac_1293
-        DATA_20241216.TDAE_KIT_Vac_1300
+%         DATA_20241216.TDAE_KIT_Vac_1293
 %         DATA_20241216.TDAE_KIT_Vac_1300
-        DATA_20241216.TDAE_KIT_Vac_1425
+%         DATA_20241216.TDAE_KIT_Vac_1300
+%         DATA_20241216.TDAE_KIT_Vac_1425
         DATA_20241216.TDAE_KIT_Air_B
     };
 
@@ -103,21 +103,21 @@ FS7 = {
 %         DATA_20241216.Dodecane_KIT_Vac_1
 %         DATA_20241216.Dodecane_KIT_Vac_20
 %         DATA_20241216.Dodecane_KIT_Vac_75
-        DATA_20241216.Dodecane_KIT_Vac_140
+%         DATA_20241216.Dodecane_KIT_Vac_140
 %         DATA_20241216.Dodecane_KIT_Vac_350
 %         DATA_20241216.Dodecane_KIT_Vac_1175
 %         DATA_20241216.Dodecane_KIT_N2_B
-        DATA_20241216.Dodecane_KIT_Vac_1200
+%         DATA_20241216.Dodecane_KIT_Vac_1200
 %         DATA_20241216.Dodecane_KIT_N2_C
 %         DATA_20241216.Dodecane_KIT_Vac_1300
 %         DATA_20241216.Dodecane_KIT_Temp_50
-        DATA_20241216.Dodecane_KIT_Temp_50_B
+%         DATA_20241216.Dodecane_KIT_Temp_50_B
 %         DATA_20241216.Dodecane_KIT_Vac_1420
 %         DATA_20241216.Dodecane_KIT_HotWater_A
 %         DATA_20241216.Dodecane_KIT_N2_D
 %         DATA_20241216.Dodecane_KIT_Temp_75
 %         DATA_20241216.Dodecane_KIT_Temp_85
-        DATA_20241216.Dodecane_KIT_Temp_98
+%         DATA_20241216.Dodecane_KIT_Temp_98
         DATA_20241216.Dodecane_KIT_Air_B
     };
 
@@ -146,7 +146,9 @@ backgr = [330,610, 1311, 2500];
 % plotAbsorptionOrdered(FS4, 0);
 FS4 = FilterDataByXRange(FS4, 0, 2520);
 FS4 = BackgroundSubtraction(FS4, [500, 2600]);
-FS4 = Normalize(FS4,910, 1290, 'M'); 
+FS4 = Normalize(FS4,910, 1290, 'M');
+FS4 = Normalize(FS4,265, 772, 'I'); 
+
 % plotAbsorptionOrdered(FS4, 0);
 
 % Define los límites del rango
@@ -174,7 +176,9 @@ for i = 1:length(FS4)
 end
 
 
-plotAbsorptionOrdered(FS4, 0);
+% plotAbsorptionOrdered(FS4, 0);
+
+plotAbsorption(FS4, 0);
 
 % Define the list of datasets
 

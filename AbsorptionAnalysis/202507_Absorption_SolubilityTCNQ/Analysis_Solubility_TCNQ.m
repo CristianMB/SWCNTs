@@ -13,7 +13,6 @@ TCNQ_EthylAcetate = [rootpath,'20250617\TCNQ_EthylAcetate.csv'];
 TCNQ_MeOH = [rootpath,'20250617\TCNQ_MeOH.csv'];
 TCNQ_THF = [rootpath,'20250617\TCNQ_THF.csv'];
 TCNQ_Toluene = [rootpath,'20250714\TCNQ_Toluene.csv'];
-
 TCNQ_DCM_LC = [rootpath,'20250714\Rinsing_S18_TCNQ_DCM.csv'];
 
 

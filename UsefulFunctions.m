@@ -664,12 +664,12 @@ classdef UsefulFunctions
     
     function samples = readSamplesData(filePath)
         % Read the header
-        header = readcell(filePath, 'Range', 'A1:AZ1');
+        header = readcell(filePath, 'Range', 'A1:ZZ1');
         header = cellfun(@(x) strrep(x, ' 100%T', ''), header, 'UniformOutput', false);
         sampleNames = header(1, 1:2:end);
         warning('off', 'MATLAB:strrep:InvalidInputType');
         % Read ONLY the datalines
-        data = readmatrix(filePath, 'Range', ['A' num2str(3) ':AZ' num2str(3000)]);
+        data = readmatrix(filePath, 'Range', ['A' num2str(3) ':ZZ' num2str(3000)]);
 
         samples = struct();
 

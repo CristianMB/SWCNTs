@@ -1,437 +1,388 @@
 clc;
-clear all;
-addpath('X:\SWCNTs');
+clear;
 import UsefulFunctions.*;
-% rootpath = 'X:\Measurements Data\Absorption\';
-rootpath = 'X:\Measurements (RAW)\Absorption\';
-% addpath('X:\SWCNTs\SpecialMatlabFunctions\DrosteEffect-BrewerMap-3.2.5.0')
+rootpath = 'X:\Measurements Data\Raman\';
+addpath('X:\SWCNTs\RamanAnalysis\Raman - Voigt Fitting\Faddeeva_voigt');
+addpath('X:\SWCNTs');
 
+% rootpath = 'X:\Measurements Data\Raman\';
 %All paths as default
-set(0,'DefaultFigureWindowStyle','normal')
 
+path_a= [rootpath,'20240111\'];
+path_b= [rootpath,'20240517\'];
+path_c= [rootpath,'20240610\'];
+path_d= [rootpath,'20240612\'];
+path_e= [rootpath,'20241007\'];
+path_f= [rootpath,'20241008\'];
+path_g= [rootpath,'20241129\'];
+path_h= [rootpath,'20241212\'];
+path_i= [rootpath,'20241213\'];
+path_j= [rootpath,'20250131\'];
+path_k= [rootpath,'20241212\'];
+path_l= [rootpath,'20250411\'];
+met = [rootpath,'20240514\']; 
 
-CryoFS6 = [rootpath,'20250220\Cryostat_Hexadecane_Film.csv'];
-CryoFS4 = [rootpath,'20250221\Cryostat_TDAE_Film.csv'];
-CryoFS4_2 = [rootpath,'20250305\TDAE_Cryostat.csv'];
+path_TTF = [rootpath,'20250520\'];
+path_TCNQ = [rootpath,'20250618\'];
+path_aa = [rootpath,'20250131\'];
+path_bbb = [rootpath,'20250403\'];
+path_TCNQ_rinsed = [rootpath,'20250718\'];
+path_S21_S22_S23_G = [rootpath,'20250731\'];
+path_intensity = [rootpath,'20250801\'];
 
+path_bluewla = [rootpath,'20250404\'];
+path_bluewlb= [rootpath,'20250411\'];
 %Select the paths of interest
+
 paths = {   
-            CryoFS6
-            CryoFS4
-            CryoFS4_2
+            path_a
+            path_b
+            path_c
+            path_d
+            path_e
+            path_f
+            path_g
+            path_h
+            path_i
+            path_j
+            path_k    
+            path_TTF
+            path_TCNQ
+            path_aa
+            path_bbb
+            path_TCNQ_rinsed
+            path_S21_S22_S23_G
+            path_intensity
+            path_l
+            met
+            path_bluewla
+            path_bluewlb
         };
 
-%Read and structure data from the paths
 
-ReadAbsorptionFromPaths(paths);
-
+ReadRamanFromPaths(paths, 2);
 
 %% %--------LABELING--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-DATA_20250220.Hexadecane_Initial.N = 'Hexadecane in Air, 22°C'
-DATA_20250220.Hexadecane_V1.N = 'Hexadecane in HV, 22°C'
-DATA_20250220.Hexadecane_V2.N = 'Hexadecane in Air, 22°C'
-DATA_20250220.Hexadecane_V3.N = 'Hexadecane in Air, 22°C'
-DATA_20250220.Hexadecane_V4.N = 'Hexadecane in HV, 22°C'
-DATA_20250220.Hexadecane_V5_T1.N = 'Hexadecane in HV, 76°C'
-DATA_20250220.Hexadecane_V6_T1.N = 'Hexadecane in HV, 76°C'
-DATA_20250220.Hexadecane_V6_T2.N = 'Hexadecane in HV, 127°C'
-DATA_20250220.Hexadecane_V8_T2.N = 'Hexadecane in HV, 127°C'
-DATA_20250220.Hexadecane_V9_T3.N = 'Hexadecane in HV, 177°C'
-DATA_20250220.Hexadecane_V10_T3.N = 'Hexadecane in HV, 177°C'
-DATA_20250220.Hexadecane_V11_T4.N = 'Hexadecane in HV, 226°C'
-DATA_20250220.Hexadecane_V12_T4.N = 'Hexadecane in HV, 226°C'
-DATA_20250220.Hexadecane_V13_C1.N = 'Hexadecane in HV, 196°C'
-DATA_20250220.Hexadecane_V14_C2.N = 'Hexadecane in HV, 177°C'
-DATA_20250220.Hexadecane_V15_C3.N = 'Hexadecane in HV, 137°C'
-DATA_20250220.Hexadecane_V15_C4.N = 'Hexadecane in HV, 71°C'
-DATA_20250220.Hexadecane_V17_C5.N = 'Hexadecane in HV, 22°C'
-DATA_20250220.Hexadecane_V18_A1.N = 'Hexadecane in Air, 22°C'
+DATA_20240111.S240111A.N='SF D2O@SWCNT 514nm';
+DATA_20240111.S240111B.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111BB.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111C.N='SF Methanol@SWCNT 514nm';
+DATA_20240111.S240111D.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111E.N='SF TTF@SWCNT 514nm';
+DATA_20240111.S240111F.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111G.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111H.N='SF PCE@SWCN 514nm';
+DATA_20240111.S240111I.N='SF TEMED@SWCNT 514nm';
+DATA_20240517.EAL514GD.N='Empty Arc SWCNTs';
+DATA_20240517.S2L514GD.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S3L514GD.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S4L514GD.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S5L514GD.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S6L514GD.N='CB Hexadecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.S7L514GD.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240517.WAL514GD.N='Water Filled Arc SWCNTs';
+DATA_20240610.EAL514GD.N='Empty Arc SWCNTs';
+DATA_20240610.S2L514GD.N='CB PCE@SWCNT After CSA Treatment';
+DATA_20240610.S3L514GD.N='CB TCE@SWCNT After CSA Treatment';
+DATA_20240610.S4L514GD.N='CB TEMED@SWCNT After CSA Treatment';
+DATA_20240610.S5L514GD.N='CB TDAE@SWCNT After CSA Treatment';
+DATA_20240610.S6L514GD.N='CB Hexadecane@SWCNT After CSA Treatment';
+DATA_20240610.S7L514GD.N='CB Dodecane@SWCNT After CSA Treatment';
+DATA_20240610.WAL514GD.N='Water Filled Arc SWCNTs';
+DATA_20240612.EAL514GD.N='Empty Arc SWCNTs';
+DATA_20240612.S2L514GD.N='CB PCE@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.S3L514GD.N='CB TCE@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.S4L514GD.N='CB TEMED@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.S5L514GD.N='CB TDAE@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.S6L514GD.N='CB Hexadecane@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.S7L514GD.N='CB Dodecane@SWCNT After CSA Treatment + Dialysis to D2O';
+DATA_20240612.WAL514GD.N='Water Filled Arc SWCNTs';
+DATA_20241007.F2L514GD.N='Film PCE@SWCNT';
+DATA_20241007.F3L514GD.N='Film TCE@SWCNT';
+DATA_20241007.F4L514GD.N='Film TEMED@SWCNT';
+DATA_20241007.F5L514GD.N='Film TDEA@SWCNT';
+DATA_20241007.F6L514GD.N='Film Hexadecane@SWCNT';
+DATA_20241007.F7L514GD.N='Film Dodecane@SWCNT';
+DATA_20241008.F0L514C.N='Sapphire SubstrateC';
+DATA_20241008.F0L514D.N='Sapphire SubstrateD';
+DATA_20241008.F0L514E.N='Sapphire SubstrateE';
+DATA_20241008.FFL514C.N='FlatFieldC';
+DATA_20241008.FFL514D.N='FlatFieldD';
+DATA_20241008.FFL514E.N='FlatFieldE';
+DATA_20241213.FF6L514G.N='Film 3 (SFF6 TTF@CNTs)';
+DATA_20241213.FS5L514G.N='Film 2 (S5 TDAE@CNTs)';
+DATA_20241213.FS7L514G.N='Film 1 (S7 Dodecane@CNTs)';
+DATA_20241213.FS8L514G.N='Film 5 (S8 PCE@CNTs)';
+DATA_20241213.FS9L514G.N='Film 4 (S9 TEMED@CNTs)';
+DATA_20241213.P30.N='Power test to see if sample is heated at 30mW';
+DATA_20241213.P50.N='Power test to see if sample is heated at 50mW';
+DATA_20241213.P70.N='Power test to see if sample is heated at 70mW';
+DATA_20241213.S1BL514G.N='TEMED Filled DGU (SFF1B)';
+DATA_20241213.SF6L514G.N='TTF Filled DGU (SFF6)';
+DATA_20241213.SR0L514G.N='SF6 Sofie Empty';
+DATA_20241213.SR1L514G.N='Water Filled DGU (KVDP2)';
+DATA_20250131.KITL514G .N='KIT Converted to DWCNTs (Dispersion)';
+DATA_20250131.KT3L514G .N='KIT Converted to DWCNTs (Dispersion)';
+DATA_20250131.KT5L514G.N='KIT Converted to DWCNTs (Dispersion)';
+DATA_20250131.KTLL514G.N='KIT Converted to DWCNTs (Dispersion)';
+DATA_20250131.S10L514G.N='Dispersion S10 - TMG@P2-SWCNTs';
+DATA_20250131.S11L514G.N='Dispersion S11 - TTF@P2-SWCNTs';
+DATA_20250131.SR0L514G.N='Dispersion SR0 - Empty@P2-SWCNTs';
+DATA_20250131.SR1L514G.N='Dispersion SR1 - D2O@P2-SWCNTs - KVD';
+DATA_20250131.SR2L514G.N='Dispersion SR2 - MeOH@P2-SWCNTs';
+DATA_20250131.SWFL514G.N='Dispersion SWF - D2O@P2-SWCNTs (Salome)';
+DATA_20240111.S240111J.N='SF D2O@SWCNT 514nm';
+DATA_20240111.S240111K.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111KK.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111L.N='SF Methanol@SWCNT 514nm';
+DATA_20240111.S240111M.N='SF TCE@SWCNT 514nm';
+DATA_20240111.S240111N.N='SF TTF@SWCNT 514nm';
+DATA_20240111.S240111O.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111P.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111Q.N='SF PCE@SWCNT 514nm';
+DATA_20240111.S240111R.N='SF TEMED@SWCNT 514nm';
+DATA_20250131.SR1L514R.N='Dispersion SR1 - D2O@P2-SWCNTs - KVD';
+DATA_20250131.SWFL514R.N='Dispersion SWF - D2O@P2-SWCNTs (Salome)';
+DATA_20250131.S10L514R.N='Dispersion S10 - TMG@P2-SWCNTs';
+DATA_20250131.S11L514R.N='Dispersion S11 - TTF@P2-SWCNTs';
+DATA_20250131.SR0L514R.N='Dispersion SR0 - Empty@P2-SWCNTs';
+DATA_20250131.SR2L514R.N='Dispersion SR2 - MeOH@P2-SWCNTs';
+DATA_20240111.S240111E.N='SF TTF@SWCNT 514nm';
+DATA_20240111.S240111N.N='SF TTF@SWCNT 514nm';
+DATA_20250131.S11L514G.N='Dispersion S11 - TTF@P2-SWCNTs';
+DATA_20250131.S11L514R.N='Dispersion S11 - TTF@P2-SWCNTs';
+DATA_20250411.S11L476D.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
+DATA_20250411.S12L476D.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
+DATA_20250411.S13L476D.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
+DATA_20250411.S11L476G.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
+DATA_20250411.S12L476G.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
+DATA_20250411.S13L476G.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
+DATA_20250411.S11L476R.N='Dispersion S11 - TTF@P2-SWCNTs (Melt)';
+DATA_20250411.S12L476R.N='Dispersion S12 - TTF@P2-SWCNTs (Reflux)';
+DATA_20250411.S13L476R.N='Dispersion S13 - TTF@P2-SWCNTs (GasPhase)';
+DATA_20240514.EAL650D.N='Empty Arc SWCNTs';
+DATA_20240514.S3L650D.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S4L650D.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S5L650D.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S6L650D.N='CB Hexadecane@SWCNT Dial. DGU C (Filled) 650,06nm';
+DATA_20240514.S7L650D.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.WAL650D.N='Water Filled Arc SWCNTs';
+DATA_20240514.S2L650D.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.EAL650G.N='Empty Arc SWCNTs';
+DATA_20240514.S2L650G.N='CB PCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S3L650G.N='CB TCE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S4L650G.N='CB TEMED@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S5L650G.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.S6L650G.N='CB Hexadecane@SWCNT Dial. DGU C (Filled) 650,06nm';
+DATA_20240514.S7L650G.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
+DATA_20240514.WAL650G.N='Water Filled Arc SWCNTs';
 
-DATA_20250221.TDAE_V0.N = 'TDAE in Air, 22°C'
-DATA_20250221.TDAE_V1.N = 'TDAE in HV, 22°C'
-DATA_20250221.TDAE_V2_T1.N = 'TDAE in HV, 77°C'
-DATA_20250221.TDAE_V3_T2.N = 'TDAE in HV, 102°C'
-DATA_20250221.TDAE_V4_T3.N = 'TDAE in HV, 127°C'
-DATA_20250221.TDAE_V5_T4.N = 'TDAE in HV, 137°C'
-DATA_20250221.TDAE_V6_T5.N = 'TDAE in HV, 147C'
-DATA_20250221.TDAE_V7_T6.N = 'TDAE in HV, 167°C'
-DATA_20250221.TDAE_V8_T7.N = 'TDAE in HV, 177°C'
-DATA_20250221.TDAE_V9_T8.N = 'TDAE in HV, 88°C'
-DATA_20250221.TDAE_V10_T9.N = 'TDAE in HV, 22°C'
-DATA_20250221.TDAE_V11_A1.N= 'TDAE in Air, 22°C'
-DATA_20250221.TDAE_V12_A2.N = 'TDAE in Air, 22°C'
 
+%% All G vs Ref
 
-DATA_20250221.TDAE_V0.N = 'TDAE in Air, 22°C Initial'
-DATA_20250220.Hexadecane_Initial.N = 'Hexadecane in Air, 22°C Initial'
-DATA_20250220.Hexadecane_V18_A1.N = 'Hexadecane in Air, 22°C Final'
-DATA_20250221.TDAE_V12_A2.N = 'TDAE in Air, 22°C Final'
-
-%% %--------MANUAL CORRECTIONS--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% %--------BACKGROUND CORRECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% %--------SPECTRA SELECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%% #3DBRICKS
-
-FS4 = {
-% %     DATA_20250221.Baseline
-% %     DATA_20250221.Cryostat_Air
-    DATA_20250221.TDAE_V0
-%     DATA_20250221.TDAE_V1
-%     DATA_20250221.TDAE_V2_T1
-%     DATA_20250221.TDAE_V3_T2
-%     DATA_20250221.TDAE_V4_T3
-%     DATA_20250221.TDAE_V5_T4
-%     DATA_20250221.TDAE_V6_T5
-%     DATA_20250221.TDAE_V7_T6
-%     DATA_20250221.TDAE_V8_T7
-%     DATA_20250221.TDAE_V9_T8
-%     DATA_20250221.TDAE_V10_T9
-%     DATA_20250221.TDAE_V11_A1
-    DATA_20250221.TDAE_V12_A2
-%     DATA_20250305.TDAE_Air_11days
-     };
- 
-FS4 = FilterDataByXRange(FS4, 230, 2500);
-FS4 = matchSpectra(FS4, 900, 5);
-FS4 = matchSpectra(FS4, 1199, 5);
-% FS4 = Normalize(FS4,950, 1150, 'M');
-FS4 = BackgroundSubtraction(FS4, [350, 2500]);
-% FS4 = Normalize(FS4,910, 1290, 'M');
-% FS4 = RemovePolyBG(FS4, 0);
-
-FS4 = Normalize(FS4,240, 1316, 'M'); 
-
-plotAbsorption(FS4, 0);
-
-% FS6 = {
-% %         DATA_20250220.Baseline
-% %         DATA_20250220.Cryostat_Air
-%         DATA_20250220.Hexadecane_Initial
-% %         DATA_20250220.Hexadecane_V1
-% %         DATA_20250220.Hexadecane_V2
-% %         DATA_20250220.Hexadecane_V3
-%         DATA_20250220.Hexadecane_V4
-% %         DATA_20250220.Hexadecane_V5_T1
-%         DATA_20250220.Hexadecane_V6_T1
-% %         DATA_20250220.Hexadecane_V6_T2
-%         DATA_20250220.Hexadecane_V8_T2
-% %         DATA_20250220.Hexadecane_V9_T3
-%         DATA_20250220.Hexadecane_V10_T3
-% %         DATA_20250220.Hexadecane_V11_T4
-%         DATA_20250220.Hexadecane_V12_T4
-%         DATA_20250220.Hexadecane_V13_C1
-%         DATA_20250220.Hexadecane_V14_C2
-%         DATA_20250220.Hexadecane_V15_C3
-%         DATA_20250220.Hexadecane_V15_C4
-%         DATA_20250220.Hexadecane_V17_C5
-%         DATA_20250220.Hexadecane_V18_A1
-%     };
+close all;
+        
+% G = {
+% DATA_20250131.SR0L514G
+% DATA_20250131.SR1L514G
+% DATA_20250131.SR2L514G
+% DATA_20250131.SWFL514G
+% DATA_20250131.S10L514G
+% DATA_20250131.S11L514G
 % 
-% FS4 = {
-% %     DATA_20250221.Baseline
-% %     DATA_20250221.Cryostat_Air
-%     DATA_20250221.TDAE_V0
-% %     DATA_20250221.TDAE_V1
-% %     DATA_20250221.TDAE_V2_T1
-% %     DATA_20250221.TDAE_V3_T2
-% %     DATA_20250221.TDAE_V4_T3
-% %     DATA_20250221.TDAE_V5_T4
-% %     DATA_20250221.TDAE_V6_T5
-% %     DATA_20250221.TDAE_V7_T6
-% %     DATA_20250221.TDAE_V8_T7
-% %     DATA_20250221.TDAE_V9_T8
-% %     DATA_20250221.TDAE_V10_T9
-% %     DATA_20250221.TDAE_V11_A1
-%     DATA_20250221.TDAE_V12_A2
-%     DATA_20250305.TDAE_Air_11days
-%     };
+%        }; 
 % 
-% 
-% % plotMaxima(FS6, 960, 1060, 0.05);
-% 
-% % plotAbsorptionOrdered(FS6, 0.00);
+% G = FilterDataByXRange(G, 1260, 1660);           
+% G = RemovePolyBG(G, 0);
+% G = SubstractLinearBG(G, 1260, 1680);
+% G = Normalize(G, 1580, 1600, 'M');
 % % 
-% FS4 = FilterDataByXRange(FS4, 190, 2500);
-% FS4 = matchSpectra(FS4, 900, 5);
-% FS4 = matchSpectra(FS4, 1199, 5);
-% FS4 = Normalize(FS4,950, 1150, 'M');
+% plotRaman(G, 0.0, 514.5);     
 % 
-% FS6 = FilterDataByXRange(FS6, 190, 2500);
-% FS6 = matchSpectra(FS6, 900, 5);
-% FS6 = matchSpectra(FS6, 1199, 5);
-% FS6 = Normalize(FS6,950, 1150, 'M');
+% G = {
+% DATA_20250411.S11L476G
+% DATA_20250411.S12L476G
+% DATA_20250411.S13L476G
+% DATA_20250411.S14L476G
+% DATA_20250411.S15L476G
+% 
+% 
+%        }; 
+% 
+% G = FilterDataByXRange(G, 1260, 1660);           
+% G = RemovePolyBG(G, 0);
+% G = SubstractLinearBG(G, 1260, 1680);
+% G = Normalize(G, 1580, 1600, 'M');
 % % 
-% % plotAbsorption(FS4, 0.00);
-% % plotAbsorptionOrdered(FS4, 0.00);
+% plotRaman(G, 0.0, 476.5);     
+
+% R = {
 % 
-% FS4 = Normalize(FS4,950, 1150, 'M');
-% plotAbsorption(FS4, 0.00);
+% DATA_20250131.SR0L514R
+% DATA_20250131.SR1L514R
+% DATA_20250131.SR2L514R
+% DATA_20250131.SWFL514R
+% DATA_20250131.S10L514R
+% DATA_20250131.S11L514R
+%     }; 
 % 
-% % FS6 = Normalize(FS6,950, 1150, 'I');
-% % plotAbsorption(FS6, 0.00);
+% R= FlatFieldCorrection(R, DATA_20250131.FFL514R);           
+% R = FilterDataByXRange(R, 130, 228);           
+% R = RemovePolyBG(R, 1);
+% R = SubstractLinearBG(R, 130, 228);
+% R = Normalize(R, 140, 220, 'M');
 % 
-% % FS4 = ConvertedEnergy(FS4);
-% % plotAbsorptionOrdered(FS4, 0.1);
-% % plotMaxima(FS4, 960, 1060, 0.1);
+% plotRaman(R, 0.0, 514.5);     
 
-% FS6 = FilterDataByXRange(FS6, 190, 2500);
-% FS6 = matchSpectra(FS6, 900, 5);
-% FS6 = matchSpectra(FS6, 1199, 5);
-% FS6 = RemovePolyBG(FS6, 0);
-% FS6 = Normalize(FS6,950, 1150, 'M');
-% % FS6 = Normalize(FS6,906, 1380, 'I');
 % 
-% plotAbsorptionOrdered(FS6, 0.0001);
-% plotMaxima(FS6, 1600, 2120, 0.05);
-% plotMaxima(FS6, 960, 1060, 0.05);
+% R = {
+%     DATA_20250411.S11L476R
+%     DATA_20250411.S12L476R
+%     DATA_20250411.S13L476R
+%     DATA_20250411.S14L476R
+%     DATA_20250411.S15L476R
+% 
+%     }; 
+% 
+% R = FilterDataByXRange(R, 130, 228);           
+% R = RemovePolyBG(R, 1);
+% R = SubstractLinearBG(R, 130, 228);
+% R = Normalize(R, 140, 220, 'M');
+% 
+% plotRaman(R, 0.0, 476.5);     
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Analysis on S11/S22 ratio
+% DD= {
+% 
+% }; 
 
-% FS4 = BackgroundSubtractionWithSpecifiedPoints(FS4, [611, 826, 1300]);
-% plotAbsorption(FS4,0);
-% calculateS11S22(FS4, 960, 1060, 1600, 2120, 0.1)
-% calculateS11S22(FS6, 960, 1060, 1600, 2120, 0.1)
+% DD = FilterDataByXRange(DD, 2500, 2835);           
+% DD = RemovePolyBG(DD, 0);
+% DD = SubstractLinearBG(DD, 2500, 2835);
+% DD = Normalize(DD, 2500, 2700, 'M');
+% 
+% close all
+% plotRaman(DD, 0.20, 514);     
 
 
-function calculateS11S22(F, x11_min, x11_max, x22_min, x22_max, offset)
-    % Store values for plotting
-    categories = {};  % Stores qualitative values from DS.N
-    ratios = [];      % Stores computed S11/S22 ratios
 
-    % First Figure: Ratio vs DS.N
+
+%% DOPING VECTORS
+
+
+% FITTEDD = FitSamples(DD, 2680)
+% 
+% FD = zeros(1, length(FITTEDD));
+% for i=1:length(FITTEDD)
+% %    FITTED{i}.N
+%    FD(i) = FITTEDD{i}.F.Params(2)-FITTEDD{1}.F.Params(2);
+%    FD(i) = FITTEDD{i}.F.Params(2);
+% end
+% 
+% 
+% % FITTED
+% FITTEDG = FitSamples(G, 1592)
+% FG = zeros(1, length(FITTEDG));
+% NG = cell(1, length(FITTEDG));
+% 
+% for i=1:length(FITTEDG)
+% %    FITTED{i}.N
+%    FG(i) = FITTEDG{i}.F.Params(2)-FITTEDG{1}.F.Params(2);
+%    FG(i) = FITTEDG{i}.F.Params(2);
+%    NG{i} = num2str(FITTEDG{i}.N);
+% end
+% 
+% plot(FG,FD)
+% scatter(FG,FD, 50, 'k','d', 'filled')
+% text(FG, FD, NG, 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right', 'FontSize', 8);
+% xlim([1590, 1593]);
+% ylim([2660, 2697]);
+% ylabel('2D Band (cm-1)')
+% xlabel('G Band (cm-1)')
+% 
+% %%%% FITTING V2
+% 
+% % FITTEDG = FitSamples(G, 1592);
+% FITTEDG = FitSamples(G, [1550,1560,1590]);
+% 
+% FITTEDD = FitSamples(DD, 2680)
+% 
+% numSamples = length(FITTEDG);
+% FG = zeros(1, numSamples);
+% FD = zeros(1, numSamples);
+% NG = cell(1, numSamples);
+% 
+% % Extract data
+% for i = 1:numSamples
+%     FG(i) = FITTEDG{i}.F.Params(2);
+%     FD(i) = FITTEDD{i}.F.Params(2);  % Assuming you want FD values too
+%     NG{i} = num2str(FITTEDG{i}.N);   % Sample names
+% end
+% 
+% % Assign unique colors
+% colors = lines(numSamples);  % Or use: jet(numSamples), hsv(numSamples), etc.
+% 
+% figure; hold on;
+% for i = 1:numSamples
+%     scatter(FG(i), FD(i), 50, colors(i,:), 'd', 'filled', 'DisplayName', NG{i});
+% end
+% 
+% xlim([1590, 1593]);
+% ylim([2660, 2697]);
+% ylabel('2D Band (cm^{-1})');
+% xlabel('G Band (cm^{-1})');
+% legend();  % Adjust legend location as needed
+% title('Doping Vectors');
+% 
+% 
+% 
+% %%%%
+% 
+% plotRamanFits(FITTEDG,0.3)
+
+%% FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function plotRamanFits(SamplesToPlot, offset)
+    % Create a figure for the plot
     figure;
-    hold on;
-
-    for i = 1:length(F)
-        DS = F{i}; % Use a single dataset
-
-        % Filter data within the specified region
-        idx_range11 = (DS.X >= x11_min) & (DS.X <= x11_max);
-        X11_fit = DS.X(idx_range11);
-        Y11_fit = DS.Y(idx_range11);
-        
-        idx_range22 = (DS.X >= x22_min) & (DS.X <= x22_max);
-        X22_fit = DS.X(idx_range22);
-        Y22_fit = DS.Y(idx_range22);
-        
-        % Fit a Lorentzian model to the selected data
-        lorentzEqn = 'a / (1 + ((x-b)/c)^2) + d';
-        
-        startPoints11 = [max(Y11_fit), mean(X11_fit), std(X11_fit), min(Y11_fit)];
-        startPoints22 = [max(Y22_fit), mean(X22_fit), std(X22_fit), min(Y22_fit)];
-
-        fitResult11 = fit(X11_fit, Y11_fit, lorentzEqn, 'Start', startPoints11);
-        fitResult22 = fit(X22_fit, Y22_fit, lorentzEqn, 'Start', startPoints22);
-
-        % Extract peak values from fits
-        max_x11 = fitResult11.b;
-        max_val11 = fitResult11.a + fitResult11.d;
-        
-        max_x22 = fitResult22.b;
-        max_val22 = fitResult22.a + fitResult22.d;
-
-        % Compute S11/S22 ratio
-        ratio = max_val11 / max_val22;
-
-        % Store qualitative variable (DS.N) and computed ratio
-        categories{end+1} = DS.N;
-        ratios(end+1) = ratio;
-    end
-
-    % Convert categories to a categorical variable
-    categories = categorical(categories);
-
-    % Plot the ratio vs DS.N
-    scatter(categories, ratios, 'ro', 'filled');
-    xlabel('DS.N (Qualitative)');
-    ylabel('S11/S22 Ratio');
-    title('S11/S22 Ratio vs. DS.N');
-    grid on;
-    hold off;
-
-    % Second Figure: Spectra with peak markers
-    figure;
-    hold on;
-
-    for i = 1:length(F)
-        DS = F{i}; % Use a single dataset
-
-        % Apply offset to Y values
-        DS.Y = DS.Y - (i - 1) * offset;
-
-        % Filter data within the specified region
-        idx_range11 = (DS.X >= x11_min) & (DS.X <= x11_max);
-        X11_fit = DS.X(idx_range11);
-        Y11_fit = DS.Y(idx_range11);
-        
-        idx_range22 = (DS.X >= x22_min) & (DS.X <= x22_max);
-        X22_fit = DS.X(idx_range22);
-        Y22_fit = DS.Y(idx_range22);
-
-        % Fit a Lorentzian model to the selected data
-        lorentzEqn = 'a / (1 + ((x-b)/c)^2) + d';
-        
-        startPoints11 = [max(Y11_fit), mean(X11_fit), std(X11_fit), min(Y11_fit)];
-        startPoints22 = [max(Y22_fit), mean(X22_fit), std(X22_fit), min(Y22_fit)];
-
-        fitResult11 = fit(X11_fit, Y11_fit, lorentzEqn, 'Start', startPoints11);
-        fitResult22 = fit(X22_fit, Y22_fit, lorentzEqn, 'Start', startPoints22);
-
-        % Extract peak values from fits
-        max_x11 = fitResult11.b;
-        max_val11 = fitResult11.a + fitResult11.d;
-        
-        max_x22 = fitResult22.b;
-        max_val22 = fitResult22.a + fitResult22.d;
-
-        % Plot the spectra
-        plot(DS.X, DS.Y, '-', 'DisplayName', sprintf('Spectrum %d', i));
-
-        % Mark the peaks
-        plot(max_x11, max_val11, 'ro', 'MarkerSize', 8, 'LineWidth', 2);
-        plot(max_x22, max_val22, 'bo', 'MarkerSize', 8, 'LineWidth', 2);
-    end
-
-    xlabel('X');
-    ylabel('Y');
-    title('Spectra with Peak Markers');
-%     legend show;
-    grid on;
-    hold off;
-end
-
-
-function plotMaxima(FS6, x_min, x_max, offset)
-    figure; hold on;
-    for i = 1:length(FS6)
-        DS = FS6{i};
-        
-        % Apply offset to Y values
-        DS.Y = DS.Y - (i - 1) * offset;
-        
-        % Filter data within the specified region
-        idx_range = (DS.X >= x_min) & (DS.X <= x_max);
-        X_fit = DS.X(idx_range);
-        Y_fit = DS.Y(idx_range);
-        
-        % Fit a Lorentzian model to the selected data
-        lorentzEqn = 'a / (1 + ((x-b)/c)^2) + d';
-        startPoints = [max(Y_fit), mean(X_fit), std(X_fit), min(Y_fit)];
-        fitResult = fit(X_fit, Y_fit, lorentzEqn, 'Start', startPoints);
-        
-        % Find the peak from the fit
-        max_x = fitResult.b;
-        max_val = fitResult.a / (1 + ((max_x - fitResult.b)/fitResult.c)^2) + fitResult.d;
-        
-        % Plot the spectrum
-        plot(DS.X, DS.Y, '-');
-        
-        % Mark the maximum point
-        plot(max_x, max_val, 'ro', 'MarkerSize', 8, 'LineWidth', 2);
-    end
-    hold off;
-end
-
-
-
-% FS6 = ConvertedEnergy(FS6);
-% plotAbsorptionOrdered(FS6, 0);
-
-
-% FS7 = NormalizeSample(FS7,902, 1300); 
-% FS7 = RemovePolyBG(FS7, 0);
-% FS7 = NormalizeSample(FS7,902, 1300); 
-
-
-
-% close;
-% backgr = [330, 610, 840, 1320, 2500];
-% backgr = [330,610, 1311, 2500];
-
-% FS4 = BackgroundSubtractionExcludeRanges(FS4, [[620,800], [900, 1220], [1578, 2260]]);
-% FS4 = BackgroundSubtractionWithSpecifiedPoints(FS4, backgr);
-% FS4 = Normalize(FS4,902, 1300, 'I'); 
-% plotAbsorptionOrdered(FS4, 0);
-
-% plotAbsorptionOrdered(FS4, 0);
-% FS4 = FilterDataByXRange(FS4, 0, 2520);
-% FS4 = BackgroundSubtraction(FS4, [500, 2600]);
-% FS4 = Normalize(FS4,910, 1290, 'M'); 
-% % plotAbsorptionOrdered(FS4, 0);
-% 
-% % Define los límites del rango
-% x_min = 800;
-% x_max = 860;
-
-% Itera sobre cada dataset en la lista
-
-
-% plotAbsorptionOrdered(FS4, 0);
-
-% Define the list of datasets
-
-% FS7 = FilterDataByXRange(FS7, 0, 2520);
-% FS7 = BackgroundSubtraction(FS7, [500, 2500]);
-% FS7 = Normalize(FS7,902, 1300, 'M'); 
-% plotAbsorptionOrdered(FS7, 0);
-
-
-%RIGHT PARAMETERS!! - Dont modify
-% plotAbsorptionOrdered(FS7, 0);
-
-% FS7 = FilterDataByXRange(FS7, 0, 2520);
-% FS7 = BackgroundSubtraction(FS7, [250, 2500]);
-% FS7 = Normalize(FS7,902, 1300, 'M'); 
-% plotAbsorptionOrdered(FS7, 0);
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function FS6 = matchSpectra(FS6, x0, delta)
-    for i = 1:length(FS6)
-        DS = FS6{i};
-        
-        % Definir los rangos izquierdo y derecho alrededor de x0
-        idx_left = (DS.X >= (x0 - delta)) & (DS.X <= x0);
-        idx_right = (DS.X >= x0) & (DS.X <= (x0 + delta));
-        
-        % Calcular los promedios de Y en cada región
-        mean_left = mean(DS.Y(idx_left));
-        mean_right = mean(DS.Y(idx_right));
-        
-        % Calcular el ajuste necesario
-        adjustment = mean_right - mean_left;
-        
-        % Aplicar el ajuste a la parte izquierda o derecha (puedes cambiar esto según necesites)
-%         DS.Y(DS.X < x0) = DS.Y(DS.X < x0) + adjustment;
-          DS.Y(DS.X > x0) = DS.Y(DS.X > x0) - adjustment;
-        
-        % Guardar los cambios en el dataset actual
-        FS6{i} = DS;
-    end
-end
-
-function DS_list = ConvertedEnergy(DS_list)
-    h = 4.135667696e-15; % Planck's constant in eV*s
-    c = 299792458; % Speed of light in m/s
     
-    for i = 1:length(DS_list)
-        DS = DS_list{i};
-        
-        % Convert wavelength (nm) to energy (eV)
-        DS.X = (h * c) ./ (DS.X * 1e-9);
-        
-        % Store the converted dataset
-        DS_list{i} = DS;
-    end
-end
+    for sampleIdx = 1:length(SamplesToPlot)
+        currentSample = SamplesToPlot{sampleIdx};
 
+        % Get sample data
+        X = currentSample.X;
+        Y = currentSample.Y - offset * sampleIdx;
+        N = currentSample.N;
+        fitCurve = currentSample.F.Fit - offset * sampleIdx;
+        fitParams = currentSample.F.Params;
+        numPeaks = size(fitParams, 2);
+
+        % Plot original spectrum with offset
+        plot(X, Y, 'DisplayName', N, 'LineWidth', 1.3);
+        hold on;
+
+        % Plot fitted curve
+        plot(X, fitCurve, 'k', 'LineWidth', 1.5, 'DisplayName', sprintf('%s - Fit', N));
+
+        % Plot individual Lorentzian peaks with offset
+        for j = 1:numPeaks
+            amp = fitParams(1, j);
+            pos = fitParams(2, j);
+            width = fitParams(3, j);
+            peakCurve = amp ./ ((X - pos).^2 + width) - offset * sampleIdx;
+            plot(X, peakCurve, 'r--', 'LineWidth', 1, ...
+                'HandleVisibility', 'off'); % Don't crowd the legend
+        end
+    end
+
+    % Labels and final formatting
+    xlabel('Raman Shift (cm^{-1})', 'FontSize', 14);
+    ylabel('Intensity (a.u.)', 'FontSize', 14);
+    title('Raman Spectra with Multi-Lorentzian Fits', 'FontSize', 14);
+    legend('show', 'FontSize', 11);
+    grid on;
+    hold off;
+end
 function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
     % BackgroundSubtractionExcludeRanges performs background subtraction using the Naumov model,
     % excluding specified ranges from the background fit.
@@ -523,7 +474,6 @@ function DSListOut = BackgroundSubtractionExcludeRanges(DSList, excludeRanges)
 %         hold off;
     end
 end
-
 function DSListOut = BackgroundSubtractionWithSpecifiedPoints(DSList, bgPoints)
     % BackgroundSubtractionWithSpecifiedPoints performs background subtraction using the Naumov model,
     % fitting the background based on user-specified X-values (bgPoints).
@@ -608,7 +558,6 @@ function DSListOut = BackgroundSubtractionWithSpecifiedPoints(DSList, bgPoints)
 %         hold off;
     end
 end
-
 function DSListOut = BackgroundSubtraction(DSList, range)
     % DSList is the input array of data structures with fields X and Y
     
@@ -668,7 +617,6 @@ function DSListOut = BackgroundSubtraction(DSList, range)
         delete('temp_data.txt');
     end
 end
-
 function err = Naumov(x) % Calculates the difference between the absorption data and the background. The MATLAB function "fmincon" tries to minimize this difference by fitting x(1)=A and x(2)=b
 
 A=dlmread('temp_data.txt');
@@ -676,7 +624,6 @@ c = A(:,2)-x(1)*exp(-x(2).*A(:,1));
 err = double(sum(c));
 
 end
-
 function [c,ceq] = conf_naumov(x) % Constraint function, that forces the background to be smaller than the absorption data for every single wavelength
 
 A=dlmread('temp_data.txt');
@@ -685,7 +632,6 @@ c = double(x(1)*exp(-x(2).*A(:,1))-A(:,2));
 % Nonlinear equality constraints
 ceq = [];
 end
-
 function filteredSamples = FilterDataByXRange(samplesToFilter, xMin, xMax)
     % FilterDataByXRange filters the data of each sample to include only the points within the specified X-range.
     %
@@ -714,7 +660,6 @@ function filteredSamples = FilterDataByXRange(samplesToFilter, xMin, xMax)
         filteredSamples{sampleIdx} = filteredSample;
     end
 end
-
 function SpectraList = RemoveBackgroundProfile(SpectraList, Xpoints)
     % Inicializar matrices para almacenar X y Y del fondo
     for i = 1:length(SpectraList)
@@ -754,7 +699,6 @@ function SpectraList = RemoveBackgroundProfile(SpectraList, Xpoints)
         SpectraList{i} = sample;  % Actualizar la lista de espectros
     end
 end
-
 function DSList = RemovePolyBG(DSList, degree)
     % Remove baseline from a list of data structures using polynomial fitting
     % DSList: list of structures, each with fields X (Raman shift) and Y (intensity)
@@ -769,7 +713,7 @@ function DSList = RemovePolyBG(DSList, degree)
         Y = DS.Y;  % Intensity values
         
         % Identify regions to exclude based on peak detection
-        % Findpeaks
+        % You can implement your own peak detection logic here or use findpeaks
         [pks, locs] = findpeaks(Y, 'MinPeakHeight', 0.05, 'MinPeakDistance', 10);
         
         % Create a mask for excluding the peak regions
@@ -793,9 +737,11 @@ function DSList = RemovePolyBG(DSList, degree)
         DS.Y = Y_corrected;
         
         % Optionally, display the polynomial coefficients for debugging
-        disp(['Structure ', num2str(i), ' Polynomial Coefficients: ', num2str(p)]);
+%         disp(['Structure ', num2str(i), ' Polynomial Coefficients: ', num2str(p)]);
         
         % Save the updated structure back to the list
         DSList{i} = DS;
     end
 end
+
+

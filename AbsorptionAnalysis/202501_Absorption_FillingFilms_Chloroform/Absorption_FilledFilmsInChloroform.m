@@ -43,66 +43,83 @@ DATA_20250128.F7_Dodecane.N = 'Dodecane@SWCNTs - After TCM'
 %% %--------SPECTRA SELECTION--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-FB = {
-        DATA_20250127.F2_PCE
-        DATA_20250127.F3_TCE
-        DATA_20250127.F4_TEMED
-        DATA_20250127.F5_TDAE
-        DATA_20250127.F6_Hexadecane
-        DATA_20250127.F7_Dodecane
-
-    };
+% FB = {
+%         DATA_20250127.F2_PCE
+%         DATA_20250127.F3_TCE
+%         DATA_20250127.F4_TEMED
+%         DATA_20250127.F5_TDAE
+%         DATA_20250127.F6_Hexadecane
+%         DATA_20250127.F7_Dodecane
+% 
+%     };
 
 % FB = FilterDataByXRange(FB, 230, 2500);
 % FB = BackgroundSubtraction(FB, [300,2600]);
 % FB = Normalize(FB, 600, 820, 'M');
 % plotAbsorption(FB, 0);
 
-FA = {
-        DATA_20250128.F2_PCE
-        DATA_20250128.F3_TCE
-        DATA_20250128.F4_TEMED
-        DATA_20250128.F5_TDAE_a
-        DATA_20250128.F6_Hexadecane
-        DATA_20250128.F7_Dodecane
-        };
+% FA = {
+%         DATA_20250128.F2_PCE
+%         DATA_20250128.F3_TCE
+%         DATA_20250128.F4_TEMED
+%         DATA_20250128.F5_TDAE_a
+%         DATA_20250128.F6_Hexadecane
+%         DATA_20250128.F7_Dodecane
+%         };
   
 % FA = FilterDataByXRange(FA, 230, 2500);
 % FA = BackgroundSubtraction(FA, [300,2600]);
 % FA = Normalize(FA, 600, 820, 'M');
 % plotAbsorption(FA, 0);
 
+% FILMS = {
+%         DATA_20250127.F2_PCE
+%         DATA_20250127.F3_TCE
+%         DATA_20250127.F4_TEMED
+%         DATA_20250127.F5_TDAE
+%         DATA_20250127.F6_Hexadecane
+%         DATA_20250127.F7_Dodecane
+%         
+%         DATA_20250128.F2_PCE
+%         DATA_20250128.F3_TCE
+%         DATA_20250128.F4_TEMED
+%         DATA_20250128.F5_TDAE_a
+%         DATA_20250128.F6_Hexadecane
+%         DATA_20250128.F7_Dodecane
+%         };
+
 FILMS = {
-        DATA_20250127.F2_PCE
-        DATA_20250127.F3_TCE
-        DATA_20250127.F4_TEMED
+%         DATA_20250127.F2_PCE
+%         DATA_20250127.F3_TCE
+%         DATA_20250127.F4_TEMED
         DATA_20250127.F5_TDAE
-        DATA_20250127.F6_Hexadecane
-        DATA_20250127.F7_Dodecane
+%         DATA_20250127.F6_Hexadecane
+%         DATA_20250127.F7_Dodecane
         
-        DATA_20250128.F2_PCE
-        DATA_20250128.F3_TCE
-        DATA_20250128.F4_TEMED
+%         DATA_20250128.F2_PCE
+%         DATA_20250128.F3_TCE
+%         DATA_20250128.F4_TEMED
         DATA_20250128.F5_TDAE_a
-        DATA_20250128.F6_Hexadecane
-        DATA_20250128.F7_Dodecane
+%         DATA_20250128.F6_Hexadecane
+%         DATA_20250128.F7_Dodecane
         };
 
-
 FILMS = FilterDataByXRange(FILMS, 230, 2500);
+FILMS = BackgroundSubtraction(FILMS, [300,2300]);
 FILMS = RemovePolyBG(FILMS, 0);
-FILMS = Normalize(FILMS, 230,1280, 'I');
+FILMS = Normalize(FILMS, 250,1300, 'M');
+% FILMS = Normalize(FILMS, 400, 1300, 'M');
 
+plotAbsorption(FILMS, 0);
 
 % FILMS = BackgroundSubtraction(FILMS, [300,2600]);
 % FILMS = Normalize(FILMS, 400, 1300, 'M');
 
-ofs = 1;
-for i=6:12
-%     FILMS{i}.Y = FILMS{i}.Y    
-end
-
-plotAbsorption(FILMS, 0);
+% ofs = 1;
+% for i=6:12
+% %     FILMS{i}.Y = FILMS{i}.Y    
+% end
+% 
 
 
 % plotAbsorption(FILMS,0);

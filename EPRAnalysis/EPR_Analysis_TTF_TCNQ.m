@@ -129,11 +129,13 @@ EPR_TCNQ= {
 %             DATA_20250806.S060825I  %R23F@75K
 %             DATA_20250806.S060825J  %R23F@100K
 
-%             DATA_20250806.S060825K  %R23C@2K
+            DATA_20250806.S060825K  %R23C@2K
             
             DATA_20250806.S060825Q  %TCNQ (old)
-%             DATA_20250806.S060825R  %TCNQ (new)
+            DATA_20250806.S060825R  %TCNQ (new)
         };
+    
+plotEPR(EPR_TCNQ,0)
 
 EPR_TTF= {
 %             DATA_20250806.S060825A  %REF-AnnP2
