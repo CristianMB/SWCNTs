@@ -181,6 +181,26 @@ DATA_20240514.S5L650G.N='CB TDAE@SWCNT Dial. DGU C (Filled)';
 DATA_20240514.S6L650G.N='CB Hexadecane@SWCNT Dial. DGU C (Filled) 650,06nm';
 DATA_20240514.S7L650G.N='CB Dodecane@SWCNT Dial. DGU C (Filled)';
 DATA_20240514.WAL650G.N='Water Filled Arc SWCNTs';
+DATA_20250918.LL514A.N='Laser';
+DATA_20250918.B3L514G.N='Batch 3 - Annealed P2-SWCNTs';
+DATA_20250918.SF1L514G.N='Salome TTF@P2-SWCNTs by Vac. Infil (SF1)';
+DATA_20250918.HS1L514G.N='Salome TTF@P2-SWCNTs by Vac. Infil (HS1)';
+DATA_20250918.HS2L514G.N='Salome TTF@P2-SWCNTs by Vac. Infil (HS2)';
+DATA_20250918.B3L514D.N='Batch 3 - Annealed P2-SWCNTs';
+DATA_20250918.SF1L514D.N='Salome TTF@P2-SWCNTs by Vac. Infil (SF1)';
+DATA_20250918.HS1L514D.N='Salome TTF@P2-SWCNTs by Vac. Infil (HS1)';
+DATA_20250918.HS2L514D.N='Salome TTF@P2-SWCNTs by Vac. Infil (HS2)';
+DATA_20250828.LL514A.N='Laser';
+DATA_20250828.S17R514G.N='S17 Rinsed, dispersed - TTF@P2-SWCNTs (GP)';
+DATA_20250828.S17R514R.N='S17 Rinsed, dispersed - TTF@P2-SWCNTs (GP)';
+DATA_20250828.S18E514G.N='S18E Rinsed, dispersed - TCNQ@P2-SWCNTs (GP)';
+DATA_20250828.S21D514G.N='S21D Rinsed, dispersed - TTF@P2-SWCNTs (M)';
+DATA_20250828.S21D514R.N='S21D Rinsed, dispersed - TTF@P2-SWCNTs (M)';
+DATA_20250828.S22U514G.N='S22 Unrinsed, dispersed - TTF@P2-SWCNTs (R)';
+DATA_20250828.S22U514R.N='S22 Unrinsed, dispersed - TTF@P2-SWCNTs (R)';
+DATA_20250828.S23F514G.N='S23F Rinsed, dispersed - TCNQ@P2-SWCNTs (GP)';
+DATA_20250828.SB3L514G.N='Batch 3 - Annealed P2-SWCNTs solubilized, D2O filled';
+DATA_20250828.SB3L514R.N='Batch 3 - Annealed P2-SWCNTs solubilized, D2O filled';
 
 
 %% All G vs Ref
@@ -209,9 +229,9 @@ G = {
         DATA_20250828.S17R514G
         DATA_20250828.S21D514G
         DATA_20250828.S22U514G
-        
-        DATA_20250828.S18E514G
-        DATA_20250828.S23F514G
+%         
+%         DATA_20250828.S18E514G
+%         DATA_20250828.S23F514G
     }; 
 
 G = FilterDataByXRange(G, 1260, 1660);           
@@ -245,8 +265,7 @@ R = {
         DATA_20250828.S17R514R
         DATA_20250828.S21D514R
         DATA_20250828.S22U514R
-       
-
+      
     }; 
 
 R = FilterDataByXRange(R, 130, 228);           
@@ -254,7 +273,7 @@ R = RemovePolyBG(R, 1);
 R = SubstractLinearBG(R, 130, 228);
 R = Normalize(R, 140, 220, 'M');
 
-plotRaman(R, 0.25, 514.5);     
+% plotRaman(R, 0.0, 514.5);     
 
 
 % DD= {

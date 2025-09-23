@@ -182,12 +182,12 @@ AllCF = {
 % AllCF = RemoveBackgroundProfile(AllCF, [300, 615, 870, 1300]);
 % AllCF = Abs_MatchSpectra(AllCF, [1350,1450]);
 
-% AllCF = Normalize(AllCF, 250, 1200, 'M');
-% % AllCF = Normalize(AllCF, 914, 1200, 'M');
+AllCF = Normalize(AllCF, 250, 1200, 'M');
 % AllCF = Normalize(AllCF, 914, 1200, 'M');
-% % AllCF = RemovePolyBG(AllCF, 0)
-% AllCF = Abs_InverseLambdaFixeddd(AllCF, 300)
-% plotAbsorption(AllCF, 0.0)
+AllCF = Normalize(AllCF, 914, 1200, 'M');
+% AllCF = RemovePolyBG(AllCF, 0)
+AllCF = Abs_InverseLambdaFixeddd(AllCF, 300)
+plotAbsorption(AllCF, 0.0)
 
 % DATA_20250617.TCNQ_Chloroform_30 = FilterDataByXRange(DATA_20250617.TCNQ_Chloroform_30, 240, 500);
 % close all
@@ -197,22 +197,22 @@ AllCF = {
 %% DGU
 
 DGU = {
-        DATA_20250819.R21D_DGU_A_1
-        DATA_20250819.R21D_DGU_B_1
-        DATA_20250819.R21D_DGU_C_1
-        DATA_20250819.R21D_DGU_D_1
-        DATA_20250819.R21D_DGU_E_1
-        DATA_20250819.R21D_DGU_F_1
-        DATA_20250819.R21D_DGU_G_1
+%         DATA_20250819.R21D_DGU_A_1
+%         DATA_20250819.R21D_DGU_B_1
+%         DATA_20250819.R21D_DGU_C_1
+%         DATA_20250819.R21D_DGU_D_1
+%         DATA_20250819.R21D_DGU_E_1
+%         DATA_20250819.R21D_DGU_F_1
+%         DATA_20250819.R21D_DGU_G_1
 
-        DATA_20250819.R17_DGU_A_1
-        DATA_20250819.R17_DGU_B_1
-        DATA_20250819.R17_DGU_C_1
-        DATA_20250819.R17_DGU_D_1
-        DATA_20250819.R17_DGU_E_1
-        DATA_20250819.R17_DGU_F_1
-        DATA_20250819.R17_DGU_G_1
-
+%         DATA_20250819.R17_DGU_A_1
+%         DATA_20250819.R17_DGU_B_1
+%         DATA_20250819.R17_DGU_C_1
+%         DATA_20250819.R17_DGU_D_1
+%         DATA_20250819.R17_DGU_E_1
+%         DATA_20250819.R17_DGU_F_1
+%         DATA_20250819.R17_DGU_G_1
+% 
         DATA_20250819.U22_DGU_A_1
         DATA_20250819.U22_DGU_B_1
         DATA_20250819.U22_DGU_C_1
@@ -220,17 +220,17 @@ DGU = {
         DATA_20250819.U22_DGU_E_1
         DATA_20250819.U22_DGU_F_1
         DATA_20250819.U22_DGU_G_1
-
-        DATA_20250819.R23F_DGU_A_1
-        DATA_20250819.R23F_DGU_B_1
-        DATA_20250819.R23F_DGU_C_1
-        DATA_20250819.R23F_DGU_D_1
-        DATA_20250819.R23F_DGU_E_1
-        DATA_20250819.R23F_DGU_F_1
-        DATA_20250819.R23F_DGU_G_1
 % 
-%         DATA_References.WaterFilled
-%         DATA_References.empty_P2_dial_0930
+%         DATA_20250819.R23F_DGU_A_1
+%         DATA_20250819.R23F_DGU_B_1
+%         DATA_20250819.R23F_DGU_C_1
+%         DATA_20250819.R23F_DGU_D_1
+%         DATA_20250819.R23F_DGU_E_1
+%         DATA_20250819.R23F_DGU_F_1
+%         DATA_20250819.R23F_DGU_G_1
+% 
+        DATA_References.WaterFilled
+        DATA_References.empty_P2_dial_0930
        };
    
 % DGU = FilterDataByXRange(DGU, 350, 2500);
@@ -247,7 +247,7 @@ DGU = {
 % 
 
 % close all
-plotAbsorption(DGU, 0.1)
+plotAbsorption(DGU, 0.05)
   
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
