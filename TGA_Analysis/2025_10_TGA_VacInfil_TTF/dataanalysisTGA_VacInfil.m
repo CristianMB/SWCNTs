@@ -1,13 +1,15 @@
 clear all; close all;
 % read in data and plot
-load dataTGA.mat
+load dataTGA_new.mat
+
 DTGA=TGA;
 DTGA(:,2)=gradient(TGA(:,2),TGA(:,1));
 DTGA(:,4)=gradient(TGA(:,4),TGA(:,3));
 DTGA(:,6)=gradient(TGA(:,6),TGA(:,5));
+DTGA(:,8)=gradient(TGA(:,8),TGA(:,7));
 
-X1=DTGA(600:end,1);
-Y1=-datasmooth(DTGA(600:end,2),5,'binom')
+X1=DTGA(600:4621,1);
+Y1=-datasmooth(DTGA(600:4621,2),5,'binom')
 N1=4;
 Center=[203 596 628 729];
 fwhm=[62 84 46 118];
@@ -18,8 +20,8 @@ LB=[Center-10 fwhm*0.5];
 [FIT1,L1,A1]=FitGaussians(result1,X1,N1,Y1);
 
 %
-X2=DTGA(600:end,5);
-Y2=-datasmooth(DTGA(600:end,6),3,'binom')
+X2=DTGA(600:4621,5);
+Y2=-datasmooth(DTGA(600:4621,6),3,'binom')
 N2=5;
 Center=[259 440 594 620 721];
 fwhm=[95 181 101 52 122];
@@ -29,8 +31,8 @@ LB2=[Center-10 fwhm*0.5];
 [result2]=lsqcurvefit(@(x02,X2) FitGaussians(x02,X2,N2,Y2),x02,X2,Y2,LB2,UB2);
 [FIT2,L2,A2]=FitGaussians(result2,X2,N2,Y2);
 
-X3=DTGA(600:end,3);
-Y3=-datasmooth(DTGA(600:end,4),3,'binom')
+X3=DTGA(600:4621,3);
+Y3=-datasmooth(DTGA(600:4621,4),3,'binom')
 N3=5;
 Center=[246 260 342 545 685];
 fwhm=[16 15 80  99 88];
@@ -40,7 +42,51 @@ LB3=[Center-10 fwhm*0.5];
 [result3]=lsqcurvefit(@(x03,X3) FitGaussians(x03,X3,N3,Y3),x03,X3,Y3,LB3,UB3);
 [FIT3,L3,A3]=FitGaussians(result3,X3,N3,Y3);
 
+% X3=DTGA(600:end,3);
+% Y3=-datasmooth(DTGA(600:end,4),3,'binom')
+% N3=5;
+% Center=[246 260 342 545 685];
+% fwhm=[16 15 80  99 88];
+% x03=[Center fwhm];
+% UB3=[Center+10 fwhm*2];
+% LB3=[Center-10 fwhm*0.5];
+% [result3]=lsqcurvefit(@(x03,X3) FitGaussians(x03,X3,N3,Y3),x03,X3,Y3,LB3,UB3);
+% [FIT3,L3,A3]=FitGaussians(result3,X3,N3,Y3);
+
+
 %%
+
+%% --- Sample 4: Plot TGA and DTGA ---
+% Extract the 4th sample columns
+T4_temp = TGA(:,7);       % Temperature
+T4_weight = TGA(:,8);     % Weight
+DTGA4 = gradient(T4_weight, T4_temp);  % DTGA
+
+% Optional: smooth DTGA
+Y4 = -datasmooth(DTGA4, 3, 'binom');
+
+% Plot
+figure(2); clf; set(gcf,'color','w')
+
+subplot(2,1,1)  % TGA
+plot(T4_temp, T4_weight, 'k', 'LineWidth', 2);
+xlabel('Temperature (°C)')
+ylabel('Weight Loss (%)')
+title('Sample 4 TGA')
+xlim([min(T4_temp) max(T4_temp)])
+ylim([0 max(T4_weight)*1.1])
+set(gca,'TickDir','in','XMinorTick','on','YMinorTick','on','LineWidth',1.5,'FontSize',12)
+
+subplot(2,1,2)  % DTGA
+plot(T4_temp, -DTGA4, 'k', 'LineWidth', 2);
+xlabel('Temperature (°C)')
+ylabel('DTGA (a.u.)')
+title('Sample 4 DTGA')
+xlim([min(T4_temp) max(T4_temp)])
+ylim([min(Y4)*1.1 max(Y4)*1.1])
+set(gca,'TickDir','in','XMinorTick','on','YMinorTick','on','LineWidth',1.5,'FontSize',12)
+
+
 
 % plot
 figure(1);clf;set(gcf,'color','w','Position',[50 50 800 700])
@@ -80,6 +126,8 @@ ylim([0 110])
 
 subplot(3,2,4)
 plot(X2,Y2,'k','LineWidth',2);  hold on;
+plot(T4_temp, -DTGA4, 'c', 'LineWidth', 2);
+
 for i=1:N2
     if i==1
         plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'r','LineWidth',3)
@@ -88,18 +136,23 @@ for i=1:N2
     else
     plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
     end
-    end
+end
+    
+% plot(T4_temp, T4_weight, 'c', 'LineWidth', 2);  hold on;
+
 plot(X2,FIT2,'g','LineWidth',2);
 xlabel('Temperature (°C)')
 ylabel('DTGA (a.u.)')
 xlim([120 805])
 ylim([0 0.4])
+
 TOTALWEIGHT = sum(A2(1:N2))+TGA(end,6)+(100-TGA(600,6))
 TTFoutside=100.*A2(1)/TOTALWEIGHT
 TTFinside=100.*A2(2)/TOTALWEIGHT
 text(230,0.13,strcat(num2str(round(TTFoutside,2)),'%'),'color','r')
 text(390,0.13,strcat(num2str(round(TTFinside,2)),'%'),'color','b')
 xline(result1(N1),'--')
+
     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
 
 
@@ -143,3 +196,64 @@ TCNQinside=100.*A3(3)/TOTALWEIGHT;
 text(200,0.8,strcat(num2str(round(TCNQoutside,2)),'%'),'color','r')
 text(300,0.13,strcat(num2str(round(TCNQinside,2)),'%'),'color','b')
 set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+
+
+% plot(X2,Y2,'k','LineWidth',2);  hold on;
+% plot(T4_temp, -DTGA4, 'c', 'LineWidth', 2);
+% 
+% for i=1:N2
+%     if i==1
+%         plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'r','LineWidth',3)
+%     elseif i==2
+%         plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'b','LineWidth',3)
+%     else
+%     plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
+%     end
+% end
+
+%%%%
+
+    
+% plot(T4_temp, T4_weight, 'c', 'LineWidth', 2);
+%%%
+
+
+%% --- New figure: replicate subplot(3,2,4) ---
+figure(3); clf; set(gcf,'color','w','Position',[100 100 800 500])
+
+% Plot main DTGA of sample 2
+plot(X2,Y2,'k','LineWidth',2); hold on;
+
+% Overlay 4th sample DTGA in cyan
+plot(T4_temp, -DTGA4, 'c', 'LineWidth', 2);
+
+% Plot individual Gaussian components for sample 2
+for i=1:N2
+    if i==1
+        plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'r','LineWidth',3)
+    elseif i==2
+        plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'b','LineWidth',3)
+    else
+        plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
+    end
+end
+
+% Overlay the fitted total Gaussian
+plot(X2,FIT2,'g','LineWidth',2);
+
+% Add vertical line from sample 1 result
+xline(result1(N1),'--');
+
+% Labels, limits, ticks
+xlabel('Temperature (°C)')
+ylabel('DTGA (a.u.)')
+xlim([120 805])
+ylim([0 0.4])
+set(gca,'TickDir','in','XMinorTick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12);
+
+% Optional: annotate TTF percentages
+TOTALWEIGHT = sum(A2(1:N2)) + TGA(end,6) + (100 - TGA(600,6));
+TTFoutside = 100.*A2(1)/TOTALWEIGHT;
+TTFinside  = 100.*A2(2)/TOTALWEIGHT;
+text(230,0.13,strcat(num2str(round(TTFoutside,2)),'%'),'color','r')
+text(390,0.13,strcat(num2str(round(TTFinside,2)),'%'),'color','b')
