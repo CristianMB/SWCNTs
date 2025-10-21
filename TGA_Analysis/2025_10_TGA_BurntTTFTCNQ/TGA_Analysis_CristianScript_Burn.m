@@ -210,8 +210,8 @@ LB4=[Center-10 fwhm*0.5];
 X5=DATA.TTF_Burnt.T;
 Y5=-datasmooth(DATA.TTF_Burnt.dWdT,3,'binom');
 N5=5;
-Center=[276 440 594 620 721];
-fwhm=[200 181 101 52 122];
+Center=[298 440 594 620 721];
+fwhm=[100 181 101 52 122];
 x05=[Center fwhm];
 UB5=[Center+10 fwhm*3];
 LB5=[Center-10 fwhm*0.5];
@@ -222,7 +222,7 @@ LB5=[Center-10 fwhm*0.5];
 X6=DATA.TCNQ_Burnt.T;
 Y6=-datasmooth(DATA.TCNQ_Burnt.dWdT,3,'binom');
 N6=5;
-Center=[276 440 594 620 721];
+Center=[276 390 550 620 721];
 fwhm=[200 181 101 52 122];
 x06=[Center fwhm];
 UB6=[Center+10 fwhm*3];
@@ -233,288 +233,288 @@ LB6=[Center-10 fwhm*0.5];
 %%
 
 
-figure(1);clf;set(gcf,'color','w','Position',[50 50 800 700])
-
-subplot(num_samples,2,1)
-plot(DATA.P2_Reference.T,DATA.P2_Reference.W,'k','LineWidth',2); hold on;
-xlabel('Temperature (°C)')
-ylabel('Weight Loss (%)')
-% legend('EA-SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
-ylim([0 110])
-    set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(num_samples,2,2)
-plot(X1,Y1,'k','LineWidth',2);  hold on;
-for i=1:N1
-plot(X1,L1(:,i).*A1(i)+L1(:,N1+1).*A1(N1+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
-end
-plot(X1,FIT1,'g','LineWidth',2);
-xlabel('Temperature (°C)')
-ylabel('DTGA (a.u.)')
-xlim([120 805])
-ylim([0 0.6])
-xline(result1(N1),'--')
-    set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(num_samples,2,3)
-plot(DATA.TTF_GasPhase.T,DATA.TTF_GasPhase.W,'k','LineWidth',2); hold on;
-xlabel('Temperature (°C)')
-ylabel('Weight Loss (%)')
-% legend('TTF@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
-ylim([0 110])
-    set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(num_samples,2,4)
-plot(X2,Y2,'k','LineWidth',2);  hold on;
-for i=1:N2
-    if i==1
-        plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'r','LineWidth',3)
-    elseif i==2
-        plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'b','LineWidth',3)
-    else
-    plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
-    end
-end
-plot(X2,FIT2,'g','LineWidth',2);
-xlabel('Temperature (°C)')
-ylabel('DTGA (a.u.)')
-xlim([120 805])
-ylim([0 0.4])
-
-TOTALWEIGHT = sum(A2(1:N2))+TGA(end,6)+(100-TGA(600,6))
-TTFoutside=100.*A2(1)/TOTALWEIGHT
-TTFinside=100.*A2(2)/TOTALWEIGHT
-text(230,0.13,strcat(num2str(round(TTFoutside,2)),'%'),'color','r')
-text(390,0.13,strcat(num2str(round(TTFinside,2)),'%'),'color','b')
-xline(result1(N1),'--')
-    set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(num_samples,2,5)
-plot(DATA.TTF_VacInfil.T,DATA.TTF_VacInfil.W,'k','LineWidth',2); hold on;
-xlabel('Temperature (°C)')
-ylabel('Weight Loss (%)')
-% legend('TCNQ@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
-ylim([0 110])
-    set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(num_samples,2,6)
-plot(X4,Y4,'k','LineWidth',2);  hold on;
-for i=1:N4
-    if i==1
-        plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'r','LineWidth',3)
-    elseif i==2
-        plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'b','LineWidth',3)
-    else
-    plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
-    end
-end
-plot(X4,FIT4,'g','LineWidth',2);
-xlabel('Temperature (°C)')
-ylabel('DTGA (a.u.)')
-xlim([120 805])
-ylim([0 0.45])
-xline(result1(N1),'--')
-
-TOTALWEIGHT = sum(A4(1:N4))+TGA(end,8)+(100-TGA(600,8))
-TTFoutside_VI=100.*A4(1)/TOTALWEIGHT
-TTFinside_VI=100.*A4(2)/TOTALWEIGHT
-text(230,0.13,strcat(num2str(round(TTFoutside_VI,2)),'%'),'color','r')
-text(390,0.13,strcat(num2str(round(TTFinside_VI,2)),'%'),'color','b')
-xline(result1(N1),'--')
-set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(num_samples,2,7)
-plot(DATA.TTF_Burnt.T,DATA.TTF_Burnt.W,'k','LineWidth',2); hold on;
-xlabel('Temperature (°C)')
-ylabel('Weight Loss (%)')
-% legend('TTF@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
-ylim([0 110])
-    set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(num_samples,2,8)
-plot(X5,Y5,'k','LineWidth',2);  hold on;
-for i=1:N5
-    if ismember(i,[1 2])
-        plot(X5,L5(:,i).*A5(i)+L5(:,N5+1).*A5(N5+1),'r','LineWidth',2)
-    elseif i==3
-        plot(X5,L5(:,i).*A5(i)+L5(:,N5+1).*A5(N5+1),'b','LineWidth',2)
-    else
-    plot(X5,L5(:,i).*A5(i)+L5(:,N5+1).*A5(N5+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
-    end
-end
-plot(X5,FIT5,'g','LineWidth',2)
-xlabel('Temperature (°C)')
-ylabel('DTGA (a.u.)')
-xlim([120 805])
-ylim([0 0.9])
-xline(result1(N1),'--')
-
-TOTALWEIGHT = sum(A5(1:N5))+TGA(end,5)+(100-TGA(600,5))
-TTFOutside=100.*(A5(1)+A5(2))/TOTALWEIGHT;
-TTFInside=100.*A5(3)/TOTALWEIGHT;
-text(200,0.8,strcat(num2str(round(TTFOutside,2)),'%'),'color','r')
-text(300,0.13,strcat(num2str(round(TTFInside,2)),'%'),'color','b')
-set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-    
-
-subplot(num_samples,2,9)
-plot(DATA.TCNQ_GasPhase.T,DATA.TCNQ_GasPhase.W,'k','LineWidth',2); hold on;
-xlabel('Temperature (°C)')
-ylabel('Weight Loss (%)')
-% legend('TCNQ@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
-ylim([0 110])
-    set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(num_samples,2,10)
-plot(X3,Y3,'k','LineWidth',2);  hold on;
-for i=1:N3
-    if ismember(i,[1 2])
-        plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'r','LineWidth',2)
-    elseif i==3
-        plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'b','LineWidth',2)
-    else
-    plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
-    end
-end
-plot(X3,FIT3,'g','LineWidth',2)
-xlabel('Temperature (°C)')
-ylabel('DTGA (a.u.)')
-xlim([120 805])
-ylim([0 0.9])
-xline(result1(N1),'--')
-
-TOTALWEIGHT = sum(A3(1:N3))+TGA(end,4)+(100-TGA(600,4))
-TCNQoutside=100.*(A3(1)+A3(2))/TOTALWEIGHT;
-TCNQinside=100.*A3(3)/TOTALWEIGHT;
-text(200,0.8,strcat(num2str(round(TCNQoutside,2)),'%'),'color','r')
-text(300,0.13,strcat(num2str(round(TCNQinside,2)),'%'),'color','b')
-set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(num_samples,2,11)
-plot(DATA.TCNQ_GasPhase.T,DATA.TCNQ_GasPhase.W,'k','LineWidth',2); hold on;
-xlabel('Temperature (°C)')
-ylabel('Weight Loss (%)')
-% legend('TCNQ@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
-ylim([0 110])
-    set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(num_samples,2,12)
-plot(X3,Y3,'k','LineWidth',2);  hold on;
-for i=1:N3
-    if ismember(i,[1 2])
-        plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'r','LineWidth',2)
-    elseif i==3
-        plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'b','LineWidth',2)
-    else
-    plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
-    end
-end
-plot(X3,FIT3,'g','LineWidth',2)
-xlabel('Temperature (°C)')
-ylabel('DTGA (a.u.)')
-xlim([120 805])
-ylim([0 0.9])
-xline(result1(N1),'--')
-
-TOTALWEIGHT = sum(A3(1:N3))+TGA(end,4)+(100-TGA(600,4))
-TCNQoutside=100.*(A3(1)+A3(2))/TOTALWEIGHT;
-TCNQinside=100.*A3(3)/TOTALWEIGHT;
-text(200,0.8,strcat(num2str(round(TCNQoutside,2)),'%'),'color','r')
-text(300,0.13,strcat(num2str(round(TCNQinside,2)),'%'),'color','b')
-set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% figure(1);clf;set(gcf,'color','w','Position',[50 50 800 700])
+% 
+% subplot(num_samples,2,1)
+% plot(DATA.P2_Reference.T,DATA.P2_Reference.W,'k','LineWidth',2); hold on;
+% xlabel('Temperature (°C)')
+% ylabel('Weight Loss (%)')
+% % legend('EA-SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
+% xlim([30 805])
+% ylim([0 110])
+%     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(num_samples,2,2)
+% plot(X1,Y1,'k','LineWidth',2);  hold on;
+% for i=1:N1
+% plot(X1,L1(:,i).*A1(i)+L1(:,N1+1).*A1(N1+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
+% end
+% plot(X1,FIT1,'g','LineWidth',2);
+% xlabel('Temperature (°C)')
+% ylabel('DTGA (a.u.)')
+% xlim([120 805])
+% ylim([0 0.6])
+% xline(result1(N1),'--')
+%     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(num_samples,2,3)
+% plot(DATA.TTF_GasPhase.T,DATA.TTF_GasPhase.W,'k','LineWidth',2); hold on;
+% xlabel('Temperature (°C)')
+% ylabel('Weight Loss (%)')
+% % legend('TTF@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
+% xlim([30 805])
+% ylim([0 110])
+%     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(num_samples,2,4)
+% plot(X2,Y2,'k','LineWidth',2);  hold on;
+% for i=1:N2
+%     if i==1
+%         plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'r','LineWidth',3)
+%     elseif i==2
+%         plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'b','LineWidth',3)
+%     else
+%     plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
+%     end
+% end
+% plot(X2,FIT2,'g','LineWidth',2);
+% xlabel('Temperature (°C)')
+% ylabel('DTGA (a.u.)')
+% xlim([120 805])
+% ylim([0 0.4])
+% 
+% TOTALWEIGHT = sum(A2(1:N2))+TGA(end,6)+(100-TGA(600,6))
+% TTFoutside=100.*A2(1)/TOTALWEIGHT
+% TTFinside=100.*A2(2)/TOTALWEIGHT
+% text(230,0.13,strcat(num2str(round(TTFoutside,2)),'%'),'color','r')
+% text(390,0.13,strcat(num2str(round(TTFinside,2)),'%'),'color','b')
+% xline(result1(N1),'--')
+%     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(num_samples,2,5)
+% plot(DATA.TTF_VacInfil.T,DATA.TTF_VacInfil.W,'k','LineWidth',2); hold on;
+% xlabel('Temperature (°C)')
+% ylabel('Weight Loss (%)')
+% % legend('TCNQ@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
+% xlim([30 805])
+% ylim([0 110])
+%     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(num_samples,2,6)
+% plot(X4,Y4,'k','LineWidth',2);  hold on;
+% for i=1:N4
+%     if i==1
+%         plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'r','LineWidth',3)
+%     elseif i==2
+%         plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'b','LineWidth',3)
+%     else
+%     plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
+%     end
+% end
+% plot(X4,FIT4,'g','LineWidth',2);
+% xlabel('Temperature (°C)')
+% ylabel('DTGA (a.u.)')
+% xlim([120 805])
+% ylim([0 0.45])
+% xline(result1(N1),'--')
+% 
+% TOTALWEIGHT = sum(A4(1:N4))+TGA(end,8)+(100-TGA(600,8))
+% TTFoutside_VI=100.*A4(1)/TOTALWEIGHT
+% TTFinside_VI=100.*A4(2)/TOTALWEIGHT
+% text(230,0.13,strcat(num2str(round(TTFoutside_VI,2)),'%'),'color','r')
+% text(390,0.13,strcat(num2str(round(TTFinside_VI,2)),'%'),'color','b')
+% xline(result1(N1),'--')
+% set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(num_samples,2,7)
+% plot(DATA.TTF_Burnt.T,DATA.TTF_Burnt.W,'k','LineWidth',2); hold on;
+% xlabel('Temperature (°C)')
+% ylabel('Weight Loss (%)')
+% % legend('TTF@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
+% xlim([30 805])
+% ylim([0 110])
+%     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(num_samples,2,8)
+% plot(X5,Y5,'k','LineWidth',2);  hold on;
+% for i=1:N5
+%     if ismember(i,[1 2])
+%         plot(X5,L5(:,i).*A5(i)+L5(:,N5+1).*A5(N5+1),'r','LineWidth',2)
+%     elseif i==3
+%         plot(X5,L5(:,i).*A5(i)+L5(:,N5+1).*A5(N5+1),'b','LineWidth',2)
+%     else
+%     plot(X5,L5(:,i).*A5(i)+L5(:,N5+1).*A5(N5+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
+%     end
+% end
+% plot(X5,FIT5,'g','LineWidth',2)
+% xlabel('Temperature (°C)')
+% ylabel('DTGA (a.u.)')
+% xlim([120 805])
+% ylim([0 0.9])
+% xline(result1(N1),'--')
+% 
+% TOTALWEIGHT = sum(A5(1:N5))+TGA(end,5)+(100-TGA(600,5))
+% TTFOutside=100.*(A5(1)+A5(2))/TOTALWEIGHT;
+% TTFInside=100.*A5(3)/TOTALWEIGHT;
+% text(200,0.8,strcat(num2str(round(TTFOutside,2)),'%'),'color','r')
+% text(300,0.13,strcat(num2str(round(TTFInside,2)),'%'),'color','b')
+% set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+%     
+% 
+% subplot(num_samples,2,9)
+% plot(DATA.TCNQ_GasPhase.T,DATA.TCNQ_GasPhase.W,'k','LineWidth',2); hold on;
+% xlabel('Temperature (°C)')
+% ylabel('Weight Loss (%)')
+% % legend('TCNQ@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
+% xlim([30 805])
+% ylim([0 110])
+%     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(num_samples,2,10)
+% plot(X3,Y3,'k','LineWidth',2);  hold on;
+% for i=1:N3
+%     if ismember(i,[1 2])
+%         plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'r','LineWidth',2)
+%     elseif i==3
+%         plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'b','LineWidth',2)
+%     else
+%     plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
+%     end
+% end
+% plot(X3,FIT3,'g','LineWidth',2)
+% xlabel('Temperature (°C)')
+% ylabel('DTGA (a.u.)')
+% xlim([120 805])
+% ylim([0 0.9])
+% xline(result1(N1),'--')
+% 
+% TOTALWEIGHT = sum(A3(1:N3))+TGA(end,4)+(100-TGA(600,4))
+% TCNQoutside=100.*(A3(1)+A3(2))/TOTALWEIGHT;
+% TCNQinside=100.*A3(3)/TOTALWEIGHT;
+% text(200,0.8,strcat(num2str(round(TCNQoutside,2)),'%'),'color','r')
+% text(300,0.13,strcat(num2str(round(TCNQinside,2)),'%'),'color','b')
+% set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(num_samples,2,11)
+% plot(DATA.TCNQ_GasPhase.T,DATA.TCNQ_GasPhase.W,'k','LineWidth',2); hold on;
+% xlabel('Temperature (°C)')
+% ylabel('Weight Loss (%)')
+% % legend('TCNQ@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
+% xlim([30 805])
+% ylim([0 110])
+%     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(num_samples,2,12)
+% plot(X3,Y3,'k','LineWidth',2);  hold on;
+% for i=1:N3
+%     if ismember(i,[1 2])
+%         plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'r','LineWidth',2)
+%     elseif i==3
+%         plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'b','LineWidth',2)
+%     else
+%     plot(X3,L3(:,i).*A3(i)+L3(:,N3+1).*A3(N3+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
+%     end
+% end
+% plot(X3,FIT3,'g','LineWidth',2)
+% xlabel('Temperature (°C)')
+% ylabel('DTGA (a.u.)')
+% xlim([120 805])
+% ylim([0 0.9])
+% xline(result1(N1),'--')
+% 
+% TOTALWEIGHT = sum(A3(1:N3))+TGA(end,4)+(100-TGA(600,4))
+% TCNQoutside=100.*(A3(1)+A3(2))/TOTALWEIGHT;
+% TCNQinside=100.*A3(3)/TOTALWEIGHT;
+% text(200,0.8,strcat(num2str(round(TCNQoutside,2)),'%'),'color','r')
+% text(300,0.13,strcat(num2str(round(TCNQinside,2)),'%'),'color','b')
+% set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-figure(2);clf;set(gcf,'color','w','Position',[50 50 800 700])
-
-subplot(2,2,1)
-plot(DATA.TTF_GasPhase.T,DATA.TTF_GasPhase.W,'k','LineWidth',2); hold on;
-xlabel('Temperature (°C)')
-ylabel('Weight Loss (%)')
-% legend('TTF@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
-ylim([0 110])
-    set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(2,2,2)
-plot(X2,Y2,'k','LineWidth',2);  hold on;
-for i=1:N2
-    if i==1
-        plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'r','LineWidth',3)
-    elseif i==2
-        plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'b','LineWidth',3)
-    else
-    plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
-    end
-end
-plot(X2,FIT2,'g','LineWidth',2);
-xlabel('Temperature (°C)')
-ylabel('DTGA (a.u.)')
-xlim([120 805])
-ylim([0 0.4])
-TOTALWEIGHT = sum(A2(1:N2))+TGA(end,6)+(100-TGA(600,6))
-TTFoutside=100.*A2(1)/TOTALWEIGHT
-TTFinside=100.*A2(2)/TOTALWEIGHT
-text(230,0.13,strcat(num2str(round(TTFoutside,2)),'%'),'color','r')
-text(390,0.13,strcat(num2str(round(TTFinside,2)),'%'),'color','b')
-xline(result1(N1),'--')
-    set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-
-subplot(2,2,3)
-plot(DATA.TTF_VacInfil.T,DATA.TTF_VacInfil.W,'k','LineWidth',2); hold on;
-xlabel('Temperature (°C)')
-ylabel('Weight Loss (%)')
-% legend('TCNQ@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
-ylim([0 110])
-    set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
-
-
-subplot(2,2,4)
-plot(X4,Y4,'k','LineWidth',2);  hold on;
-for i=1:N4
-    if i==1
-        plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'r','LineWidth',3)
-    elseif i==2
-        plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'b','LineWidth',3)
-    else
-    plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
-    end
-end
-plot(X4,FIT4,'g','LineWidth',2);
-xlabel('Temperature (°C)')
-ylabel('DTGA (a.u.)')
-xlim([120 805])
-ylim([0 0.45])
-xline(result1(N1),'--')
-
-TOTALWEIGHT = sum(A4(1:N4))+TGA(end,8)+(100-TGA(600,8))
-TTFoutside_VI=100.*A4(1)/TOTALWEIGHT
-TTFinside_VI=100.*A4(2)/TOTALWEIGHT
-text(230,0.13,strcat(num2str(round(TTFoutside_VI,2)),'%'),'color','r')
-text(390,0.13,strcat(num2str(round(TTFinside_VI,2)),'%'),'color','b')
-xline(result1(N1),'--')
-set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% figure(2);clf;set(gcf,'color','w','Position',[50 50 800 700])
+% 
+% subplot(2,2,1)
+% plot(DATA.TTF_GasPhase.T,DATA.TTF_GasPhase.W,'k','LineWidth',2); hold on;
+% xlabel('Temperature (°C)')
+% ylabel('Weight Loss (%)')
+% % legend('TTF@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
+% xlim([130 805])
+% ylim([0 110])
+%     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(2,2,2)
+% plot(X2,Y2,'k','LineWidth',2);  hold on;
+% for i=1:N2
+%     if i==1
+%         plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'r','LineWidth',3)
+%     elseif i==2
+%         plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'b','LineWidth',3)
+%     else
+%     plot(X2,L2(:,i).*A2(i)+L2(:,N2+1).*A2(N2+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
+%     end
+% end
+% plot(X2,FIT2,'g','LineWidth',2);
+% xlabel('Temperature (°C)')
+% ylabel('DTGA (a.u.)')
+% xlim([130 805])
+% ylim([0 0.45])
+% TOTALWEIGHT = sum(A2(1:N2))+TGA(end,6)+(100-TGA(600,6))
+% TTFoutside=100.*A2(1)/TOTALWEIGHT
+% TTFinside=100.*A2(2)/TOTALWEIGHT
+% text(230,0.13,strcat(num2str(round(TTFoutside,2)),'%'),'color','r')
+% text(390,0.13,strcat(num2str(round(TTFinside,2)),'%'),'color','b')
+% xline(result1(N1),'--')
+%     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% 
+% subplot(2,2,3)
+% plot(DATA.TTF_VacInfil.T,DATA.TTF_VacInfil.W,'k','LineWidth',2); hold on;
+% xlabel('Temperature (°C)')
+% ylabel('Weight Loss (%)')
+% % legend('TCNQ@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
+% xlim([130 805])
+% ylim([0 110])
+%     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
+% 
+% 
+% subplot(2,2,4)
+% plot(X4,Y4,'k','LineWidth',2);  hold on;
+% for i=1:N4
+%     if i==1
+%         plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'r','LineWidth',3)
+%     elseif i==2
+%         plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'b','LineWidth',3)
+%     else
+%     plot(X4,L4(:,i).*A4(i)+L4(:,N4+1).*A4(N4+1),'Color',[0.5 0.5 0.5],'LineWidth',1.5)
+%     end
+% end
+% plot(X4,FIT4,'g','LineWidth',2);
+% xlabel('Temperature (°C)')
+% ylabel('DTGA (a.u.)')
+% xlim([130 805])
+% ylim([0 0.45])
+% xline(result1(N1),'--')
+% 
+% TOTALWEIGHT = sum(A4(1:N4))+TGA(end,8)+(100-TGA(600,8))
+% TTFoutside_VI=100.*A4(1)/TOTALWEIGHT
+% TTFinside_VI=100.*A4(2)/TOTALWEIGHT
+% text(230,0.13,strcat(num2str(round(TTFoutside_VI,2)),'%'),'color','r')
+% text(390,0.13,strcat(num2str(round(TTFinside_VI,2)),'%'),'color','b')
+% xline(result1(N1),'--')
+% set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -525,7 +525,7 @@ plot(DATA.TTF_GasPhase.T,DATA.TTF_GasPhase.W,'k','LineWidth',2); hold on;
 xlabel('Temperature (°C)')
 ylabel('Weight Loss (%)')
 % legend('TTF@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
+xlim([130 805])
 ylim([0 110])
     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
 
@@ -544,7 +544,7 @@ end
 plot(X2,FIT2,'g','LineWidth',2);
 xlabel('Temperature (°C)')
 ylabel('DTGA (a.u.)')
-xlim([120 805])
+xlim([130 805])
 ylim([0 0.4])
 TOTALWEIGHT = sum(A2(1:N2))+TGA(end,6)+(100-TGA(600,6))
 TTFoutside=100.*A2(1)/TOTALWEIGHT
@@ -561,7 +561,7 @@ plot(DATA.TTF_Burnt.T,DATA.TTF_Burnt.W,'k','LineWidth',2); hold on;
 xlabel('Temperature (°C)')
 ylabel('Weight Loss (%)')
 % legend('TCNQ@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
+xlim([130 805])
 ylim([0 110])
     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
 
@@ -580,8 +580,8 @@ end
 plot(X5,FIT5,'g','LineWidth',2);
 xlabel('Temperature (°C)')
 ylabel('DTGA (a.u.)')
-xlim([120 805])
-ylim([0 0.45])
+xlim([130 805])
+ylim([0 0.65])
 xline(result1(N1),'--')
 
 TOTALWEIGHT = sum(A5(1:N5))+TGA(end,10)+(100-TGA(600,10))
@@ -601,7 +601,7 @@ plot(DATA.TCNQ_GasPhase.T,DATA.TCNQ_GasPhase.W,'k','LineWidth',2); hold on;
 xlabel('Temperature (°C)')
 ylabel('Weight Loss (%)')
 % legend('TCNQ@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
+xlim([130 805])
 ylim([0 110])
     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
 
@@ -621,7 +621,7 @@ plot(X3,FIT3,'g','LineWidth',2);
 xlabel('Temperature (°C)')
 ylabel('DTGA (a.u.)')
 xlim([120 805])
-ylim([0 0.4])
+ylim([0 0.8])
 TOTALWEIGHT = sum(A2(1:N2))+TGA(end,4)+(100-TGA(600,4))
 TTFoutside=100.*A2(1)/TOTALWEIGHT
 TTFinside=100.*A2(2)/TOTALWEIGHT
@@ -637,7 +637,7 @@ plot(DATA.TCNQ_Burnt.T,DATA.TCNQ_Burnt.W,'k','LineWidth',2); hold on;
 xlabel('Temperature (°C)')
 ylabel('Weight Loss (%)')
 % legend('TCNQ@SWCNTs','Box','off','Location','southwest','IconColumnWidth',10)
-xlim([30 805])
+xlim([130 805])
 ylim([0 110])
     set(gca,'TickDir','in','XMinortick','on','YMinorTick','on','TickLength',[0.03 0.05],'LineWidth',1.5,'FontSize',12)
 
@@ -656,8 +656,8 @@ end
 plot(X6,FIT6,'g','LineWidth',2);
 xlabel('Temperature (°C)')
 ylabel('DTGA (a.u.)')
-xlim([120 805])
-ylim([0 0.45])
+xlim([130 805])
+ylim([0 0.6])
 xline(result1(N1),'--')
 
 TOTALWEIGHT = sum(A6(1:N6))+TGA(end,12)+(100-TGA(600,12))

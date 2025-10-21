@@ -9,11 +9,17 @@ rootpath = 'X:\Measurements Data\Absorption\';
 
 DGU_path = [rootpath,'20250819\DGU_Dispersions_TTF_TCNQ.csv'];
 References = [rootpath,'References.csv'];
+Quick = [rootpath,'20251015\SalomeVI_CF_Samples_NIFUB_TCNQinDOCD2O.csv'];
+CF_Dispersions = [rootpath,'20250818\24hCF_Dispersions_TTF_TCNQ.csv'];
+DGU_firstone = [rootpath,'20250422\DGU_Fractions_S11_S14.csv'];
 
 %Select the paths of interest
 paths = {
     DGU_path
     References
+    Quick
+    CF_Dispersions
+    DGU_firstone
         };
     
 
@@ -82,6 +88,8 @@ samplesToCorrect = {
                     DATA_20250819.R21D_DGU_E_1
                     DATA_20250819.R21D_DGU_F_1
                     DATA_20250819.R21D_DGU_G_1
+                    DATA_References.empty_P2_dial_0930
+                    DATA_References.WaterFilled
 };
 
 A_values = {
@@ -113,6 +121,8 @@ A_values = {
     0.5
     0.64
     0.97
+    0.0
+    0.0
 };
 
 B_values = {
@@ -144,6 +154,8 @@ B_values = {
     0.125
     0.06
     -0.16
+    0.0
+    0.0
 };
 
 correctedSamples = CorrectSamples(samplesToCorrect, A_values, DATA_References.Nicodenz, B_values, DATA_References.WaterInD2O)
@@ -176,11 +188,15 @@ DATA_20250819.R21D_DGU_D_1 = correctedSamples{25};
 DATA_20250819.R21D_DGU_E_1 = correctedSamples{26};
 DATA_20250819.R21D_DGU_F_1 = correctedSamples{27};
 DATA_20250819.R21D_DGU_G_1 = correctedSamples{28};
+DATA_20250819.R21D_DGU_G_1 = correctedSamples{28};
+DATA_References.empty_P2_dial_0930 = correctedSamples{29};
+DATA_References.WaterFilled = correctedSamples{30};
 
 %% Plotting
 
  
 DGUFractions = {
+        DATA_References.empty_P2_dial_0930
         DATA_20250819.R23F_DGU_A_1
         DATA_20250819.R23F_DGU_B_1
         DATA_20250819.R23F_DGU_C_1
@@ -188,7 +204,9 @@ DGUFractions = {
         DATA_20250819.R23F_DGU_E_1
         DATA_20250819.R23F_DGU_F_1
         DATA_20250819.R23F_DGU_G_1
+        DATA_References.WaterFilled
         
+%         DATA_References.empty_P2_dial_0930
 %         DATA_20250819.U22_DGU_A_1
 %         DATA_20250819.U22_DGU_B_1
 %         DATA_20250819.U22_DGU_C_1
@@ -196,7 +214,9 @@ DGUFractions = {
 %         DATA_20250819.U22_DGU_E_1
 %         DATA_20250819.U22_DGU_F_1
 %         DATA_20250819.U22_DGU_G_1
-%         
+%         DATA_References.WaterFilled
+       
+%         DATA_References.empty_P2_dial_0930
 %         DATA_20250819.R17_DGU_A_1
 %         DATA_20250819.R17_DGU_B_1
 %         DATA_20250819.R17_DGU_C_1
@@ -204,7 +224,9 @@ DGUFractions = {
 %         DATA_20250819.R17_DGU_E_1
 %         DATA_20250819.R17_DGU_F_1
 %         DATA_20250819.R17_DGU_G_1
-% %         
+%         DATA_References.WaterFilled
+
+%         DATA_References.empty_P2_dial_0930
 %         DATA_20250819.R21D_DGU_A_1
 %         DATA_20250819.R21D_DGU_B_1
 %         DATA_20250819.R21D_DGU_C_1
@@ -212,13 +234,57 @@ DGUFractions = {
 %         DATA_20250819.R21D_DGU_E_1
 %         DATA_20250819.R21D_DGU_F_1
 %         DATA_20250819.R21D_DGU_G_1
+%         DATA_References.WaterFilled
 };
 
-DGUFractions = Normalize(DGUFractions, 920, 1120, 'M');
+DGUFractions = Normalize(DGUFractions, 950, 1050, 'M');
 plotAbsorption(DGUFractions, 0.0)
+% 
+
+Quick = {
+            DATA_20251015.NanoInt_Solub_10
+            DATA_20250818.B3_24hCF_10
 
 
-   
+};
+% Quick = Normalize(Quick, 201, 1900, 'M');
+
+% plotAbsorption(Quick, 0.2)
+
+OldDGU = {
+%         DATA_References.empty_P2_dial_0930
+% %         DATA_20250422.DGU_S11_A
+%         DATA_20250422.DGU_S11_B
+%         DATA_20250422.DGU_S11_C
+%         DATA_20250422.DGU_S11_D
+%         DATA_20250422.DGU_S11_E
+%         DATA_References.WaterFilled
+
+%         DATA_References.empty_P2_dial_0930
+%         DATA_20250422.DGU_S12_A
+%         DATA_20250422.DGU_S12_B
+%         DATA_20250422.DGU_S12_C
+%         DATA_20250422.DGU_S12_D
+%         DATA_20250422.DGU_S12_E
+%         DATA_References.WaterFilled
+
+%         DATA_References.empty_P2_dial_0930
+%         DATA_20250422.DGU_S13_A
+%         DATA_20250422.DGU_S13_B
+%         DATA_20250422.DGU_S13_C
+%         DATA_20250422.DGU_S13_D
+%         DATA_20250422.DGU_S13_E  
+%         DATA_References.WaterFilled
+
+%         DATA_References.empty_P2_dial_0930
+%         DATA_20250422.DGU_S14_E
+%         DATA_20250422.DGU_S14_F
+%         DATA_20250422.DGU_S14_F_d2    
+%         DATA_References.WaterFilled
+};
+
+% OldDGU = Normalize(OldDGU, 950, 1050, 'M');
+% plotAbsorption(OldDGU, 0)
 
 
 function correctedSamples = CorrectSamples(samplesToCorrect, A_values, A_spec, B_values, B_spec)
