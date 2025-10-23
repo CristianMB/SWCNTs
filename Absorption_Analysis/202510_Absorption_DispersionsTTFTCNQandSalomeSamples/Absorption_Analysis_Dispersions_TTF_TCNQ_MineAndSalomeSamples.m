@@ -102,6 +102,16 @@ DATA_20250819.R21D_DGU_G_1.N='R21D - TTF@P2-SWCNTs (M) (DGU G)';
 
 %% Plotting
 
+
+%References
+
+REF = {
+    DATA_References.Nicodenz
+    DATA_References.WaterInD2O
+};
+REF = Normalize(REF, 2000, 2600, 'M');
+plotAbsorption(REF, 0.0)
+
 %% RAW
 All = {
 %         DATA_20250813.Baseline
@@ -201,7 +211,7 @@ AllCF = {
 AllCF = Normalize(AllCF, 914, 1200, 'M');
 % AllCF = RemovePolyBG(AllCF, 0)
 % AllCF = Abs_InverseLambdaFixeddd(AllCF, 300)
-plotAbsorption(AllCF, 0.0)
+% plotAbsorption(AllCF, 0.0)
 
 % DATA_20250617.TCNQ_Chloroform_30 = FilterDataByXRange(DATA_20250617.TCNQ_Chloroform_30, 240, 500);
 % close all
